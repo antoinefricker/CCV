@@ -10,7 +10,7 @@ proto = PIXI.Point.prototype;
 proto.scale = function(a){
 	this.x *= a;
 	this.y *= a;
-};
+}; 
 proto.floor = function(){
 	this.x = Math.floor(this.x);
 	this.y = Math.floor(this.y);
