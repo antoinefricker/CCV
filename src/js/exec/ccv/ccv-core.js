@@ -304,9 +304,12 @@ if(!CCV.app.Player){
 			p.magnifier.pos = pos;
 		}
 		else{
-			TweenMax.to(p.magnifier, .4, Object.create(pos, {
-				ease: Circ.easeInOut
-			}));
+			TweenMax.to(p.magnifier, .4, {
+				ease: Circ.easeInOut,
+				pinchScale: 1,
+				x: pos.x,
+				y: pos.y
+			});
 		}
 	};
 	proto._pinchComputeDelta = function(magnifierContext){
@@ -1359,7 +1362,6 @@ if(!CCV.app.Magnifier){
 		this.radius = radius;
 		
 		this.view = new PIXI.Container();
-		
 		
 		this.gfx = new PIXI.Graphics();
 		this.gfx.blendMode = PIXI.BLEND_MODES.MULTIPLY;
