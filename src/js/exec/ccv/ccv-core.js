@@ -10,7 +10,7 @@ proto = PIXI.Point.prototype;
 proto.scale = function(a){
 	this.x *= a;
 	this.y *= a;
-}; 
+};
 proto.floor = function(){
 	this.x = Math.floor(this.x);
 	this.y = Math.floor(this.y);
@@ -139,50 +139,61 @@ if(!CCV.app.Player){
 		
 		// --- callbacks
 		
-		this.callbacks = {};
+		this.cbks = {};
 		
-		this.callbacks.windowFocus = this.windowFocus.bind(this);
-		this.callbacks.windowBlur = this.windowBlur.bind(this);
+		// window focus/blur
+		this.cbks.windowFocus = this.windowFocus.bind(this);
+		this.cbks.windowBlur = this.windowBlur.bind(this);
 		
-		this.callbacks.resize = this.resize.bind(this);
+		// window resize
+		this.cbks.resize = this.resize.bind(this);
 		
-		this.callbacks.swipeContext = {
-			name: 'swipeContext',
+		// landscape swipe handlers
+		this.cbks.swCtx = {
+			name: 'swCtx',
 			active: false,
 			startTime: Number.NaN,
 			startX: Number.NaN
 		};
-		this.callbacks.swipeStart = this._swipeStart.bind(this, this.callbacks.swipeContext);
-		this.callbacks.swipeEnd = this._swipeEnd.bind(this, this.callbacks.swipeContext);
+		Object.seal(this.cbks.swCtx);
 		
-		this.callbacks.magnifierContext = {
-			name: 'magnifierContext',
+		this.cbks.swipeStart = this._swipeStart.bind(this, this.cbks.swCtx);
+		this.cbks.swipeEnd = this._swipeEnd.bind(this, this.cbks.swCtx);
+		
+		// magnifier handlers
+		this.cbks.mgCtx = {
+			name: 'mgCtx',
 			dragTouch: null,
-			pinchTouch: null
+			pinchTouch: null,
+			pinchStartScale: Number.NaN,
+			pinchStartDelta: Number.NaN,
+			idleTimeoutId: null
 		};
-		this.callbacks.magnifierDragStart = this._magnifierDragStart.bind(this, this.callbacks.magnifierContext, this.callbacks.swipeContext);
-		this.callbacks.magnifierDragMove = this._magnifierDragMove.bind(this, this.callbacks.magnifierContext, this.callbacks.swipeContext);
-		this.callbacks.magnifierDragEnd = this._magnifierDragEnd.bind(this, this.callbacks.magnifierContext, this.callbacks.swipeContext);
+		Object.seal(this.cbks.mgCtx);
+		
+		this.cbks.magnifierDragStart = this._mgDragStart.bind(this, this.cbks.mgCtx, this.cbks.swCtx);
+		this.cbks.magnifierDragMove = this._mgDragMove.bind(this, this.cbks.mgCtx, this.cbks.swCtx);
+		this.cbks.magnifierDragEnd = this._mgDragEnd.bind(this, this.cbks.mgCtx, this.cbks.swCtx);
 		
 		
 		// --- window utilities
 		
 		// check for Internet Explorer - https://msdn.microsoft.com/en-us/library/ahx1z4fs(VS.80).aspx
 		if(/*@cc_on!@*/false) {
-			document.onfocusin = this.callbacks.windowFocus;
-			document.onfocusout = this.callbacks.windowBlur;
+			document.onfocusin = this.cbks.windowFocus;
+			document.onfocusout = this.cbks.windowBlur;
 		}
 		else {
-			window.onfocus = this.callbacks.windowFocus;
-			window.onblur = this.callbacks.windowBlur;
+			window.onfocus = this.cbks.windowFocus;
+			window.onblur = this.cbks.windowBlur;
 		}
-		window.onresize = this.callbacks.resize;
+		window.onresize = this.cbks.resize;
 		
 		
 		// --- launch display
 		this.landscapeHeight = CCV.global.LANDSCAPE_HEIGHT;
 		this.groundHeight = CCV.global.GROUND_HEIGHT;
-			this.resizeInit();
+		this.resizeInit();
 		this.configurationLoad();
 	};
 	proto = CCV.app.Player.prototype;
@@ -212,7 +223,6 @@ if(!CCV.app.Player){
 		});
 	};
 	proto.configurationParse = function(data){
-		
 		this.landscape = new CCV.app.Landscape(data.landscape);
 		this.application.stage.addChild(this.landscape.view);
 		
@@ -244,64 +254,87 @@ if(!CCV.app.Player){
 		// swipe handling
 		this.background.interactive = true;
 		this.background
-			.on('pointerdown', this.callbacks.swipeStart)
-			.on('pointerupoutside', this.callbacks.swipeEnd)
-			.on('pointerup',this.callbacks.swipeEnd);
+			.on('pointerdown', this.cbks.swipeStart)
+			.on('pointerupoutside', this.cbks.swipeEnd)
+			.on('pointerup',this.cbks.swipeEnd);
 		
 		
 		// magnifier drag & drop
 		this.magnifier.view.interactive = true;
-		this.magnifier.view
-			.on('pointerdown', this.callbacks.magnifierDragStart)
-			.on('pointerup', this.callbacks.magnifierDragEnd)
-			.on('pointerupoutside', this.callbacks.magnifierDragEnd)
-			.on('pointermove', this.callbacks.magnifierDragMove);
+		this.magnifier.view.on('pointerdown', this.cbks.magnifierDragStart)
 	};
 	
-	proto._magnifierDragStart = function(magnifierContext, swipeContext, e){
-		window.clearTimeout(magnifierContext.idleTimeoutId);
+	proto._mgDragInteractionsReset = function(){
+		this.magnifier.view
+			.off('pointerup', this.cbks.magnifierDragEnd)
+			.off('pointerupoutside', this.cbks.magnifierDragEnd)
+			.off('pointermove', this.cbks.magnifierDragMove);
+	};
+	proto._mgDragStart = function(mgCtx, swCtx, e){
+		if(mgCtx.idleTimeoutId){
+			window.clearTimeout(mgCtx.idleTimeoutId);
+		}
 		
-		if(!magnifierContext.dragTouch)
-			magnifierContext.dragTouch = this._createTouch(e);
-		else if(!magnifierContext.pinchTouch){
-			magnifierContext.pinchTouch = this._createTouch(e);
-			magnifierContext.pinchStartScale = this.magnifier.pinchScale;
-			magnifierContext.pinchStartDelta = this._pinchComputeDelta(magnifierContext);
+		if(!mgCtx.dragTouch){
+			mgCtx.dragTouch = this._createTouch(e);
+			this.magnifier.view
+				.on('pointerup', this.cbks.magnifierDragEnd)
+				.on('pointerupoutside', this.cbks.magnifierDragEnd)
+				.on('pointermove', this.cbks.magnifierDragMove);
+		}
+		else if(!mgCtx.pinchTouch){
+			mgCtx.pinchTouch = this._createTouch(e);
+			mgCtx.pinchStartScale = this.magnifier.pinchScale;
+			mgCtx.pinchStartDelta = this._mgPinchComputeDelta(mgCtx);
 		}
 	};
-	proto._magnifierDragMove = function(magnifierContext, swipeContext, e){
+	proto._mgDragMove = function(mgCtx, swCtx, e){
 		var delta, pos;
 		
 		pos = e.data.getLocalPosition(this.application.stage);
 		
 		// pinch
-		if(magnifierContext.pinchTouch){
+		if(mgCtx.pinchTouch){
 			switch(e.data.identifier) {
-				case magnifierContext.dragTouch.id:
-					magnifierContext.dragTouch.copy(pos);
+				case mgCtx.dragTouch.id:
+					mgCtx.dragTouch.copy(pos);
 					break;
-				case magnifierContext.pinchTouch.id:
-					magnifierContext.pinchTouch.copy(pos);
+				case mgCtx.pinchTouch.id:
+					mgCtx.pinchTouch.copy(pos);
 					break;
+				default:
+					KPF.utils.warn('Touch does not correspond to any stored value ; cancel illegal method call', 'Player._mgDragMove', {
+						mgCtx: mgCtx,
+						dragTouchId: mgCtx.dragTouch.id,
+						pinchTouchId: mgCtx.pinchTouch.id,
+						currentTouchId: e.data.identifier
+					});
+					return;
 			}
-			delta = this._pinchComputeDelta(magnifierContext) - magnifierContext.pinchStartDelta;
-			delta = KPF.utils.clamp(delta, - CCV.global.MAGNIFIER_PINCH_AMP, CCV.global.MAGNIFIER_PINCH_AMP) / CCV.global.MAGNIFIER_PINCH_AMP;
-			this.magnifier.pinchScale = magnifierContext.pinchStartScale + (delta * CCV.global.MAGNIFIER_PINCH_INCREMENT);
+			
+			delta = this._mgPinchComputeDelta(mgCtx) - mgCtx.pinchStartDelta;
+			delta = KPF.utils.clamp(delta, - CCV.global.MAGNIFIER_PINCH_AMP, CCV.global.MAGNIFIER_PINCH_AMP);
+			this.magnifier.pinchScale = mgCtx.pinchStartScale + (delta / CCV.global.MAGNIFIER_PINCH_AMP * CCV.global.MAGNIFIER_PINCH_INCREMENT);
 		}
-		else if(magnifierContext.dragTouch && e.data.identifier == magnifierContext.dragTouch.id){
+		else if(mgCtx.dragTouch && e.data.identifier == mgCtx.dragTouch.id){
 			this.magnifier.pos = pos;
 		}
+		else{
+			KPF.utils.log('Useless call', 'Player._mgDragMove');
+		}
 	};
-	proto._magnifierDragEnd = function(magnifierContext, swipeContext, e){
-		magnifierContext.dragTouch = null;
-		magnifierContext.pinchTouch = null;
-		magnifierContext.idleTimeoutId = window.setTimeout(this._magnifierTidy, CCV.global.MAGNIFIER_DRAG_IDLE_TEMPO);
-	};
-	proto._magnifierTidy = function(doTransition){
-		var p, pos;
+	proto._mgDragEnd = function(mgCtx, swCtx, e){
+		mgCtx.dragTouch = null;
+		mgCtx.pinchTouch = null;
+		mgCtx.pinchStartScale = Number.NaN;
+		mgCtx.pinchStartDelta = Number.NaN;
+		mgCtx.idleTimeoutId = window.setTimeout(this._mgTidy, CCV.global.MAGNIFIER_DRAG_IDLE_TEMPO);
 		
-		p = CCV.player;
-		pos = {
+		this._mgDragInteractionsReset();
+	};
+	proto._mgTidy = function(doTransition){
+		var p = CCV.player;
+		var pos = {
 			x: p.size.x * .5,
 			y: p.size.y
 		};
@@ -318,46 +351,58 @@ if(!CCV.app.Player){
 			});
 		}
 	};
-	proto._pinchComputeDelta = function(magnifierContext){
+	
+	proto._mgPinchComputeDelta = function(mgCtx){
 		var delta = new PIXI.Point();
-		delta.copy(magnifierContext.pinchTouch);
-		delta.minus(magnifierContext.dragTouch);
+		delta.copy(mgCtx.pinchTouch);
+		delta.minus(mgCtx.dragTouch);
 		return delta.getLength();
 	};
 	proto._createTouch = function(touch){
 		return Object.assign(touch.data.getLocalPosition(CCV.player.application.stage), { id: touch.data.identifier });
 	};
 	
-	proto._swipeStart = function(swipeContext, e){
-		if(swipeContext.active)
+	proto._swipeStart = function(swCtx, e){
+		if(swCtx.active)
 			return;
 		
-		swipeContext.active = true;
-		swipeContext.startTime = new Date().getTime();
-		swipeContext.startX = e.data.getLocalPosition(this.application.stage).x;
+		swCtx.active = true;
+		swCtx.startTime = new Date().getTime();
+		swCtx.startX = e.data.getLocalPosition(this.application.stage).x;
 	};
-	proto._swipeEnd = function(swipeContext, e){
-		var str, threshold, passThreshold, vicacity, passVivacity, velocity, passVelocity;
+	proto._swipeEnd = function(swCtx, e){
+		var threshold, passThreshold, vicacity, passVivacity, velocity, passVelocity, passSwipe, logObj;
 		
-		threshold = e.data.getLocalPosition(this.application.stage).x - swipeContext.startX;
-		passThreshold = Math.abs(threshold) > CCV.global.SWIPE_THRESHOLD;
+		logObj = {};
 		
-		vicacity = (new Date()).getTime() - swipeContext.startTime;
-		passVivacity = vicacity < CCV.global.SWIPE_VIVACITY;
+		passSwipeBlock: {
+			threshold = e.data.getLocalPosition(this.application.stage).x - swCtx.startX;
+			passThreshold = Math.abs(threshold) > CCV.global.SWIPE_THRESHOLD;
+			logObj.threshold = threshold.toFixed(2) + ' (' + passThreshold + ')';
+			if(!passThreshold)
+				break passSwipeBlock;
+			
+			vicacity = (new Date()).getTime() - swCtx.startTime;
+			passVivacity = vicacity < CCV.global.SWIPE_VIVACITY;
+			logObj.vicacity = vicacity.toFixed(2) + ' (' + passVivacity + ')';
+			if(!passVivacity)
+				break passSwipeBlock;
+			
+			velocity = Math.abs(threshold) / vicacity * 1000;
+			passVelocity = velocity >= CCV.global.SWIPE_VELOCITY;
+			logObj.velocity = velocity.toFixed(2) + ' (' + passVelocity + ')';
+			if(!passVivacity)
+				break passSwipeBlock;
+		}
 		
-		velocity = Math.abs(threshold) / vicacity * 1000;
-		passVelocity = velocity >= CCV.global.SWIPE_VELOCITY;
+		passSwipe = passThreshold && passVivacity && passVelocity;
+		KPF.utils.log('passSwipe: ' + passSwipe, 'Player._swipeEnd', logObj);
 		
-		str = 'threshold: ' + threshold.toFixed(1) + ' (pass: ' + passThreshold + '),';
-		str += ' vivacity: ' + vicacity.toFixed(2) + ' (pass: ' + passVivacity + '),';
-		str += ' velocity: ' + velocity.toFixed(2) + ' (pass: ' + passVelocity + ')';
-		KPF.utils.log(str, 'Player._swipeEnd');
+		swCtx.active = false;
+		swCtx.startTime = Number.NaN;
+		swCtx.startX = Number.NaN;
 		
-		swipeContext.active = false;
-		swipeContext.startTime = Number.NaN;
-		swipeContext.startX = Number.NaN;
-		
-		if(passThreshold && passVivacity && passVelocity){
+		if(passSwipe){
 			this.landscape.move(- threshold);
 		}
 	};
@@ -367,7 +412,7 @@ if(!CCV.app.Player){
 		KPF.utils.log('magnifierDisplayStatus: ' + this.magnifierDisplayStatus, 'CCV.app.Player');
 		
 		if(this.magnifierDisplayStatus){
-			this._magnifierTidy(false);
+			this._mgTidy(false);
 			TweenMax.to(this.magnifier, CCV.global.MAGNIFIER_APPEAR_TIME, {
 				scale: 1,
 				ease: Expo.easeIn,
@@ -445,7 +490,7 @@ if(!CCV.app.Player){
 		KPF.utils.log('application scale: ' + this.scale.toFixed(2) + ' (scaleOverflow: ' + scaleOverflow + ')', 'Player.resize');
 		
 		this.magnifier.redraw(this.scale);
-		this._magnifierTidy(false);
+		this._mgTidy(false);
 		
 		this.landscape.resize(this.size, this.scale);
 	};
