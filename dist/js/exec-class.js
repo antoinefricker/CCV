@@ -207,37 +207,40 @@ var proto;
 // PIXI add-ons
 // @see http://www.pixijs.com/
 // ----------------------------------------------------------------------
-
-PIXI.Point.prototype.scale = function(a){
+proto = PIXI.Point.prototype;
+proto.scale = function(a){
 	this.x *= a;
 	this.y *= a;
 };
-PIXI.Point.prototype.floor = function(){
+proto.floor = function(){
 	this.x = Math.floor(this.x);
 	this.y = Math.floor(this.y);
 };
-PIXI.Point.prototype.ceil = function(){
+proto.ceil = function(){
 	this.x = Math.ceil(this.x);
 	this.y = Math.ceil(this.y);
 };
-PIXI.Point.prototype.round = function(){
+proto.round = function(){
 	this.x = Math.round(this.x);
 	this.y = Math.round(this.y);
 };
-PIXI.Point.prototype.minus = function(p){
+proto.minus = function(p){
 	this.x -= p.x;
 	this.y -= p.y;
 };
-PIXI.Point.prototype.plus = function(p){
+proto.plus = function(p){
 	this.x += p.x;
 	this.y += p.y;
 };
-PIXI.Point.prototype.getLength = function(){
+proto.getLength = function(){
 	return Math.sqrt(this.x * this.x + this.y * this.y);
 };
-PIXI.Point.prototype.to = function(target){
+proto.to = function(target){
 	target.x = this.x;
 	target.y = this.y;
+};
+proto.toString = function(){
+	return '[PIXI.Point] x: ' + this.x.toFixed(1) + ', y: ' + this.y.toFixed(1);
 };
 
 
@@ -273,6 +276,9 @@ if (!CCV.global){
 		MAGNIFIER_PINCH_AMP: 200,
 		MAGNIFIER_PINCH_INCREMENT: .7,
 		
+		LANDSCAPE_HEIGHT: 1336,
+		GROUND_HEIGHT: 200,
+		
 		MAGNIFIER_DRAG_IDLE_TEMPO: 12000,
 		
 		SWIPE_THRESHOLD: 250, /* minimal swipe distance in pixels */
@@ -302,8 +308,6 @@ if(!CCV.app.Player){
 		this.options = Object.assign({
 			forceCanvas: false,
 			useSharedTicker: true,
-			landscapeHeightReference: 1336,
-			landscapeBottomOffset: 200,
 			mediaFolder: 'theme/mm/',
 			magnifierDisplayStatus: true,
 			scenesShowFillStatus: true,
@@ -377,7 +381,9 @@ if(!CCV.app.Player){
 		
 		
 		// --- launch display
-		this.resizeInit();
+		this.landscapeHeight = CCV.global.LANDSCAPE_HEIGHT;
+		this.groundHeight = CCV.global.GROUND_HEIGHT;
+			this.resizeInit();
 		this.configurationLoad();
 	};
 	proto = CCV.app.Player.prototype;
@@ -605,7 +611,7 @@ if(!CCV.app.Player){
 	};
 	proto.resizeInit = function(){
 		var maxAvailHeight = screen.height - CCV.global.FOOTER_HEIGHT -CCV.global.HEADER_HEIGHT;
-		if(CCV.global.SOURCE_ALLOW_LARGE && maxAvailHeight > .5 * (this.options.landscapeHeightReference + this.options.landscapeBottomOffset)){
+		if(CCV.global.SOURCE_ALLOW_LARGE && maxAvailHeight > .5 * (CCV.global.LANDSCAPE_HEIGHT + CCV.global.GROUND_HEIGHT)){
 			this.scaleFolder = 'x2';
 			this.scaleSourceCoef = 1;
 		}
@@ -613,24 +619,31 @@ if(!CCV.app.Player){
 			this.scaleFolder = 'x1';
 			this.scaleSourceCoef = .5;
 		}
-		this.options.landscapeHeightReference *= this.scaleSourceCoef;
-		this.options.landscapeBottomOffset *= this.scaleSourceCoef;
+		CCV.global.LANDSCAPE_HEIGHT *= this.scaleSourceCoef;
+		this.landscapeHeight *= this.scaleSourceCoef;
+		this.groundHeight *= this.scaleSourceCoef;
 		this.options.mediaFolder += this.scaleFolder + '/';
 		KPF.utils.log('scale folder: ' + this.scaleFolder + ', scaleSourceCoef: ' + this.scaleSourceCoef.toFixed(1), 'Player.resizeInit');
 	};
 	proto.resize = function(){
+		var scaleOverflow = false;
+		
 		this.size = new PIXI.Point(window.innerWidth, window.innerHeight);
 		this.size.y -= CCV.global.HEADER_HEIGHT;
 		this.size.y -= CCV.global.FOOTER_HEIGHT;
 		
-		this.background.alpha = .2;
 		this.background.width = this.size.x;
 		this.background.height = this.size.y;
 		
 		this.application.renderer.resize(this.size.x, this.size.y);
 		
-		this.scale = Math.min(1, this.size.y / (this.options.landscapeHeightReference + this.options.landscapeBottomOffset));
-		KPF.utils.log('application scale: ' + this.scale.toFixed(2), 'Player.resize');
+		this.scale = this.size.y / (this.landscapeHeight + this.groundHeight);
+		if(this.scale > 1){
+			scaleOverflow = true;
+			this.scale = 1;
+		}
+		KPF.utils.log('application size: ' + this.size.toString(), 'Player.resize');
+		KPF.utils.log('application scale: ' + this.scale.toFixed(2) + ' (scaleOverflow: ' + scaleOverflow + ')', 'Player.resize');
 		
 		this.magnifier.redraw(this.scale);
 		this._magnifierTidy(false);
@@ -715,13 +728,21 @@ if (!CCV.app.Landscape) {
 	 * @param scale    {Number}
 	 */
 	proto.resize = function(size, scale){
-		var temp;
+		var temp, heightMaxi;
 		
 		this.scenesCtn.scale = new PIXI.Point(scale, scale);
 		
 		this.size = size.clone();
-		this.size.scale(1  / scale);
+		this.size.scale(1 / scale);
 		this.size.round();
+		
+		heightMaxi = CCV.player.landscapeHeight + CCV.player.groundHeight;
+		if(this.size.y > heightMaxi){
+			this.size.y = heightMaxi;
+			this.view.y = Math.round((size.y - this.size.y) * .66);
+		}
+		
+		console.log('scale: ' + scale, 'deltaScene: ' + (this.size.y - size.y));
 		
 		this.xCenter = Math.round(this.size.x * .5);
 		
@@ -737,14 +758,14 @@ if (!CCV.app.Landscape) {
 			
 			// draw scene area
 			this.debugGfx.lineStyle();
-			this.debugGfx.beginFill(0xff0000, .0);
-			this.debugGfx.drawRect(0, 0, this.size.x, CCV.player.options.landscapeHeightReference);
+			this.debugGfx.beginFill(0xff0000, .2);
+			this.debugGfx.drawRect(0, 0, this.size.x, CCV.player.landscapeHeight);
 			this.debugGfx.endFill();
 			
 			// draw ground line
 			this.debugGfx.lineStyle();
-			this.debugGfx.beginFill(0x0, .0);
-			this.debugGfx.drawRect(0, CCV.player.options.landscapeHeightReference, this.size.x, CCV.player.options.landscapeBottomOffset);
+			this.debugGfx.beginFill(0x0, .2);
+			this.debugGfx.drawRect(0, CCV.player.landscapeHeight, this.size.x, CCV.player.groundHeight);
 			this.debugGfx.endFill();
 		}
 		
@@ -787,11 +808,10 @@ if (!CCV.app.Landscape) {
 	 * @param data {{scenes:Array}}   data    JSON data holder
 	 */
 	proto.parse = function (data) {
-		var i, ilen, xCurrent;
-		
-		var options = CCV.player.options;
-		var yGround = options.landscapeHeightReference;
-		
+		var i,
+			ilen,
+			xCurrent,
+			yGround = CCV.player.landscapeHeight;
 		
 		// --- parse data
 		
