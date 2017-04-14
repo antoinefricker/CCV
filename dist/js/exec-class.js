@@ -1275,9 +1275,12 @@ if (!CCV.app.LayerSequence) {
 		else if(this.animation){
 			CCV.player.animTicker.removeAnimation(this.animation);
 			this.view.removeChild(this.animation);
-			this.animation.texture.destroy(true);
-			this.animation.destroy();
+			this.animation.destroy(true);
 			this.animation = null;
+			
+			this.view.removeChild(this.border);
+			this.border.destroy();
+			this.border = null;
 		}
 	};
 	
@@ -1296,6 +1299,11 @@ if (!CCV.app.LayerSequence) {
 		this.animation.textures = this.textures;
 		this.animation.gotoAndStop(1);
 		this.view.addChild(this.animation);
+		
+		this.border = new PIXI.Graphics();
+		this.border.lineStyle(4, 0xffffff, 1);
+		this.border.drawRect(this.pos.x, this.pos.y, this.scene.size.x - this.pos.x, this.scene.size.y - this.pos.y)
+		this.view.addChild(this.border);
 		
 		//console.log('create animation at: ' + this.scene.id + '\n' + this.info(0));
 	};
@@ -1465,12 +1473,14 @@ if (!CCV.app.VideoLayer){
 		if(!this.texture || !this.video)
 			return;
 		
-		this.texture.destroy(true);
+		this.view.removeChild(this.video);
+		this.video.destroy(true);
+		this.video = null;
 		this.texture = null;
 		
-		this.view.removeChild(this.video);
-		this.video.destroy();
-		this.video = null;
+		this.view.removeChild(this.border);
+		this.border.destroy();
+		this.border = null;
 		
 		/** @see http://stackoverflow.com/questions/3258587/how-to-properly-unload-destroy-a-video-element */
 		$(this.videoSource).each(function(){
@@ -1492,6 +1502,11 @@ if (!CCV.app.VideoLayer){
 		this.video.width = this.scene.size.x;
 		this.video.height = this.scene.size.y;
 		this.view.addChild(this.video);
+		
+		this.border = new PIXI.Graphics();
+		this.border.lineStyle(4, 0xffffff, 1);
+		this.border.drawRect(this.pos.x, this.pos.y, this.scene.size.x - this.pos.x, this.scene.size.y - this.pos.y)
+		this.view.addChild(this.border);
 	};
 }
 
