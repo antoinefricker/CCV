@@ -1,0 +1,49 @@
+{
+	"landscape": {
+		"ground": {
+			"file": "ground.png",
+			"size": {
+				"x": 5760,
+				"y": 0
+			},
+			"pos": {
+				"x": 0,
+				"y": -20
+			}
+		},
+		"scenes": [
+			{
+				"id": "autrucheSingle",
+				"folder": "autruche",
+				"marginLeft": 50,
+				"marginRight": 50,
+				"size": {
+					"x": 1667,
+					"y": 1242
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "autruche_contour.png"
+					},
+					"fill": {
+						"file": "autruche_motif.png"
+					}
+				},
+				"blue": {
+						"pos": {
+							"x": 0,
+							"y": 0
+						},
+						"file": "autruche_[NUM].png",
+						"seqNumLength": 5,
+						"seqStart": 8,
+						"seqEnd": 155
+					}
+			}
+		]
+	}
+}

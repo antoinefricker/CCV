@@ -1,0 +1,28 @@
+@mixin opacity($opacity) {
+	$opacity-ie: $opacity * 100;
+	opacity: $opacity;
+	filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin transition($args...) {
+	-webkit-transition: $args;
+	-moz-transition: $args;
+	-ms-transition: $args;
+	-o-transition: $args;
+	transition: $args;
+}
+
+@mixin font-size($size) {
+	$remSize: $size / 16px;
+	$remSize: $remSize * 1rem;
+	font-size: $size;
+	font-size: $remSize;
+}
+
+@mixin clearfix() {
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}

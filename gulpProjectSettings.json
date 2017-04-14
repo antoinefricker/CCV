@@ -1,0 +1,69 @@
+{
+	"production": false,
+	"options": {
+		"browserSync": {
+			"server": {
+				"baseDir": "dist/"
+			}
+		},
+		"cssbeautify": {
+			"indent": "\t",
+			"openbrace": "end-of-line",
+			"autosemicolon": true
+		},
+		"cssConcat": {
+			"theme/main.css": ["src/theme/css/*.css", "src/theme/css/**/*.css"]
+		},
+		"csso": {
+			"restructure": true,
+			"sourceMap": true,
+			"debug": true
+		},
+		"htmlmin": {
+			"collapseWhitespace": true,
+			"collapseBooleanAttributes": false,
+			"collapseInlineTagWhitespace": true,
+			"maxLineLength": 500,
+			"caseSensitive": true,
+			"removeComments": true,
+			"minifyCSS": true,
+			"minifyJS": true
+		},
+		"injectPartials": {
+			"removeTags": true,
+			"start": "<!-- partial \"{{path}}\"",
+			"end": "-->"
+		},
+		"jsLibConcat": {
+			"js/libs.js": [
+				"src/js/libs/jquery/jquery.js",
+				"src/js/libs/pixijs/pixijs-core.js",
+				"src/js/libs/howler/howler-core.js",
+				"src/js/libs/howler/howler-spatial.js",
+				"src/js/libs/gsap/TweenMax.js",
+				"src/js/libs/gsap/xtras/CustomEase.js"
+			]
+		},
+		"jsExecConcat": {
+			"js/exec-class.js": [
+				"src/js/exec/kpf/kpf-global.js",
+				"src/js/exec/kpf/kpf-utilities.js",
+				"src/js/exec/ccv/ccv-core.js"
+			],
+			"js/exec-theme.js" : [
+				"src/theme/**/*.js"
+			]
+		},
+		"jsPluginsConcat": {
+			"js/exec-plugins.js": "src/js/plugins/**/*.js"
+		},
+		"sassEntryPoint": "src/theme/sass/main.scss",
+		"sassPluginsConcat": {
+			"theme/sass/plugins.scss": "src/js/plugins/**/*.scss"
+		},
+		"tsProject": {
+			"declaration": true
+		}
+	}
+}
+

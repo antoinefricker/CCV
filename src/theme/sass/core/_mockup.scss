@@ -1,0 +1,18 @@
+h1 {
+	@include font-title($font-black);
+	font-size:60px;
+}
+
+h2{
+	@include font-title($font-black);
+	font-size:60px;
+	text-transform:uppercase;
+}
+
+h3{
+	@include font-title($font-bold);
+}
+
+p{
+	@include font-body($font-regular);
+}

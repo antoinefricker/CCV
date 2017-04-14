@@ -1,0 +1,36 @@
+// -------------------- CORE RESET
+
+*{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size:100%;
+	vertical-align: baseline;
+	box-sizing: border-box;
+}
+html, body{
+	height:100%;
+}
+body {
+	display: block;
+	color: $default-text-color;
+	background-color: white;
+}
+ol, ul {
+	list-style: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+a{
+	color:inherit;
+}
+
+
+
+// reset default browser behaviour
+*:focus{
+	outline: none;
+	box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}

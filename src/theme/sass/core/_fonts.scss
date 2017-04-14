@@ -1,0 +1,42 @@
+// @see	https://fonts.google.com/selection?selection.family=Lato:400,700,900|Source+Sans+Pro:400,400i,600&category=Sans+Serif&subset=latin-ext&selection.subset=latin-ext
+
+$font-regular: 'regular';
+$font-bold: 'bold';
+$font-black: 'black';
+
+@mixin font-title($weight: $font-regular){
+	font-family: 'Lato', sans-serif;
+	@if($weight == $font-regular){
+		font-weight:400;
+	}
+	@elseif($weight == $font-bold){
+		font-weight:700;
+	}
+	@elseif($weight == $font-black ){
+		font-weight:900;
+	}
+}
+
+@mixin font-body($weight: $font-regular){
+	font-family: 'Source Sans Pro', sans-serif;
+	@if($weight == $font-regular){
+		font-weight:400;
+	}
+	@elseif($weight == $font-bold){
+		font-weight:600;
+	}
+}
+
+.uppercase{
+	text-transform: uppercase;
+}
+
+html{
+	@include font-body();
+}
+html *{
+	font-family: inherit;
+}
+h1, h2, h3, h4, h5, h6{
+	@include font-title($font-bold);
+}

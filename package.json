@@ -1,0 +1,55 @@
+{
+  "name": "kopfstoss",
+  "version": "v 1.0.0",
+  "description": "kopfstoss template",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "antoine fricker <antoine.fricker@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "amd-optimize": "latest",
+    "browser-sync": "latest",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-concat-multi": "^1.0.0",
+    "gulp-connect": "latest",
+    "gulp-cssbeautify": "latest",
+    "gulp-csscomb": "^3.0.8",
+    "gulp-csso": "^2.0.0",
+    "gulp-file": "latest",
+    "gulp-gzip": "latest",
+    "gulp-htmlmin": "latest",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "latest",
+    "gulp-inject-partials": "^1.0.2",
+    "gulp-jshint": "latest",
+    "gulp-json-to-sass": "latest",
+    "gulp-jsonminify": "^1.0.0",
+    "gulp-minify": "0.0.14",
+    "gulp-prompt": "latest",
+    "gulp-rename": "latest",
+    "gulp-sass": "latest",
+    "gulp-typescript": "^3.1.3",
+    "gulp-uglify": "latest",
+    "gulp.spritesmith": "latest",
+    "imagemin-pngquant": "latest",
+    "minimist": "latest",
+    "mkdirp": "latest",
+    "promised-del": "latest",
+    "typescript": "^2.1.4",
+    "vinyl-buffer": "latest"
+  },
+  "dependencies": {
+    "gulp-concat-multi": "^1.0.0"
+  }
+}
