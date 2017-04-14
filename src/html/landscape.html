@@ -46,8 +46,8 @@
 	</div>
 	<div id="player-controls" class="debug-panel">
 		<span id="indexDebug"></span>
-		<button id="magnifierDisplayToggler"></button>
-		<button id="scenesShowFillToggler"></button>
+		<button id="magnifierDisplayToggler">-</button>
+		<button id="scenesShowFillToggler">-</button>
 		<button id="scrollToLeft">‹</button>
 		<button id="random">random</button>
 		<button id="scrollToRight">›</button>
@@ -67,22 +67,26 @@
 		$('#renderMode').html(app.getMode());
 	}, 1400);
 	
+	$('#magnifierDisplayToggler').on('click', function(){
+		app.magnifierDisplayToggle();
+	});
 	$(cnv).on('magnifierDisplayChange', function(e, status){
 		$('#magnifierDisplayToggler').html('toggle magnifier [' + (status ? 'on' : 'off') + ']');
 	});
-	$(cnv).on('magnifierDisplayChange', function(e, status){
-		$('#magnifierToggler').html('show red fill: [' + (status ? 'on' : 'off') + ']');
-	});
-	$(cnv).on('sceneIndexChange', function(e, index, scene, scenesLen){
-		$('#indexDebug').html(index + '/' + scenesLen + ' - #' + scene.id);
-	});
 	
-	$('#magnifierDisplayToggler').on('click', function(){
-		app.magnifierDisplayToggle();
+	$(cnv).on('scenesShowFillChange', function(e, status){
+		$('#scenesShowFillToggler').html('show red fill: [' + (status ? 'on' : 'off') + ']');
 	});
 	$('#scenesShowFillToggler').on('click', function(){
 		app.scenesShowFillToggle();
 	});
+	
+	$(cnv).on('sceneIndexChange', function(e, index, scene, scenesLen){
+		$('#indexDebug').html(index + '/' + scenesLen + ' - #' + scene.id);
+	});
+	
+	
+	
 	$('#scrollToLeft').on('click', function(){
 		app.landscape.move(-1);
 	});

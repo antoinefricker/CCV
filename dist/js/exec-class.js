@@ -306,6 +306,7 @@ if(!CCV.app.Player){
 			landscapeBottomOffset: 200,
 			mediaFolder: 'theme/mm/',
 			magnifierDisplayStatus: true,
+			scenesShowFillStatus: true,
 			magnifierRadius: 250,
 			configurationFile: 'json/configComplete.json'
 		}, options);
@@ -425,6 +426,8 @@ if(!CCV.app.Player){
 		
 		this.initInteractions();
 		this.magnifierDisplayToggle(this.options.magnifierDisplayStatus);
+		
+		this.scenesShowFillToggle(this.options.scenesShowFillStatus !== false);
 		this.windowFocus();
 		this.landscape.audio.play();
 	};
@@ -531,10 +534,10 @@ if(!CCV.app.Player){
 		threshold = e.data.getLocalPosition(this.application.stage).x - swipeContext.startX;
 		passThreshold = Math.abs(threshold) > CCV.global.SWIPE_THRESHOLD;
 		
-		vicacity = new Date().getTime() - swipeContext.startTime;
+		vicacity = (new Date()).getTime() - swipeContext.startTime;
 		passVivacity = vicacity < CCV.global.SWIPE_VIVACITY;
 		
-		velocity = Math.abs(threshold) / deltaTime * 1000;
+		velocity = Math.abs(threshold) / vicacity * 1000;
 		passVelocity = velocity >= CCV.global.SWIPE_VELOCITY;
 		
 		str = 'threshold: ' + threshold.toFixed(1) + ' (pass: ' + passThreshold + '),';
@@ -576,8 +579,10 @@ if(!CCV.app.Player){
 		status = KPF.utils.isbool(status) ? status : !this.scenesShowFillStatus;
 		this.scenesShowFillStatus = status;
 		
+		KPF.utils.log('scenesShowFillStatus: ' + this.scenesShowFillStatus, 'Player.scenesShowFillToggle')
+		
 		this.landscape.scenes.forEach(function(scene){
-			scene.fillStatus = status;
+			scene.showFill(status);
 		});
 		$(this.target).trigger('scenesShowFillChange', [this.scenesShowFillStatus]);
 	};
@@ -1040,6 +1045,15 @@ if (!CCV.app.Scene) {
 				return new CCV.app.Layer(data, this);
 		}
 		return null;
+	};
+	proto.showFill = function(status){
+		if(!this.redFill)
+			return;
+		
+		TweenMax.to(this.redFill.view, .3, {
+			ease: Expo.easeOut,
+			alpha: status ? 1 : 0
+		});
 	};
 	proto.viewBuild = function () {
 		var debug, gfx, text, createMarker, textStyle = {
