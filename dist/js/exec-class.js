@@ -526,23 +526,28 @@ if(!CCV.app.Player){
 		swipeContext.startX = e.data.getLocalPosition(this.application.stage).x;
 	};
 	proto._swipeEnd = function(swipeContext, e){
-		var deltaX, deltaTime, velocity;
+		var str, threshold, passThreshold, vicacity, passVivacity, velocity, passVelocity;
 		
-		deltaX = e.data.getLocalPosition(this.application.stage).x - swipeContext.startX;
-		deltaTime = new Date().getTime() - swipeContext.startTime
-		velocity = Math.abs(deltaX) / deltaTime * 1000;
+		threshold = e.data.getLocalPosition(this.application.stage).x - swipeContext.startX;
+		passThreshold = Math.abs(threshold) > CCV.global.SWIPE_THRESHOLD;
 		
-		KPF.utils.log('deltaX: ' + deltaX.toFixed(1) + ', velocity: ' + velocity.toFixed(2), 'Player._swipeEnd');
+		vicacity = new Date().getTime() - swipeContext.startTime;
+		passVivacity = vicacity < CCV.global.SWIPE_VIVACITY;
+		
+		velocity = Math.abs(threshold) / deltaTime * 1000;
+		passVelocity = velocity >= CCV.global.SWIPE_VELOCITY;
+		
+		str = 'threshold: ' + threshold.toFixed(1) + ' (pass: ' + passThreshold + '),';
+		str += ' vivacity: ' + vicacity.toFixed(2) + ' (pass: ' + passVivacity + '),';
+		str += ' velocity: ' + velocity.toFixed(2) + ' (pass: ' + passVelocity + ')';
+		KPF.utils.log(str, 'Player._swipeEnd');
 		
 		swipeContext.active = false;
 		swipeContext.startTime = Number.NaN;
 		swipeContext.startX = Number.NaN;
 		
-		if(Math.abs(deltaX) > CCV.global.SWIPE_THRESHOLD
-			&& velocity > CCV.global.SWIPE_VELOCITY
-			&& deltaTime > CCV.global.SWIPE_VIVACITY
-		){
-			this.landscape.move(- deltaX);
+		if(passThreshold && passVivacity && passVelocity){
+			this.landscape.move(- threshold);
 		}
 	};
 	
