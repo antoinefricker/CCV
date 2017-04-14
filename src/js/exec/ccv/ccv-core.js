@@ -59,6 +59,7 @@ if (!CCV.global){
 		DEBUG_SCENE_GFX: false,
 		DEBUG_SCENE_MARGINS: false,
 		DEBUG_PERFORMANCE: true,
+		DEBUG_SWIPE: true,
 		
 		FPS: 8,
 		GLOBAL_VOLUME: 0.0,
@@ -371,40 +372,37 @@ if(!CCV.app.Player){
 		swCtx.startX = e.data.getLocalPosition(this.application.stage).x;
 	};
 	proto._swipeEnd = function(swCtx, e){
-		var threshold, passThreshold, vicacity, passVivacity, velocity, passVelocity, passSwipe, logObj;
+		var threshold, passThreshold,
+			vicacity, passVivacity,
+			velocity, passVelocity,
+			swipePass, log, logsCtx;
 		
-		logObj = {};
+		logsCtx = [];
 		
-		passSwipeBlock: {
-			threshold = e.data.getLocalPosition(this.application.stage).x - swCtx.startX;
-			passThreshold = Math.abs(threshold) > CCV.global.SWIPE_THRESHOLD;
-			logObj.threshold = threshold.toFixed(2) + ' (' + passThreshold + ')';
-			if(!passThreshold)
-				break passSwipeBlock;
+		// compute gesture
+		threshold = e.data.getLocalPosition(this.application.stage).x - swCtx.startX;
+		passThreshold = Math.abs(threshold) > CCV.global.SWIPE_THRESHOLD;
+		logsCtx.push('threshold: ' + threshold.toFixed(0) + ' (' + passThreshold + ')');
 			
-			vicacity = (new Date()).getTime() - swCtx.startTime;
-			passVivacity = vicacity < CCV.global.SWIPE_VIVACITY;
-			logObj.vicacity = vicacity.toFixed(2) + ' (' + passVivacity + ')';
-			if(!passVivacity)
-				break passSwipeBlock;
+		vicacity = (new Date()).getTime() - swCtx.startTime;
+		passVivacity = vicacity < CCV.global.SWIPE_VIVACITY;
+		logsCtx.push('vicacity: ' + vicacity.toFixed(0) + ' (' + passVivacity + ')');
 			
-			velocity = Math.abs(threshold) / vicacity * 1000;
-			passVelocity = velocity >= CCV.global.SWIPE_VELOCITY;
-			logObj.velocity = velocity.toFixed(2) + ' (' + passVelocity + ')';
-			if(!passVivacity)
-				break passSwipeBlock;
-		}
+		velocity = Math.abs(threshold) / vicacity * 1000;
+		passVelocity = velocity >= CCV.global.SWIPE_VELOCITY;
+		logsCtx.push('velocity: ' + velocity.toFixed(0) + ' (' + passVelocity + ')');
 		
-		passSwipe = passThreshold && passVivacity && passVelocity;
-		KPF.utils.log('passSwipe: ' + passSwipe, 'Player._swipeEnd', logObj);
-		
+		// clean gesture context
 		swCtx.active = false;
 		swCtx.startTime = Number.NaN;
 		swCtx.startX = Number.NaN;
 		
-		if(passSwipe){
+		// end process
+		swipePass = passThreshold && passVivacity && passVelocity;
+		if(CCV.global.DEBUG_SWIPE)
+			KPF.utils.log((swipePass ? 'Apply' : 'Cancel') + ' swipe gesture', 'Player._swipeEnd', ' --------- ' + logsCtx.join(', '));
+		if(swipePass)
 			this.landscape.move(- threshold);
-		}
 	};
 	
 	proto.magnifierDisplayToggle = function(status){
