@@ -952,6 +952,72 @@ if (!CCV.app.Scene) {
 
 
 // ----------------------------------------------------------------------
+// CCV.app.CompoLayer
+// ----------------------------------------------------------------------
+if (!CCV.app.CompoLayer) {
+	
+	/**
+	 * Composite layer model.
+	 * @param data    object   JSON formatted data holder
+	 * @param scene   CCV.app.Scene   context scene
+	 * @constructor
+	 */
+	CCV.app.CompoLayer = function (data, scene) {
+		this.pos = new PIXI.Point(0, 0);
+		this.layers = [];
+		
+		if(!data)
+			return;
+		
+		if(data.pos)
+			this.pos.copy(data.pos);
+		this.pos.scale(CCV.player.scaleSourceCoef);
+		
+		for (var i = 0, ilen = data.length; i < ilen; ++i)
+			this.addLayer(data[i], scene);
+	};
+	proto = CCV.app.CompoLayer.prototype;
+	
+	proto.addLayer = function(data, scene){
+		var view = scene.factoryModel(data);
+		this.layers.push(view);
+		return view;
+	};
+	
+	/**
+	 * Returns a string representation of the instance
+	 * @return {string}
+	 */
+	proto.toString = function () {
+		return this.info(0);
+	};
+	/**
+	 * Returns a formatted string representation of the instance
+	 * @param   {number}    depth          formatting depth
+	 * @param   {boolean}   indentStart    whether or not indentation should be added on string start
+	 * @return  {string}
+	 */
+	proto.info = function (depth, indentStart) {
+		var str;
+		var pattern = KPF.global.FORMAT_INDENT;
+		var indent;
+		var ilen = this.layers.length;
+		
+		if (isNaN(depth))
+			depth = 0;
+		
+		indent = KPF.utils.repeat(depth, pattern);
+		
+		str = (indentStart === true) ? indent : '';
+		str += '[CompoLayer] ' + ilen + ' layers';
+		for (var i = 0; i < ilen; ++i)
+			str += '\n' + this.layers[i].info(depth + 1, true);
+		return str;
+	}
+}
+
+
+// ----------------------------------------------------------------------
 // CCV.app.Layer
 // ----------------------------------------------------------------------
 if (!CCV.app.Layer) {
@@ -1106,72 +1172,6 @@ if (!CCV.app.LayerSequence) {
 		
 		//console.log('create animation at: ' + this.scene.id + '\n' + this.info(0));
 	};
-}
-
-
-// ----------------------------------------------------------------------
-// CCV.app.CompoLayer
-// ----------------------------------------------------------------------
-if (!CCV.app.CompoLayer) {
-	
-	/**
-	 * Composite layer model.
-	 * @param data    object   JSON formatted data holder
-	 * @param scene   CCV.app.Scene   context scene
-	 * @constructor
-	 */
-	CCV.app.CompoLayer = function (data, scene) {
-		this.pos = new PIXI.Point(0, 0);
-		this.layers = [];
-		
-		if(!data)
-			return;
-		
-		if(data.pos)
-			this.pos.copy(data.pos);
-		this.pos.scale(CCV.player.scaleSourceCoef);
-		
-		for (var i = 0, ilen = data.length; i < ilen; ++i)
-			this.addLayer(data[i], scene);
-	};
-	proto = CCV.app.CompoLayer.prototype;
-	
-	proto.addLayer = function(data, scene){
-		var view = scene.factoryModel(data);
-		this.layers.push(view);
-		return view;
-	};
-	
-	/**
-	 * Returns a string representation of the instance
-	 * @return {string}
-	 */
-	proto.toString = function () {
-		return this.info(0);
-	};
-	/**
-	 * Returns a formatted string representation of the instance
-	 * @param   {number}    depth          formatting depth
-	 * @param   {boolean}   indentStart    whether or not indentation should be added on string start
-	 * @return  {string}
-	 */
-	proto.info = function (depth, indentStart) {
-		var str;
-		var pattern = KPF.global.FORMAT_INDENT;
-		var indent;
-		var ilen = this.layers.length;
-		
-		if (isNaN(depth))
-			depth = 0;
-		
-		indent = KPF.utils.repeat(depth, pattern);
-		
-		str = (indentStart === true) ? indent : '';
-		str += '[CompoLayer] ' + ilen + ' layers';
-		for (var i = 0; i < ilen; ++i)
-			str += '\n' + this.layers[i].info(depth + 1, true);
-		return str;
-	}
 }
 
 
