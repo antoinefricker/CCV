@@ -304,12 +304,15 @@ if(!CCV.app.Player){
 					mgCtx.pinchTouch.copy(pos);
 					break;
 				default:
+					/*
+					// checked use case : three or more touches on magnifier as expected -> clear warning
 					KPF.utils.warn('Touch does not correspond to any stored value ; cancel illegal method call', 'Player._mgDragMove', {
 						mgCtx: mgCtx,
 						dragTouchId: mgCtx.dragTouch.id,
 						pinchTouchId: mgCtx.pinchTouch.id,
 						currentTouchId: e.data.identifier
 					});
+					//*/
 					return;
 			}
 			
@@ -319,9 +322,6 @@ if(!CCV.app.Player){
 		}
 		else if(mgCtx.dragTouch && e.data.identifier == mgCtx.dragTouch.id){
 			this.magnifier.pos = pos;
-		}
-		else{
-			KPF.utils.log('Useless call', 'Player._mgDragMove');
 		}
 	};
 	proto._mgDragEnd = function(mgCtx, swCtx, e){
@@ -381,6 +381,10 @@ if(!CCV.app.Player){
 		
 		// compute gesture
 		threshold = e.data.getLocalPosition(this.application.stage).x - swCtx.startX;
+		if(Math.abs(threshold) < 10){ // avoid clicks pollution
+			this._swipeReset();
+			return;
+		}
 		passThreshold = Math.abs(threshold) > CCV.global.SWIPE_THRESHOLD;
 		logsCtx.push('threshold: ' + threshold.toFixed(0) + ' (' + passThreshold + ')');
 			
@@ -393,16 +397,19 @@ if(!CCV.app.Player){
 		logsCtx.push('velocity: ' + velocity.toFixed(0) + ' (' + passVelocity + ')');
 		
 		// clean gesture context
-		swCtx.active = false;
-		swCtx.startTime = Number.NaN;
-		swCtx.startX = Number.NaN;
+		this._swipeReset();
 		
 		// end process
 		swipePass = passThreshold && passVivacity && passVelocity;
 		if(CCV.global.DEBUG_SWIPE)
-			KPF.utils.log((swipePass ? 'Apply' : 'Cancel') + ' swipe gesture', 'Player._swipeEnd', ' --------- ' + logsCtx.join(', '));
+			KPF.utils.log((swipePass ? 'Apply' : 'Cancel') + ' swipe gesture', 'Player._swipeEnd', ' // ' + logsCtx.join(', '));
 		if(swipePass)
 			this.landscape.move(- threshold);
+	};
+	proto._swipeReset = function(){
+		this.cbks.swCtx.active = false;
+		this.cbks.swCtx.startTime = Number.NaN;
+		this.cbks.swCtx.startX = Number.NaN;
 	};
 	
 	proto.magnifierDisplayToggle = function(status){
