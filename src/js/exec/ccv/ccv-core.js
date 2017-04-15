@@ -68,6 +68,10 @@ if (!CCV.global){
 		ACTIVITY_RANGE: 0,
 		SOURCE_ALLOW_LARGE: false,
 		
+		SCENE_ACTIVATION_DELAY: 2000,
+		SCENE_DEACTIVATION_DELAY: 1400,
+		SCENE_REPLAY_DELAY: 4000,
+		
 		SLIDE_DURATION: 1.6,
 		
 		HEADER_HEIGHT: 0,
@@ -851,6 +855,8 @@ if (!CCV.app.Scene) {
 		this.size = new PIXI.Point(data.size.x, data.size.y);
 		this.size.scale(CCV.player.scaleSourceCoef);
 		
+		this.activationTimeoutId = null;
+		
 		this.xCenter = Math.round(.5 * this.size.x);
 		
 		this.red = new CCV.app.CompoLayer(data.red);
@@ -996,8 +1002,9 @@ if (!CCV.app.Scene) {
 		}
 	};
 	proto.activateDisplay = function(delta) {
-		var volumeTarget, panTarget, status;
+		var volumeTarget, panTarget, status, self;
 		
+		self = this;
 		status = Math.abs(delta) <= CCV.global.ACTIVITY_RANGE;
 		
 		if(this.audio){
@@ -1019,7 +1026,13 @@ if (!CCV.app.Scene) {
 				this.audio.render();
 			}
 		}
-		$(this).trigger('displayStateChange', [status]);
+		
+		if(this.activationTimeoutId)
+			window.clearTimeout(this.activationTimeoutId);
+		
+		this.activationTimeoutId = window.setTimeout(function(){
+			$(self).trigger('displayStateChange', [status]);
+		}, status ? CCV.global.SCENE_ACTIVATION_DELAY : CCV.global.SCENE_DEACTIVATION_DELAY);
 	};
 }
 
