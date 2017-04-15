@@ -1479,6 +1479,12 @@ if (!CCV.app.VideoLayer){
 		
 		this.loop = data.loop !== false;
 		
+		this.cbks = {};
+		this.cbks.videoAskRestartTimeoutId = null;
+		this.cbks.videoAskRestart = this.videoAskRestart.bind(this);
+		this.cbks.videoRestart = this.videoRestart.bind(this);
+		Object.seal(this.cbks);
+		
 		this.pos = new PIXI.Point(0, 0);
 		if(data.pos)
 			this.pos.copy(data.pos);
@@ -1559,9 +1565,12 @@ if (!CCV.app.VideoLayer){
 		if(!this.texture || !this.video)
 			return;
 		
+		this.videoSource.removeEventListener('ended', this.cbks.videoRestart);
+		
 		this.view.removeChild(this.video);
 		this.video.destroy(true);
 		this.video = null;
+		this.videoSource = null;
 		this.texture = null;
 		
 		this.view.removeChild(this.border);
@@ -1582,7 +1591,9 @@ if (!CCV.app.VideoLayer){
 		
 		this.texture = PIXI.Texture.fromVideoUrl(this.file);
 		this.videoSource = this.texture.baseTexture.source;
-		this.videoSource.loop = this.loop;
+		
+		if(this.loop)
+			this.videoSource.addEventListener('ended', this.cbks.videoAskRestart);
 		
 		this.video = new PIXI.Sprite(this.texture);
 		this.video.width = this.scene.size.x;
@@ -1593,6 +1604,22 @@ if (!CCV.app.VideoLayer){
 		this.border.lineStyle(4, 0xffffff, 1);
 		this.border.drawRect(this.pos.x, this.pos.y, this.scene.size.x - this.pos.x, this.scene.size.y - this.pos.y)
 		this.view.addChild(this.border);
+	};
+	proto.videoAskRestart = function(){
+		if(this.cbks.videoAskRestartTimeoutId)
+			return;
+		
+		this.cbks.videoAskRestartTimeoutId = window.setTimeout(this.cbks.videoRestart, CCV.global.SCENE_REPLAY_DELAY);
+	};
+	proto.videoRestart = function(){
+		window.clearTimeout(this.cbks.videoAskRestartTimeoutId);
+		this.cbks.videoAskRestartTimeoutId = null;
+		
+		if(!this.videoSource)
+			return;
+		
+		this.videoSource.currentTime = 0;
+		this.videoSource.play();
 	};
 }
 
