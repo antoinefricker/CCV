@@ -872,7 +872,7 @@
 						"y": 0
 					},
 					"preview": "seq/parkingBleu_00015.png",
-					"file": "seq/parkingBleu[NUM].png",
+					"file": "seq/parkingBleu_[NUM].png",
 					"seqLoop": true,
 					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
@@ -1551,7 +1551,7 @@
 					"seqLoop": true,
 					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
-					"seqNumLength": 3, 
+					"seqNumLength": 3,
 					"seqStart": 3,
 					"seqEnd": 67
 				}
