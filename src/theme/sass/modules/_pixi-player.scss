@@ -1,0 +1,37 @@
+canvas#pixi-stage{
+}
+
+#player-console, #player-controls{
+	position:absolute;
+	top:10px;
+	
+	z-index:1000;
+	
+	background: rgba(#000000, .65);
+	padding: 10px;
+	color: white;
+	font-weight: normal;
+	
+	span, button {
+		padding: 6px 10px;
+	}
+	button{
+		background: #333333;
+		color: white;
+		border:none;
+	}
+	.label{
+		padding: 6px 0;
+		color:#999999;
+	}
+}
+#player-console{
+	left:10px;
+	
+	div{
+		width: 250px;
+	}
+}
+#player-controls {
+	right: 10px;
+}

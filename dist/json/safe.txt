@@ -1,0 +1,40 @@
+{
+	"id": "voiture-tapis-roulant",
+	"indexable": true,
+	"marginLeft": 0,
+	"marginRight": 0,
+	"size": {
+		"x": 710,
+		"y": 390
+	},
+	"audio": {
+		"file": "xx.mp3",
+		"volume": 0.85
+	},
+	"red": {
+		"pos": {
+			"x": 0,
+			"y": 0
+		},
+		"outline": {
+			"file": "contour.png"
+		},
+		"fill": {
+			"file": "motif.png"
+		}
+	},
+	"blue": {
+		"pos": {
+			"x": 0,
+			"y": 0
+		},
+		"preview": "seq/voiture-tapisroulant000.png",
+		"file": "seq/voiture-tapisroulant[NUM].png",
+		"seqLoop": true,
+		"seqStartDelay": -1,
+		"seqRepeatDelay": -1,
+		"seqNumLength": 3,
+		"seqStart": 0,
+		"seqEnd": 7
+	}
+},
