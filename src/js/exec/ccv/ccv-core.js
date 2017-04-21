@@ -51,39 +51,40 @@ if (!CCV.global){
 		RED: 0xFF3E29,
 		BLUE: 0xADD2EA,
 		
-		MAGNIFIER_RED: 0xFF1515,
-		MAGNIFIER_APPEAR_TIME: .7,
-		MAGNIFIER_VANISH_TIME: .3,
+		HEADER_HEIGHT: 0,
+		FOOTER_HEIGHT: 0,
 		
-		DEBUG_LANDSCAPE_GFX: false,
-		DEBUG_SCENE_GFX: false,
+		SYS_FORCE_CANVAS: true,
+		SYS_USE_SHARED_TICKER: true,
+		SYS_FPS: 8,
+		SYS_ALLOW_LARGE: false,
+		
+		DEBUG_LANDSCAPE_GFX: true,
+		DEBUG_SCENE_GFX: true,
 		DEBUG_SCENE_MARGINS: false,
 		DEBUG_PERFORMANCE: true,
 		DEBUG_SWIPE: true,
 		
-		FPS: 8,
 		GLOBAL_VOLUME: 0.0,
-		RANDOM_INDEX: true,
-		AUTO_RENDER: false,
-		ACTIVITY_RANGE: 0,
-		SOURCE_ALLOW_LARGE: false,
 		
+		SCENE_RAND_START: false,
 		SCENE_ACTIVATION_DELAY: 2000,
 		SCENE_DEACTIVATION_DELAY: 1400,
 		SCENE_REPLAY_DELAY: 4000,
+		SCENE_SLIDE_DURATION: 1.6,
+		SCENE_MAX_HEIGHT: 1336 * .5,
+		SCENE_GROUND_HEIGHT: 200 * .5,
+		SCENE_ACTIVITY_RANGE: 1,
 		
-		SLIDE_DURATION: 1.6,
+		MEDIA_FOLDER: 'ccv/',
 		
-		HEADER_HEIGHT: 0,
-		FOOTER_HEIGHT: 0,
-		
+		MAGNIFIER_RED: 0xFF1515,
 		MAGNIFIER_PINCH_AMP: 200,
 		MAGNIFIER_PINCH_INCREMENT: .7,
-		
-		LANDSCAPE_HEIGHT: 1336,
-		GROUND_HEIGHT: 200,
-		
-		MAGNIFIER_DRAG_IDLE_TEMPO: 12000,
+		MAGNIFIER_APPEAR_TIME: .7,
+		MAGNIFIER_VANISH_TIME: .3,
+		MAGNIFIER_RADIUS: 250,
+		MAGNIFIER_DRAG_IDLE_TEMPO: 30000,
 		
 		SWIPE_THRESHOLD: 250, /* minimal swipe distance in pixels */
 		SWIPE_VIVACITY: 400, /* maximal swipe duration in ms */
@@ -110,17 +111,15 @@ if(!CCV.app.Player){
 		// ---   build options
 		this.target = target;
 		this.options = Object.assign({
-			forceCanvas: false,
-			useSharedTicker: true,
-			mediaFolder: 'theme/mm/',
 			magnifierDisplayStatus: true,
 			scenesShowFillStatus: true,
-			magnifierRadius: 250,
-			configurationFile: 'json/configComplete.json'
+			configurationFile: 'json/config.json'
 		}, options);
 		
 		// ---   register core options
 		CCV.player = this;
+		
+		this.mediaFolder = '';
 		
 		
 		// ---   create application
@@ -132,9 +131,9 @@ if(!CCV.app.Player){
 			preserveDrawingBuffer:  false,
 			resolution:  1,
 			legacy:  false
-		}, this.options.forceCanvas, this.options.useSharedTicker);
-		if(!CCV.global.AUTO_RENDER)
-			this.application.stop();
+		}, CCV.global.SYS_FORCE_CANVAS, CCV.global.SYS_USE_SHARED_TICKER);
+		
+		this.application.stop();
 		
 		
 		// --- tickers utilities
@@ -196,8 +195,8 @@ if(!CCV.app.Player){
 		
 		
 		// --- launch display
-		this.landscapeHeight = CCV.global.LANDSCAPE_HEIGHT;
-		this.groundHeight = CCV.global.GROUND_HEIGHT;
+		this.landscapeHeight = CCV.global.SCENE_MAX_HEIGHT;
+		this.groundHeight = CCV.global.SCENE_GROUND_HEIGHT;
 		this.resizeInit();
 		this.configurationLoad();
 	};
@@ -236,12 +235,12 @@ if(!CCV.app.Player){
 		this.background.drawRect(0, 0, 100, 100);
 		this.application.stage.addChild(this.background);
 		
-		this.magnifier = new CCV.app.Magnifier(this.options.magnifierRadius);
+		this.magnifier = new CCV.app.Magnifier(CCV.global.MAGNIFIER_RADIUS);
 		this.application.stage.addChild(this.magnifier.view);
 		
 		this.resize();
 		
-		if(CCV.global.RANDOM_INDEX)
+		if(CCV.global.SCENE_RAND_START)
 			this.landscape.pickRandomScene(false);
 		
 		this.initInteractions();
@@ -366,7 +365,7 @@ if(!CCV.app.Player){
 	proto._createTouch = function(touch){
 		return Object.assign(touch.data.getLocalPosition(CCV.player.application.stage), { id: touch.data.identifier });
 	};
-	
+	 
 	proto._swipeStart = function(swCtx, e){
 		if(swCtx.active)
 			return;
@@ -464,18 +463,18 @@ if(!CCV.app.Player){
 	};
 	proto.resizeInit = function(){
 		var maxAvailHeight = screen.height - CCV.global.FOOTER_HEIGHT -CCV.global.HEADER_HEIGHT;
-		if(CCV.global.SOURCE_ALLOW_LARGE && maxAvailHeight > .5 * (CCV.global.LANDSCAPE_HEIGHT + CCV.global.GROUND_HEIGHT)){
+		if(CCV.global.SYS_ALLOW_LARGE && maxAvailHeight > .5 * (CCV.global.SCENE_MAX_HEIGHT + CCV.global.SCENE_GROUND_HEIGHT)){
 			this.scaleFolder = 'x2';
-			this.scaleSourceCoef = 1;
+			this.scaleSourceCoef = 2;
 		}
 		else{
 			this.scaleFolder = 'x1';
-			this.scaleSourceCoef = .5;
+			this.scaleSourceCoef = 1;
 		}
-		CCV.global.LANDSCAPE_HEIGHT *= this.scaleSourceCoef;
+		CCV.global.SCENE_MAX_HEIGHT *= this.scaleSourceCoef;
 		this.landscapeHeight *= this.scaleSourceCoef;
 		this.groundHeight *= this.scaleSourceCoef;
-		this.options.mediaFolder += this.scaleFolder + '/';
+		this.mediaFolder = CCV.global.MEDIA_FOLDER + this.scaleFolder + '/';
 		KPF.utils.log('scale folder: ' + this.scaleFolder + ', scaleSourceCoef: ' + this.scaleSourceCoef.toFixed(1), 'Player.resizeInit');
 	};
 	proto.resize = function(){
@@ -663,6 +662,7 @@ if (!CCV.app.Landscape) {
 	proto.parse = function (data) {
 		var i,
 			ilen,
+			scene,
 			xCurrent,
 			yGround = CCV.player.landscapeHeight;
 		
@@ -672,10 +672,14 @@ if (!CCV.app.Landscape) {
 			this.audio = new CCV.app.AudioChannel(data.audio, null, true);
 		
 		this.scenes = [];
-		for (i = 0, ilen = (data.scenes ? data.scenes.length : 0); i < ilen; ++i)
-			this.scenes.push(new CCV.app.Scene(data.scenes[i]));
-		
-		
+		this.scenesIndexed = [];
+		for (i = 0, ilen = (data.scenes ? data.scenes.length : 0); i < ilen; ++i) {
+			scene = new CCV.app.Scene(data.scenes[i]);
+			if(scene.id != '_debug' || CCV.global.DEBUG_LANDSCAPE_GFX)
+				this.scenes.push(scene);
+			if(scene.indexable)
+				this.scenesIndexed.push(scene);
+		}
 		// ---   build view
 		
 		this.view = new PIXI.Container();
@@ -778,7 +782,7 @@ if (!CCV.app.Landscape) {
 		xTarget = this.xCenter - scene.view.x - scene.xCenter;
 		
 		if(doTransition){
-			TweenMax.to(this.scenesScroll, CCV.global.SLIDE_DURATION, {
+			TweenMax.to(this.scenesScroll, CCV.global.SCENE_SLIDE_DURATION, {
 				x: xTarget,
 				ease: Expo.easeInOut
 			});
@@ -847,7 +851,7 @@ if (!CCV.app.Scene) {
 	 */
 	CCV.app.Scene = function (data) {
 		this.id = data.id;
-		this.folder = CCV.player.options.mediaFolder + data.folder + '/';
+		this.folder = CCV.player.mediaFolder + this.id + '/';
 		this.indexable = data.indexable !== false;
 		
 		this.marginLeft = data.marginLeft * CCV.player.scaleSourceCoef;
@@ -1005,7 +1009,7 @@ if (!CCV.app.Scene) {
 		var volumeTarget, panTarget, status, self;
 		
 		self = this;
-		status = Math.abs(delta) <= CCV.global.ACTIVITY_RANGE;
+		status = Math.abs(delta) <= CCV.global.SCENE_ACTIVITY_RANGE;
 		
 		if(this.audio){
 			volumeTarget = status ? 1 : Math.max(0, 1 - 0.6 * Math.abs(delta));
@@ -1015,7 +1019,7 @@ if (!CCV.app.Scene) {
 					volume: 0
 				}
 			}
-			TweenMax.to(this.audio, CCV.global.SLIDE_DURATION, {
+			TweenMax.to(this.audio, CCV.global.SCENE_SLIDE_DURATION, {
 				volume: volumeTarget,
 				pan: panTarget,
 				delay: .3,
@@ -1438,7 +1442,7 @@ if (!CCV.app.Ground){
 	CCV.app.Ground = function (data) {
 		var mmSprite;
 		
-		this.file = CCV.player.options.mediaFolder + data.file;
+		this.file = CCV.player.mediaFolder + data.file;
 		
 		this.pos = new PIXI.Point(data.pos.x, data.pos.y);
 		this.pos.scale(CCV.player.scaleSourceCoef);
@@ -1612,18 +1616,16 @@ if(!CCV.app.AnimationsTicker){
 		// ---   handle delayed calls
 		this.scheduled = false;
 		this.deltaTime = Date.now() - this.time;
-		if (this.deltaTime < 1000 / CCV.global.FPS) {
+		if (this.deltaTime < 1000 / CCV.global.SYS_FPS) {
 			if(!this.scheduled) {
 				this.scheduled = true;
-				this.askRenderTimeoutId = setTimeout(this.askRenderCallback, 1000 / CCV.global.FPS - this.deltaTime);
+				this.askRenderTimeoutId = setTimeout(this.askRenderCallback, 1000 / CCV.global.SYS_FPS - this.deltaTime);
 			}
 			return;
 		}
 		this.time += this.deltaTime;
 		
-		if(!CCV.global.AUTO_RENDER){
-			//CCV.player.application.render();
-		}
+		CCV.player.application.render();
 		
 		for(var i = 0, ilen = this.animations.length, a, t, c; i < ilen; ++i){
 			a = this.animations[i];
@@ -1649,7 +1651,7 @@ if(!CCV.app.AudioChannel){
 	 * @constructor
 	 */
 	CCV.app.AudioChannel = function(data, scene, autoRender){
-		this.file = (scene ? scene.folder : CCV.player.options.mediaFolder) + data.file;
+		this.file = (scene ? scene.folder : CCV.player.mediaFolder) + data.file;
 		this.isLoop = data.isLoop !== false;
 		this.isStereo = data.isStereo !== false;
 		this.volumeCoef = KPF.utils.isan(data.volume) ? data.volume : 1;

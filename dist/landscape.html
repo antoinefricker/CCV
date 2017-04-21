@@ -43,6 +43,10 @@
 			<span class="label">source folder:</span>
 			<span id="sourceFolder">-</span>
 		</div>
+		<div>
+			<span class="label">scale:</span>
+			<span id="scale">-</span>
+		</div>
 	</div>
 	<div id="player-controls" class="debug-panel">
 		<span id="indexDebug"></span>
@@ -64,6 +68,7 @@
 	window.setInterval(function(){
 		$('#pixiFPS').html(PIXI.ticker.shared.FPS.toFixed(1));
 		$('#sourceFolder').html(app.scaleFolder);
+		$('#scale').html(app.scale);
 		$('#renderMode').html(app.getMode());
 	}, 1400);
 	

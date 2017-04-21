@@ -30,7 +30,7 @@
     "gulp-gzip": "latest",
     "gulp-htmlmin": "latest",
     "gulp-if": "^2.0.2",
-    "gulp-imagemin": "latest",
+    "gulp-imagemin": "^3.2.0",
     "gulp-inject-partials": "^1.0.2",
     "gulp-jshint": "latest",
     "gulp-json-to-sass": "latest",

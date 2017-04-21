@@ -1,5 +1,6 @@
 # personal modifications
 node_modules/
+src/ccv/
 
 
 # Windows image file caches

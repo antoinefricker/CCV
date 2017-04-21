@@ -11,6 +11,8 @@ const jsonminify = require('gulp-jsonminify');
 const sass = require('gulp-sass');
 const ts = require("gulp-typescript").createProject("tsconfig.json")
 const uglify = require('gulp-uglify');
+const imagemin = require('gulp-imagemin');
+const gutil = require('gulp-util');
 
 var settings = require('./gulpProjectSettings');
 
@@ -39,7 +41,6 @@ gulp.task('html_compile', function () {
 		.pipe(gulp.dest('dist/'))
 		.pipe(browserSync.stream());
 });
-
 
 // ------------------ SASS + CSS
 
@@ -94,4 +95,21 @@ gulp.task('typecript_compile', function(){
 		.pipe(ts(settings.options.tsProject))
 		.pipe(gulp.dest("dist/"))
 		.pipe(browserSync.stream());
+});
+
+
+
+// ------------------ CCV
+gulp.task('ccv_images', function(){
+	gutil.log('v1.1');
+	return gulp.src(["src/ccv/x1/**/*.png"])
+		.pipe(imagemin([
+			imagemin.optipng({
+				bitDepthReduction: true,
+				optimizationLevel: 5, // between 0 and 7
+				colorTypeReduction: true,
+				paletteReduction: true
+			})
+		]))
+		.pipe(gulp.dest('dist/ccv/x1/'));
 });
