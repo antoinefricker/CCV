@@ -1,25 +1,50 @@
 {
 	"landscape": {
+		"audio": {
+			"file": "audio/landscape.mp3",
+			"isStereo": false,
+			"volume": 1
+		},
 		"ground": {
 			"file": "ground.png",
 			"size": {
-				"x": 5760,
-				"y": 0
+				"x": 1440,
+				"y": 6
 			},
 			"pos": {
 				"x": 0,
-				"y": -20
+				"y": -5
 			}
 		},
 		"scenes": [
 			{
-				"id": "autrucheSingle",
-				"folder": "autruche",
+				"id": "_debug",
+				"indexable": true,
 				"marginLeft": 50,
-				"marginRight": 50,
+				"marginRight": 100,
 				"size": {
-					"x": 1667,
-					"y": 1242
+					"x": 300,
+					"y": 1900
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": -300
+					},
+					"outline": {
+						"file": "grid.png"
+					}
+				}
+			},
+			
+			{
+				"id": "voisins",
+				"indexable": true,
+				"marginLeft": 145,
+				"marginRight": 0,
+				"size": {
+					"x": 820,
+					"y": 604
 				},
 				"red": {
 					"pos": {
@@ -27,22 +52,1260 @@
 						"y": 0
 					},
 					"outline": {
-						"file": "autruche_contour.png"
+						"file": "contour.png"
 					},
 					"fill": {
-						"file": "autruche_motif.png"
+						"file": "motif.png"
 					}
 				},
 				"blue": {
-						"pos": {
-							"x": 0,
-							"y": 0
-						},
-						"file": "autruche_[NUM].png",
-						"seqNumLength": 5,
-						"seqStart": 8,
-						"seqEnd": 155
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/voisinsBleu_00010.png",
+					"file": "seq/voisinsBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 10,
+					"seqEnd": 193
+				}
+			},
+			{
+				"id": "chapeau",
+				"indexable": true,
+				"marginLeft": 180,
+				"marginRight": 0,
+				"size": {
+					"x": 968,
+					"y": 615
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
 					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/chapeau-bleu_00010.png",
+					"file": "seq/chapeau-bleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 10,
+					"seqEnd": 219
+				}
+			},
+			{
+				"id": "_fontain",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 442,
+					"y": 400
+				}
+			},
+			{
+				"id": "arbre-bascule",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 495,
+					"y": 614
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/arbre-basculeBleu_00010.png",
+					"file": "seq/arbre-basculeBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 10,
+					"seqEnd": 52
+				}
+			},
+			{
+				"id": "_indications1",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 345,
+					"y": 400
+				}
+			},
+			{
+				"id": "croco",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 829,
+					"y": 609
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/crocoBleu_00001.png",
+					"file": "seq/crocoBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 1,
+					"seqEnd": 222
+				}
+			},
+			{
+				"id": "_bush1",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 240,
+					"y": 400
+				}
+			},
+			{
+				"id": "apesanteur",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 654,
+					"y": 579
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/apesanteurBLeu_00008.png",
+					"file": "seq/apesanteurBLeu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 8,
+					"seqEnd": 259
+				}
+			},
+			{
+				"id": "_pylon",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 435,
+					"y": 400
+				}
+			},
+			{
+				"id": "fusee",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 804,
+					"y": 555
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/fuseeBleu_00008.png",
+					"file": "seq/fuseeBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 8,
+					"seqEnd": 236
+				}
+			},
+			{
+				"id": "arbre-oiseau-marche",
+				"indexable": true,
+				"marginLeft": 120,
+				"marginRight": 0,
+				"size": {
+					"x": 385,
+					"y": 595
+				},
+				"audio": {
+					"file": "xx.mp3",
+					"volume": 0.85
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/arbre-oiseau marche_00000.png",
+					"file": "seq/arbre-oiseau marche_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 0,
+					"seqEnd": 159
+				}
+			},
+			{
+				"id": "serre",
+				"indexable": true,
+				"marginLeft": 148,
+				"marginRight": 0,
+				"size": {
+					"x": 1233,
+					"y": 596
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/serreBleu_00019.png",
+					"file": "seq/serreBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 19,
+					"seqEnd": 341
+				}
+			},
+			{
+				"id": "_trafic-light",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 340,
+					"y": 400
+				}
+			},
+			{
+				"id": "voiture-pedale",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 370,
+					"y": 225
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/voiture-pedale001.png",
+					"file": "seq/voiture-pedale[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 3,
+					"seqStart": 1,
+					"seqEnd": 8
+				}
+			},
+			{
+				"id": "voiture-peintre",
+				"indexable": true,
+				"marginLeft": 175,
+				"marginRight": 0,
+				"size": {
+					"x": 740,
+					"y": 415
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/voiture-peintre000.png",
+					"file": "seq/voiture-peintre[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 3,
+					"seqStart": 0,
+					"seqEnd": 23
+				}
+			},
+			{
+				"id": "autruche",
+				"indexable": true,
+				"marginLeft": 202,
+				"marginRight": 0,
+				"size": {
+					"x": 833,
+					"y": 631
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/dessin-anim-autruche1#OK_00008.png",
+					"file": "seq/dessin-anim-autruche1#OK_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 8,
+					"seqEnd": 155
+				}
+			},
+			{
+				"id": "_bush2",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 177,
+					"y": 400
+				}
+			},
+			{
+				"id": "poste2",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 893,
+					"y": 579
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/posteBleu_00047.png",
+					"file": "seq/posteBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 47,
+					"seqEnd": 208
+				}
+			},
+			{
+				"id": "arbre-ascenseur",
+				"indexable": true,
+				"marginLeft": 82,
+				"marginRight": 0,
+				"size": {
+					"x": 470,
+					"y": 586
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/arbre-ascenseurBleu_00165.png",
+					"file": "seq/arbre-ascenseurBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 165,
+					"seqEnd": 308
+				}
+			},
+			{
+				"id": "_bus-stop",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 610,
+					"y": 400
+				}
+			},
+			{
+				"id": "voiture-bus",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 820,
+					"y": 340
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/voiture-bus000.png",
+					"file": "seq/voiture-bus[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 3,
+					"seqStart": 0,
+					"seqEnd": 39
+				}
+			},
+			{
+				"id": "_stop-sign",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 212,
+					"y": 400
+				}
+			},
+			{
+				"id": "parking1",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 1463,
+					"y": 529
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/parkingBleu_00015.png",
+					"file": "seq/parkingBleu[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 15,
+					"seqEnd": 173
+				}
+			},
+			{
+				"id": "parking2",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 1463,
+					"y": 529
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/parkingBleu_00198.png",
+					"file": "seq/parkingBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 198,
+					"seqEnd": 260
+				}
+			},
+			{
+				"id": "_mail-box",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 210,
+					"y": 400
+				}
+			},
+			{
+				"id": "cheminee",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 827,
+					"y": 621
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/chemineeBleu_00019.png",
+					"file": "seq/chemineeBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 19,
+					"seqEnd": 194
+				}
+			},
+			{
+				"id": "_street-lamp",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 245,
+					"y": 400
+				}
+			},
+			{
+				"id": "arbre-rotation",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 460,
+					"y": 600
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/arbre-rotation_00000.png",
+					"file": "seq/arbre-rotation_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 0,
+					"seqEnd": 104
+				}
+			},
+			{
+				"id": "escalier",
+				"indexable": true,
+				"marginLeft": 115,
+				"marginRight": 0,
+				"size": {
+					"x": 825,
+					"y": 587
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/maison-escalierBleu_00002.png",
+					"file": "seq/maison-escalierBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 2,
+					"seqEnd": 207
+				}
+			},
+			{
+				"id": "_bush3",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 228,
+					"y": 400
+				}
+			},
+			{
+				"id": "etages",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 655,
+					"y": 620
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/etages001.png",
+					"file": "seq/etages[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 3,
+					"seqStart": 1,
+					"seqEnd": 63
+				}
+			},
+			{
+				"id": "_bush4",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 223,
+					"y": 400
+				}
+			},
+			{
+				"id": "serpent",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 943,
+					"y": 535
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/serpentBleu_00000.png",
+					"file": "seq/serpentBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 0,
+					"seqEnd": 267
+				}
+			},
+			{
+				"id": "_maurice-column",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 210,
+					"y": 400
+				}
+			},
+			{
+				"id": "arbre-roller",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 475,
+					"y": 595
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/arbre-roller001.png",
+					"file": "seq/arbre-roller[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 3,
+					"seqStart": 1,
+					"seqEnd": 39
+				}
+			},
+			{
+				"id": "_indications2",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 350,
+					"y": 400
+				}
+			},
+			{
+				"id": "voiture-poule",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 855,
+					"y": 400
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/voiture-poule000.png",
+					"file": "seq/voiture-poule[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 3,
+					"seqStart": 0,
+					"seqEnd": 23
+				}
+			},
+			{
+				"id": "hotel",
+				"indexable": true,
+				"marginLeft": 213,
+				"marginRight": 0,
+				"size": {
+					"x": 1107,
+					"y": 582
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/hotelBleu_00023.png",
+					"file": "seq/hotelBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 23,
+					"seqEnd": 283
+				}
+			},
+			{
+				"id": "aspiro",
+				"indexable": true,
+				"marginLeft": 155,
+				"marginRight": 0,
+				"size": {
+					"x": 851,
+					"y": 554
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/aspirateurBleu_00015.png",
+					"file": "seq/aspirateurBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 15,
+					"seqEnd": 301
+				}
+			},
+			{
+				"id": "_cat",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 228,
+					"y": 400
+				}
+			},
+			{
+				"id": "coiffeurs",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 952,
+					"y": 586
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/coiffeurBleu_00005.png",
+					"file": "seq/coiffeurBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 5,
+					"seqEnd": 158
+				}
+			},
+			{
+				"id": "musee",
+				"indexable": true,
+				"marginLeft": 127,
+				"marginRight": 0,
+				"size": {
+					"x": 1375,
+					"y": 537
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/museeBleu_00003.png",
+					"file": "seq/museeBleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 3,
+					"seqEnd": 200
+				}
+			},
+			{
+				"id": "arbre-telescopique",
+				"indexable": true,
+				"marginLeft": 205,
+				"marginRight": 0,
+				"size": {
+					"x": 360,
+					"y": 600
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/003.png",
+					"file": "seq/[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 3,
+					"seqEnd": 67
+				}
+			},
+			{
+				"id": "arbre-oiseau-tete",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 350,
+					"y": 450
+				},
+				"red": {
+					"pos": {
+						"x": 88,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/arbre-oiseau-tete000.png",
+					"file": "seq/arbre-oiseau-tete[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 3,
+					"seqStart": 0,
+					"seqEnd": 16
+				}
+			},
+			{
+				"id": "tableaux",
+				"indexable": true,
+				"marginLeft": 170,
+				"marginRight": 0,
+				"size": {
+					"x": 840,
+					"y": 535
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/tableaux_bleu_00038.png",
+					"file": "seq/tableaux_bleu_[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 5,
+					"seqStart": 38,
+					"seqEnd": 261
+				}
+			},
+			{
+				"id": "arbre-traction",
+				"indexable": true,
+				"marginLeft": 90,
+				"marginRight": 0,
+				"size": {
+					"x": 500,
+					"y": 595
+				},
+				"red": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"pos": {
+						"x": 0,
+						"y": 0
+					},
+					"preview": "seq/arbre_traction4_FINAL001.png",
+					"file": "seq/arbre_traction4_FINAL[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 3,
+					"seqStart": 1,
+					"seqEnd": 14
+				}
 			}
 		]
 	}

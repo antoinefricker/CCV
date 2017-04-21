@@ -18,7 +18,7 @@ var settings = require('./gulpProjectSettings');
 
 gulp.task('start', function () {
 	browserSync.init(settings.options.browserSync);
-	 
+	
 	gulp.watch(['src/html/**/*.{htm,html}', 'src/html/*.{htm,html}'], ['html_compile']);
 	gulp.watch(['src/theme/sass/*.scss', 'src/theme/sass/**/*.scss'], ['css_compile']);
 	gulp.watch(['src/theme/plugins/**/*.css'], ['css_compile']);
@@ -102,7 +102,7 @@ gulp.task('typecript_compile', function(){
 // ------------------ CCV
 gulp.task('ccv_images', function(){
 	gutil.log('v1.1');
-	return gulp.src(["src/ccv/x1/**/*.png"])
+	return gulp.src("src/ccv/x1/_statics/**/*.png")
 		.pipe(imagemin([
 			imagemin.optipng({
 				bitDepthReduction: true,
@@ -111,5 +111,5 @@ gulp.task('ccv_images', function(){
 				paletteReduction: true
 			})
 		]))
-		.pipe(gulp.dest('dist/ccv/x1/'));
+		.pipe(gulp.dest('dist/ccv/x1/_statics/'));
 });
