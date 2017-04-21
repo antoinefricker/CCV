@@ -252,6 +252,8 @@ if(!CCV.app.Player){
 		this.scenesShowFillToggle(this.options.scenesShowFillStatus !== false);
 		this.windowFocus();
 		this.landscape.audio.play();
+		
+		$(this.target).trigger('ready', [this.landscape.scenes]);
 	};
 	
 	
@@ -450,6 +452,7 @@ if(!CCV.app.Player){
 		});
 		$(this.target).trigger('scenesShowFillChange', [this.scenesShowFillStatus]);
 	};
+	
 	
 	// --------------- WINDOW UTILITIES
 	

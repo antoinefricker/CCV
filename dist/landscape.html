@@ -48,7 +48,7 @@
 		</div>
 	</div>
 	<div id="player-controls" class="debug-panel">
-		<span id="indexDebug"></span>
+		<select id="indexDebug"></select>
 		<button id="magnifierDisplayToggler">-</button>
 		<button id="scenesShowFillToggler">-</button>
 		<button id="scrollToLeft">‹</button>
@@ -65,6 +65,19 @@
 		scenesShowFillStatus: true
 	});
 	
+	$(cnv).on('ready', function(e, scenes){
+		var options = '';
+		for(var i = 0, ilen = scenes.length; i < ilen; ++i){
+			options += '<option value="' + i + '">' + scenes[i].id + '</option>';
+		}
+		$('#indexDebug').html(options);
+	});
+	$('#indexDebug').on('change', function(){
+		app.landscape.setIndex($(this).val(), false);
+	});
+	$(cnv).on('sceneIndexChange', function(e, index, scene, scenesLen){
+		$('#indexDebug').val(index);
+	});
 	
 	window.setInterval(function(){
 		$('#pixiFPS').html(PIXI.ticker.shared.FPS.toFixed(1));
@@ -87,9 +100,7 @@
 		app.scenesShowFillToggle();
 	});
 	
-	$(cnv).on('sceneIndexChange', function(e, index, scene, scenesLen){
-		$('#indexDebug').html(index + '/' + scenesLen + ' - #' + scene.id);
-	});
+	
 	
 	
 	
