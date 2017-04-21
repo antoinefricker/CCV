@@ -851,7 +851,7 @@
 				"marginLeft": 50,
 				"marginRight": 0,
 				"size": {
-					"x": 1463,
+					"x": 1462,
 					"y": 529
 				},
 				"red": {
@@ -884,17 +884,19 @@
 			{
 				"id": "parking2",
 				"indexable": true,
+				"popUnder": true,
 				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
 					"x": 945,
 					"y": 529
 				},
+				"pos": {
+					"x": 0,
+					"y": 0
+				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
+					
 					"outline": {
 						"file": "contour.png"
 					},

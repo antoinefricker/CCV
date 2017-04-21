@@ -1276,10 +1276,12 @@ if (!CCV.app.LayerSequence) {
 		this.animation.gotoAndStop(1);
 		this.view.addChild(this.animation);
 		
+		/*
 		this.border = new PIXI.Graphics();
 		this.border.lineStyle(4, 0xffffff, 1);
 		this.border.drawRect(this.pos.x, this.pos.y, this.scene.size.x - this.pos.x, this.scene.size.y - this.pos.y)
 		this.view.addChild(this.border);
+		*/
 		
 		//console.log('create animation at: ' + this.scene.id + '\n' + this.info(0));
 	};
