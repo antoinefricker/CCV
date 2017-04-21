@@ -1,4 +1,5 @@
 {
+{
 	"id": "voiture-tapis-roulant",
 	"indexable": true,
 	"marginLeft": 0,
@@ -38,3 +39,24 @@
 		"seqEnd": 7
 	}
 },
+
+	{
+		"id": "_trafic-light",
+		"indexable": false,
+		"marginLeft": 0,
+		"marginRight": 0,
+		"size": {
+			"x": 340,
+			"y": 400
+		}
+	},
+	{
+      "id": "_mail-box",
+      "indexable": false,
+      "marginLeft": 0,
+      "marginRight": 0,
+      "size": {
+         "x": 210,
+         "y": 400
+      }
+   }

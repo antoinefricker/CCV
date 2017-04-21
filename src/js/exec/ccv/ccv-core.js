@@ -54,20 +54,22 @@ if (!CCV.global){
 		HEADER_HEIGHT: 0,
 		FOOTER_HEIGHT: 0,
 		
-		SYS_FORCE_CANVAS: true,
+		SYS_FORCE_CANVAS: false,
 		SYS_USE_SHARED_TICKER: true,
 		SYS_FPS: 8,
 		SYS_ALLOW_LARGE: false,
 		
-		DEBUG_LANDSCAPE_GFX: true,
-		DEBUG_SCENE_GFX: true,
+		DEBUG_LANDSCAPE_GFX: false,
+		DEBUG_SCENE_GFX: false,
 		DEBUG_SCENE_MARGINS: false,
 		DEBUG_PERFORMANCE: true,
 		DEBUG_SWIPE: true,
 		
-		GLOBAL_VOLUME: 0.0,
+		AUDIO_FOLDER: 'ccv/audio/',
+		AUDIO_GLOBAL_VOLUME: 0.0,
 		
-		SCENE_RAND_START: false,
+		SCENE_START_INDEX: 40,
+		SCENE_START_RAND: true,
 		SCENE_ACTIVATION_DELAY: 2000,
 		SCENE_DEACTIVATION_DELAY: 1400,
 		SCENE_REPLAY_DELAY: 4000,
@@ -75,6 +77,7 @@ if (!CCV.global){
 		SCENE_MAX_HEIGHT: 668,
 		SCENE_GROUND_HEIGHT: 100,
 		SCENE_ACTIVITY_RANGE: 1,
+		SCENE_ITEM_BEFORE: 8,
 		
 		MEDIA_FOLDER: 'ccv/',
 		
@@ -240,7 +243,7 @@ if(!CCV.app.Player){
 		
 		this.resize();
 		
-		if(CCV.global.SCENE_RAND_START)
+		if(CCV.global.SCENE_START_RAND)
 			this.landscape.pickRandomScene(false);
 		
 		this.initInteractions();
@@ -554,7 +557,7 @@ if (!CCV.app.Landscape) {
 		 * @var {number}
 		 * @private
 		 */
-		this.index = 0;
+		this.index = CCV.global.SCENE_START_INDEX;
 		/**
 		 * @var {PIXI.Point}
 		 * @private
@@ -663,6 +666,7 @@ if (!CCV.app.Landscape) {
 		var i,
 			ilen,
 			scene,
+			formerScene,
 			xCurrent,
 			yGround = CCV.player.landscapeHeight;
 		
@@ -697,7 +701,10 @@ if (!CCV.app.Landscape) {
 			scene = this.scenes[i];
 			scene.view.y = yGround - scene.size.y;
 			this.scenesScroll.addChild(scene.view);
+			if(scene.popUnder && formerScene)
+				this.scenesScroll.swapChildren(scene.view, formerScene.view);
 			xCurrent += scene.marginLeft + scene.marginRight + scene.size.x;
+			formerScene = scene;
 		}
 		
 		// ground
@@ -795,7 +802,7 @@ if (!CCV.app.Landscape) {
 	};
 	/** @private */
 	proto._reArrangeScenesFrom = function(index){
-		var i, ilen, scene, xPos, clampedIndex, itemsBefore = 3;
+		var i, ilen, scene, xPos, clampedIndex, itemsBefore = CCV.global.SCENE_ITEM_BEFORE;
 		
 		//console.log('_reArrangeScenesFrom: ' + index + ', #' + this.scenes[index].id);
 		
@@ -851,8 +858,15 @@ if (!CCV.app.Scene) {
 	 */
 	CCV.app.Scene = function (data) {
 		this.id = data.id;
-		this.folder = CCV.player.mediaFolder + this.id + '/';
+		this.folder = CCV.player.mediaFolder;
+		if(this.id.indexOf('_') != 0)
+			this.folder += this.id + '/';
+		this.popUnder = data.popUnder === true;
 		this.indexable = data.indexable !== false;
+		
+		this.pos = new PIXI.Point();
+		if(data.pos)
+			this.pos.copy(data.pos);
 		
 		this.marginLeft = data.marginLeft * CCV.player.scaleSourceCoef;
 		this.marginRight = data.marginRight * CCV.player.scaleSourceCoef;
@@ -948,13 +962,16 @@ if (!CCV.app.Scene) {
 		
 		// ---   elements views
 		if(this.blue && this.blue.view){
+			this.blue.view.position.copy(this.pos);
 			this.view.addChild(this.blue.view);
 		}
 		if(this.redFill && this.redFill.view){
+			this.redFill.view.position.copy(this.pos);
 			this.redFill.view.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 			this.view.addChild(this.redFill.view);
 		}
 		if(this.redOutline && this.redOutline.view){
+			this.redOutline.view.position.copy(this.pos);
 			this.redOutline.view.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 			this.view.addChild(this.redOutline.view);
 		}
@@ -963,6 +980,7 @@ if (!CCV.app.Scene) {
 		if (CCV.global.DEBUG_SCENE_GFX) {
 			
 			debug = new PIXI.Container();
+			debug.position.copy(this.pos);
 			
 			gfx = new PIXI.Graphics();
 			gfx.lineStyle(2, 0xff0000, 1);
@@ -1651,7 +1669,7 @@ if(!CCV.app.AudioChannel){
 	 * @constructor
 	 */
 	CCV.app.AudioChannel = function(data, scene, autoRender){
-		this.file = (scene ? scene.folder : CCV.player.mediaFolder) + data.file;
+		this.file = CCV.global.AUDIO_FOLDER + data.file;
 		this.isLoop = data.isLoop !== false;
 		this.isStereo = data.isStereo !== false;
 		this.volumeCoef = KPF.utils.isan(data.volume) ? data.volume : 1;
@@ -1707,7 +1725,7 @@ if(!CCV.app.AudioChannel){
 	proto.render = function(){
 		if(!this.soundId)
 			return;
-		this.sound.volume(CCV.global.GLOBAL_VOLUME * this.volumeCoef * this._volume, this.soundId);
+		this.sound.volume(CCV.global.AUDIO_GLOBAL_VOLUME * this.volumeCoef * this._volume, this.soundId);
 		this.sound.stereo(this._pan, this.soundId);
 	};
 	

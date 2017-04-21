@@ -1,12 +1,12 @@
 {
 	"landscape": {
 		"audio": {
-			"file": "audio/landscape.mp3",
+			"file": "landscape.mp3",
 			"isStereo": false,
 			"volume": 1
 		},
 		"ground": {
-			"file": "ground.png",
+			"file": "_statics/ground.png",
 			"size": {
 				"x": 1440,
 				"y": 6
@@ -32,7 +32,7 @@
 						"y": -300
 					},
 					"outline": {
-						"file": "grid.png"
+						"file": "_statics/grid.png"
 					}
 				}
 			},
@@ -110,19 +110,54 @@
 				}
 			},
 			{
-				"id": "_fontain",
+				"id": "_fontain: 425x366",
 				"indexable": false,
 				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
-					"x": 442,
-					"y": 400
+					"x": 425,
+					"y": 366
+				},
+				"red": {
+					"outline":
+						{
+							"preview": "_statics/fontaine01.png",
+							"file": "_statics/fontaine[NUM].png",
+							"seqLoop": true,
+							"seqStartDelay": -1,
+							"seqRepeatDelay": -1,
+							"seqNumLength": 2,
+							"seqStart": 1,
+							"seqEnd": 3
+						}
+					
+				}
+			},
+			{
+				"id": "_cloud 237x98",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 0,
+					"y": 98
+				},
+				"pos": {
+					"x": -237,
+					"y": -500
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/2-nuage1.png"
+					}
+					
 				}
 			},
 			{
 				"id": "arbre-bascule",
 				"indexable": true,
-				"marginLeft": 0,
+				"marginLeft": 40,
 				"marginRight": 0,
 				"size": {
 					"x": 495,
@@ -156,19 +191,52 @@
 				}
 			},
 			{
-				"id": "_indications1",
+				"id": "_dog: 186x102",
 				"indexable": false,
 				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
-					"x": 345,
-					"y": 400
+					"x": 0,
+					"y": 102
+				},
+				"pos": {
+					"x": -219,
+					"y": 0
+				},
+				"red": {
+					"outline":
+					{
+						"preview": "_statics/chien01.png",
+						"file": "_statics/chien[NUM].png",
+						"seqLoop": true,
+						"seqStartDelay": -1,
+						"seqRepeatDelay": -1,
+						"seqNumLength": 2,
+						"seqStart": 1,
+						"seqEnd": 52
+					}
+					
+				}
+			},
+			{
+				"id": "_indications1: 217x368",
+				"indexable": false,
+				"marginLeft": 70,
+				"marginRight": 0,
+				"size": {
+					"x": 217,
+					"y": 367
+				},
+				"red": {
+					"outline": {
+						"file": "_statics/4-pancartedirection-1.png"
+					}
 				}
 			},
 			{
 				"id": "croco",
 				"indexable": true,
-				"marginLeft": 0,
+				"marginLeft": 54,
 				"marginRight": 0,
 				"size": {
 					"x": 829,
@@ -202,13 +270,18 @@
 				}
 			},
 			{
-				"id": "_bush1",
+				"id": "_bush1: 126x219",
 				"indexable": false,
-				"marginLeft": 0,
-				"marginRight": 0,
+				"marginLeft": 70,
+				"marginRight": 64,
 				"size": {
-					"x": 240,
-					"y": 400
+					"x": 126,
+					"y": 219
+				},
+				"red": {
+					"outline": {
+						"file": "_statics/5-buisson1.png"
+					}
 				}
 			},
 			{
@@ -221,10 +294,6 @@
 					"y": 579
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -248,17 +317,27 @@
 				}
 			},
 			{
-				"id": "_pylon",
+				"id": "_pylon1: 261x324",
 				"indexable": false,
 				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
-					"x": 435,
-					"y": 400
+					"x": 261,
+					"y": 324
+				},
+				"pos": {
+					"x": -26,
+					"y": 0
+				},
+				"red": {
+					"outline": {
+						"file": "_statics/6-poteauelec1.png"
+					}
 				}
 			},
 			{
 				"id": "fusee",
+				"popUnder": true,
 				"indexable": true,
 				"marginLeft": 0,
 				"marginRight": 0,
@@ -266,11 +345,11 @@
 					"x": 804,
 					"y": 555
 				},
+				"pos": {
+					"x": -44,
+					"y": 0
+				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -302,10 +381,6 @@
 					"x": 385,
 					"y": 595
 				},
-				"audio": {
-					"file": "xx.mp3",
-					"volume": 0.85
-				},
 				"red": {
 					"pos": {
 						"x": 0,
@@ -334,9 +409,36 @@
 				}
 			},
 			{
+				"id": "_trash: 98x140",
+				"indexable": false,
+				"marginLeft": 8,
+				"marginRight": 0,
+				"size": {
+					"x": 98,
+					"y": 140
+				},
+				"pos": {
+					"x": 0,
+					"y": 0
+				},
+				"red": {
+					"outline":
+					{
+						"preview": "_statics/poubelle29.png",
+						"file": "_statics/poubelle[NUM].png",
+						"seqLoop": true,
+						"seqStartDelay": -1,
+						"seqRepeatDelay": -1,
+						"seqNumLength": 2,
+						"seqStart": 29,						"seqEnd": 46
+					}
+					
+				}
+			},
+			{
 				"id": "serre",
 				"indexable": true,
-				"marginLeft": 148,
+				"marginLeft": 50,
 				"marginRight": 0,
 				"size": {
 					"x": 1233,
@@ -370,29 +472,32 @@
 				}
 			},
 			{
-				"id": "_trafic-light",
+				"id": "_double-pole 173x126",
 				"indexable": false,
-				"marginLeft": 0,
+				"marginLeft": 68,
 				"marginRight": 0,
 				"size": {
-					"x": 340,
-					"y": 400
+					"x": 173,
+					"y": 126
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/8-bite1.png"
+					}
+					
 				}
 			},
 			{
 				"id": "voiture-pedale",
 				"indexable": true,
-				"marginLeft": 0,
+				"marginLeft": 80,
 				"marginRight": 0,
 				"size": {
 					"x": 370,
 					"y": 225
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -401,10 +506,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/voiture-pedale001.png",
 					"file": "seq/voiture-pedale[NUM].png",
 					"seqLoop": true,
@@ -416,9 +517,25 @@
 				}
 			},
 			{
+				"id": "_road-sign1: 86x271",
+				"indexable": false,
+				"marginLeft": 37,
+				"marginRight": 0,
+				"size": {
+					"x": 86,
+					"y": 271
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/9panneausignalisation1.png"
+					}
+				}
+			},
+			{
 				"id": "voiture-peintre",
 				"indexable": true,
-				"marginLeft": 175,
+				"marginLeft": 46,
 				"marginRight": 0,
 				"size": {
 					"x": 740,
@@ -452,9 +569,29 @@
 				}
 			},
 			{
+				"id": "_traffic-light 86x271",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 206,
+					"y": 406
+				},
+				"pos": {
+					"x": -20,
+					"y": 0
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/10feusignalisation.png"
+					}
+				}
+			},
+			{
 				"id": "autruche",
 				"indexable": true,
-				"marginLeft": 202,
+				"marginLeft": 40,
 				"marginRight": 0,
 				"size": {
 					"x": 833,
@@ -477,8 +614,8 @@
 						"x": 0,
 						"y": 0
 					},
-					"preview": "seq/dessin-anim-autruche1#OK_00008.png",
-					"file": "seq/dessin-anim-autruche1#OK_[NUM].png",
+					"preview": "seq/dessin-anim-autruche1_00008.png",
+					"file": "seq/dessin-anim-autruche1_[NUM].png",
 					"seqLoop": true,
 					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
@@ -488,29 +625,31 @@
 				}
 			},
 			{
-				"id": "_bush2",
+				"id": "_bush2: 130x168",
 				"indexable": false,
-				"marginLeft": 0,
+				"marginLeft": 17,
 				"marginRight": 0,
 				"size": {
-					"x": 177,
-					"y": 400
+					"x": 130,
+					"y": 168
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/11buisson.png"
+					}
 				}
 			},
 			{
 				"id": "poste2",
 				"indexable": true,
-				"marginLeft": 0,
+				"marginLeft": 24,
 				"marginRight": 0,
 				"size": {
 					"x": 893,
 					"y": 579
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -519,10 +658,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/posteBleu_00047.png",
 					"file": "seq/posteBleu_[NUM].png",
 					"seqLoop": true,
@@ -534,19 +669,72 @@
 				}
 			},
 			{
+				"id": "_chimney: 110x90",
+				"indexable": false,
+				"popUnder": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 0,
+					"y": 90
+				},
+				"pos": {
+					"x": -250,
+					"y": -579
+				},
+				"red": {
+					"outline":
+					{
+						"preview": "_statics/fumee_00.png",
+						"file": "_statics/fumee_[NUM].png",
+						"seqLoop": true,
+						"seqStartDelay": -1,
+						"seqRepeatDelay": -1,
+						"seqNumLength": 2,
+						"seqStart": 0,
+						"seqEnd": 15
+					}
+					
+				}
+			},
+			{
+				"id": "_billboard: 170x300",
+				"indexable": false,
+				"marginLeft": 35,
+				"marginRight": 0,
+				"size": {
+					"x": 170,
+					"y": 300
+				},
+				"red": {
+					"outline":
+					{
+						"preview": "_statics/affiches00.png",
+						"file": "_statics/affiches[NUM].png",
+						"seqLoop": true,
+						"seqStartDelay": -1,
+						"seqRepeatDelay": -1,
+						"seqNumLength": 2,
+						"seqStart": 0,
+						"seqEnd": 95
+					}
+				}
+			},
+			{
 				"id": "arbre-ascenseur",
 				"indexable": true,
+				"popUnder": true,
 				"marginLeft": 82,
 				"marginRight": 0,
 				"size": {
 					"x": 470,
 					"y": 586
 				},
+				"pos": {
+					"x": -180,
+					"y": 0
+				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -555,10 +743,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/arbre-ascenseurBleu_00165.png",
 					"file": "seq/arbre-ascenseurBleu_[NUM].png",
 					"seqLoop": true,
@@ -570,13 +754,43 @@
 				}
 			},
 			{
-				"id": "_bus-stop",
+				"id": "_bus-stop: 417x322",
 				"indexable": false,
 				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
-					"x": 610,
-					"y": 400
+					"x": 417,
+					"y": 322
+				},
+				"pos": {
+					"x": -90,
+					"y": 0
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/15-abris-bus.png"
+					}
+				}
+			},
+			{
+				"id": "_cloud 237x98",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 0,
+					"y": 98
+				},
+				"pos": {
+					"x": -516,
+					"y": -470
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/2-nuage1.png"
+					}
 				}
 			},
 			{
@@ -616,19 +830,25 @@
 				}
 			},
 			{
-				"id": "_stop-sign",
+				"id": "_stop-sign: 75x259",
 				"indexable": false,
-				"marginLeft": 0,
+				"marginLeft": 93,
 				"marginRight": 0,
 				"size": {
-					"x": 212,
-					"y": 400
+					"x": 75,
+					"y": 259
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/16panneau-signalisation2.png"
+					}
 				}
 			},
 			{
 				"id": "parking1",
 				"indexable": true,
-				"marginLeft": 0,
+				"marginLeft": 50,
 				"marginRight": 0,
 				"size": {
 					"x": 1463,
@@ -667,7 +887,7 @@
 				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
-					"x": 1463,
+					"x": 945,
 					"y": 529
 				},
 				"red": {
@@ -698,13 +918,52 @@
 				}
 			},
 			{
-				"id": "_mail-box",
+				"id": "_pylon2: 237x340",
 				"indexable": false,
 				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
-					"x": 210,
-					"y": 400
+					"x": 218,
+					"y": 340
+				},
+				"pos": {
+					"x": -18,
+					"y": 0
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/17-poteau-electrique1.png"
+					}
+				}
+			},
+			{
+				"id": "_bird-cable: 425x366",
+				"indexable": false,
+				"popUnder": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 0,
+					"y": 110
+				},
+				"pos": {
+					"x": -238,
+					"y": -262
+				},
+				"red": {
+					"outline":
+					{
+						"preview": "_statics/oiseau-fil00.png",
+						"file": "_statics/oiseau-fil[NUM].png",
+						"seqLoop": true,
+						"seqStartDelay": -1,
+						"seqRepeatDelay": -1,
+						"seqNumLength": 2,
+						"seqStart": 0,
+						"seqEnd": 61
+					}
+					
 				}
 			},
 			{
@@ -717,10 +976,6 @@
 					"y": 621
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -729,10 +984,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/chemineeBleu_00019.png",
 					"file": "seq/chemineeBleu_[NUM].png",
 					"seqLoop": true,
@@ -744,19 +995,25 @@
 				}
 			},
 			{
-				"id": "_street-lamp",
+				"id": "_street-lamp1: 130x345",
 				"indexable": false,
-				"marginLeft": 0,
+				"marginLeft": 75,
 				"marginRight": 0,
 				"size": {
-					"x": 245,
-					"y": 400
+					"x": 130,
+					"y": 345
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/18-lampadaire1.png"
+					}
 				}
 			},
 			{
 				"id": "arbre-rotation",
 				"indexable": true,
-				"marginLeft": 0,
+				"marginLeft": 56,
 				"marginRight": 0,
 				"size": {
 					"x": 460,
@@ -826,19 +1083,29 @@
 				}
 			},
 			{
-				"id": "_bush3",
+				"id": "_bush3: 171x111",
 				"indexable": false,
-				"marginLeft": 0,
+				"marginLeft": 32,
 				"marginRight": 0,
 				"size": {
-					"x": 228,
-					"y": 400
+					"x": 171,
+					"y": 111
+				},
+				"pos": {
+					"x": 0,
+					"y": 0
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/19-buisson3.png"
+					}
 				}
 			},
 			{
 				"id": "etages",
 				"indexable": true,
-				"marginLeft": 0,
+				"marginLeft": 32,
 				"marginRight": 0,
 				"size": {
 					"x": 655,
@@ -872,13 +1139,23 @@
 				}
 			},
 			{
-				"id": "_bush4",
+				"id": "_wall: 238x242",
 				"indexable": false,
 				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
-					"x": 223,
-					"y": 400
+					"x": 238,
+					"y": 242
+				},
+				"pos": {
+					"x": -10,
+					"y": 0
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/20-mur.png"
+					}
 				}
 			},
 			{
@@ -918,13 +1195,35 @@
 				}
 			},
 			{
-				"id": "_maurice-column",
+				"id": "_morris-column: 187x457",
 				"indexable": false,
-				"marginLeft": 0,
+				"marginLeft": 45,
 				"marginRight": 0,
 				"size": {
-					"x": 210,
-					"y": 400
+					"x": 187,
+					"y": 457
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/21-colonne-morris.png"
+					}
+				}
+			},
+			{
+				"id": "_pole1: 24x126",
+				"indexable": false,
+				"marginLeft": 55,
+				"marginRight": 0,
+				"size": {
+					"x": 24,
+					"y": 126
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/22-bite2.png"
+					}
 				}
 			},
 			{
@@ -964,13 +1263,19 @@
 				}
 			},
 			{
-				"id": "_indications2",
+				"id": "_indications2: 270x452",
 				"indexable": false,
-				"marginLeft": 0,
+				"marginLeft": 92,
 				"marginRight": 0,
 				"size": {
-					"x": 350,
-					"y": 400
+					"x": 270,
+					"y": 452
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/23-bite-panneau.png"
+					}
 				}
 			},
 			{
@@ -983,10 +1288,6 @@
 					"y": 400
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -995,10 +1296,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/voiture-poule000.png",
 					"file": "seq/voiture-poule[NUM].png",
 					"seqLoop": true,
@@ -1010,9 +1307,25 @@
 				}
 			},
 			{
+				"id": "_road-sign2: 87x277",
+				"indexable": false,
+				"marginLeft": 92,
+				"marginRight": 0,
+				"size": {
+					"x": 87,
+					"y": 277
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/24-panneau-signalisation3.png"
+					}
+				}
+			},
+			{
 				"id": "hotel",
 				"indexable": true,
-				"marginLeft": 213,
+				"marginLeft": 16,
 				"marginRight": 0,
 				"size": {
 					"x": 1107,
@@ -1046,19 +1359,35 @@
 				}
 			},
 			{
+				"id": "_bush4: 212x131",
+				"indexable": false,
+				"marginLeft": 32,
+				"marginRight": 0,
+				"size": {
+					"x": 174,
+					"y": 131
+				},
+				"pos": {
+					"x": -98,
+					"y": 0
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/25-buisson4.png"
+					}
+				}
+			},
+			{
 				"id": "aspiro",
 				"indexable": true,
-				"marginLeft": 155,
+				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
 					"x": 851,
 					"y": 554
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -1067,10 +1396,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/aspirateurBleu_00015.png",
 					"file": "seq/aspirateurBleu_[NUM].png",
 					"seqLoop": true,
@@ -1082,29 +1407,43 @@
 				}
 			},
 			{
-				"id": "_cat",
+				"id": "_cat: 196x130",
 				"indexable": false,
-				"marginLeft": 0,
+				"marginLeft": 23,
 				"marginRight": 0,
 				"size": {
-					"x": 228,
-					"y": 400
+					"x": 196,
+					"y": 130
+				},
+				"pos": {
+					"x": 0,
+					"y": 0
+				},
+				"red": {
+					"outline":
+					{
+						"preview": "_statics/chat01.png",
+						"file": "_statics/chat[NUM].png",
+						"seqLoop": true,
+						"seqStartDelay": -1,
+						"seqRepeatDelay": -1,
+						"seqNumLength": 2,
+						"seqStart": 1,
+						"seqEnd": 8
+					}
+					
 				}
 			},
 			{
 				"id": "coiffeurs",
 				"indexable": true,
-				"marginLeft": 0,
+				"marginLeft": 20,
 				"marginRight": 0,
 				"size": {
 					"x": 952,
 					"y": 586
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -1113,10 +1452,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/coiffeurBleu_00005.png",
 					"file": "seq/coiffeurBleu_[NUM].png",
 					"seqLoop": true,
@@ -1128,19 +1463,30 @@
 				}
 			},
 			{
+				"id": "_trash2: 98x109",
+				"indexable": false,
+				"marginLeft": 15,
+				"marginRight": 0,
+				"size": {
+					"x": 98,
+					"y": 109
+				},
+				"red": {
+					"outline": {
+						"file": "_statics/27-poubelle2.png"
+					}
+				}
+			},
+			{
 				"id": "musee",
 				"indexable": true,
-				"marginLeft": 127,
+				"marginLeft": 10,
 				"marginRight": 0,
 				"size": {
 					"x": 1375,
 					"y": 537
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -1149,10 +1495,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/museeBleu_00003.png",
 					"file": "seq/museeBleu_[NUM].png",
 					"seqLoop": true,
@@ -1164,9 +1506,24 @@
 				}
 			},
 			{
+				"id": "_street-lamp2: 130x343",
+				"indexable": false,
+				"marginLeft": 5,
+				"marginRight": 0,
+				"size": {
+					"x": 130,
+					"y": 343
+				},
+				"red": {
+					"outline": {
+						"file": "_statics/28-lampadaire2.png"
+					}
+				}
+			},
+			{
 				"id": "arbre-telescopique",
 				"indexable": true,
-				"marginLeft": 205,
+				"marginLeft": 64,
 				"marginRight": 0,
 				"size": {
 					"x": 360,
@@ -1194,14 +1551,34 @@
 					"seqLoop": true,
 					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
-					"seqNumLength": 5,
+					"seqNumLength": 3, 
 					"seqStart": 3,
 					"seqEnd": 67
 				}
 			},
 			{
+				"id": "_bench: 527x117",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 130,
+					"y": 117
+				},
+				"pos": {
+					"x": -350,
+					"y": 0
+				},
+				"red": {
+					"outline": {
+						"file": "_statics/29-herbe-banc.png"
+					}
+				}
+			},
+			{
 				"id": "arbre-oiseau-tete",
 				"indexable": true,
+				"popUnder": true,
 				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
@@ -1209,10 +1586,6 @@
 					"y": 450
 				},
 				"red": {
-					"pos": {
-						"x": 88,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -1236,19 +1609,34 @@
 				}
 			},
 			{
+				"id": "_stone: 203x71",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 180,
+					"y": 71
+				},
+				"pos": {
+					"x": -102,
+					"y": 1
+				},
+				"red": {
+					"outline": {
+						"file": "_statics/31-pierre-herbe.png"
+					}
+				}
+			},
+			{
 				"id": "tableaux",
 				"indexable": true,
-				"marginLeft": 170,
+				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
 					"x": 840,
 					"y": 535
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -1257,10 +1645,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/tableaux_bleu_00038.png",
 					"file": "seq/tableaux_bleu_[NUM].png",
 					"seqLoop": true,
@@ -1272,19 +1656,62 @@
 				}
 			},
 			{
+				"id": "_flag: 111x110",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 0,
+					"y": 110
+				},
+				"pos": {
+					"x": -67,
+					"y": -529
+				},
+				"red": {
+					"outline":
+					{
+						"preview": "_statics/drapeau01.png",
+						"file": "_statics/drapeau[NUM].png",
+						"seqLoop": true,
+						"seqStartDelay": -1,
+						"seqRepeatDelay": -1,
+						"seqNumLength": 2,
+						"seqStart": 1,
+						"seqEnd": 8
+					}
+				}
+			},
+			{
+				"id": "_bush5: 171x111",
+				"indexable": false,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 171,
+					"y": 111
+				},
+				"red": {
+					"outline": {
+						"file": "_statics/33-buisson5.png"
+					}
+				}
+			},
+			{
 				"id": "arbre-traction",
 				"indexable": true,
+				"popUnder": true,
 				"marginLeft": 90,
 				"marginRight": 0,
 				"size": {
 					"x": 500,
 					"y": 595
 				},
+				"pos": {
+					"x": -120,
+					"y": 0
+				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -1293,10 +1720,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/arbre_traction4_FINAL001.png",
 					"file": "seq/arbre_traction4_FINAL[NUM].png",
 					"seqLoop": true,
@@ -1305,6 +1728,49 @@
 					"seqNumLength": 3,
 					"seqStart": 1,
 					"seqEnd": 14
+				}
+			},
+			{
+				"id": "voiture-tapis-roulant",
+				"indexable": true,
+				"marginLeft": 0,
+				"marginRight": 0,
+				"size": {
+					"x": 710,
+					"y": 390
+				},
+				"red": {
+					"outline": {
+						"file": "contour.png"
+					},
+					"fill": {
+						"file": "motif.png"
+					}
+				},
+				"blue": {
+					"preview": "seq/voiture-tapisroulant000.png",
+					"file": "seq/voiture-tapisroulant[NUM].png",
+					"seqLoop": true,
+					"seqStartDelay": -1,
+					"seqRepeatDelay": -1,
+					"seqNumLength": 3,
+					"seqStart": 0,
+					"seqEnd": 7
+				}
+			},
+			{
+				"id": "_road-sign4: 77x260",
+				"indexable": false,
+				"marginLeft": 62,
+				"marginRight": 46,
+				"size": {
+					"x": 77,
+					"y": 260
+				},
+				"red": {
+					"outline": {
+						"file": "_statics/34-panneau-signalisation.png"
+					}
 				}
 			}
 		]
