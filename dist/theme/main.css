@@ -56,6 +56,16 @@ a {
     src: url('fonts/Avenir-Heavy?#iefix') format('embedded-opentype'), url('fonts/Avenir-Heavy.woff') format('woff'), url('fonts/Avenir-Heavy.ttf') format('truetype'), url('fonts/Avenir-Heavy.svg#linecons') format('svg');
 }
 
+body,
+p,
+td,
+input,
+textarea,
+select,
+button {
+	font-family: 'campton-semibold';
+}
+
 h1 {
 	font-family: 'avenir-heavy';
 }
