@@ -1261,7 +1261,7 @@
 					"seqRepeatDelay": -1,
 					"seqNumLength": 3,
 					"seqStart": 1,
-					"seqEnd": 39
+					"seqEnd": 37
 				}
 			},
 			{
@@ -1357,7 +1357,7 @@
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 23,
-					"seqEnd": 283
+					"seqEnd": 277
 				}
 			},
 			{
@@ -1555,7 +1555,7 @@
 					"seqRepeatDelay": -1,
 					"seqNumLength": 3,
 					"seqStart": 3,
-					"seqEnd": 67
+					"seqEnd": 77
 				}
 			},
 			{

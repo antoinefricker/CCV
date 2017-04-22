@@ -243,7 +243,6 @@ proto.toString = function(){
 	return '[PIXI.Point] x: ' + this.x.toFixed(1) + ', y: ' + this.y.toFixed(1);
 };
 
-
 if (!CCV)
 	CCV = {};
 
