@@ -19,7 +19,7 @@
 		"scenes": [
 			{
 				"id": "_debug",
-				"indexable": true,
+				"indexable": false,
 				"marginLeft": 50,
 				"marginRight": 100,
 				"size": {
@@ -41,7 +41,7 @@
 				"id": "voisins",
 				"indexable": true,
 				"marginLeft": 145,
-				"marginRight": 0,
+				"marginRight": 100,
 				"size": {
 					"x": 820,
 					"y": 604
@@ -213,7 +213,7 @@
 						"seqRepeatDelay": -1,
 						"seqNumLength": 2,
 						"seqStart": 1,
-						"seqEnd": 52
+						"seqEnd": 50
 					}
 					
 				}

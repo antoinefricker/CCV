@@ -413,24 +413,38 @@ button.action-button div.version-fr {
 	font-weight: normal;
 	position: absolute;
 	z-index: 1000;
-	top: 10px;
-	padding: 10px;
+	bottom: 10px;
+	padding: 5px;
 	color: white;
-	background: rgba(0, 0, 0, .65);
+	background: rgba(0, 0, 0, .55);
 }
 
-#player-console span,
-#player-console button,
-#player-controls span,
-#player-controls button {
+#player-console .block ~ .block,
+#player-controls .block ~ .block {
+	margin-top: 6px;
+	text-align: right;
+}
+
+#player-console span.info,
+#player-controls span.info {
 	padding: 6px 10px;
+	color: #333;
+	background: white;
 }
 
 #player-console button,
-#player-controls button {
+#player-console select,
+#player-controls button,
+#player-controls select {
+	padding: 6px 10px;
 	color: white;
 	border: none;
 	background: #333;
+}
+
+#player-console select,
+#player-controls select {
+	padding: 5px 10px;
 }
 
 #player-console .label,

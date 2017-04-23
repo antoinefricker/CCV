@@ -3,22 +3,33 @@ canvas#pixi-stage{
 
 #player-console, #player-controls{
 	position:absolute;
-	top:10px;
+	bottom:10px;
 	
 	z-index:1000;
 	
-	background: rgba(#000000, .65);
-	padding: 10px;
+	background: rgba(#000000, .55);
+	padding: 5px;
 	color: white;
 	font-weight: normal;
 	
-	span, button {
-		padding: 6px 10px;
+	.block ~ .block{
+		margin-top:6px;
+		text-align:right;
 	}
-	button{
+	
+	span.info{
+		padding: 6px 10px;
+		color: #333333;
+		background: white;
+	}
+	button, select {
+		padding: 6px 10px;
+		border: none;
 		background: #333333;
 		color: white;
-		border:none;
+	}
+	select{
+		padding: 5px 10px;
 	}
 	.label{
 		padding: 6px 0;
@@ -27,7 +38,6 @@ canvas#pixi-stage{
 }
 #player-console{
 	left:10px;
-	
 	div{
 		width: 250px;
 	}

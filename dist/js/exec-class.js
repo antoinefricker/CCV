@@ -259,22 +259,22 @@ if (!CCV.global){
 		SYS_FPS: 8,
 		SYS_ALLOW_LARGE: false,
 		
-		DEBUG_LANDSCAPE_GFX: false,
-		DEBUG_SCENE_GFX: false,
-		DEBUG_SCENE_MARGINS: false,
+		DEBUG_LANDSCAPE_GFX: true,
+		DEBUG_SCENE_GFX: true,
+		DEBUG_SCENE_MARGINS: true,
 		DEBUG_PERFORMANCE: true,
-		DEBUG_SWIPE: true,
+		DEBUG_SWIPE: false,
 		
 		AUDIO_FOLDER: 'ccv/audio/',
 		AUDIO_GLOBAL_VOLUME: 0.0,
 		
-		SCENE_START_INDEX: 40,
-		SCENE_START_RAND: true,
+		SCENE_START_INDEX: 0,
+		SCENE_START_RAND: false,
 		SCENE_ACTIVATION_DELAY: 2000,
 		SCENE_DEACTIVATION_DELAY: 1400,
 		SCENE_REPLAY_DELAY: 4000,
 		SCENE_SLIDE_DURATION: 1.6,
-		SCENE_MAX_HEIGHT: 668,
+		SCENE_MAX_HEIGHT: 650,
 		SCENE_GROUND_HEIGHT: 100,
 		SCENE_ACTIVITY_RANGE: 1,
 		SCENE_ITEM_BEFORE: 8,
@@ -286,7 +286,7 @@ if (!CCV.global){
 		MAGNIFIER_PINCH_INCREMENT: .7,
 		MAGNIFIER_APPEAR_TIME: .7,
 		MAGNIFIER_VANISH_TIME: .3,
-		MAGNIFIER_RADIUS: 250,
+		MAGNIFIER_RADIUS: 200,
 		MAGNIFIER_DRAG_IDLE_TEMPO: 30000,
 		
 		SWIPE_THRESHOLD: 250, /* minimal swipe distance in pixels */
@@ -453,7 +453,7 @@ if(!CCV.app.Player){
 		this.windowFocus();
 		this.landscape.audio.play();
 		
-		$(this.target).trigger('ready', [this.landscape.scenes]);
+		$(this.target).trigger('ready', [this.landscape.scenes, this.landscape.scenesIndexed]);
 	};
 	
 	
@@ -700,8 +700,10 @@ if(!CCV.app.Player){
 			scaleOverflow = true;
 			this.scale = 1;
 		}
-		KPF.utils.log('application size: ' + this.size.toString(), 'Player.resize');
-		KPF.utils.log('application scale: ' + this.scale.toFixed(2) + ' (scaleOverflow: ' + scaleOverflow + ')', 'Player.resize');
+		KPF.utils.log('- application size: ' + this.size.toString()
+			+ '\n - application scale: ' + this.scale.toFixed(2)
+			+ '\n - scaleOverflow: ' + scaleOverflow,
+			'Player.resize');
 		
 		this.magnifier.redraw(this.scale);
 		this._mgTidy(false);
@@ -799,6 +801,9 @@ if (!CCV.app.Landscape) {
 			this.size.y = heightMaxi;
 			this.view.y = Math.round((size.y - this.size.y) * .66);
 		}
+		else{
+			this.view.y = 0;
+		}
 		
 		console.log('scale: ' + scale, 'deltaScene: ' + (this.size.y - size.y));
 		
@@ -885,7 +890,10 @@ if (!CCV.app.Landscape) {
 			if(scene.id != '_debug' || CCV.global.DEBUG_LANDSCAPE_GFX)
 				this.scenes.push(scene);
 			if(scene.indexable)
-				this.scenesIndexed.push(scene);
+				this.scenesIndexed.push({
+					index: i,
+					scene: scene
+				});
 		}
 		// ---   build view
 		
@@ -945,10 +953,49 @@ if (!CCV.app.Landscape) {
 	/**
 	 * @param orientation {Number}
 	 */
-	proto.move = function (orientation) {
-		if (orientation == 0)
+	proto.move = function (orientation, indexedOnly) {
+		var newval;
+		
+		indexedOnly = indexedOnly !== false;
+		
+		if(indexedOnly){
+			for(var i = 0, ilen = this.scenesIndexed.length, beforeScene, afterScene, equalScene; i <= ilen; ++i){
+				if(i == ilen || this.scenesIndexed[i].index > this.index){
+					afterScene = this.scenesIndexed[i % ilen];
+					beforeScene = this.scenesIndexed[(i - 1 + ilen) % ilen];
+					if(beforeScene.index == this.index){
+						beforeScene = this.scenesIndexed[(i - 2 + ilen) % ilen];
+						equalScene = beforeScene;
+					}
+					break;
+				}
+			}
+			
+			/*
+			KPF.utils.log(
+				'move with orientation: ' + orientation + ', indexedOnly: ' + indexedOnly,
+				'Landscape.move', {
+					afterScene: afterScene,
+					equalScene: equalScene,
+					beforeScene: beforeScene
+				});
+			//*/
+			
+			if (orientation == 0){
+				if(equalScene)
+					return;
+				newval = (Math.abs(beforeScene.index - this.index) < Math.abs(afterScene.index - this.index)) ? beforeScene.index : afterScene.index;
+			}
+			else if(orientation < 0)
+				newval = beforeScene.index;
+			else if(orientation > 0)
+				newval = afterScene.index;
+		}
+		else if( orientation == 0)
 			return;
-		this.setIndex(this.index + (orientation > 0 ? 1 : -1));
+		else
+			newval = this.index + (orientation > 0 ? 1 : -1);
+		this.setIndex(newval, true);
 	};
 	/**
 	 * @param index {Number}
@@ -989,7 +1036,7 @@ if (!CCV.app.Landscape) {
 		
 		// --- apply position
 		scene = this.scenes[this.index];
-		xTarget = this.xCenter - scene.view.x - scene.xCenter;
+		xTarget = this.xCenter - scene.view.x - scene.xCenter - scene.pos.x;
 		
 		if(doTransition){
 			TweenMax.to(this.scenesScroll, CCV.global.SCENE_SLIDE_DURATION, {
@@ -1070,6 +1117,7 @@ if (!CCV.app.Scene) {
 		this.pos = new PIXI.Point();
 		if(data.pos)
 			this.pos.copy(data.pos);
+		this.pos.scale(CCV.player.scaleSourceCoef);
 		
 		this.marginLeft = data.marginLeft * CCV.player.scaleSourceCoef;
 		this.marginRight = data.marginRight * CCV.player.scaleSourceCoef;
@@ -1186,20 +1234,37 @@ if (!CCV.app.Scene) {
 			debug.position.copy(this.pos);
 			
 			gfx = new PIXI.Graphics();
-			gfx.lineStyle(2, 0xff0000, 1);
+			gfx.lineStyle(1, 0xff0000, 1);
 			gfx.drawRect(0, 0, this.size.x, this.size.y);
+			gfx.moveTo(0, 0);
+			gfx.lineTo(this.size.x, this.size.y);
+			gfx.moveTo(this.size.x, 0);
+			gfx.lineTo(0, this.size.y);
 			debug.addChild(gfx);
 			
 			if(CCV.global.DEBUG_SCENE_MARGINS){
-				gfx = new PIXI.Graphics();
-				gfx.lineStyle(2, 0x00ff00, 1);
-				gfx.drawRect(-this.marginLeft, 0, this.marginLeft, this.size.y);
-				debug.addChild(gfx);
 				
-				gfx = new PIXI.Graphics();
-				gfx.lineStyle(2, 0x0000ff, 1);
-				gfx.drawRect(this.size.x, 0, this.marginRight, this.size.y);
-				debug.addChild(gfx);
+				if(this.marginLeft != 0){
+					gfx = new PIXI.Graphics();
+					gfx.lineStyle(1, 0x00ff00, 1);
+					gfx.drawRect(-this.marginLeft, 0, this.marginLeft, this.size.y);
+					gfx.moveTo(-this.marginLeft, 0);
+					gfx.lineTo(0, this.size.y);
+					gfx.moveTo(0, 0);
+					gfx.lineTo(-this.marginLeft, this.size.y);
+					debug.addChild(gfx);
+				}
+				
+				if(this.marginRight != 0){
+					gfx = new PIXI.Graphics();
+					gfx.lineStyle(1, 0x0000ff, 1);
+					gfx.drawRect(this.size.x, 0, this.marginRight, this.size.y);
+					gfx.moveTo(this.size.x, 0);
+					gfx.lineTo(this.size.x + this.marginRight, this.size.y);
+					gfx.moveTo(this.size.x + this.marginRight, 0);
+					gfx.lineTo(this.size.x, this.size.y);
+					debug.addChild(gfx);
+				}
 			}
 			
 			text = new PIXI.Text('#' + this.id, textStyle);
@@ -1274,15 +1339,10 @@ if (!CCV.app.CompoLayer) {
 	 * @constructor
 	 */
 	CCV.app.CompoLayer = function (data, scene) {
-		this.pos = new PIXI.Point(0, 0);
 		this.layers = [];
 		
 		if(!data)
 			return;
-		
-		if(data.pos)
-			this.pos.copy(data.pos);
-		this.pos.scale(CCV.player.scaleSourceCoef);
 		
 		for (var i = 0, ilen = data.length; i < ilen; ++i)
 			this.addLayer(data[i], scene);
@@ -1341,11 +1401,6 @@ if (!CCV.app.Layer) {
 	 */
 	CCV.app.Layer = function (data, scene) {
 		this.file = scene.folder + data.file;
-		this.pos = new PIXI.Point();
-		if(data.pos)
-			this.pos.copy(data.pos);
-		this.pos.scale(CCV.player.scaleSourceCoef);
-		
 		this.view = PIXI.Sprite.fromImage(this.file);
 	};
 	proto = CCV.app.Layer.prototype;
@@ -1404,11 +1459,6 @@ if (!CCV.app.LayerSequence) {
 	proto = CCV.app.LayerSequence.prototype;
 	
 	proto.parse = function(data){
-		this.pos = new PIXI.Point(0, 0);
-		if(data.pos)
-			this.pos.copy(data.pos);
-		this.pos.scale(CCV.player.scaleSourceCoef);
-		
 		this.seqNumLength = data.seqNumLength || -1;
 		this.seqStart = data.seqStart || 1;
 		this.seqEnd = data.seqEnd || 1;
@@ -1454,12 +1504,13 @@ if (!CCV.app.LayerSequence) {
 			this.animation.destroy(true);
 			this.animation = null;
 			
+			/*
 			this.view.removeChild(this.border);
 			this.border.destroy();
 			this.border = null;
+			*/
 		}
 	};
-	
 	proto._createAnimation = function() {
 		var i, index, file;
 		// create textures
