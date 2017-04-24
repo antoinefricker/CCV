@@ -50,10 +50,12 @@
 	<div id="player-controls" class="debug-panel">
 		
 		<div class="block">
+			<button id="scrollFastToLeft">‹‹</button>
 			<button id="scrollToLeft">‹</button>
 			<span id="indexDebug" class="info"></span>
 			<button id="round">round to indexed</button>
 			<button id="scrollToRight">›</button>
+			<button id="scrollFastToRight">››</button>
 			<select id="indexedSceneSelect"></select>
 			<select id="sceneSelect"></select>
 		</div>
@@ -134,11 +136,17 @@
 	$('#scrollToLeft').on('click', function(){
 		app.landscape.move(-1, false);
 	});
+	$('#scrollFastToLeft').on('click', function(){
+		app.landscape.move(-1, true);
+	});
 	$('#random').on('click', function(){
 		app.landscape.pickRandomScene(false);
 	});
 	$('#scrollToRight').on('click', function(){
 		app.landscape.move(1, false);
+	});
+	$('#scrollFastToRight').on('click', function(){
+		app.landscape.move(1, true);
 	});
 	
 </script>
