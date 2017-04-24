@@ -36,7 +36,6 @@
 					}
 				}
 			},
-			
 			{
 				"id": "voisins",
 				"indexable": true,
@@ -65,9 +64,7 @@
 					},
 					"preview": "seq/voisinsBleu_00010.png",
 					"file": "seq/voisinsBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 8000,
 					"seqNumLength": 5,
 					"seqStart": 10,
 					"seqEnd": 193
@@ -101,8 +98,6 @@
 					},
 					"preview": "seq/chapeau-bleu_00010.png",
 					"file": "seq/chapeau-bleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 10,
@@ -112,6 +107,7 @@
 			{
 				"id": "_fontain: 425x366",
 				"indexable": false,
+				"disposable": false,
 				"marginLeft": 0,
 				"marginRight": 0,
 				"size": {
@@ -123,9 +119,7 @@
 						{
 							"preview": "_statics/fontaine01.png",
 							"file": "_statics/fontaine[NUM].png",
-							"seqLoop": true,
-							"seqStartDelay": -1,
-							"seqRepeatDelay": -1,
+							"seqRepeatDelay": 0,
 							"seqNumLength": 2,
 							"seqStart": 1,
 							"seqEnd": 3
@@ -182,8 +176,6 @@
 					},
 					"preview": "seq/arbre-basculeBleu_00010.png",
 					"file": "seq/arbre-basculeBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 10,
@@ -208,8 +200,6 @@
 					{
 						"preview": "_statics/chien01.png",
 						"file": "_statics/chien[NUM].png",
-						"seqLoop": true,
-						"seqStartDelay": -1,
 						"seqRepeatDelay": -1,
 						"seqNumLength": 2,
 						"seqStart": 1,
@@ -261,8 +251,6 @@
 					},
 					"preview": "seq/crocoBleu_00001.png",
 					"file": "seq/crocoBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 1,
@@ -308,8 +296,6 @@
 					},
 					"preview": "seq/apesanteurBLeu_00008.png",
 					"file": "seq/apesanteurBLeu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 8,
@@ -364,8 +350,6 @@
 					},
 					"preview": "seq/fuseeBleu_00008.png",
 					"file": "seq/fuseeBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 8,
@@ -400,8 +384,6 @@
 					},
 					"preview": "seq/arbre-oiseau marche_00000.png",
 					"file": "seq/arbre-oiseau marche_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 0,
@@ -426,11 +408,10 @@
 					{
 						"preview": "_statics/poubelle29.png",
 						"file": "_statics/poubelle[NUM].png",
-						"seqLoop": true,
-						"seqStartDelay": -1,
 						"seqRepeatDelay": -1,
 						"seqNumLength": 2,
-						"seqStart": 29,						"seqEnd": 46
+						"seqStart": 29,
+						"seqEnd": 46
 					}
 					
 				}
@@ -463,8 +444,6 @@
 					},
 					"preview": "seq/serreBleu_00019.png",
 					"file": "seq/serreBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 19,
@@ -508,8 +487,6 @@
 				"blue": {
 					"preview": "seq/voiture-pedale001.png",
 					"file": "seq/voiture-pedale[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 3,
 					"seqStart": 1,
@@ -560,8 +537,6 @@
 					},
 					"preview": "seq/voiture-peintre000.png",
 					"file": "seq/voiture-peintre[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 3,
 					"seqStart": 0,
@@ -616,8 +591,6 @@
 					},
 					"preview": "seq/dessin-anim-autruche1_00008.png",
 					"file": "seq/dessin-anim-autruche1_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 8,
@@ -660,8 +633,6 @@
 				"blue": {
 					"preview": "seq/posteBleu_00047.png",
 					"file": "seq/posteBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 47,
@@ -687,9 +658,7 @@
 					{
 						"preview": "_statics/fumee_00.png",
 						"file": "_statics/fumee_[NUM].png",
-						"seqLoop": true,
-						"seqStartDelay": -1,
-						"seqRepeatDelay": -1,
+						"seqRepeatDelay": 0,
 						"seqNumLength": 2,
 						"seqStart": 0,
 						"seqEnd": 15
@@ -711,8 +680,6 @@
 					{
 						"preview": "_statics/affiches00.png",
 						"file": "_statics/affiches[NUM].png",
-						"seqLoop": true,
-						"seqStartDelay": -1,
 						"seqRepeatDelay": -1,
 						"seqNumLength": 2,
 						"seqStart": 0,
@@ -745,9 +712,7 @@
 				"blue": {
 					"preview": "seq/arbre-ascenseurBleu_00165.png",
 					"file": "seq/arbre-ascenseurBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 500,
 					"seqNumLength": 5,
 					"seqStart": 165,
 					"seqEnd": 308
@@ -821,9 +786,7 @@
 					},
 					"preview": "seq/voiture-bus000.png",
 					"file": "seq/voiture-bus[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 3,
 					"seqStart": 0,
 					"seqEnd": 39
@@ -873,8 +836,6 @@
 					},
 					"preview": "seq/parkingBleu_00015.png",
 					"file": "seq/parkingBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 15,
@@ -911,8 +872,6 @@
 					},
 					"preview": "seq/parkingBleu_00198.png",
 					"file": "seq/parkingBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 198,
@@ -958,8 +917,6 @@
 					{
 						"preview": "_statics/oiseau-fil00.png",
 						"file": "_statics/oiseau-fil[NUM].png",
-						"seqLoop": true,
-						"seqStartDelay": -1,
 						"seqRepeatDelay": -1,
 						"seqNumLength": 2,
 						"seqStart": 0,
@@ -988,9 +945,7 @@
 				"blue": {
 					"preview": "seq/chemineeBleu_00019.png",
 					"file": "seq/chemineeBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 5,
 					"seqStart": 19,
 					"seqEnd": 194
@@ -1040,8 +995,6 @@
 					},
 					"preview": "seq/arbre-rotation_00000.png",
 					"file": "seq/arbre-rotation_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 0,
@@ -1076,9 +1029,7 @@
 					},
 					"preview": "seq/maison-escalierBleu_00002.png",
 					"file": "seq/maison-escalierBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 5,
 					"seqStart": 2,
 					"seqEnd": 207
@@ -1132,8 +1083,6 @@
 					},
 					"preview": "seq/etages001.png",
 					"file": "seq/etages[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 3,
 					"seqStart": 1,
@@ -1188,8 +1137,6 @@
 					},
 					"preview": "seq/serpentBleu_00000.png",
 					"file": "seq/serpentBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 0,
@@ -1256,9 +1203,7 @@
 					},
 					"preview": "seq/arbre-roller001.png",
 					"file": "seq/arbre-roller[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 3,
 					"seqStart": 1,
 					"seqEnd": 37
@@ -1300,9 +1245,7 @@
 				"blue": {
 					"preview": "seq/voiture-poule000.png",
 					"file": "seq/voiture-poule[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 3,
 					"seqStart": 0,
 					"seqEnd": 23
@@ -1352,8 +1295,6 @@
 					},
 					"preview": "seq/hotelBleu_00023.png",
 					"file": "seq/hotelBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 23,
@@ -1400,9 +1341,7 @@
 				"blue": {
 					"preview": "seq/aspirateurBleu_00015.png",
 					"file": "seq/aspirateurBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 5,
 					"seqStart": 15,
 					"seqEnd": 301
@@ -1426,8 +1365,6 @@
 					{
 						"preview": "_statics/chat01.png",
 						"file": "_statics/chat[NUM].png",
-						"seqLoop": true,
-						"seqStartDelay": -1,
 						"seqRepeatDelay": -1,
 						"seqNumLength": 2,
 						"seqStart": 1,
@@ -1456,8 +1393,6 @@
 				"blue": {
 					"preview": "seq/coiffeurBleu_00005.png",
 					"file": "seq/coiffeurBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 5,
@@ -1499,9 +1434,7 @@
 				"blue": {
 					"preview": "seq/museeBleu_00003.png",
 					"file": "seq/museeBleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 5,
 					"seqStart": 3,
 					"seqEnd": 200
@@ -1550,8 +1483,6 @@
 					},
 					"preview": "seq/003.png",
 					"file": "seq/[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 3,
 					"seqStart": 3,
@@ -1602,8 +1533,6 @@
 					},
 					"preview": "seq/arbre-oiseau-tete000.png",
 					"file": "seq/arbre-oiseau-tete[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 3,
 					"seqStart": 0,
@@ -1649,8 +1578,6 @@
 				"blue": {
 					"preview": "seq/tableaux_bleu_00038.png",
 					"file": "seq/tableaux_bleu_[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
 					"seqRepeatDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 38,
@@ -1675,9 +1602,7 @@
 					{
 						"preview": "_statics/drapeau01.png",
 						"file": "_statics/drapeau[NUM].png",
-						"seqLoop": true,
-						"seqStartDelay": -1,
-						"seqRepeatDelay": -1,
+						"seqRepeatDelay": 0,
 						"seqNumLength": 2,
 						"seqStart": 1,
 						"seqEnd": 8
@@ -1724,9 +1649,7 @@
 				"blue": {
 					"preview": "seq/arbre_traction4_FINAL001.png",
 					"file": "seq/arbre_traction4_FINAL[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 250,
 					"seqNumLength": 3,
 					"seqStart": 1,
 					"seqEnd": 14
@@ -1752,9 +1675,7 @@
 				"blue": {
 					"preview": "seq/voiture-tapisroulant000.png",
 					"file": "seq/voiture-tapisroulant[NUM].png",
-					"seqLoop": true,
-					"seqStartDelay": -1,
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 3,
 					"seqStart": 0,
 					"seqEnd": 7

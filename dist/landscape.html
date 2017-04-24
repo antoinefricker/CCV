@@ -50,10 +50,12 @@
 	<div id="player-controls" class="debug-panel">
 		
 		<div class="block">
-			<span id="indexDebug" class="info"></span>
 			<button id="scrollToLeft">‹</button>
+			<span id="indexDebug" class="info"></span>
+			<button id="round">round to indexed</button>
 			<button id="scrollToRight">›</button>
-			<select id="indexSelect"></select>
+			<select id="indexedSceneSelect"></select>
+			<select id="sceneSelect"></select>
 		</div>
 		
 		<div class="block">
@@ -74,22 +76,33 @@
 	});
 	
 	$(cnv).on('ready', function(e, scenes, scenesIndexed){
-		var options = '';
+		var i, ilen, options;
 		
-		for(var i = 0, ilen = scenesIndexed.length; i < ilen; ++i)
+		
+		for(i = 0, ilen = scenesIndexed.length, options = ''; i < ilen; ++i)
 			options += '<option value="index_' + scenesIndexed[i].index + '">' + scenesIndexed[i].scene.id + '</option>';
-		$('#indexSelect')
+		$('#indexedSceneSelect')
+			.html(options)
+			.val('index_' + app.landscape.index);
+		
+		for(i = 0, ilen = scenes.length,  options = ''; i < ilen; ++i)
+			options += '<option value="index_' + i + '">' + scenes[i].id + '</option>';
+		$('#sceneSelect')
 			.html(options)
 			.val('index_' + app.landscape.index);
 	});
 	
-	$('#indexSelect').on('change', function(){
+	$('#sceneSelect').on('change', function(){
+		app.landscape.setIndex($(this).val().replace('index_', ''), false);
+	});
+	$('#indexedSceneSelect').on('change', function(){
 		app.landscape.setIndex($(this).val().replace('index_', ''), false);
 	});
 	
 	$(cnv).on('sceneIndexChange', function(e, index, scene, scenesLen){
-		$('#indexSelect').val('index_' + index);
-		$('#indexDebug').html(index + '/' + scenesLen + ' : ' + scene.id);
+		$('#sceneSelect').val('index_' + index);
+		$('#indexedSceneSelect').val('index_' + index);
+		$('#indexDebug').html(index + '/' + scenesLen);
 	});
 	
 	window.setInterval(function(){
@@ -98,6 +111,10 @@
 		$('#scale').html(app.scale.toFixed(2));
 		$('#renderMode').html(app.getMode());
 	}, 1400);
+	
+	$('#round').on('click', function(){
+		app.landscape.move(0, true);
+	});
 	
 	$('#magnifierDisplayToggler').on('click', function(){
 		app.magnifierDisplayToggle();
