@@ -96,6 +96,11 @@
 						"x": 0,
 						"y": 0
 					},
+					"audio": {
+						"file": "chapeau.mp3",
+						"isStereo": true,
+						"volume": 0.85
+					},
 					"preview": "seq/chapeau-bleu_00010.png",
 					"file": "seq/chapeau-bleu_[NUM].png",
 					"seqRepeatDelay": -1,
@@ -348,6 +353,11 @@
 						"x": 0,
 						"y": 0
 					},
+					"audio": {
+						"file": "fusee.mp3",
+						"isStereo": true,
+						"volume": 0.85
+					},
 					"preview": "seq/fuseeBleu_00008.png",
 					"file": "seq/fuseeBleu_[NUM].png",
 					"seqRepeatDelay": -1,
@@ -384,7 +394,7 @@
 					},
 					"preview": "seq/arbre-oiseau marche_00000.png",
 					"file": "seq/arbre-oiseau marche_[NUM].png",
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 5,
 					"seqStart": 0,
 					"seqEnd": 159
@@ -442,9 +452,14 @@
 						"x": 0,
 						"y": 0
 					},
+					"audio": {
+						"file": "serre.mp3",
+						"isStereo": true,
+						"volume": 0.85
+					},
 					"preview": "seq/serreBleu_00019.png",
 					"file": "seq/serreBleu_[NUM].png",
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 5,
 					"seqStart": 19,
 					"seqEnd": 341
@@ -537,7 +552,7 @@
 					},
 					"preview": "seq/voiture-peintre000.png",
 					"file": "seq/voiture-peintre[NUM].png",
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 3,
 					"seqStart": 0,
 					"seqEnd": 23
@@ -995,7 +1010,7 @@
 					},
 					"preview": "seq/arbre-rotation_00000.png",
 					"file": "seq/arbre-rotation_[NUM].png",
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 5,
 					"seqStart": 0,
 					"seqEnd": 104
@@ -1083,7 +1098,7 @@
 					},
 					"preview": "seq/etages001.png",
 					"file": "seq/etages[NUM].png",
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 3,
 					"seqStart": 1,
 					"seqEnd": 63
@@ -1483,7 +1498,7 @@
 					},
 					"preview": "seq/003.png",
 					"file": "seq/[NUM].png",
-					"seqRepeatDelay": -1,
+					"seqRepeatDelay": 0,
 					"seqNumLength": 3,
 					"seqStart": 3,
 					"seqEnd": 77
@@ -1650,7 +1665,7 @@
 				"blue": {
 					"preview": "seq/arbre_traction4_FINAL001.png",
 					"file": "seq/arbre_traction4_FINAL[NUM].png",
-					"seqRepeatDelay": 250,
+					"seqRepeatDelay": 125,
 					"seqNumLength": 3,
 					"seqStart": 1,
 					"seqEnd": 14
