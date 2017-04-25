@@ -109,17 +109,17 @@ if (!CCV.global){
 		
 		DEBUG_LANDSCAPE_GFX: false,
 		DEBUG_SCENE_GFX: true,
-		DEBUG_SCROLL_GFX: true,
-		DEBUG_SCENE_MARGINS: true,
+		DEBUG_SCROLL_GFX: false,
+		DEBUG_SCENE_MARGINS: false,
 		DEBUG_SWIPE: false,
 		
 		AUDIO_FOLDER: 'ccv/audio/',
 		AUDIO_GLOBAL_VOLUME: 0,
 		// AUDIO_GLOBAL_VOLUME: 1,
 		
-		SCENE_START_INDEX: 31,
+		SCENE_START_INDEX: 60,
 		SCENE_START_RAND: false,
-		SCENE_ACTIVATION_DELAY: 500,
+		SCENE_ACTIVATION_DELAY: 2000,
 		SCENE_DEACTIVATION_DELAY: 1400,
 		SCENE_REPEAT_DELAY: 4000,
 		SCENE_RESTART_DELAY: 2000,
@@ -134,10 +134,10 @@ if (!CCV.global){
 		
 		MAGNIFIER_RED: 0xFF1515,
 		MAGNIFIER_PINCH_AMP: 200,
-		MAGNIFIER_PINCH_INCREMENT: .4,
+		MAGNIFIER_PINCH_INCREMENT: .55,
 		MAGNIFIER_APPEAR_TIME: .7,
 		MAGNIFIER_VANISH_TIME: .5,
-		MAGNIFIER_RADIUS: 150,
+		MAGNIFIER_RADIUS: 200,
 		MAGNIFIER_DRAG_IDLE_TEMPO: -1,
 		
 		SCROLL_ELASTICITY: .08,
@@ -1467,15 +1467,21 @@ if (!CCV.app.Sequence) {
 	proto = CCV.app.Sequence.prototype;
 	
 	proto.parse = function(data){
-		this.seqNumLength = data.seqNumLength || -1;
-		this.seqStart = data.seqStart || 1;
-		this.seqEnd = data.seqEnd || 1;
+		this.seqNumLength = data.hasOwnProperty('seqNumLength') ? data.seqNumLength : -1;
+		this.seqStart = data.hasOwnProperty('seqStart') ? data.seqStart : 1;
+		this.seqEnd = data.hasOwnProperty('seqEnd') ? data.seqEnd : 1;
 		
-		this.seqRepeatDelay = (data.hasOwnProperty('seqRepeatDelay') && data.seqRepeatDelay >= 0) ? data.seqRepeatDelay : CCV.global.SCENE_REPEAT_DELAY;
+		if(data.hasOwnProperty('seqRepeatDelay') && data.seqRepeatDelay >= 0)
+			this.seqRepeatDelay = data.seqRepeatDelay;
+		else
+			this.seqRepeatDelay = CCV.global.SCENE_REPEAT_DELAY;
 		this.seqRepeatFrames = parseInt(this.seqRepeatDelay / 1000 * CCV.global.SYS_FPS);
 		this.seqRepeatSuspensionFrames = -1;
 		
-		this.seqRestartDelay = (data.hasOwnProperty('seqRestartDelay') && data.seqRestartDelay >= 0) ? data.seqRestartDelay : CCV.global.SCENE_RESTART_DELAY;
+		if(data.hasOwnProperty('seqRestartDelay') && data.seqRestartDelay >= 0)
+			this.seqRestartDelay = data.seqRestartDelay;
+		else
+			this.seqRestartDelay = CCV.global.SCENE_RESTART_DELAY;
 		this.seqRestartFrames = parseInt(this.seqRestartDelay / 1000 * CCV.global.SYS_FPS);
 		this.seqRestartSuspensionFrames = -1;
 		
@@ -1517,7 +1523,7 @@ if (!CCV.app.Sequence) {
 				// create textures
 				this.textures = [];
 				for (i = this.seqStart; i <= this.seqEnd; ++i) {
-					index = this.seqNumLength > 0 ? KPF.utils.fillTo(i, this.seqNumLength, '0') : this.seqStart + i;
+					index = this.seqNumLength > 0 ? KPF.utils.fillTo(i, this.seqNumLength, '0') : i;
 					file = this.scene.folder + this.file.replace('[NUM]', index);
 					this.textures.push(new PIXI.Texture.fromImage(file));
 				}

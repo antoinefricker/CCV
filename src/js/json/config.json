@@ -62,7 +62,7 @@
 					},
 					"preview": "seq/voisinsBleu_00010.png",
 					"file": "seq/voisinsBleu_[NUM].png",
-					"seqRepeatDelay": 4000,
+					"seqRepeatDelay": -1,
 					"seqRestartDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 10,
@@ -428,10 +428,6 @@
 					"y": 596
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -440,10 +436,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"audio": {
 						"file": "serre.mp3",
 						"isStereo": true,
@@ -524,10 +516,6 @@
 					"y": 415
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -536,10 +524,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/voiture-peintre000.png",
 					"file": "seq/voiture-peintre[NUM].png",
 					"seqRepeatDelay": 0,
@@ -632,8 +616,8 @@
 				"blue": {
 					"preview": "seq/posteBleu_00047.png",
 					"file": "seq/posteBleu_[NUM].png",
-					"seqRepeatDelay": -1,
-					"seqRestartDelay": -1,
+					"seqRepeatDelay": 0,
+					"seqRestartDelay": 0,
 					"seqNumLength": 5,
 					"seqStart": 47,
 					"seqEnd": 208
@@ -711,8 +695,8 @@
 				"blue": {
 					"preview": "seq/arbre-ascenseurBleu_00165.png",
 					"file": "seq/arbre-ascenseurBleu_[NUM].png",
-					"seqRepeatDelay": 500,
-					"seqRestartDelay": 0,
+					"seqRepeatDelay": -1,
+					"seqRestartDelay": -1,
 					"seqNumLength": 5,
 					"seqStart": 165,
 					"seqEnd": 308
@@ -765,10 +749,6 @@
 					"y": 340
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -777,10 +757,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/voiture-bus000.png",
 					"file": "seq/voiture-bus[NUM].png",
 					"seqRepeatDelay": 0,
@@ -1005,10 +981,6 @@
 					"y": 587
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -1017,10 +989,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/maison-escalierBleu_00002.png",
 					"file": "seq/maison-escalierBleu_[NUM].png",
 					"seqRepeatDelay": 0,
@@ -1402,8 +1370,8 @@
 				"blue": {
 					"preview": "seq/coiffeurBleu_00005.png",
 					"file": "seq/coiffeurBleu_[NUM].png",
-					"seqRepeatDelay": -1,
-					"seqRestartDelay": -1,
+					"seqRepeatDelay": 2000,
+					"seqRestartDelay": 1000,
 					"seqNumLength": 5,
 					"seqStart": 5,
 					"seqEnd": 158
@@ -1491,8 +1459,8 @@
 					},
 					"preview": "seq/003.png",
 					"file": "seq/[NUM].png",
-					"seqRepeatDelay": 0,
-					"seqRestartDelay": 0,
+					"seqRepeatDelay": 2000,
+					"seqRestartDelay": 1000,
 					"seqNumLength": 3,
 					"seqStart": 3,
 					"seqEnd": 77
@@ -1609,8 +1577,8 @@
 				"blue": {
 					"preview": "seq/tableaux_bleu_00038.png",
 					"file": "seq/tableaux_bleu_[NUM].png",
-					"seqRepeatDelay": -1,
-					"seqRestartDelay": -1,
+					"seqRepeatDelay": 0,
+					"seqRestartDelay": 2000,
 					"seqNumLength": 5,
 					"seqStart": 38,
 					"seqEnd": 261
@@ -1683,8 +1651,8 @@
 				"blue": {
 					"preview": "seq/arbre_traction4_FINAL001.png",
 					"file": "seq/arbre_traction4_FINAL[NUM].png",
-					"seqRepeatDelay": 125,
-					"seqRestartDelay": -1,
+					"seqRepeatDelay": 0,
+					"seqRestartDelay": 0,
 					"seqNumLength": 3,
 					"seqStart": 1,
 					"seqEnd": 14
