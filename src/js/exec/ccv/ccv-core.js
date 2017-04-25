@@ -117,7 +117,7 @@ if (!CCV.global){
 		AUDIO_GLOBAL_VOLUME: 0,
 		// AUDIO_GLOBAL_VOLUME: 1,
 		
-		SCENE_START_INDEX: 45,
+		SCENE_START_INDEX: 31,
 		SCENE_START_RAND: false,
 		SCENE_ACTIVATION_DELAY: 2000,
 		SCENE_DEACTIVATION_DELAY: 1400,
@@ -1422,6 +1422,21 @@ if (!CCV.app.Sequence) {
 			this.view.addChild(this.preview);
 		}
 		
+		// ---   debug markers
+		if (CCV.global.DEBUG_SCENE_GFX) {
+			
+			// show root ID and position
+			this.text = new PIXI.Text('', {
+				fontFamily: 'Verdana',
+				fontSize: 15,
+				fill: 0x0
+			});
+			this.text.position = new PIXI.Point(20, -20);
+			this.view.addChild(this.text);
+		}
+		
+		
+		
 		this.active = undefined;
 		$(this.scene).on('displayStateChange', this.activateDisplay.bind(this));
 		this.activateDisplay(null, false);
@@ -1435,10 +1450,19 @@ if (!CCV.app.Sequence) {
 		
 		this.seqRepeatDelay = (data.hasOwnProperty('seqRepeatDelay') && data.seqRepeatDelay >= 0) ? data.seqRepeatDelay : CCV.global.SCENE_REPEAT_DELAY;
 		this.seqRepeatFrames = parseInt(this.seqRepeatDelay / 1000 * CCV.global.SYS_FPS);
-		this.suspensionFrames = -1;
+		this.seqRepeatSuspensionFrames = -1;
+		
+		this.seqRestartDelay = (data.hasOwnProperty('seqRestartDelay') && data.seqRestartDelay >= 0) ? data.seqRestartDelay : CCV.global.SCENE_RESTART_DELAY;
+		this.seqRestartFrames = parseInt(this.seqRestartDelay / 1000 * CCV.global.SYS_FPS);
+		this.seqRestartSuspensionFrames = -1;
 		
 		this.file = data.file;
 		this.loop = data.loop !== false;
+	};
+	proto.log = function(){
+		if (CCV.global.DEBUG_SCENE_GFX && this.animation) {
+			this.text.text = this.animation.currentFrame + '/' + this.animation.totalFrames + ' (restart: ' + this.seqRestartSuspensionFrames + ', repeat: ' + this.seqRepeatSuspensionFrames + ')';
+		}
 	};
 	proto.toString = function () {
 		return this.info(0);
@@ -1459,7 +1483,7 @@ if (!CCV.app.Sequence) {
 		if(this.active === status)
 			return;
 		this.active = status;
-		this.suspensionFrames = -1;
+		this.seqRepeatSuspensionFrames = -1;
 		
 		
 		// active --> launch animmation
@@ -1706,19 +1730,33 @@ if(!CCV.app.AnimationsTicker){
 		
 		for(var i = 0, ilen = this.sequences.length, t, c; i < ilen; ++i){
 			sequence = this.sequences[i];
+			sequence.log();
 			
 			c = sequence.animation.currentFrame + 1;
 			t = sequence.animation.totalFrames;
 			
-			// ##################### if suspensions frames are define handle them
+			// ##################### if suspensions frames are defined, handle them
 			// ... wait
-			if(sequence.suspensionFrames > 0) {
-				sequence.suspensionFrames--;
+			if(sequence.seqRepeatSuspensionFrames > 0) {
+				sequence.seqRepeatSuspensionFrames--;
 			}
 			// ... repeat
-			else if(sequence.suspensionFrames == 0) {
+			else if(sequence.seqRepeatSuspensionFrames == 0) {
+				sequence.seqRepeatSuspensionFrames = -1;
 				sequence.animation.gotoAndStop(0);
-				sequence.suspensionFrames = -1;
+				if(sequence.seqRestartFrames > 0)
+					sequence.seqRestartSuspensionFrames = sequence.seqRestartFrames;
+			}
+			
+			// ##################### if suspensions frames are defined, handle them
+			// ... wait
+			else if(sequence.seqRestartSuspensionFrames > 0) {
+				sequence.seqRestartSuspensionFrames--;
+			}
+			// ... repeat
+			else if(sequence.seqRestartSuspensionFrames == 0) {
+				sequence.animation.gotoAndStop(1);
+				sequence.seqRestartSuspensionFrames = -1;
 			}
 			
 			// ##################### else set playhead
@@ -1730,7 +1768,7 @@ if(!CCV.app.AnimationsTicker){
 			else{
 				// sequence has
 				if(sequence.seqRepeatFrames > 0){
-					sequence.suspensionFrames = sequence.seqRepeatFrames;
+					sequence.seqRepeatSuspensionFrames = sequence.seqRepeatFrames;
 					sequence.animation.gotoAndStop(t - 1);
 				}
 				//
