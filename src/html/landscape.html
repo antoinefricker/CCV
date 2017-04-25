@@ -32,12 +32,10 @@
 		<span class="label">PIXI FPS:</span>
 		<span id="pixiFPS">-</span>
 	</div>
-	<!--
 	<div>
-		<span class="label">animation FPS:</span>
+		<span class="label">Animations:</span>
 		<span id="animationFPS">-</span>
 	</div>
-	-->
 	<div>
 		<span class="label">source folder:</span>
 		<span id="sourceFolder">-</span>
@@ -108,10 +106,15 @@
 	
 	window.setInterval(function(){
 		$('#pixiFPS').html(PIXI.ticker.shared.FPS.toFixed(1));
+		$('#animationFPS').html(CCV.global.SYS_FPS + ' FPS (on ' + app.animTicker.sequences.length + ' animations)');
 		$('#sourceFolder').html(app.scaleFolder);
 		$('#scale').html(app.scale.toFixed(2));
 		$('#renderMode').html(app.getMode());
 	}, 1400);
+	
+	$('#animationFPS').on('click', function(){
+		console.log('running animations', app.animTicker.sequences);
+	});
 	
 	$('#round').on('click', function(){
 		app.landscape.move(0, true);

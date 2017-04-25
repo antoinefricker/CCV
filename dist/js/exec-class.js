@@ -325,7 +325,7 @@ if (!CCV.global){
 		
 		SCENE_START_INDEX: 31,
 		SCENE_START_RAND: false,
-		SCENE_ACTIVATION_DELAY: 2000,
+		SCENE_ACTIVATION_DELAY: 500,
 		SCENE_DEACTIVATION_DELAY: 1400,
 		SCENE_REPEAT_DELAY: 4000,
 		SCENE_RESTART_DELAY: 2000,
@@ -1179,7 +1179,7 @@ if (!CCV.app.Landscape) {
 	 * @param doTransition {Boolean}
 	 */
 	proto.setIndex = function (index, doTransition) {
-		var i, ilen, activationDelta, activationDeltaMin, activationDeltaMax;
+		var i, ilen, activationDelta, activationDeltaMin, activationDeltaMax, activationTest;
 		var limitBefore, limitAfter,  limitDelta;
 		var sceneBefore, sceneAfter, sceneCurrent;
 		
@@ -1198,16 +1198,41 @@ if (!CCV.app.Landscape) {
 		this.index = parseInt(index);
 		KPF.utils.log('index: ' + index, 'Landscape.setIndex');
 		
-		// activate/deactivate scene according to target distance
+		// retrieve bording indexed scenes
+		scene = this.scenes[this.index];
+		for(i = 0, ilen = this.scenesIndexed.length; i <= ilen; ++i){
+			if(i == ilen || this.scenesIndexed[i].index > this.index){
+				sceneAfter = this.scenesIndexed[i % ilen];
+				sceneBefore = this.scenesIndexed[(i - 1 + ilen) % ilen];
+				if(sceneBefore.index == this.index){
+					sceneCurrent = sceneBefore;
+					sceneBefore = this.scenesIndexed[(i - 2 + ilen) % ilen];
+				}
+				break;
+			}
+		}
+		
+		
+		// activate/deactivate scene according to current scene
+		KPF.utils.log('activate sequences between ]#' + sceneBefore.scene.id + ', index:' + sceneBefore.index + '; #' + sceneAfter.scene.id + ', index:' + sceneAfter.index + '[', 'Landscape.setIndex')
+		
+		ilen = this.scenes.length;
 		activationDeltaMax = Math.floor(ilen / 2);
 		activationDeltaMin = - activationDeltaMax;
-		for(i = 0; i < ilen; ++i){
+		
+		for (i = 0; i < ilen; ++i){
 			activationDelta = i - this.index;
 			if(activationDelta < activationDeltaMin)
 				activationDelta += ilen;
 			else if(activationDelta > activationDeltaMax)
 				activationDelta -= ilen;
-			this.scenes[i].activateDisplay(activationDelta);
+			
+			activationTest = sceneBefore.index > sceneAfter.index ? (i > sceneBefore.index) || (i < sceneAfter.index) : (i > sceneBefore.index) && (i < sceneAfter.index);
+			
+			if(activationTest){
+				KPF.utils.log('\t - activate index: ' + i + ' (' + this.scenes[i].id + ')');
+			}
+			this.scenes[i].activateDisplay(activationTest, activationDelta);
 		}
 		
 		// rearrange scenes positions
@@ -1236,8 +1261,7 @@ if (!CCV.app.Landscape) {
 		this.scrollMin = Math.max(CCV.global.SCROLL_MIN_OFFSET, .5 * (limitDelta - this.size.x));
 		this.scrollPreview = CCV.global.SCROLL_PREVIEW_OFFSET;
 		
-		console.log('############################## scrollMin: ' + this.scrollMin);
-		console.log('############################## scrollPreview: ' + this.scrollPreview);
+		KPF.utils.log('scrollMin: ' + this.scrollMin + ',  scrollPreview: ' + this.scrollPreview, 'Landscape.setIndex');
 		
 		
 		if(CCV.global.DEBUG_SCROLL_GFX){
@@ -1467,11 +1491,10 @@ if (!CCV.app.Scene) {
 			CCV.utils.drawDebugRect(gfx, new PIXI.Rectangle(0, 0, Math.abs(this.size.x + this.pos.x), this.size.y + this.pos.y), 0xff0000, 1, .2, false);
 		}
 	};
-	proto.activateDisplay = function(delta) {
-		var volumeTarget, panTarget, status, self;
+	proto.activateDisplay = function(status, delta) {
+		var volumeTarget, panTarget, self;
 		
 		self = this;
-		status = Math.abs(delta) <= CCV.global.SCENE_ACTIVITY_RANGE;
 		
 		if(this.audio){
 			volumeTarget = status ? 1 : Math.max(0, 1 - 0.6 * Math.abs(delta));
@@ -1941,7 +1964,7 @@ if(!CCV.app.AnimationsTicker){
 			c = sequence.animation.currentFrame + 1;
 			t = sequence.animation.totalFrames;
 			
-			// ##################### if suspensions frames are defined, handle them
+			// ##################### if repeat suspensions frames are defined, handle them
 			// ... wait
 			if(sequence.seqRepeatSuspensionFrames > 0) {
 				sequence.seqRepeatSuspensionFrames--;
@@ -1954,12 +1977,12 @@ if(!CCV.app.AnimationsTicker){
 					sequence.seqRestartSuspensionFrames = sequence.seqRestartFrames;
 			}
 			
-			// ##################### if suspensions frames are defined, handle them
+			// ##################### if restart suspensions frames are defined, handle them
 			// ... wait
 			else if(sequence.seqRestartSuspensionFrames > 0) {
 				sequence.seqRestartSuspensionFrames--;
 			}
-			// ... repeat
+			// ... restart
 			else if(sequence.seqRestartSuspensionFrames == 0) {
 				sequence.animation.gotoAndStop(1);
 				sequence.seqRestartSuspensionFrames = -1;

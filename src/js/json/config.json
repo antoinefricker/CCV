@@ -942,6 +942,7 @@
 					}
 				},
 				"blue": {
+					"preview": "seq/chemineeBleu_00019.png",
 					"file": "seq/chemineeBleu_[NUM].png",
 					"seqRepeatDelay": 0,
 					"seqRestartDelay": 0,
@@ -1373,8 +1374,8 @@
 					{
 						"preview": "_statics/chat01.png",
 						"file": "_statics/chat[NUM].png",
-						"seqRepeatDelay": -1,
-						"seqRestartDelay": -1,
+						"seqRepeatDelay": 0,
+						"seqRestartDelay": 250,
 						"seqNumLength": 2,
 						"seqStart": 1,
 						"seqEnd": 8
