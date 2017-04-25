@@ -20,8 +20,7 @@
 			{
 				"id": "_debug",
 				"indexable": false,
-				"marginLeft": 50,
-				"marginRight": 100,
+				"marginLeft": 0,
 				"size": {
 					"x": 300,
 					"y": 1900
@@ -29,7 +28,7 @@
 				"red": {
 					"pos": {
 						"x": 0,
-						"y": -300
+						"y": 0
 					},
 					"outline": {
 						"file": "_statics/grid.png"
@@ -39,8 +38,7 @@
 			{
 				"id": "voisins",
 				"indexable": true,
-				"marginLeft": 145,
-				"marginRight": 100,
+				"marginLeft": 0,
 				"size": {
 					"x": 820,
 					"y": 604
@@ -73,8 +71,7 @@
 			{
 				"id": "chapeau",
 				"indexable": true,
-				"marginLeft": 180,
-				"marginRight": 0,
+				"marginLeft": 140,
 				"size": {
 					"x": 968,
 					"y": 615
@@ -110,11 +107,10 @@
 				}
 			},
 			{
-				"id": "_fontain: 425x366",
+				"id": "_fontain",
 				"indexable": false,
 				"disposable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 425,
 					"y": 366
@@ -122,28 +118,25 @@
 				"red": {
 					"outline":
 						{
-							"preview": "_statics/fontaine01.png",
 							"file": "_statics/fontaine[NUM].png",
 							"seqRepeatDelay": 0,
 							"seqNumLength": 2,
 							"seqStart": 1,
 							"seqEnd": 3
 						}
-					
 				}
 			},
 			{
-				"id": "_cloud 237x98",
+				"id": "_cloud1",
 				"indexable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
-					"x": 0,
+					"x": 237,
 					"y": 98
 				},
 				"pos": {
 					"x": -237,
-					"y": -500
+					"y": -480
 				},
 				"red": {
 					"outline":
@@ -156,8 +149,7 @@
 			{
 				"id": "arbre-bascule",
 				"indexable": true,
-				"marginLeft": 40,
-				"marginRight": 0,
+				"marginLeft": 30,
 				"size": {
 					"x": 495,
 					"y": 614
@@ -188,24 +180,23 @@
 				}
 			},
 			{
-				"id": "_dog: 186x102",
+				"id": "_dog",
 				"indexable": false,
+				"disposable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
-					"x": 0,
+					"x": 186,
 					"y": 102
 				},
 				"pos": {
-					"x": -219,
+					"x": -214,
 					"y": 0
 				},
 				"red": {
 					"outline":
 					{
-						"preview": "_statics/chien01.png",
 						"file": "_statics/chien[NUM].png",
-						"seqRepeatDelay": -1,
+						"seqRepeatDelay": 0,
 						"seqNumLength": 2,
 						"seqStart": 1,
 						"seqEnd": 50
@@ -214,10 +205,9 @@
 				}
 			},
 			{
-				"id": "_indications1: 217x368",
+				"id": "_indications1",
 				"indexable": false,
-				"marginLeft": 70,
-				"marginRight": 0,
+				"marginLeft": 80,
 				"size": {
 					"x": 217,
 					"y": 367
@@ -231,8 +221,7 @@
 			{
 				"id": "croco",
 				"indexable": true,
-				"marginLeft": 54,
-				"marginRight": 0,
+				"marginLeft": 60,
 				"size": {
 					"x": 829,
 					"y": 609
@@ -263,10 +252,9 @@
 				}
 			},
 			{
-				"id": "_bush1: 126x219",
+				"id": "_bush1",
 				"indexable": false,
 				"marginLeft": 70,
-				"marginRight": 64,
 				"size": {
 					"x": 126,
 					"y": 219
@@ -280,8 +268,7 @@
 			{
 				"id": "apesanteur",
 				"indexable": true,
-				"marginLeft": 0,
-				"marginRight": 0,
+				"marginLeft": 60,
 				"size": {
 					"x": 654,
 					"y": 579
@@ -308,10 +295,9 @@
 				}
 			},
 			{
-				"id": "_pylon1: 261x324",
+				"id": "_pylon1",
 				"indexable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 261,
 					"y": 324
@@ -331,13 +317,12 @@
 				"popUnder": true,
 				"indexable": true,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 804,
 					"y": 555
 				},
 				"pos": {
-					"x": -44,
+					"x": -18,
 					"y": 0
 				},
 				"red": {
@@ -370,7 +355,6 @@
 				"id": "arbre-oiseau-marche",
 				"indexable": true,
 				"marginLeft": 120,
-				"marginRight": 0,
 				"size": {
 					"x": 385,
 					"y": 595
@@ -401,10 +385,9 @@
 				}
 			},
 			{
-				"id": "_trash: 98x140",
+				"id": "_trash",
 				"indexable": false,
 				"marginLeft": 8,
-				"marginRight": 0,
 				"size": {
 					"x": 98,
 					"y": 140
@@ -430,7 +413,6 @@
 				"id": "serre",
 				"indexable": true,
 				"marginLeft": 50,
-				"marginRight": 0,
 				"size": {
 					"x": 1233,
 					"y": 596
@@ -466,10 +448,9 @@
 				}
 			},
 			{
-				"id": "_double-pole 173x126",
+				"id": "_double-pole",
 				"indexable": false,
 				"marginLeft": 68,
-				"marginRight": 0,
 				"size": {
 					"x": 173,
 					"y": 126
@@ -486,7 +467,6 @@
 				"id": "voiture-pedale",
 				"indexable": true,
 				"marginLeft": 80,
-				"marginRight": 0,
 				"size": {
 					"x": 370,
 					"y": 225
@@ -509,10 +489,9 @@
 				}
 			},
 			{
-				"id": "_road-sign1: 86x271",
+				"id": "_road-sign1",
 				"indexable": false,
 				"marginLeft": 37,
-				"marginRight": 0,
 				"size": {
 					"x": 86,
 					"y": 271
@@ -527,8 +506,7 @@
 			{
 				"id": "voiture-peintre",
 				"indexable": true,
-				"marginLeft": 46,
-				"marginRight": 0,
+				"marginLeft": 54,
 				"size": {
 					"x": 740,
 					"y": 415
@@ -559,16 +537,15 @@
 				}
 			},
 			{
-				"id": "_traffic-light 86x271",
+				"id": "_traffic-light",
 				"indexable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 206,
 					"y": 406
 				},
 				"pos": {
-					"x": -20,
+					"x": -26,
 					"y": 0
 				},
 				"red": {
@@ -581,17 +558,12 @@
 			{
 				"id": "autruche",
 				"indexable": true,
-				"marginLeft": 40,
-				"marginRight": 0,
+				"marginLeft": 30,
 				"size": {
 					"x": 833,
 					"y": 631
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -613,10 +585,9 @@
 				}
 			},
 			{
-				"id": "_bush2: 130x168",
+				"id": "_bush2",
 				"indexable": false,
-				"marginLeft": 17,
-				"marginRight": 0,
+				"marginLeft": 18,
 				"size": {
 					"x": 130,
 					"y": 168
@@ -632,7 +603,6 @@
 				"id": "poste2",
 				"indexable": true,
 				"marginLeft": 24,
-				"marginRight": 0,
 				"size": {
 					"x": 893,
 					"y": 579
@@ -655,13 +625,13 @@
 				}
 			},
 			{
-				"id": "_chimney: 110x90",
+				"id": "_chimney",
 				"indexable": false,
+				"disposable": false,
 				"popUnder": true,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
-					"x": 0,
+					"x": 110,
 					"y": 90
 				},
 				"pos": {
@@ -671,7 +641,6 @@
 				"red": {
 					"outline":
 					{
-						"preview": "_statics/fumee_00.png",
 						"file": "_statics/fumee_[NUM].png",
 						"seqRepeatDelay": 0,
 						"seqNumLength": 2,
@@ -682,10 +651,9 @@
 				}
 			},
 			{
-				"id": "_billboard: 170x300",
+				"id": "_billboard",
 				"indexable": false,
-				"marginLeft": 35,
-				"marginRight": 0,
+				"marginLeft": 175,
 				"size": {
 					"x": 170,
 					"y": 300
@@ -695,7 +663,7 @@
 					{
 						"preview": "_statics/affiches00.png",
 						"file": "_statics/affiches[NUM].png",
-						"seqRepeatDelay": -1,
+						"seqRepeatDelay": 0,
 						"seqNumLength": 2,
 						"seqStart": 0,
 						"seqEnd": 95
@@ -707,7 +675,6 @@
 				"indexable": true,
 				"popUnder": true,
 				"marginLeft": 82,
-				"marginRight": 0,
 				"size": {
 					"x": 470,
 					"y": 586
@@ -734,16 +701,15 @@
 				}
 			},
 			{
-				"id": "_bus-stop: 417x322",
+				"id": "_bus-stop",
 				"indexable": false,
-				"marginLeft": 0,
-				"marginRight": 0,
+				"marginLeft": 100,
 				"size": {
 					"x": 417,
 					"y": 322
 				},
 				"pos": {
-					"x": -90,
+					"x": 0,
 					"y": 0
 				},
 				"red": {
@@ -754,17 +720,16 @@
 				}
 			},
 			{
-				"id": "_cloud 237x98",
+				"id": "_cloud2",
 				"indexable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
-					"x": 0,
+					"x": 237,
 					"y": 98
 				},
 				"pos": {
-					"x": -516,
-					"y": -470
+					"x": -417,
+					"y": -480
 				},
 				"red": {
 					"outline":
@@ -776,8 +741,7 @@
 			{
 				"id": "voiture-bus",
 				"indexable": true,
-				"marginLeft": 0,
-				"marginRight": 0,
+				"marginLeft": 260,
 				"size": {
 					"x": 820,
 					"y": 340
@@ -808,10 +772,9 @@
 				}
 			},
 			{
-				"id": "_stop-sign: 75x259",
+				"id": "_stop-sign",
 				"indexable": false,
 				"marginLeft": 93,
-				"marginRight": 0,
 				"size": {
 					"x": 75,
 					"y": 259
@@ -827,7 +790,6 @@
 				"id": "parking1",
 				"indexable": true,
 				"marginLeft": 50,
-				"marginRight": 0,
 				"size": {
 					"x": 1462,
 					"y": 529
@@ -862,7 +824,6 @@
 				"indexable": true,
 				"popUnder": true,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 945,
 					"y": 529
@@ -894,43 +855,21 @@
 				}
 			},
 			{
-				"id": "_pylon2: 237x340",
+				"id": "_bird-cable",
 				"indexable": false,
+				"disposable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
-					"x": 218,
-					"y": 340
-				},
-				"pos": {
-					"x": -18,
-					"y": 0
-				},
-				"red": {
-					"outline":
-					{
-						"file": "_statics/17-poteau-electrique1.png"
-					}
-				}
-			},
-			{
-				"id": "_bird-cable: 425x366",
-				"indexable": false,
-				"popUnder": true,
-				"marginLeft": 0,
-				"marginRight": 0,
-				"size": {
-					"x": 0,
+					"x": 80,
 					"y": 110
 				},
 				"pos": {
-					"x": -238,
+					"x": -21,
 					"y": -262
 				},
 				"red": {
 					"outline":
 					{
-						"preview": "_statics/oiseau-fil00.png",
 						"file": "_statics/oiseau-fil[NUM].png",
 						"seqRepeatDelay": -1,
 						"seqNumLength": 2,
@@ -941,13 +880,36 @@
 				}
 			},
 			{
+				"id": "_pylon2",
+				"indexable": false,
+				"marginLeft": 0,
+				"size": {
+					"x": 237,
+					"y": 340
+				},
+				"pos": {
+					"x": -84,
+					"y": 0
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/17-poteau-electrique1.png"
+					}
+				}
+			},
+			{
 				"id": "cheminee",
 				"indexable": true,
+				"popUnder": true,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 827,
 					"y": 621
+				},
+				"pos": {
+					"x": -3,
+					"y": 0
 				},
 				"red": {
 					"outline": {
@@ -958,7 +920,6 @@
 					}
 				},
 				"blue": {
-					"preview": "seq/chemineeBleu_00019.png",
 					"file": "seq/chemineeBleu_[NUM].png",
 					"seqRepeatDelay": 0,
 					"seqNumLength": 5,
@@ -967,10 +928,9 @@
 				}
 			},
 			{
-				"id": "_street-lamp1: 130x345",
+				"id": "_street-lamp1",
 				"indexable": false,
 				"marginLeft": 75,
-				"marginRight": 0,
 				"size": {
 					"x": 130,
 					"y": 345
@@ -985,17 +945,16 @@
 			{
 				"id": "arbre-rotation",
 				"indexable": true,
-				"marginLeft": 56,
-				"marginRight": 0,
+				"marginLeft": 50,
 				"size": {
 					"x": 460,
 					"y": 600
 				},
+				"pos": {
+					"x": 0,
+					"y": 0
+				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -1004,10 +963,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/arbre-rotation_00000.png",
 					"file": "seq/arbre-rotation_[NUM].png",
 					"seqRepeatDelay": 0,
@@ -1020,7 +975,6 @@
 				"id": "escalier",
 				"indexable": true,
 				"marginLeft": 115,
-				"marginRight": 0,
 				"size": {
 					"x": 825,
 					"y": 587
@@ -1051,10 +1005,9 @@
 				}
 			},
 			{
-				"id": "_bush3: 171x111",
+				"id": "_bush3",
 				"indexable": false,
 				"marginLeft": 32,
-				"marginRight": 0,
 				"size": {
 					"x": 171,
 					"y": 111
@@ -1071,19 +1024,43 @@
 				}
 			},
 			{
+				"id": "_oiseaux-escalier",
+				"indexable": false,
+				"marginLeft": 0,
+				"size": {
+					"x": 433,
+					"y": 200
+				},
+				"pos": {
+					"x": -404,
+					"y": -395
+				},
+				"red": {
+					"outline":
+					{
+						"preview": "_statics/oiseau-escalier00.png",
+						"file": "_statics/oiseau-escalier[NUM].png",
+						"seqRepeatDelay": 0,
+						"seqNumLength": 2,
+						"seqStart": 0,
+						"seqEnd": 69
+					}
+				}
+			},
+			{
 				"id": "etages",
 				"indexable": true,
-				"marginLeft": 32,
-				"marginRight": 0,
+				"popUnder": true,
+				"marginLeft": 0,
 				"size": {
 					"x": 655,
 					"y": 620
 				},
+				"pos": {
+					"x": -17,
+					"y": 0
+				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -1092,10 +1069,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/etages001.png",
 					"file": "seq/etages[NUM].png",
 					"seqRepeatDelay": 0,
@@ -1105,10 +1078,9 @@
 				}
 			},
 			{
-				"id": "_wall: 238x242",
+				"id": "_wall",
 				"indexable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 238,
 					"y": 242
@@ -1128,7 +1100,6 @@
 				"id": "serpent",
 				"indexable": true,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 943,
 					"y": 535
@@ -1159,10 +1130,9 @@
 				}
 			},
 			{
-				"id": "_morris-column: 187x457",
+				"id": "_morris-column",
 				"indexable": false,
 				"marginLeft": 45,
-				"marginRight": 0,
 				"size": {
 					"x": 187,
 					"y": 457
@@ -1175,10 +1145,9 @@
 				}
 			},
 			{
-				"id": "_pole1: 24x126",
+				"id": "_pole1",
 				"indexable": false,
 				"marginLeft": 55,
-				"marginRight": 0,
 				"size": {
 					"x": 24,
 					"y": 126
@@ -1194,7 +1163,6 @@
 				"id": "arbre-roller",
 				"indexable": true,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 475,
 					"y": 595
@@ -1225,10 +1193,9 @@
 				}
 			},
 			{
-				"id": "_indications2: 270x452",
+				"id": "_indications2",
 				"indexable": false,
 				"marginLeft": 92,
-				"marginRight": 0,
 				"size": {
 					"x": 270,
 					"y": 452
@@ -1244,7 +1211,6 @@
 				"id": "voiture-poule",
 				"indexable": true,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 855,
 					"y": 400
@@ -1267,10 +1233,9 @@
 				}
 			},
 			{
-				"id": "_road-sign2: 87x277",
+				"id": "_road-sign2",
 				"indexable": false,
 				"marginLeft": 92,
-				"marginRight": 0,
 				"size": {
 					"x": 87,
 					"y": 277
@@ -1286,7 +1251,6 @@
 				"id": "hotel",
 				"indexable": true,
 				"marginLeft": 16,
-				"marginRight": 0,
 				"size": {
 					"x": 1107,
 					"y": 582
@@ -1317,12 +1281,11 @@
 				}
 			},
 			{
-				"id": "_bush4: 212x131",
+				"id": "_bush4",
 				"indexable": false,
 				"marginLeft": 32,
-				"marginRight": 0,
 				"size": {
-					"x": 174,
+					"x": 212,
 					"y": 131
 				},
 				"pos": {
@@ -1339,8 +1302,7 @@
 			{
 				"id": "aspiro",
 				"indexable": true,
-				"marginLeft": 0,
-				"marginRight": 0,
+				"marginLeft": 30,
 				"size": {
 					"x": 851,
 					"y": 554
@@ -1363,10 +1325,9 @@
 				}
 			},
 			{
-				"id": "_cat: 196x130",
+				"id": "_cat",
 				"indexable": false,
 				"marginLeft": 23,
-				"marginRight": 0,
 				"size": {
 					"x": 196,
 					"y": 130
@@ -1392,7 +1353,6 @@
 				"id": "coiffeurs",
 				"indexable": true,
 				"marginLeft": 20,
-				"marginRight": 0,
 				"size": {
 					"x": 952,
 					"y": 586
@@ -1415,7 +1375,7 @@
 				}
 			},
 			{
-				"id": "_trash2: 98x109",
+				"id": "_trash2",
 				"indexable": false,
 				"marginLeft": 15,
 				"marginRight": 0,
@@ -1433,7 +1393,6 @@
 				"id": "musee",
 				"indexable": true,
 				"marginLeft": 10,
-				"marginRight": 0,
 				"size": {
 					"x": 1375,
 					"y": 537
@@ -1459,7 +1418,6 @@
 				"id": "_street-lamp2: 130x343",
 				"indexable": false,
 				"marginLeft": 5,
-				"marginRight": 0,
 				"size": {
 					"x": 130,
 					"y": 343
@@ -1474,7 +1432,6 @@
 				"id": "arbre-telescopique",
 				"indexable": true,
 				"marginLeft": 64,
-				"marginRight": 0,
 				"size": {
 					"x": 360,
 					"y": 600
@@ -1505,16 +1462,39 @@
 				}
 			},
 			{
-				"id": "_bench: 527x117",
+				"id": "_woodpecker",
+				"indexable": false,
+				"disposable": false,
+				"marginLeft": 0,
+				"size": {
+					"x": 47,
+					"y": 72
+				},
+				"pos": {
+					"x": -150,
+					"y": -140
+				},
+				"red": {
+					"outline":
+					{
+						"file": "_statics/picvert[NUM].png",
+						"seqNumLength": 2,
+						"seqRepeatDelay": 0,
+						"seqStart": 0,
+						"seqEnd": 12
+					}
+				}
+			},
+			{
+				"id": "_bench",
 				"indexable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
-					"x": 130,
+					"x": 527,
 					"y": 117
 				},
 				"pos": {
-					"x": -350,
+					"x": -245,
 					"y": 0
 				},
 				"red": {
@@ -1528,10 +1508,13 @@
 				"indexable": true,
 				"popUnder": true,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 350,
 					"y": 450
+				},
+				"pos": {
+					"x": -60,
+					"y": 0
 				},
 				"red": {
 					"outline": {
@@ -1542,10 +1525,6 @@
 					}
 				},
 				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"preview": "seq/arbre-oiseau-tete000.png",
 					"file": "seq/arbre-oiseau-tete[NUM].png",
 					"seqRepeatDelay": -1,
@@ -1555,12 +1534,11 @@
 				}
 			},
 			{
-				"id": "_stone: 203x71",
+				"id": "_stone",
 				"indexable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
-					"x": 180,
+					"x": 203,
 					"y": 71
 				},
 				"pos": {
@@ -1576,8 +1554,7 @@
 			{
 				"id": "tableaux",
 				"indexable": true,
-				"marginLeft": 0,
-				"marginRight": 0,
+				"marginLeft": 60,
 				"size": {
 					"x": 840,
 					"y": 535
@@ -1600,23 +1577,21 @@
 				}
 			},
 			{
-				"id": "_flag: 111x110",
+				"id": "_flag",
 				"indexable": false,
 				"disposable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
-					"x": 0,
-					"y": 110
+					"x": 111,
+					"y": 106
 				},
 				"pos": {
-					"x": -67,
-					"y": -529
+					"x": -69,
+					"y": -528
 				},
 				"red": {
 					"outline":
 					{
-						"preview": "_statics/drapeau01.png",
 						"file": "_statics/drapeau[NUM].png",
 						"seqRepeatDelay": 0,
 						"seqNumLength": 2,
@@ -1626,13 +1601,16 @@
 				}
 			},
 			{
-				"id": "_bush5: 171x111",
+				"id": "_bush5",
 				"indexable": false,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 171,
 					"y": 111
+				},
+				"pos": {
+					"x": -42,
+					"y": 0
 				},
 				"red": {
 					"outline": {
@@ -1644,14 +1622,13 @@
 				"id": "arbre-traction",
 				"indexable": true,
 				"popUnder": true,
-				"marginLeft": 90,
-				"marginRight": 0,
+				"marginLeft": 0,
 				"size": {
 					"x": 500,
 					"y": 595
 				},
 				"pos": {
-					"x": -120,
+					"x": -46,
 					"y": 0
 				},
 				"red": {
@@ -1675,7 +1652,6 @@
 				"id": "voiture-tapis-roulant",
 				"indexable": true,
 				"marginLeft": 0,
-				"marginRight": 0,
 				"size": {
 					"x": 710,
 					"y": 390
@@ -1698,10 +1674,9 @@
 				}
 			},
 			{
-				"id": "_road-sign4: 77x260",
+				"id": "_road-sign4",
 				"indexable": false,
 				"marginLeft": 62,
-				"marginRight": 46,
 				"size": {
 					"x": 77,
 					"y": 260
@@ -1710,6 +1685,16 @@
 					"outline": {
 						"file": "_statics/34-panneau-signalisation.png"
 					}
+				}
+			},
+			{
+				"id": "_end",
+				"indexable": false,
+				"popUnder": true,
+				"marginLeft": 145,
+				"size": {
+					"x": 1,
+					"y": 200
 				}
 			}
 		]
