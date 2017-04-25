@@ -108,7 +108,7 @@ if (!CCV.global){
 		SYS_ALLOW_LARGE: false,
 		
 		DEBUG_LANDSCAPE_GFX: false,
-		DEBUG_SCENE_GFX: true,
+		DEBUG_SCENE_GFX: false,
 		DEBUG_SCROLL_GFX: false,
 		DEBUG_SCENE_MARGINS: false,
 		DEBUG_SWIPE: false,
@@ -134,10 +134,10 @@ if (!CCV.global){
 		
 		MAGNIFIER_RED: 0xFF1515,
 		MAGNIFIER_PINCH_AMP: 200,
-		MAGNIFIER_PINCH_INCREMENT: .55,
+		MAGNIFIER_PINCH_INCREMENT: .5,
 		MAGNIFIER_APPEAR_TIME: .7,
 		MAGNIFIER_VANISH_TIME: .5,
-		MAGNIFIER_RADIUS: 200,
+		MAGNIFIER_RADIUS: 150,
 		MAGNIFIER_DRAG_IDLE_TEMPO: -1,
 		
 		SCROLL_ELASTICITY: .08,
@@ -815,7 +815,7 @@ if (!CCV.app.Landscape) {
 	 * @param data {{scenes:Array}}   data    JSON data holder
 	 */
 	proto.parse = function (data) {
-		var i, ilen, scene, formerScene, xPos, yGround;
+		var i, ilen, scene, formerScene, xPos, scenesPositions, yGround;
 		
 		// --- audio data
 		if(data.audio)
@@ -850,8 +850,7 @@ if (!CCV.app.Landscape) {
 		// add scenes and define scenes positions
 		yGround = CCV.player.landscapeHeight;
 		
-		this.xPos = [];
-		
+		scenesPositions = [];
 		for(i = 0, ilen = this.scenes.length, xPos = 0; i < ilen; ++i) {
 			scene = this.scenes[i];
 			
@@ -863,7 +862,7 @@ if (!CCV.app.Landscape) {
 			scene.view.y = yGround - scene.size.y;
 			
 			// store
-			this.xPos.push(xPos);
+			scenesPositions.push(xPos);
 			
 			// right position part
 			xPos += scene.size.x + scene.pos.x;
@@ -875,20 +874,16 @@ if (!CCV.app.Landscape) {
 			formerScene = scene;
 		}
 		
-		this.widths = [];
-		for(i = 1, ilen = this.xPos.length; i < ilen; ++i){
-			this.widths.push(this.xPos[i] - this.xPos[i - 1]);
-		}
-		
-		this.xPosMax = this.xPos[this.xPos.length - 1];
-		// remove last utility scene (#_end)
-		this.xPos.pop();
+		// compute scenes widths and remove last utility scene (#_end)
+		this.scenesWidths = [];
+		for(i = 1, ilen = scenesPositions.length; i < ilen; ++i)
+			this.scenesWidths.push(scenesPositions[i] - scenesPositions[i - 1]);
 		this.scenes.pop();
 		
 		// ground
 		this.ground = new CCV.app.Ground(data.ground);
 		this.ground.view.position = new PIXI.Point(0, yGround + this.ground.pos.y);
-		this.scenesCtn.addChild(this.ground.view);
+		this.scenesScroll.addChild(this.ground.view);
 		
 		// debug
 		this.debugGfx = new PIXI.Graphics();
@@ -1006,7 +1001,6 @@ if (!CCV.app.Landscape) {
 			}
 		}
 		
-		
 		// activate/deactivate scene according to current scene
 		KPF.utils.log('activate sequences between ]#' + sceneBefore.scene.id + ', index:' + sceneBefore.index + '; #' + sceneAfter.scene.id + ', index:' + sceneAfter.index + '[', 'Landscape.setIndex')
 		
@@ -1078,14 +1072,15 @@ if (!CCV.app.Landscape) {
 	};
 	/** @private */
 	proto._reArrangeScenesFrom = function(index){
-		var i, ilen, scene, xPos, clampedIndex, xPosDelta, xPosRef;
+		var i, ilen, xPos, clampedIndex;
 		
 		console.log('_reArrangeScenesFrom: ' + index + ', #' + this.scenes[index].id + ' at: ' + this.scenes[index].view.x);
 		
-		// items before
-		scene = this.scenes[index];
-		xPosRef = this.xPos[index];
-		
+		// ground
+		xPos = this.scenes[index].view.x;
+		this.ground.view.x = KPF.utils.floorTo(xPos, this.ground.size.x) - this.ground.size.x;
+			
+		// left-side items
 		xPos = this.scenes[index].view.x;
 		for(i = 1, ilen = this.scenes.length; i < CCV.global.SCENE_ITEM_BEFORE; ++i) {
 			clampedIndex = index - i;
@@ -1093,11 +1088,12 @@ if (!CCV.app.Landscape) {
 				clampedIndex += ilen;
 			clampedIndex %= ilen;
 			
-			xPos -= this.widths[clampedIndex];
+			xPos -= this.scenesWidths[clampedIndex];
 			this.scenes[clampedIndex].view.x = xPos;
 		}
 		
-		xPos = this.scenes[index].view.x + this.widths[index];
+		// right-side items
+		xPos = this.scenes[index].view.x + this.scenesWidths[index];
 		for(i = 1, ilen = this.scenes.length; i < ilen - CCV.global.SCENE_ITEM_BEFORE; ++i) {
 			clampedIndex = index + i;
 			while (clampedIndex < 0)
@@ -1105,7 +1101,7 @@ if (!CCV.app.Landscape) {
 			clampedIndex %= ilen;
 			
 			this.scenes[clampedIndex].view.x = xPos;
-			xPos += this.widths[clampedIndex];
+			xPos += this.scenesWidths[clampedIndex];
 		}
 	};
 }
@@ -1135,9 +1131,8 @@ if (!CCV.app.Scene) {
 		this.popUnder = data.popUnder === true;
 		
 		this.pos = new PIXI.Point();
-		if(data.pos){
+		if(data.pos)
 			this.pos.copy(data.pos);
-		}
 		this.pos.scale(ssc);
 		
 		this.marginLeft = data.marginLeft * ssc;
@@ -1145,9 +1140,6 @@ if (!CCV.app.Scene) {
 		this.size = new PIXI.Point(data.size.x, data.size.y);
 		this.size.scale(ssc);
 		this.xCenter = Math.round(.5 * this.size.x);
-		this.right = Math.max(0, this.size.x + this.pos.x);
-		if(this.right == 0)
-			console.log(this.id);
 		
 		this.activationTimeoutId = null;
 		
@@ -1558,10 +1550,6 @@ if (!CCV.app.Ground){
 	 * @constructor
 	 */
 	CCV.app.Ground = function (data) {
-		var mmSprite;
-		
-		this.file = CCV.player.mediaFolder + data.file;
-		
 		this.pos = new PIXI.Point(data.pos.x, data.pos.y);
 		this.pos.scale(CCV.player.scaleSourceCoef);
 		
@@ -1570,16 +1558,12 @@ if (!CCV.app.Ground){
 		
 		this.view = new PIXI.Container();
 		
-		mmSprite = PIXI.Sprite.fromImage(this.file);
-		mmSprite.blendMode = PIXI.BLEND_MODES.MULTIPLY;
-		this.view.addChild(mmSprite);
-		
-		/*
-		mmSprite = PIXI.Sprite.fromImage(this.file);
-		mmSprite.blendMode = PIXI.BLEND_MODES.MULTIPLY;
-		mmSprite.position = new PIXI.Point(this.size.x, 0);
-		this.view.addChild(mmSprite);
-		*/
+		for(var i = 0, texture = PIXI.Texture.fromImage(CCV.player.mediaFolder + data.file); i < 3; ++i){
+			gfx = PIXI.Sprite.from(texture);
+			gfx.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+			gfx.position = new PIXI.Point(i * this.size.x, 0);
+			this.view.addChild(gfx);
+		}
 	};
 }
 
@@ -1623,7 +1607,7 @@ if(!CCV.app.Magnifier){
 				return this.gfx.scale ? this.gfx.scale.x : 1;
 			},
 			set: function(pinchScale){
-				pinchScale = KPF.utils.clamp(pinchScale, 1 - CCV.global.MAGNIFIER_PINCH_INCREMENT, 1 + CCV.global.MAGNIFIER_PINCH_INCREMENT);
+				pinchScale = KPF.utils.clamp(pinchScale, 1, 1 + CCV.global.MAGNIFIER_PINCH_INCREMENT);
 				this.gfx.scale = new PIXI.Point(pinchScale, pinchScale);
 			}
 		});

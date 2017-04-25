@@ -98,6 +98,15 @@ if (!KPF.utils) {
 	KPF.utils.clamp = function(val, min, max){
 		return Math.max(min, Math.min(max, val));
 	};
+	KPF.utils.roundTo = function(v, precision){
+		return Math.round(v/precision) * precision;
+	};
+	KPF.utils.floorTo = function(v, precision){
+		return Math.floor(v/precision) * precision;
+	};
+	KPF.utils.ceilTo = function(v, precision){
+		return Math.ceil(v/precision) * precision;
+	};
 	
 	
 	// ----  string utilities
