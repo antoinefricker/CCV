@@ -12,60 +12,60 @@
 	
 	<script src="js/libs.js"></script>
 	<script src="js/exec-class.js"></script>
-	
+
 </head>
 <body class="page">
 
-	<header>
-	</header>
-	
-	<canvas id="pixi-stage"></canvas>
-	
-	<footer></footer>
-	
-	<div id="player-console" class="debug-panel">
-		<div>
-			<span class="label">Render mode:</span>
-			<span id="renderMode">-</span>
-		</div>
-		<div>
-			<span class="label">PIXI FPS:</span>
-			<span id="pixiFPS">-</span>
-		</div>
-		<!--
-		<div>
-			<span class="label">animation FPS:</span>
-			<span id="animationFPS">-</span>
-		</div>
-		-->
-		<div>
-			<span class="label">source folder:</span>
-			<span id="sourceFolder">-</span>
-		</div>
-		<div>
-			<span class="label">scale:</span>
-			<span id="scale">-</span>
-		</div>
+<header>
+</header>
+
+<canvas id="pixi-stage"></canvas>
+
+<footer></footer>
+
+<div id="player-console" class="debug-panel">
+	<div>
+		<span class="label">Render mode:</span>
+		<span id="renderMode">-</span>
 	</div>
-	<div id="player-controls" class="debug-panel">
-		
-		<div class="block">
-			<button id="scrollFastToLeft">‹‹</button>
-			<button id="scrollToLeft">‹</button>
-			<span id="indexDebug" class="info"></span>
-			<button id="round">round to indexed</button>
-			<button id="scrollToRight">›</button>
-			<button id="scrollFastToRight">››</button>
-			<select id="indexedSceneSelect"></select>
-			<select id="sceneSelect"></select>
-		</div>
-		
-		<div class="block">
-			<button id="magnifierDisplayToggler">-</button>
-			<button id="scenesShowFillToggler">-</button>
-			<button id="random">random</button>
-		</div>
+	<div>
+		<span class="label">PIXI FPS:</span>
+		<span id="pixiFPS">-</span>
 	</div>
+	<!--
+	<div>
+		<span class="label">animation FPS:</span>
+		<span id="animationFPS">-</span>
+	</div>
+	-->
+	<div>
+		<span class="label">source folder:</span>
+		<span id="sourceFolder">-</span>
+	</div>
+	<div>
+		<span class="label">scale:</span>
+		<span id="scale">-</span>
+	</div>
+</div>
+<div id="player-controls" class="debug-panel">
+	
+	<div class="block">
+		<button id="scrollFastToLeft">‹‹</button>
+		<button id="scrollToLeft">‹</button>
+		<span id="indexDebug" class="info"></span>
+		<button id="round">round to indexed</button>
+		<button id="scrollToRight">›</button>
+		<button id="scrollFastToRight">››</button>
+		<select id="indexedSceneSelect"></select>
+		<select id="sceneSelect"></select>
+	</div>
+	
+	<div class="block">
+		<button id="magnifierDisplayToggler">-</button>
+		<button id="scenesShowFillToggler">-</button>
+		<button id="random">random</button>
+	</div>
+</div>
 </body>
 </html>
 
@@ -80,15 +80,14 @@
 	$(cnv).on('ready', function(e, scenes, scenesIndexed){
 		var i, ilen, options;
 		
-		
 		for(i = 0, ilen = scenesIndexed.length, options = ''; i < ilen; ++i)
-			options += '<option value="index_' + scenesIndexed[i].index + '">' + scenesIndexed[i].scene.id + '</option>';
+			options += '<option value="index_' + scenesIndexed[i].index + '">[' + scenesIndexed[i].index + '] ' + scenesIndexed[i].scene.id + '</option>';
 		$('#indexedSceneSelect')
 			.html(options)
 			.val('index_' + app.landscape.index);
 		
 		for(i = 0, ilen = scenes.length,  options = ''; i < ilen; ++i)
-			options += '<option value="index_' + i + '">' + scenes[i].id + '</option>';
+			options += '<option value="index_' + i + '">[' + i + '] ' + scenes[i].id + '</option>';
 		$('#sceneSelect')
 			.html(options)
 			.val('index_' + app.landscape.index);
@@ -148,5 +147,5 @@
 	$('#scrollFastToRight').on('click', function(){
 		app.landscape.move(1, true);
 	});
-	
+
 </script>

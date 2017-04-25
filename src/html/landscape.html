@@ -5,96 +5,147 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	
 	<title>cache-cache ville</title>
-	<meta name="description" content="Add multi-touch gestures to your webpage.">
+	<meta name="description" content="">
 	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
 	
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,900&amp;subset=latin-ext">
 	<link rel="stylesheet" href="theme/main.css" />
 	
 	<script src="js/libs.js"></script>
 	<script src="js/exec-class.js"></script>
-	
+
 </head>
 <body class="page">
 
-	<header>
-	</header>
-	
-	<canvas id="pixi-stage"></canvas>
-	
-	<footer></footer>
-	
-	<div id="player-console" class="debug-panel">
-		<div>
-			<span class="label">Render mode:</span>
-			<span id="renderMode">-</span>
-		</div>
-		<div>
-			<span class="label">PIXI FPS:</span>
-			<span id="pixiFPS">-</span>
-		</div>
-		<!--
-		<div>
-			<span class="label">animation FPS:</span>
-			<span id="animationFPS">-</span>
-		</div>
-		-->
-		<div>
-			<span class="label">source folder:</span>
-			<span id="sourceFolder">-</span>
-		</div>
+<header>
+</header>
+
+<canvas id="pixi-stage"></canvas>
+
+<footer></footer>
+
+<div id="player-console" class="debug-panel">
+	<div>
+		<span class="label">Render mode:</span>
+		<span id="renderMode">-</span>
 	</div>
-	<div id="player-controls" class="debug-panel">
-		<span id="indexDebug"></span>
+	<div>
+		<span class="label">PIXI FPS:</span>
+		<span id="pixiFPS">-</span>
+	</div>
+	<!--
+	<div>
+		<span class="label">animation FPS:</span>
+		<span id="animationFPS">-</span>
+	</div>
+	-->
+	<div>
+		<span class="label">source folder:</span>
+		<span id="sourceFolder">-</span>
+	</div>
+	<div>
+		<span class="label">scale:</span>
+		<span id="scale">-</span>
+	</div>
+</div>
+<div id="player-controls" class="debug-panel">
+	
+	<div class="block">
+		<button id="scrollFastToLeft">‹‹</button>
+		<button id="scrollToLeft">‹</button>
+		<span id="indexDebug" class="info"></span>
+		<button id="round">round to indexed</button>
+		<button id="scrollToRight">›</button>
+		<button id="scrollFastToRight">››</button>
+		<select id="indexedSceneSelect"></select>
+		<select id="sceneSelect"></select>
+	</div>
+	
+	<div class="block">
 		<button id="magnifierDisplayToggler">-</button>
 		<button id="scenesShowFillToggler">-</button>
-		<button id="scrollToLeft">‹</button>
 		<button id="random">random</button>
-		<button id="scrollToRight">›</button>
 	</div>
+</div>
 </body>
 </html>
 
 <script>
 	var cnv = document.getElementById('pixi-stage');
+	
 	var app = new CCV.app.Player(cnv, {
+		magnifierDisplayStatus: true,
+		scenesShowFillStatus: true
 	});
 	
+	$(cnv).on('ready', function(e, scenes, scenesIndexed){
+		var i, ilen, options;
+		
+		for(i = 0, ilen = scenesIndexed.length, options = ''; i < ilen; ++i)
+			options += '<option value="index_' + scenesIndexed[i].index + '">[' + scenesIndexed[i].index + '] ' + scenesIndexed[i].scene.id + '</option>';
+		$('#indexedSceneSelect')
+			.html(options)
+			.val('index_' + app.landscape.index);
+		
+		for(i = 0, ilen = scenes.length,  options = ''; i < ilen; ++i)
+			options += '<option value="index_' + i + '">[' + i + '] ' + scenes[i].id + '</option>';
+		$('#sceneSelect')
+			.html(options)
+			.val('index_' + app.landscape.index);
+	});
+	
+	$('#sceneSelect').on('change', function(){
+		app.landscape.setIndex($(this).val().replace('index_', ''), false);
+	});
+	$('#indexedSceneSelect').on('change', function(){
+		app.landscape.setIndex($(this).val().replace('index_', ''), false);
+	});
+	
+	$(cnv).on('sceneIndexChange', function(e, index, scene, scenesLen){
+		$('#sceneSelect').val('index_' + index);
+		$('#indexedSceneSelect').val('index_' + index);
+		$('#indexDebug').html(index + '/' + scenesLen);
+	});
 	
 	window.setInterval(function(){
 		$('#pixiFPS').html(PIXI.ticker.shared.FPS.toFixed(1));
 		$('#sourceFolder').html(app.scaleFolder);
+		$('#scale').html(app.scale.toFixed(2));
 		$('#renderMode').html(app.getMode());
 	}, 1400);
+	
+	$('#round').on('click', function(){
+		app.landscape.move(0, true);
+	});
 	
 	$('#magnifierDisplayToggler').on('click', function(){
 		app.magnifierDisplayToggle();
 	});
+	
 	$(cnv).on('magnifierDisplayChange', function(e, status){
-		$('#magnifierDisplayToggler').html('toggle magnifier [' + (status ? 'on' : 'off') + ']');
+		$('#magnifierDisplayToggler').html('magnifier [' + (status ? 'on' : 'off') + ']');
 	});
 	
 	$(cnv).on('scenesShowFillChange', function(e, status){
-		$('#scenesShowFillToggler').html('show red fill: [' + (status ? 'on' : 'off') + ']');
+		$('#scenesShowFillToggler').html('red fill: [' + (status ? 'on' : 'off') + ']');
 	});
 	$('#scenesShowFillToggler').on('click', function(){
 		app.scenesShowFillToggle();
 	});
 	
-	$(cnv).on('sceneIndexChange', function(e, index, scene, scenesLen){
-		$('#indexDebug').html(index + '/' + scenesLen + ' - #' + scene.id);
-	});
-	
-	
-	
 	$('#scrollToLeft').on('click', function(){
-		app.landscape.move(-1);
+		app.landscape.move(-1, false);
+	});
+	$('#scrollFastToLeft').on('click', function(){
+		app.landscape.move(-1, true);
 	});
 	$('#random').on('click', function(){
 		app.landscape.pickRandomScene(false);
 	});
 	$('#scrollToRight').on('click', function(){
-		app.landscape.move(1);
+		app.landscape.move(1, false);
 	});
-	
+	$('#scrollFastToRight').on('click', function(){
+		app.landscape.move(1, true);
+	});
+
 </script>
