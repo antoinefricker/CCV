@@ -408,15 +408,14 @@
 				"red": {
 					"outline":
 					{
-						"preview": "_statics/poubelle30.png",
+						"preview": "_statics/poubelle29.png",
 						"file": "_statics/poubelle[NUM].png",
-						"seqRepeatDelay": -1,
-						"seqRestartDelay": -1,
+						"seqRepeatDelay": 1000,
+						"seqRestartDelay": 2000,
 						"seqNumLength": 2,
-						"seqStart": 30,
-						"seqEnd": 46
+						"seqStart": 29,
+						"seqEnd": 45
 					}
-					
 				}
 			},
 			{
@@ -1472,12 +1471,12 @@
 				"disposable": false,
 				"marginLeft": 0,
 				"size": {
-					"x": 47,
-					"y": 72
+					"x": 46,
+					"y": 71
 				},
 				"pos": {
-					"x": -150,
-					"y": -140
+					"x": -146,
+					"y": -82
 				},
 				"red": {
 					"outline":
@@ -1594,8 +1593,8 @@
 					"y": 106
 				},
 				"pos": {
-					"x": -69,
-					"y": -528
+					"x": -68,
+					"y": -530
 				},
 				"red": {
 					"outline":
