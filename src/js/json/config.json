@@ -421,7 +421,7 @@
 			{
 				"id": "serre",
 				"indexable": true,
-				"marginLeft": 50,
+				"marginLeft": 50, 
 				"size": {
 					"x": 1233,
 					"y": 596
