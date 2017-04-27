@@ -83,6 +83,7 @@ canvas {
 }
 
 body {
+	overflow: hidden;
 	background-color: #fff;
 }
 
@@ -342,6 +343,10 @@ header {
 	flex: 0 0 70px;
 }
 
+#info .flex-row.gutter-small {
+	flex: 0 0 50px;
+}
+
 #info .flex-row.page-top {
 	position: relative;
 	flex: 1 1 66%;
@@ -411,20 +416,29 @@ header {
 	flex: 0 0 90px;
 }
 
-#info0 .column.info1-a,
+#info0 .column.info1-a div,
 #info0 .column.info1-b {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: contain;
 }
 
-#info0 .column.info1-a {
-	background-image: url('mm/_info1-a.png');
+#info0 .column.info1-a div {
+	width: 100%;
+	height: 100%;
 	background-position: 40% center;
 }
 
+#info0 .column.info1-a div.lang-fr {
+	background-image: url('mm/_info0-a-fr.png');
+}
+
+#info0 .column.info1-a div.lang-en {
+	background-image: url('mm/_info0-a-en.png');
+}
+
 #info0 .column.info1-b {
-	background-image: url('mm/_info1-b.png');
+	background-image: url('mm/_info0-b.png');
 	background-position: 30% center;
 }
 
@@ -496,6 +510,7 @@ header {
 
 #info1 .page-top .vert-box .evaluation span {
 	vertical-align: middle;
+	color: white;
 }
 
 #info1 .page-bottom {
@@ -521,6 +536,40 @@ header {
 #info1 .page-bottom p {
 	font-size: 13px;
 	text-transform: uppercase;
+}
+
+#info2 .page-top {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+#info2 .page-top .vert-box {
+	box-sizing: border-box;
+	height: 100%;
+}
+
+#info2 .page-top .vert-box img {
+	height: 100%;
+}
+
+#info2 .page-bottom {
+	font-size: 22px;
+	padding: 50px 0 0 0;
+	text-align: center;
+	color: #97c1e7;
+}
+
+#info2 .page-bottom > div {
+	width: 100%;
+}
+
+#info2 .page-bottom a,
+#info2 .page-bottom a:link,
+#info2 .page-bottom a:hover,
+#info2 .page-bottom a:visited,
+#info2 .page-bottom a:active {
+	color: #3575bb;
 }
 
 #help {
@@ -588,6 +637,18 @@ header {
 #help #help-animation2 .hand {
 	position: absolute;
 	height: 100%;
+}
+
+.footer-menu {
+	position: absolute;
+	right: 50%;
+	bottom: 50%;
+	background: #000;
+}
+
+canvas#pixi-stage {
+	margin: 0;
+	padding: 0;
 }
 
 #player-console,

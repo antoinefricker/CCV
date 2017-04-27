@@ -4,6 +4,7 @@ $default-text-color: #333333;
 
 $panel-margin:90px;
 $page-gutter: 70px;
+$page-small-gutter: 50px;
 $debug-blocks:false;
 
 $red: #FF3C23;
@@ -20,5 +21,6 @@ $dark-blue: #3575bb;
 @import 'modules/_home';
 @import 'modules/_info';
 @import 'modules/_help';
+@import 'modules/_play';
 @import 'modules/_pixi-player';
  

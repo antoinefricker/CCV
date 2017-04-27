@@ -8,45 +8,88 @@ if(!DGN){
 	
 	if(!DGN.core.Application){
 		DGN.core.Application = function(pageId){
+			this.cnv = document.getElementById('pixi-stage');
 			this.page = null;
 			this.lang = 'fr';
-			
-			$('[data-lang]').on('click', function(){
-				DGN.app.langSet($(this).data('lang'));
-			});
-			this.langSet(this.langGetFull());
-			this.pageSet(pageId)
 		};
 		proto = DGN.core.Application.prototype;
 		
-		proto.pageSet = function(id, params){
-			if(!params)
-				params = {};
-			if(!id)
-				id = 'home';
-			KPF.utils.log('set page #' + id, 'Application.setPage', params);
-			
-			$('.page').hide();
-			$('#' + id).show();
-			
-			switch(id){
-				case 'home':
-					
-					break;
-				case 'info':
-					this._infoUtils(KPF.utils.isan(params.innerIndex) ? params.innerIndex : 0);
-					break;
-				case 'help':
-					this._helpAnimation(params);
-					break;
-				case 'play':
-					
-					break;
-				default:
-					KPF.utils.warn('Unknown ', 'Application.pageSet');
-			}
-		};
 		
+		proto.initialize = function(){
+			var page,
+				
+				pagination;
+			
+			/* application interactions */{
+				$('[data-lang]').on('click', function(){
+					DGN.app.langSet($(this).data('lang'));
+				});
+			}
+			
+			/* home page */{
+				
+				// buttons actions
+				$('#home')
+					.on('click', 'button.action-info', function(){
+						DGN.app.pageSet('info');
+					})
+					.on('click', 'button.action-play', function(){
+						DGN.app.pageSet('play');
+					});
+			}
+			
+			/* help page */{
+				// buttons actions
+				$('#help')
+					.on('click', 'button.action-close', function(){
+						DGN.app.pageSet('play');
+					});
+			}
+			
+			/* info page */{
+				page = $('#info');
+				
+				// buttons actions
+				page.on('click', 'button.action-home', function(){
+					DGN.app.pageSet('home');
+				});
+				
+				// initialize pagination
+				pagination = page.find('.pagination');
+				page.find('.inner-page').each(function(index, el){
+					$('<div />')
+						.on('click', function() {
+							DGN.app.pageSet('info', {
+								innerIndex: index
+							});
+						})
+						.appendTo(pagination);
+				});
+			}
+			
+			/* play page */{
+				// buttons actions
+				$('#play .footer-menu')
+					.on('click', '.action-help', function(){
+						DGN.app.pageSet('help');
+					})
+					.on('click', '.action-help', function(){
+						app.magnifierDisplayToggle();
+					})
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		}
 		
 		/* ########################################## LANGUAGES UTILITIES */ {
 		/**
@@ -55,7 +98,7 @@ if(!DGN){
 		 */
 		proto.langSet = function(lang){
 			if(!lang)
-				lang = (this.lang == 'fr') ? 'en' : 'fr';
+				lang = this.langGetFull();
 			else if(lang != 'fr' && lang != 'en')
 				lang = 'en';
 			this.lang = lang;
@@ -102,8 +145,40 @@ if(!DGN){
 			
 		}
 		
-		
 		/* ########################################## PAGES UTILITIES */ {
+			proto.pageSet = function(id, params){
+				if(!params)
+					params = {};
+				if(!id)
+					id = 'home';
+				KPF.utils.log('set page #' + id, 'Application.setPage', params);
+				
+				$('.page').hide();
+				$('#' + id).show();
+				
+				switch(id){
+					case 'home':
+						break;
+					
+					case 'info':
+						this._infoUtils(KPF.utils.isan(params.innerIndex) ? params.innerIndex : 0);
+						break;
+					
+					case 'help':
+						this._helpAnimation(params);
+						break;
+					
+					case 'play':
+						this.app = new CCV.app.Player(this.cnv, {
+							magnifierDisplayStatus: true,
+							scenesShowFillStatus: true
+						});
+						break;
+					default:
+						KPF.utils.warn('Unknown ', 'Application.pageSet');
+				}
+			};
+			
 			proto._infoUtils = function(index){
 				var page;
 				

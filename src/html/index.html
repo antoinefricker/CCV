@@ -15,62 +15,47 @@
 	
 	<script src="js/libs.js"></script>
 	<script src="js/exec-class.js"></script>
-	<script src="js/main.js"></script>
+	<script>
+		$(document).ready(function(){
+			DGN.app = new DGN.core.Application();
+			DGN.app.initialize();
+			DGN.app.langSet();
+			DGN.app.pageSet('play', {});
+		});
+	</script>
 </head>
 <body>
 
-<div id="help" class="page">
+
+<div id="home" class="page">
 	
-	<button class="action-button action-close" data-fr="fermer" data-en="close"></button>
+	<button class="action-button lang-en" title="version française" data-lang="fr"></button>
+	<button class="action-button lang-fr" title="english version" data-lang="en"></button>
+	<button class="action-button action-play"></button>
+	<button class="action-button action-info"></button>
 	
 	<div class="flex-rows">
 		<div class="flex-row margin"></div>
-		
-		<!-- animation #help-animation1 -->
-		<div class="flex-row instruction instruction1">
+		<div class="flex-row stretcher"></div>
+		<div class="flex-row houses houses1"></div>
+		<div class="flex-row title">
 			<div class="vert-box alg-center">
 				<span class="lang-fr">
-					Munis-toi de la loupe papier du livre Cache-cache ville
+					<h1>CACHE-CACHE VILLE</h1>
+					<h2>Agathe Demois et Vincent Godeau</h2>
 				</span>
 				<span class="lang-en">
-					Use the magnifying glass from the book Hide &amp; Seek City
+					<h1>HIDE &amp; SEEK CITY</h1>
+					<h2>Agathe Demois and Vincent Godeau</h2>
 				</span>
 			</div>
 		</div>
-		<div class="flex-row animation" id="help-animation1">
-			<img class="background" src="theme/mm/_help1-background.png" />
-			<img class="hand" src="theme/mm/_help1-hand.png" />
-		</div>
-		
-		<!-- animation #help-animation2 -->
-		<div class="flex-row instruction instruction2">
-			<div class="vert-box alg-center">
-				<span class="lang-fr">
-					ou active la loupe numérique dans l'application
-				</span>
-				<span class="lang-en">
-					Or activate the digital magnifying glass in the app
-				</span>
-			</div>
-		</div>
-		<div class="flex-row animation" id="help-animation2">
-			<img class="background" src="theme/mm/_help2-background.png" />
-			<img class="hand" src="theme/mm/_help2-hand.png" />
-		</div>
-		
+		<div class="flex-row houses houses2"></div>
+		<div class="flex-row stretcher"></div>
 		<div class="flex-row margin"></div>
 	</div>
-</div><!-- END #help -->
 
-<div id="play" class="page">
-	
-	
-	<div class="">
-		<button class="action-button action-help" data-fr="aide" data-en="help"></button>
-	</div>
-	
-	<h1>play</h1>
-</div><!-- END #play -->
+</div><!-- END #home -->
 
 <div id="info" class="page">
 	
@@ -83,7 +68,7 @@
 	<div class="pagination">
 	</div>
 	
-	<button class="action-button action-home" data-fr="accueil" data-en="home"></button>
+	<button class="action-button action-home"></button>
 	
 	<div id="info0" class="inner-page">
 		
@@ -95,6 +80,8 @@
 				<div class="columns">
 					<div class="column gutter"></div>
 					<div class="column info1-a">
+						<div class="lang-fr"></div>
+						<div class="lang-en"></div>
 					</div>
 					<div class="column gutter"></div>
 					<div class="column info1-b">
@@ -102,7 +89,7 @@
 							Le livre "Cache-cache ville"<br />
 							sortie prévue en 2018<br />
 						</div>
-						<div class="lang-fr">
+						<div class="lang-en">
 							The book "Hide &amp; Seek City"<br />
 							is due to be published in 2018<br />
 						</div>
@@ -225,7 +212,7 @@
 							</p>
 						</div>
 					</div>
-					
+				
 				</div>
 			</div>
 			<div class="flex-row margin"></div>
@@ -311,30 +298,27 @@
 	</div><!-- end .info1 -->
 	
 	<div id="info2" class="inner-page">
-		<div class="flex-rows lang-fr">
+		<div class="flex-rows">
 			<div class="flex-row margin blue-bg"></div>
 			<div class="flex-row gutter blue-bg"></div>
 			
 			<div class="flex-row page-top blue-bg">
-				<div class="vert-box"></div>
+				<div class="vert-box">
+					<a href="https://itunes.apple.com/fr/app/avec-quelques-briques/id1057876475?mt=8" target="_blank">
+						<img src="theme/mm/_info2-fr.png" class="lang-fr" />
+						<img src="theme/mm/_info2-en.png" class="lang-en" />
+					</a>
+				</div>
 			</div>
-			
+			<div class="flex-row gutter-small blue-bg"></div>
 			<div class="flex-row page-bottom">
 				<div class="lang-fr">
-					<div class="line1">
-						Avec quelques briques
-					</div>
-					<div class="line2">
-						une autre application de Vincent Godeau
-					</div>
+					<a href="https://itunes.apple.com/fr/app/avec-quelques-briques/id1057876475?mt=8" target="_blank">Avec quelques briques</a><br />
+					une autre application de Vincent Godeau
 				</div>
 				<div class="lang-en">
-					<div class="line1">
-						With a few bricks
-					</div>
-					<div class="line2">
-						Another app by Vincent Godeau
-					</div>
+					<a href="https://itunes.apple.com/us/app/with-a-few-bricks/id1057876475?mt=8" target="_blank">With a few bricks</a><br />
+					another app by Vincent Godeau
 				</div>
 			</div>
 			<div class="flex-row margin"></div>
@@ -343,35 +327,59 @@
 
 </div><!-- END #info -->
 
-<div id="home" class="page">
+<div id="play" class="page">
+	<canvas id="pixi-stage"></canvas>
 	
-	<button class="action-button lang-en" title="version française" data-lang="fr"></button>
-	<button class="action-button lang-fr" title="english version" data-lang="en"></button>
-	<button class="action-button action-play" data-fr="découvrir" data-en="discover"></button>
-	<button class="action-button action-info" data-fr="crédits" data-en="credits"></button>
+	<div class="footer-menu">
+		<div class="action-button red-home">home</div>
+		<div class="action-button red-magnifier">magnifier</div>
+		<div class="action-button red-help">help</div>
+		<div class="action-button red-arrow-left">arrow</div>
+	</div>
+</div><!-- END #play -->
+
+<div id="help" class="page">
+	
+	<button class="action-button action-close"></button>
 	
 	<div class="flex-rows">
 		<div class="flex-row margin"></div>
-		<div class="flex-row stretcher"></div>
-		<div class="flex-row houses houses1"></div>
-		<div class="flex-row title">
+		
+		<!-- animation #help-animation1 -->
+		<div class="flex-row instruction instruction1">
 			<div class="vert-box alg-center">
 				<span class="lang-fr">
-					<h1>CACHE-CACHE VILLE</h1>
-					<h2>Agathe Demois et Vincent Godeau</h2>
+					Munis-toi de la loupe papier du livre Cache-cache ville
 				</span>
 				<span class="lang-en">
-					<h1>HIDE &amp; SEEK CITY</h1>
-					<h2>Agathe Demois and Vincent Godeau</h2>
+					Use the magnifying glass from the book Hide &amp; Seek City
 				</span>
 			</div>
 		</div>
-		<div class="flex-row houses houses2"></div>
-		<div class="flex-row stretcher"></div>
+		<div class="flex-row animation" id="help-animation1">
+			<img class="background" src="theme/mm/_help1-background.png" />
+			<img class="hand" src="theme/mm/_help1-hand.png" />
+		</div>
+		
+		<!-- animation #help-animation2 -->
+		<div class="flex-row instruction instruction2">
+			<div class="vert-box alg-center">
+				<span class="lang-fr">
+					ou active la loupe numérique dans l'application
+				</span>
+				<span class="lang-en">
+					Or activate the digital magnifying glass in the app
+				</span>
+			</div>
+		</div>
+		<div class="flex-row animation" id="help-animation2">
+			<img class="background" src="theme/mm/_help2-background.png" />
+			<img class="hand" src="theme/mm/_help2-hand.png" />
+		</div>
+		
 		<div class="flex-row margin"></div>
 	</div>
-	
-</div><!-- END #home -->
+</div><!-- END #help -->
 
 </body>
 </html>
