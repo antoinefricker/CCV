@@ -1,0 +1,92 @@
+#info {
+	$page-gutter: 70px;
+	
+	button.action-home{
+		position:absolute;
+		right:$panel-margin;
+		top:$panel-margin;
+	}
+	
+	.page-title{
+		position:absolute;
+		left:$panel-margin;
+		top:$panel-margin;
+		
+		display:block;
+		width:500px;
+		height:70px;
+		span{
+			padding:74px;
+			color: white;
+			font-size:30px;
+			line-height:70px;
+		}
+	}
+	
+	.flex-row {
+		height: 100%;
+		&.gutter {
+			flex: 0 0 $page-gutter;
+		}
+		&.page-top {
+			flex: 1 1 66%;
+			position: relative;
+			@if($debug-blocks) {
+				background-color: rgba(black, .2);
+			}
+		}
+		&.page-bottom {
+			flex: 1 1 33%;
+			position: relative;
+		}
+	}
+	
+	.page-top{
+		padding:0 0 0 $panel-margin;
+	}
+	.page-bottom{
+		padding:50px 0 0 $panel-margin;
+		
+		color: $light-blue;
+		font-size:22px;
+		
+		a, a:link, a:hover, a:visited, a:active{
+			color: $dark-blue;
+			text-decoration:none;
+		}
+	}
+	
+	.columns{
+		display:flex;
+		width:100%;
+	}
+	.column{
+		flex:1 1 50%;
+		
+		&.gutter {
+			flex: 0 0 $page-gutter;
+		}
+		&.margin{
+			flex:0 0 $panel-margin;
+		}
+		&.info1-a, &.info1-b{
+			background-position:center center;
+			background-size:contain;
+			background-repeat: no-repeat;
+		}
+		&.info1-a{
+			background-position: 40% center;
+			background-image: url('mm/_info1-a.png');
+		}
+		&.info1-b{
+			background-image: url('mm/_info1-b.png');
+			background-position: 30% center;
+			
+			div{
+				padding: $page-gutter 0 0 $page-gutter;
+				font-size:32px;
+				color:white;
+			}
+		}
+	}
+}

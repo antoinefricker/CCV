@@ -1,0 +1,76 @@
+#help {
+	
+	padding:0 $panel-margin;
+	background-color:$light-blue;
+	
+	button.action-close{
+		right:$panel-margin;
+		top:$panel-margin;
+	}
+	
+	.flex-row {
+		height: 100%;
+		&.instruction1 {
+			flex: 0 1 100px;
+			position: relative;
+			@if($debug-blocks) {
+				background-color: rgba(orange, .2);
+			}
+		}
+		&.instruction2 {
+			flex: 0 1 30px;
+			position: relative;
+			@if($debug-blocks) {
+				background-color: rgba(orange, .2);
+			}
+			div{
+				margin-top:-20px;
+			}
+		}
+		&.animation {
+			flex: 2 1 260px;
+			position: relative;
+			@if($debug-blocks) {
+				background-color: rgba(black, .2);
+			}
+		}
+		&.stretcher {
+			flex: 2 1 0;
+			@if ($debug-blocks) {
+				background-color: rgba(red, .5);
+			}
+		}
+	}
+	
+	.instruction{
+		font-size:40px;
+		margin:0;
+		padding:0;
+		line-height:40px;
+		color: $dark-blue;
+	}
+	
+	#help-animation1, #help-animation2 {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		
+		.background {
+			position:absolute;
+			height: 100%;
+			left:50%;
+			transform: translateX(-50%);
+			@if($debug-blocks){
+				border:1px solid green;
+			}
+		}
+		.hand {
+			position:absolute;
+			height: 100%;
+			@if($debug-blocks){
+				border:1px solid red;
+			}
+		}
+	}
+} 
