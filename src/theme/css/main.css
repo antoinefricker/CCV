@@ -83,7 +83,6 @@ canvas {
 }
 
 body {
-	overflow: hidden;
 	background-color: #fff;
 }
 
@@ -108,6 +107,18 @@ body {
 	top: 50%;
 	width: 100%;
 	transform: translateY(-50%);
+}
+
+.blue-bg {
+	background-color: #97c1e7;
+}
+
+a,
+a:link,
+a:hover,
+a:visited,
+a:active {
+	text-decoration: none;
 }
 
 .flex-rows {
@@ -149,8 +160,15 @@ body {
 	flex-basis: auto;
 }
 
-.blue-bg {
-	background-color: #97c1e7;
+#info1 .page-top .vert-box table:after {
+	display: table;
+	clear: both;
+	content: '';
+}
+
+br.cleaner {
+	display: block;
+	clear: both;
 }
 
 button.action-button {
@@ -207,11 +225,18 @@ header {
 	height: 0;
 }
 
-.page {
-	position: absolute;
-	overflow: hidden;
+.page,
+.inner-page {
 	width: 100vw;
 	height: 100vh;
+}
+
+.page {
+	position: absolute;
+}
+
+.inner-page {
+	float: left;
 }
 
 #home {
@@ -342,48 +367,160 @@ header {
 #info .page-bottom a:hover,
 #info .page-bottom a:visited,
 #info .page-bottom a:active {
-	text-decoration: none;
 	color: #3575bb;
 }
 
-#info .columns {
+#info .pagination {
+	position: absolute;
+	z-index: 200;
+	bottom: 90px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+#info .pagination div {
+	display: block;
+	float: left;
+	width: 30px;
+	height: 30px;
+	margin: 8px;
+	border: #ff3c23 4px solid;
+	border-radius: 15px;
+	background-color: white;
+}
+
+#info .pagination div:active,
+#info .pagination div.current {
+	background-color: #ff3c23;
+}
+
+#info0 .columns {
 	display: flex;
 	width: 100%;
 }
 
-#info .column {
+#info0 .column {
 	flex: 1 1 50%;
 }
 
-#info .column.gutter {
+#info0 .column.gutter {
 	flex: 0 0 70px;
 }
 
-#info .column.margin {
+#info0 .column.margin {
 	flex: 0 0 90px;
 }
 
-#info .column.info1-a,
-#info .column.info1-b {
+#info0 .column.info1-a,
+#info0 .column.info1-b {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: contain;
 }
 
-#info .column.info1-a {
+#info0 .column.info1-a {
 	background-image: url('mm/_info1-a.png');
 	background-position: 40% center;
 }
 
-#info .column.info1-b {
+#info0 .column.info1-b {
 	background-image: url('mm/_info1-b.png');
 	background-position: 30% center;
 }
 
-#info .column.info1-b div {
+#info0 .column.info1-b div {
 	font-size: 32px;
 	padding: 70px 0 0 70px;
 	color: white;
+}
+
+#info1 .flex-columns {
+	width: 100%;
+	height: auto;
+}
+
+#info1 .page-top {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+#info1 .page-top .vert-box {
+	box-sizing: border-box;
+	padding: 0 90px 0 90px;
+}
+
+#info1 .page-top .vert-box > * {
+	margin-bottom: 30px;
+}
+
+#info1 .page-top .vert-box h1 {
+	font-size: 36px;
+	display: block;
+	width: auto;
+	color: white;
+}
+
+#info1 .page-top .vert-box table {
+	width: 100%;
+}
+
+#info1 .page-top .vert-box table td {
+	font-size: 20px;
+	width: 50%;
+	padding: 5px 6px;
+}
+
+#info1 .page-top .vert-box table td:nth-child(1) {
+	text-align: right;
+	color: white;
+}
+
+#info1 .page-top .vert-box table td:nth-child(2) {
+	text-align: left;
+	color: #3575bb;
+}
+
+#info1 .page-top .vert-box .evaluation {
+	font-size: 20px;
+	line-height: 24px;
+	box-sizing: border-box;
+	height: 24px;
+	vertical-align: middle;
+}
+
+#info1 .page-top .vert-box .evaluation img {
+	margin-right: 6px;
+	vertical-align: middle;
+}
+
+#info1 .page-top .vert-box .evaluation span {
+	vertical-align: middle;
+}
+
+#info1 .page-bottom {
+	padding: 50px 90px 0 90px;
+}
+
+#info1 .page-bottom .croq-logo {
+	margin-right: 26px;
+	background: url('mm/_croq-les-mots.png') no-repeat;
+	background-position: left top;
+	background-size: contain;
+	flex: 1 1 20%;
+}
+
+#info1 .page-bottom .thanx {
+	flex: 1 1 80%;
+}
+
+#info1 .page-bottom h3 {
+	font-size: 24px;
+}
+
+#info1 .page-bottom p {
+	font-size: 13px;
+	text-transform: uppercase;
 }
 
 #help {

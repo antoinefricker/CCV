@@ -1,5 +1,4 @@
 #info {
-	$page-gutter: 70px;
 	
 	button.action-home{
 		position:absolute;
@@ -23,6 +22,8 @@
 		}
 	}
 	
+	.flex-rows{
+	}
 	.flex-row {
 		height: 100%;
 		&.gutter {
@@ -52,9 +53,36 @@
 		
 		a, a:link, a:hover, a:visited, a:active{
 			color: $dark-blue;
-			text-decoration:none;
 		}
 	}
+	
+	.pagination{
+		position:absolute;
+		z-index:200;
+		left:50%;
+		transform: translateX(-50%);
+		bottom:$panel-margin;
+		
+		div{
+			$pagination-size: 30px;
+			
+			display:block;
+			float:left;
+			width:$pagination-size;
+			height:$pagination-size;
+			border-radius: .5 * $pagination-size;
+			border: $red 4px solid;
+			margin:8px;
+			
+			background-color:white;
+			&:active, &.current{
+				background-color: $red;
+			}
+		}
+	}
+}
+
+#info0{
 	
 	.columns{
 		display:flex;
@@ -87,6 +115,100 @@
 				font-size:32px;
 				color:white;
 			}
+		}
+	}
+}
+
+#info1{
+	
+	.flex-columns{
+		width:100%;
+		height: auto;
+	}
+	.flex-column{
+		@if($debug-blocks){
+			border: 1px red solid;
+		}
+	}
+	
+	.page-top{
+		padding:0;
+		margin:0;
+		text-align:center;
+		
+		.vert-box{
+			padding:0 $panel-margin 0 $panel-margin;
+			box-sizing: border-box;
+			
+			& > *{
+				margin-bottom:30px;
+			}
+			
+			h1{
+				display:block;
+				width:auto;
+				font-size: 36px;
+				color:white;
+			}
+			
+			table{
+				width:100%;
+				@extend %clearfix;
+				
+				td{
+					@if($debug-blocks){
+						border: 1px red solid;
+					}
+					padding: 5px 6px;
+					width:50%;
+					font-size:20px;
+				}
+				td:nth-child(1){
+					color: white;
+					text-align:right;
+				}
+				td:nth-child(2){
+					color: $dark-blue;
+					text-align:left;
+				}
+			}
+			
+			.evaluation{
+				height: 24px;
+				font-size: 20px;
+				line-height: 24px;
+				box-sizing: border-box;
+				vertical-align: middle;
+				img{
+					margin-right: 6px;
+					vertical-align: middle;
+				}
+				span{
+					vertical-align: middle;
+				}
+			}
+		}
+	}
+	.page-bottom{
+		
+		padding:50px $panel-margin 0 $panel-margin;
+		
+		.croq-logo{
+			flex: 1 1 20%;
+			margin-right:26px;
+			background: url('mm/_croq-les-mots.png') no-repeat;
+			background-position:left top;
+			background-size:contain;
+		}
+		.thanx{
+			flex: 1 1 80%;
+		}
+		h3{
+			font-size:24px;
+		}
+		p{
+			text-transform:uppercase;
+			font-size:13px;
 		}
 	}
 }

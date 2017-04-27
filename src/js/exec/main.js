@@ -1,8 +1,4 @@
 $(document).ready(function(){
-	var ppage, p;
-	
-	KPF.utils.log('---------------------------------- DOCUMENT READY');
-	
 	
 	// --------------- home page
 	
@@ -26,16 +22,25 @@ $(document).ready(function(){
 	
 	
 	// --------------- info page
-	ppage = $('#info');
+	var page, innerPages, pagination;
+	
+	page = $('#info');
+	
 	
 	// buttons actions
-	ppage.on('click', 'button.action-home', function(){
-			DGN.app.pageSet('home');
-		});
+	page.on('click', 'button.action-home', function(){
+		DGN.app.pageSet('home');
+	});
 	
-	p = ppage.find('pagination');
-	ppage.children('.inner-page').each(function(index, el){
-		$('<div>' + index + '</div>')
+	pagination = page.find('.pagination');
+	page.find('.inner-page').each(function(index, el){
+		$('<div />')
+			.on('click', function() {
+				DGN.app.pageSet('info', {
+					innerIndex: index
+				});
+			})
+			.appendTo(pagination);
 	});
 	
 	
@@ -45,7 +50,8 @@ $(document).ready(function(){
 			DGN.app.pageSet('help');
 		});
 	
-	
-	
-	DGN.app = new DGN.core.Application('info');
+	DGN.app = new DGN.core.Application();
+	DGN.app.pageSet('info', {
+		innerIndex: 2
+	});
 });

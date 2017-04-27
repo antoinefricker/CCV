@@ -15,15 +15,16 @@ if(!DGN){
 				DGN.app.langSet($(this).data('lang'));
 			});
 			this.langSet(this.langGetFull());
-			
 			this.pageSet(pageId)
 		};
 		proto = DGN.core.Application.prototype;
 		
-		proto.pageSet = function(id){
+		proto.pageSet = function(id, params){
+			if(!params)
+				params = {};
 			if(!id)
 				id = 'home';
-			KPF.utils.log('set page #' + id, 'Application.setPage');
+			KPF.utils.log('set page #' + id, 'Application.setPage', params);
 			
 			$('.page').hide();
 			$('#' + id).show();
@@ -32,17 +33,17 @@ if(!DGN){
 				case 'home':
 					
 					break;
-				case 'credits':
-					
+				case 'info':
+					this._infoUtils(KPF.utils.isan(params.innerIndex) ? params.innerIndex : 0);
 					break;
 				case 'help':
-					this._helpAnimation(true);
+					this._helpAnimation(params);
 					break;
 				case 'play':
 					
 					break;
 				default:
-					KPF.utils.warn();
+					KPF.utils.warn('Unknown ', 'Application.pageSet');
 			}
 		};
 		
@@ -103,7 +104,20 @@ if(!DGN){
 		
 		
 		/* ########################################## PAGES UTILITIES */ {
-			proto._helpAnimation = function(status){
+			proto._infoUtils = function(index){
+				var page;
+				
+				console.log(index);
+				
+				page = $('#info');
+				page.find('.pagination').children().each(function(paginationIndex, paginationEl){
+					$(paginationEl).toggleClass('current', paginationIndex == index);
+				});
+				page.find('.inner-page').each(function(innerPageIndex, innerPageEl){
+					$(innerPageEl).toggle(innerPageIndex == index);
+				});
+			};
+			proto._helpUtils = function(status){
 				if(status) {
 					var tl, anim, hand, bg,
 						animSize, handSize, bgSize,

@@ -6,11 +6,11 @@ html, body, canvas{
 }
 body{
 	background-color:#ffffff;
-	overflow:hidden;
+	//overflow:hidden;
 }
 
 
-//	-------------------------------------- INTERACTIONS UTILITIES
+//	-------------------------------------- CORE GRAPHIC AND INTERACTIONS STYLES
 
 .no-cursor{
 	cursor: url('mm/no-cursor.png'), none !important;
@@ -32,6 +32,13 @@ body{
 	transform: translateY(-50%);
 }
 
+.blue-bg{
+	background-color:$light-blue;
+}
+
+a, a:link, a:hover, a:visited, a:active{
+	text-decoration:none;
+}
 
 //	-------------------------------------- FLEX GRID
 
@@ -74,14 +81,20 @@ body{
 	//border:1px red solid;
 }
 
-
-
-.blue-bg{
-	background-color:$light-blue;
+%clearfix {
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+br.cleaner{
+	display:block;
+	clear:both;
 }
 
 
-//	--------------------------------------
+//	-------------------------------------- ACTION BUTTONS
 
 button.action-button {
 	position:absolute;
@@ -126,7 +139,7 @@ button.action-button {
 	}
 }
 
-//	--------------------------------------
+//	-------------------------------------- PAGE ARCHITECTURE
 
 footer{
 	display:block;
@@ -139,9 +152,14 @@ header{
 	width:100%;
 }
 
-.page{
-	position:absolute;
+.page, .inner-page{
 	width:100vw;
 	height:100vh;
-	overflow:hidden;
+	//overflow:hidden;
+}
+.page{
+	position:absolute;
+}
+.inner-page{
+	float:left;
 }
