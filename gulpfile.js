@@ -31,6 +31,8 @@ gulp.task('start', function () {
 	
 	gulp.watch(['src/js/exec/*.js', 'src/js/exec/**/*.js', 'src/theme/**/*.js'], ['js_exec_compile']);
 	gulp.watch(['src/js/**/*.json'], ['json_compile']);
+	
+	gulp.watch(['src/theme/mm/*.png'], ['images_opt']);
 });
 gulp.task('default', ['start', 'js_libs_compile']);
 
@@ -97,11 +99,23 @@ gulp.task('typecript_compile', function(){
 		.pipe(browserSync.stream());
 });
 
+// // ------------------ IMAGES
+gulp.task('images_opt', function(){
+	return gulp.src("src/theme/mm/*.png")
+		.pipe(imagemin([
+			imagemin.optipng({
+				bitDepthReduction: true,
+				optimizationLevel: 5, // between 0 and 7
+				colorTypeReduction: true,
+				paletteReduction: true
+			})
+		]))
+		.pipe(gulp.dest('dist/theme/mm/'));
+});
 
 
 // ------------------ CCV
 gulp.task('ccv_images', function(){
-	gutil.log('v1.1');
 	return gulp.src("src/ccv/x1/_statics/**/*.png")
 		.pipe(imagemin([
 			imagemin.optipng({

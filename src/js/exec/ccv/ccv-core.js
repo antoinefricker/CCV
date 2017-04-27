@@ -42,7 +42,6 @@ proto.toString = function(){
 	return '[PIXI.Point] x: ' + this.x.toFixed(1) + ', y: ' + this.y.toFixed(1);
 };
 
-
 proto = PIXI.Rectangle.prototype;
 proto.scale = function(a, b){
 	if(b == undefined)
@@ -53,6 +52,7 @@ proto.scale = function(a, b){
 	this.width *= b;
 	this.height *= b;
 };
+
 
 
 if (!CCV)
@@ -114,10 +114,12 @@ if (!CCV.global){
 		DEBUG_SWIPE: false,
 		
 		AUDIO_FOLDER: 'ccv/audio/',
-		AUDIO_GLOBAL_VOLUME: 0,
+		AUDIO_GLOBAL_VOLUME: 0.3,
+		AUDIO_DELTA_VOLUME_COEF: 0.6,
+		AUDIO_DELTA_PAN_COEF: 0.6,
 		// AUDIO_GLOBAL_VOLUME: 1,
 		
-		SCENE_START_INDEX: 60,
+		SCENE_START_INDEX: 11,
 		SCENE_START_RAND: false,
 		SCENE_ACTIVATION_DELAY: 2000,
 		SCENE_DEACTIVATION_DELAY: 1400,
@@ -127,7 +129,7 @@ if (!CCV.global){
 		SCENE_MAX_HEIGHT: 650,
 		SCENE_EXTRAVIEW_COEF: .25,
 		SCENE_GROUND_HEIGHT: 100,
-		SCENE_ACTIVITY_RANGE: 0,
+		SCENE_ACTIVATE_BORDING_SCENES: true,
 		SCENE_ITEM_BEFORE: 10,
 		
 		MEDIA_FOLDER: 'ccv/',
@@ -819,7 +821,7 @@ if (!CCV.app.Landscape) {
 		
 		// --- audio data
 		if(data.audio)
-			this.audio = new CCV.app.AudioChannel(data.audio, null, true);
+			this.audio = new CCV.app.AudioChannel(data.audio, true);
 		
 		// --- parse scenes data
 		this.scenes = [];
@@ -1014,9 +1016,9 @@ if (!CCV.app.Landscape) {
 				activationDelta += ilen;
 			else if(activationDelta > activationDeltaMax)
 				activationDelta -= ilen;
-			
-			activationTest = sceneBefore.index > sceneAfter.index ? (i > sceneBefore.index) || (i < sceneAfter.index) : (i > sceneBefore.index) && (i < sceneAfter.index);
-			
+			activationTest = CCV.global.SCENE_ACTIVATE_BORDING_SCENES ?
+				(sceneBefore.index > sceneAfter.index) ? (i >= sceneBefore.index) || (i <= sceneAfter.index) : (i >= sceneBefore.index) && (i <= sceneAfter.index) :
+				(sceneBefore.index > sceneAfter.index) ? (i > sceneBefore.index) || (i < sceneAfter.index) : (i > sceneBefore.index) && (i < sceneAfter.index);
 			if(activationTest){
 				KPF.utils.log('\t - activate index: ' + i + ' (' + this.scenes[i].id + ')');
 			}
@@ -1048,9 +1050,7 @@ if (!CCV.app.Landscape) {
 		this.xTarget = this.xCenter - limitBefore - (.5 * limitDelta);
 		this.scrollMin = Math.max(CCV.global.SCROLL_MIN_OFFSET, .5 * (limitDelta - this.size.x));
 		this.scrollPreview = CCV.global.SCROLL_PREVIEW_OFFSET;
-		
 		KPF.utils.log('scrollMin: ' + this.scrollMin + ',  scrollPreview: ' + this.scrollPreview, 'Landscape.setIndex');
-		
 		
 		if(CCV.global.DEBUG_SCROLL_GFX){
 			this.scrollDebugGfx.clear();
@@ -1145,9 +1145,8 @@ if (!CCV.app.Scene) {
 		
 		
 		// ---   build audio
-		if(data.audio){
-			this.audio = new CCV.app.AudioChannel(data.audio, this);
-		}
+		if(data.hasOwnProperty('audio'))
+			this.audio = new CCV.app.AudioChannel(data.audio);
 		
 		// ---   build view
 		this.viewBuild(data);
@@ -1163,9 +1162,9 @@ if (!CCV.app.Scene) {
 	};
 	/**
 	 * Returns a formatted string representation of the instance
-	 * @param depth   {number} formatting depth
-	 * @param indentStart   {boolean}   whether or not indentation should be added on string start
-	 * @return {string}
+	 * @param depth   {Number} formatting depth
+	 * @param indentStart   {Boolean}   whether or not indentation should be added on string start
+	 * @return {String}
 	 */
 	proto.info = function (depth, indentStart) {
 		var str = '';
@@ -1278,29 +1277,13 @@ if (!CCV.app.Scene) {
 		}
 	};
 	proto.activateDisplay = function(status, delta) {
-		var volumeTarget, panTarget, self;
+		var self = this;
 		
-		self = this;
-		
-		if(this.audio){
-			volumeTarget = status ? 1 : Math.max(0, 1 - 0.6 * Math.abs(delta));
-			panTarget = KPF.utils.clamp(delta * .6, -1, 1);
-			if(!this.audio.isPlaying()){
-				startAtValues = {
-					volume: 0
-				}
-			}
-			TweenMax.to(this.audio, CCV.global.SCENE_SLIDE_DURATION, {
-				volume: volumeTarget,
-				pan: panTarget,
-				delay: .3,
-				onUpdate: this.audio.render.bind(this.audio)
-			});
-			if(volumeTarget > 0 && !this.audio.isPlaying()){
-				this.audio.play();
-				this.audio.render();
-			}
-		}
+		// audio management
+		this.volumeTarget = status ? 1 : Math.max(0, 1 - CCV.global.AUDIO_DELTA_VOLUME_COEF * Math.abs(delta));
+		this.panTarget = KPF.utils.clamp(delta * CCV.global.AUDIO_DELTA_PAN_COEF, -1, 1);
+		if(this.audio)
+			this._launchAudio(this.audio);
 		
 		if(this.activationTimeoutId)
 			window.clearTimeout(this.activationTimeoutId);
@@ -1309,6 +1292,36 @@ if (!CCV.app.Scene) {
 			$(self).trigger('displayStateChange', [status]);
 		}, status ? CCV.global.SCENE_ACTIVATION_DELAY : CCV.global.SCENE_DEACTIVATION_DELAY);
 	};
+	proto.launchAudio = function(audio, doTransition){
+		doTransition = doTransition !== false;
+		
+		if(doTransition){
+			if(!audio.isPlaying()){
+				startAtValues = {
+					volume: 0
+				}
+			}
+			TweenMax.to(audio, CCV.global.SCENE_SLIDE_DURATION, {
+				volume: this.volumeTarget,
+				pan: this.panTarget,
+				delay: .3,
+				startAt: startAtValues,
+				onUpdate: audio.render.bind(audio)
+			});
+			if(this.volumeTarget > 0 && !audio.isPlaying()){
+				audio.play();
+				audio.render();
+			}
+		}
+		else{
+			audio.stop();
+			audio.volume = this.volumeTarget;
+			audio.pan = this.panTarget;
+			audio.play();
+			audio.render();
+			console.log('-----------------------------> audio')
+		}
+	}
 }
 
 
@@ -1439,8 +1452,6 @@ if (!CCV.app.Sequence) {
 		
 		// ---   debug markers
 		if (CCV.global.DEBUG_SCENE_GFX) {
-			
-			// show root ID and position
 			this.text = new PIXI.Text('', {
 				fontFamily: 'Verdana',
 				fontSize: 15,
@@ -1449,8 +1460,6 @@ if (!CCV.app.Sequence) {
 			this.text.position = new PIXI.Point(20, -20);
 			this.view.addChild(this.text);
 		}
-		
-		
 		
 		this.active = undefined;
 		$(this.scene).on('displayStateChange', this.activateDisplay.bind(this));
@@ -1463,26 +1472,93 @@ if (!CCV.app.Sequence) {
 		this.seqStart = data.hasOwnProperty('seqStart') ? data.seqStart : 1;
 		this.seqEnd = data.hasOwnProperty('seqEnd') ? data.seqEnd : 1;
 		
-		if(data.hasOwnProperty('seqRepeatDelay') && data.seqRepeatDelay >= 0)
-			this.seqRepeatDelay = data.seqRepeatDelay;
-		else
-			this.seqRepeatDelay = CCV.global.SCENE_REPEAT_DELAY;
+		this.seqRepeatDelay = (data.hasOwnProperty('seqRepeatDelay') && data.seqRepeatDelay >= 0) ? data.seqRepeatDelay : CCV.global.SCENE_REPEAT_DELAY;
 		this.seqRepeatFrames = parseInt(this.seqRepeatDelay / 1000 * CCV.global.SYS_FPS);
 		this.seqRepeatSuspensionFrames = -1;
 		
-		if(data.hasOwnProperty('seqRestartDelay') && data.seqRestartDelay >= 0)
-			this.seqRestartDelay = data.seqRestartDelay;
-		else
-			this.seqRestartDelay = CCV.global.SCENE_RESTART_DELAY;
+		this.seqRestartDelay = (data.hasOwnProperty('seqRestartDelay') && data.seqRestartDelay >= 0) ? data.seqRestartDelay : CCV.global.SCENE_RESTART_DELAY;
 		this.seqRestartFrames = parseInt(this.seqRestartDelay / 1000 * CCV.global.SYS_FPS);
 		this.seqRestartSuspensionFrames = -1;
+		
+		if(data.hasOwnProperty('audio')){
+			this.audio = new CCV.app.AudioChannel(data.audio, true);
+		}
 		
 		this.file = data.file;
 		this.loop = data.loop !== false;
 	};
-	proto.log = function(){
-		if (CCV.global.DEBUG_SCENE_GFX && this.animation) {
-			this.text.text = this.animation.currentFrame + '/' + this.animation.totalFrames + ' (restart: ' + this.seqRestartSuspensionFrames + ', repeat: ' + this.seqRepeatSuspensionFrames + ')';
+	proto.nextFrame = function(){
+		var a = this.animation;
+		
+		if(!a)
+			return;
+		
+		var c = a.currentFrame + 1;
+		var t = a.totalFrames;
+		
+		// ##################### if repeat suspensions frames are defined, handle them
+		// ... wait
+		if(this.seqRepeatSuspensionFrames > 0) {
+			this.seqRepeatSuspensionFrames--;
+		}
+		// ... repeat
+		else if(this.seqRepeatSuspensionFrames == 0) {
+			this.seqRepeatSuspensionFrames = -1
+			if(this.seqRestartFrames > 0)
+				this.seqRestartSuspensionFrames = this.seqRestartFrames;
+			else if(this.audio){
+				console.log('launch audio from repeat pause');
+				this.scene.launchAudio(this.audio, false);
+			}
+			a.gotoAndStop(0);
+		}
+		
+		// ##################### if restart suspensions frames are defined, handle them
+		// ... wait
+		else if(this.seqRestartSuspensionFrames > 0) {
+			this.seqRestartSuspensionFrames--;
+		}
+		// ... restart
+		else if(this.seqRestartSuspensionFrames == 0) {
+			this.seqRestartSuspensionFrames = -1;
+			a.gotoAndStop(1);
+			if(this.audio){
+				console.log('launch audio from restart pause');
+				this.scene.launchAudio(this.audio, false);
+			}
+		}
+		// // ##################### else set playhead to move forward
+		else if(c < t){
+			a.gotoAndStop(c);
+		}
+		else{
+			// sequence has a repeat pause
+			if(this.seqRepeatFrames > 0){
+				this.seqRepeatSuspensionFrames = this.seqRepeatFrames;
+				a.gotoAndStop(t - 1);
+			}
+			// sequence has a restart pause
+			if(this.seqRestartFrames > 0){
+				this.seqRestartSuspensionFrames = this.seqRestartFrames;
+				a.gotoAndStop(0);
+			}
+			//
+			else{
+				a.gotoAndStop(0);
+				if(this.audio){
+					console.log('launch audio from loop');
+					this.scene.launchAudio(this.audio, false);
+				}
+			}
+		}
+		
+		if (CCV.global.DEBUG_SCENE_GFX) {
+			var log = a.currentFrame + '/' + a.totalFrames;
+			if(this.seqRestartFrames > 0)
+				log += ' [restart: ' + this.seqRestartSuspensionFrames + '/' + this.seqRestartFrames + ']';
+			if(this.seqRepeatFrames > 0)
+				log += ' [repeat: ' + this.seqRepeatSuspensionFrames + '/' + this.seqRepeatFrames + ']';
+			this.text.text = log;
 		}
 	};
 	proto.toString = function () {
@@ -1506,6 +1582,10 @@ if (!CCV.app.Sequence) {
 		this.active = status;
 		this.seqRepeatSuspensionFrames = -1;
 		
+		if(!status && this.audio){
+			this.audio.stop();
+		}
+		
 		
 		// active --> launch animmation
 		// .... OR
@@ -1527,6 +1607,10 @@ if (!CCV.app.Sequence) {
 				this.view.addChild(this.animation);
 			}
 			CCV.player.animTicker.addSequence(this);
+			if(this.audio && this.seqRepeatFrames + this.seqRestartFrames == 0){
+				console.log('launch audio from activation');
+				this.scene.launchAudio(this.audio, false);
+			}
 		}
 		
 		else if(this.animation){
@@ -1723,9 +1807,6 @@ if(!CCV.app.AnimationsTicker){
 			this.sequences.splice(i, 1);
 	};
 	proto.askRender = function(){
-		/** @var {CCV.app.Sequence} */
-		var sequence;
-		
 		// ---   handle delayed calls
 		this.scheduled = false;
 		this.deltaTime = Date.now() - this.time;
@@ -1739,57 +1820,8 @@ if(!CCV.app.AnimationsTicker){
 		this.time += this.deltaTime;
 		
 		CCV.player.application.render();
-		
-		
-		for(var i = 0, ilen = this.sequences.length, t, c; i < ilen; ++i){
-			sequence = this.sequences[i];
-			sequence.log();
-			
-			c = sequence.animation.currentFrame + 1;
-			t = sequence.animation.totalFrames;
-			
-			// ##################### if repeat suspensions frames are defined, handle them
-			// ... wait
-			if(sequence.seqRepeatSuspensionFrames > 0) {
-				sequence.seqRepeatSuspensionFrames--;
-			}
-			// ... repeat
-			else if(sequence.seqRepeatSuspensionFrames == 0) {
-				sequence.seqRepeatSuspensionFrames = -1;
-				sequence.animation.gotoAndStop(0);
-				if(sequence.seqRestartFrames > 0)
-					sequence.seqRestartSuspensionFrames = sequence.seqRestartFrames;
-			}
-			
-			// ##################### if restart suspensions frames are defined, handle them
-			// ... wait
-			else if(sequence.seqRestartSuspensionFrames > 0) {
-				sequence.seqRestartSuspensionFrames--;
-			}
-			// ... restart
-			else if(sequence.seqRestartSuspensionFrames == 0) {
-				sequence.animation.gotoAndStop(1);
-				sequence.seqRestartSuspensionFrames = -1;
-			}
-			
-			// ##################### else set playhead
-			// ... move forward
-			else if(c < t){
-				sequence.animation.gotoAndStop(c);
-			}
-			// ... end is reached
-			else{
-				// sequence has
-				if(sequence.seqRepeatFrames > 0){
-					sequence.seqRepeatSuspensionFrames = sequence.seqRepeatFrames;
-					sequence.animation.gotoAndStop(t - 1);
-				}
-				//
-				else{
-					sequence.animation.gotoAndStop(0);
-				}
-			}
-		}
+		for(var i = 0, ilen = this.sequences.length; i < ilen; ++i)
+			this.sequences[i].nextFrame();
 		
 		requestAnimationFrame(this.askRenderCallback);
 	};
@@ -1803,11 +1835,10 @@ if(!CCV.app.AudioChannel){
 	
 	/**
 	 * @param data
-	 * @param scene
 	 * @param autoRender
 	 * @constructor
 	 */
-	CCV.app.AudioChannel = function(data, scene, autoRender){
+	CCV.app.AudioChannel = function(data, autoRender){
 		this.file = CCV.global.AUDIO_FOLDER + data.file;
 		this.isLoop = data.isLoop !== false;
 		this.isStereo = data.isStereo !== false;

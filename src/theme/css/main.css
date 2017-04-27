@@ -87,14 +87,6 @@ body {
 	background-color: #fff;
 }
 
-.lang-fr {
-	display: block;
-}
-
-.lang-en {
-	display: none;
-}
-
 .no-cursor {
 	cursor: url('mm/no-cursor.png'), none !important;
 }
@@ -111,11 +103,21 @@ body {
 	text-align: right;
 }
 
+.vert-box {
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	transform: translateY(-50%);
+}
+
 .flex-rows {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	height: 100%;
+	width: 100vw;
+	max-width: 100%;
+	height: 100vh;
+	max-height: 100vh;
+	margin: auto;
 	align-content: stretch;
 	flex-wrap: nowrap;
 }
@@ -125,6 +127,10 @@ body {
 	flex-shrink: 1;
 	flex-grow: 1;
 	flex-basis: auto;
+}
+
+.flex-row.margin {
+	flex: 0 0 90px;
 }
 
 .flex-columns {
@@ -143,6 +149,52 @@ body {
 	flex-basis: auto;
 }
 
+.blue-bg {
+	background-color: #97c1e7;
+}
+
+button.action-button {
+	position: absolute;
+	z-index: 100;
+	display: block;
+	width: 70px;
+	height: 70px;
+	cursor: pointer !important;
+	border: none !important;
+	background-color: transparent !important;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+}
+
+button.action-button.lang-fr {
+	background-image: url('mm/_icon-en.png');
+}
+
+button.action-button.lang-en {
+	background-image: url('mm/_icon-fr.png');
+}
+
+button.action-button.action-play {
+	background-image: url('mm/_icon-play.png');
+}
+
+button.action-button.action-info {
+	background-image: url('mm/_icon-info.png');
+}
+
+button.action-button.action-info2 {
+	background-image: url('mm/_icon-info2.png');
+}
+
+button.action-button.action-close {
+	background-image: url('mm/_icon-close.png');
+}
+
+button.action-button.action-home {
+	background-image: url('mm/_icon-home.png');
+}
+
 footer {
 	display: block;
 	width: 100%;
@@ -156,184 +208,63 @@ header {
 }
 
 .page {
+	position: absolute;
+	overflow: hidden;
 	width: 100vw;
 	height: 100vh;
 }
 
-#lang-menu,
-#info-menu,
-#browse-menu,
-#close-overlay {
-	position: absolute;
-	z-index: 100;
-	display: block;
+#home {
+	padding: 0 90px;
 }
 
-#lang-menu {
-	top: 50px;
-	left: 50px;
+#home button.lang-en {
+	top: 90px;
+	left: 90px;
 }
 
-#info-menu {
-	top: 50px;
-	right: 50px;
+#home button.lang-fr {
+	top: 90px;
+	left: 90px;
 }
 
-#browse-menu {
-	right: 50px;
-	bottom: 50px;
+#home button.action-play {
+	right: 90px;
+	bottom: 90px;
 }
 
-#close-overlay {
-	z-index: 200;
-	top: 50px;
-	right: 50px;
-	border: red 1px solid;
-}
-
-button.action-button {
-	display: block;
-	zoom: .7;
-	width: 100px;
-	height: 100px;
-	cursor: pointer !important;
-	background-color: transparent !important;
-}
-
-button.action-button div {
-	width: 100%;
-	height: 100%;
-	transform-origin: -50% 50%;
-	background: url('mm/interface/atlas.png') no-repeat;
-}
-
-button.action-button div.close-overlay {
-	background-position: -640px -400px;
-}
-
-button.action-button div.info {
-	background-position: -740px -400px;
-}
-
-button.action-button div.browse-next {
-	background-position: -840px -400px;
-}
-
-button.action-button div.version-en {
-	background-position: -940px -400px;
-}
-
-button.action-button div.version-fr {
-	background-position: -1040px -400px;
-}
-
-#help {
-	position: relative;
-	z-index: 150;
-	background-color: #7db0df;
-}
-
-#help .flex-rows {
-	width: 100vw;
-	max-width: 900px;
-	height: 100vh;
-	max-height: 100vh;
-	margin: auto;
-}
-
-#help .flex-row {
-	height: 100%;
-	min-height: 80px;
-	border: 1px solid red;
-	flex-grow: 3;
-}
-
-#help .flex-row.stretcher {
-	flex-shrink: 10;
-	flex-grow: 1;
-}
-
-#help #help1,
-#help #help2 {
-	position: relative;
-}
-
-#help #help1 .background,
-#help #help1 .hand,
-#help #help1 .instructions,
-#help #help2 .background,
-#help #help2 .hand,
-#help #help2 .instructions {
-	position: absolute;
-	display: block;
-}
-
-#help #help1 .background:before,
-#help #help1 .hand:before,
-#help #help2 .background:before,
-#help #help2 .hand:before {
-	position: absolute;
-	content: '';
-	background: url('mm/interface/atlas.png') no-repeat;
-	background-repeat: no-repeat;
-	background-size: 90% 90%;
-}
-
-#help #help1 .instructions,
-#help #help2 .instructions {
-	font-family: 'campton-semibold', sans-serif;
-	font-size: 30px;
-	width: 100%;
-	text-align: center;
-	color: white;
-}
-
-#help #help1 .background:before {
-	width: 100px;
-	height: 100px;
-	border: purple 4px dotted;
-	background-position: 0 -500px;
-}
-
-#help #help1 .hand {
-	top: 50px;
-	left: 400px;
-}
-
-#help #help1 .hand:before {
-	width: 200px;
-	height: 200px;
-	border: orange 4px dotted;
-	background-position: 0 -1140px;
-}
-
-#home .flex-rows {
-	width: 100vw;
-	max-width: 900px;
-	height: 100vh;
-	max-height: 100vh;
-	margin: auto;
+#home button.action-info {
+	top: 90px;
+	right: 90px;
 }
 
 #home .flex-row {
 	height: 100%;
-	min-height: 80px;
-	flex-grow: 3;
 }
 
-#home .flex-row.stretcher,
-#home .flex-row.middle-stretcher {
-	flex-shrink: 10;
-	flex-grow: 1;
+#home .flex-row.stretcher {
+	flex: 2 1 0;
 }
 
-#home .flex-row.middle-stretcher {
-	min-height: 120px;
+#home .flex-row.houses {
+	max-height: 350px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+	flex: 2 1 440px;
 }
 
-#home .title-box {
-	width: 100%;
-	padding: 10px 60px;
+#home .flex-row.houses1 {
+	background-image: url('mm/_houses1.png');
+}
+
+#home .flex-row.houses2 {
+	background-image: url('mm/_houses2.png');
+}
+
+#home .flex-row.title {
+	position: relative;
+	flex: 0 1 260px;
 }
 
 #home h1 {
@@ -341,7 +272,7 @@ button.action-button div.version-fr {
 	line-height: 72px;
 	display: block;
 	float: none;
-	margin: 0 0 12px 0;
+	margin: 0 0 8px 0;
 	padding: 0;
 	color: #7db0df;
 }
@@ -356,56 +287,170 @@ button.action-button div.version-fr {
 	color: #7db0df;
 }
 
-#home .house {
+#info button.action-home {
+	position: absolute;
+	top: 90px;
+	right: 90px;
+}
+
+#info .page-title {
+	position: absolute;
+	top: 90px;
+	left: 90px;
 	display: block;
+	width: 500px;
+	height: 70px;
 }
 
-#home .house .house1 {
-	width: 100%;
+#info .page-title span {
+	font-size: 30px;
+	line-height: 70px;
+	padding: 74px;
+	color: white;
+}
+
+#info .flex-row {
 	height: 100%;
-	background: transparent url('mm/interface/house1.png') no-repeat;
+}
+
+#info .flex-row.gutter {
+	flex: 0 0 70px;
+}
+
+#info .flex-row.page-top {
+	position: relative;
+	flex: 1 1 66%;
+}
+
+#info .flex-row.page-bottom {
+	position: relative;
+	flex: 1 1 33%;
+}
+
+#info .page-top {
+	padding: 0 0 0 90px;
+}
+
+#info .page-bottom {
+	font-size: 22px;
+	padding: 50px 0 0 90px;
+	color: #97c1e7;
+}
+
+#info .page-bottom a,
+#info .page-bottom a:link,
+#info .page-bottom a:hover,
+#info .page-bottom a:visited,
+#info .page-bottom a:active {
+	text-decoration: none;
+	color: #3575bb;
+}
+
+#info .columns {
+	display: flex;
+	width: 100%;
+}
+
+#info .column {
+	flex: 1 1 50%;
+}
+
+#info .column.gutter {
+	flex: 0 0 70px;
+}
+
+#info .column.margin {
+	flex: 0 0 90px;
+}
+
+#info .column.info1-a,
+#info .column.info1-b {
+	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: contain;
 }
 
-#home .house .house2 {
-	width: 100%;
-	height: 100%;
-	background: transparent url('mm/interface/house2.png') no-repeat;
-	background-position: center center;
-	background-size: contain;
+#info .column.info1-a {
+	background-image: url('mm/_info1-a.png');
+	background-position: 40% center;
 }
 
-#home .house .house3 {
-	width: 100%;
-	height: 100%;
-	background: transparent url('mm/interface/house3.png') no-repeat;
-	background-position: center center;
-	background-size: contain;
+#info .column.info1-b {
+	background-image: url('mm/_info1-b.png');
+	background-position: 30% center;
 }
 
-#home .house .house4 {
-	width: 100%;
-	height: 100%;
-	background: transparent url('mm/interface/house4.png') no-repeat;
-	background-position: center center;
-	background-size: contain;
+#info .column.info1-b div {
+	font-size: 32px;
+	padding: 70px 0 0 70px;
+	color: white;
 }
 
-#home .house .house5 {
-	width: 100%;
-	height: 100%;
-	background: transparent url('mm/interface/house5.png') no-repeat;
-	background-position: center center;
-	background-size: contain;
+#help {
+	padding: 0 90px;
+	background-color: #97c1e7;
 }
 
-#home .house .house6 {
+#help button.action-close {
+	top: 90px;
+	right: 90px;
+}
+
+#help .flex-row {
+	height: 100%;
+}
+
+#help .flex-row.instruction1 {
+	position: relative;
+	flex: 0 1 100px;
+}
+
+#help .flex-row.instruction2 {
+	position: relative;
+	flex: 0 1 30px;
+}
+
+#help .flex-row.instruction2 div {
+	margin-top: -20px;
+}
+
+#help .flex-row.animation {
+	position: relative;
+	flex: 2 1 260px;
+}
+
+#help .flex-row.stretcher {
+	flex: 2 1 0;
+}
+
+#help .instruction {
+	font-size: 40px;
+	line-height: 40px;
+	margin: 0;
+	padding: 0;
+	color: #3575bb;
+}
+
+#help #help-animation1,
+#help #help-animation2 {
+	position: relative;
 	width: 100%;
 	height: 100%;
-	background: transparent url('mm/interface/house6.png') no-repeat;
-	background-position: center center;
-	background-size: contain;
+	text-align: center;
+}
+
+#help #help-animation1 .background,
+#help #help-animation2 .background {
+	position: absolute;
+	left: 50%;
+	height: 100%;
+	transform: translateX(-50%);
+}
+
+#help #help-animation1 .hand,
+#help #help-animation2 .hand {
+	position: absolute;
+	height: 100%;
 }
 
 #player-console,

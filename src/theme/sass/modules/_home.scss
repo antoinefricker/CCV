@@ -1,177 +1,62 @@
-@mixin atlas-spritesheet() {
-	background: url('mm/interface/atlas.png') no-repeat;
-}
- 
-
-$panel-margin: 50px;
-
-
-#lang-menu, #info-menu, #browse-menu, #close-overlay{
-	display:block;
-	position:absolute;
-	z-index:100;
-}
-#lang-menu{
-	top:$panel-margin;
-	left:$panel-margin;
-}
-#info-menu{
-	top:$panel-margin;
-	right:$panel-margin;
-}
-#browse-menu{
-	bottom:$panel-margin;
-	right:$panel-margin;
-}
-#close-overlay{
-	z-index:200;
-	top: $panel-margin;
-	right: $panel-margin;
-	border:red 1px solid;
-}
-button.action-button{
-	display:block;
-	width:100px;
-	height:100px;
-	zoom:.7;
-	
-	// override button style
-	background-color:transparent !important;
-	cursor:pointer !important;
-	
-	
-	div{
-		@include atlas-spritesheet();
-		width: 100%;
-		height: 100%;
-		transform-origin:-50% 50%;
-		
-		&.close-overlay{
-			background-position:-640px -400px;
-		}
-		&.info{
-			background-position:-740px -400px;
-		}
-		&.browse-next{
-			background-position:-840px -400px;
-		}
-		&.version-en{
-			background-position:-940px -400px;
-		}
-		&.version-fr{
-			background-position:-1040px -400px;
-		}
-	}
-}
-	
-#help{
-	position:relative;
-	z-index:150;
-	background-color:$blue;
-	
-	
-	
-	.flex-rows{
-		margin:auto;
-		width:100vw;
-		height:100vh;
-		max-width:900px;
-		max-height:100vh;
-	}
-	.flex-row{
-		height:100%;
-		min-height:80px;
-		flex-grow:3;
-		border:1px solid red;
-		
-		&.stretcher{
-			flex-shrink:10;
-			flex-grow:1;
-		}
-	}
-	
-	
-	
-	#help1, #help2 {
-		position: relative;
-		.background, .hand, .instructions{
-			display:block;
-			position:absolute;
-		}
-		.background, .hand{
-			&:before{
-				content: '';
-				position: absolute;
-				@include atlas-spritesheet();
-				background-repeat: no-repeat;
-				background-size: 90% 90%;
-				//background-attachment:scroll;
-			}
-		}
-		.instructions{
-			width: 100%;
-			font-family: 'campton-semibold', sans-serif;
-			text-align: center;
-			font-size: 30px;
-			color: white;
-		}
-	}
-	
-	#help1 {
-		
-		.background {
-			
-			&:before {
-				// 1040px * 460px
-				background-position: 0 -500px;
-				border: purple 4px dotted;
-				width: 100px;
-				height: 100px;
-			}
-		}
-		.hand {
-			top:50px;
-			left:400px;
-			&:before {
-				// 660px * 520px
-				background-position: 0 -1140px;
-				border: orange 4px dotted;
-				width: 200px;
-				height: 200px;
-			}
-		}
-	}
-}
 #home{
-	.flex-rows{
-		margin:auto;
-		width:100vw;
-		height:100vh;
-		max-width:900px;
-		max-height:100vh;
+	
+	padding:0 $panel-margin;
+	
+	button.lang-en{
+		left:$panel-margin;
+		top:$panel-margin;
 	}
+	button.lang-fr{
+		left:$panel-margin;
+		top:$panel-margin;
+	}
+	button.action-play{
+		right:$panel-margin;
+		bottom:$panel-margin;
+	}
+	button.action-info{
+		right:$panel-margin;
+		top:$panel-margin;
+	}
+	
 	.flex-row{
 		height:100%;
-		min-height:80px;
-		flex-grow:3;
-		&.stretcher, &.middle-stretcher{
-			flex-shrink:10;
-			flex-grow:1;
+		&.stretcher{
+			flex: 2 1 0;
+			@if($debug-blocks){
+				background-color: rgba(orange, .5);
+			}
 		}
-		&.middle-stretcher{
-			min-height:120px;
+		&.houses{
+			flex: 2 1 440px;
+			max-height:350px;
+			background-repeat:no-repeat;
+			background-size:contain;
+			background-position:center center;
+			@if($debug-blocks) {
+				background-color: rgba(black, .2);
+			}
 		}
-	}
-	.title-box{
-		padding:10px 60px;
-		width:100%;
+		&.houses1{
+			background-image:url('mm/_houses1.png');
+		}
+		&.houses2{
+			background-image:url('mm/_houses2.png');
+		}
+		&.title{
+			flex: 0 1 260px;
+			position:relative;
+			@if($debug-blocks) {
+				background-color: rgba(orange, .2);
+			}
+		}
 	}
 	
 	h1{
 		display: block;
 		font-size: 72px;
 		line-height:72px;
-		margin:0 0 12px 0;
+		margin:0 0 8px 0;
 		padding:0;
 		color: $blue;
 		float: none;
@@ -185,19 +70,173 @@ button.action-button{
 		color: $blue;
 		float:none;
 	}
+}
+
+#info {
+	$page-gutter: 70px;
 	
-	.house{
-		$house-width: 580px;
-		$house-height: 440px;
+	button.action-home{
+		position:absolute;
+		right:$panel-margin;
+		top:$panel-margin;
+	}
+	
+	.page-title{
+		position:absolute;
+		left:$panel-margin;
+		top:$panel-margin;
+		
 		display:block;
+		width:500px;
+		height:70px;
+		span{
+			padding:74px;
+			color: white;
+			font-size:30px;
+			line-height:70px;
+		}
+	}
 	
-		@for $i from 1 through 6{
-			.house#{$i}{
-				background: transparent url('mm/interface/house#{$i}.png') no-repeat;
-				background-size: contain;
-				background-position: center center;
-				width: 100%;
-				height: 100%;
+	.flex-row {
+		height: 100%;
+		&.gutter {
+			flex: 0 0 $page-gutter;
+		}
+		&.page-top {
+			flex: 1 1 66%;
+			position: relative;
+			@if($debug-blocks) {
+				background-color: rgba(black, .2);
+			}
+		}
+		&.page-bottom {
+			flex: 1 1 33%;
+			position: relative;
+		}
+	}
+	
+	.page-top{
+		padding:0 0 0 $panel-margin;
+	}
+	.page-bottom{
+		padding:50px 0 0 $panel-margin;
+		
+		color: $light-blue;
+		font-size:22px;
+		
+		a, a:link, a:hover, a:visited, a:active{
+			color: $dark-blue;
+			text-decoration:none;
+		}
+	}
+	
+	.columns{
+		display:flex;
+		width:100%;
+	}
+	.column{
+		flex:1 1 50%;
+		
+		&.gutter {
+			flex: 0 0 $page-gutter;
+		}
+		&.margin{
+			flex:0 0 $panel-margin;
+		}
+		&.info1-a, &.info1-b{
+			background-position:center center;
+			background-size:contain;
+			background-repeat: no-repeat;
+		}
+		&.info1-a{
+			background-position: 40% center;
+			background-image: url('mm/_info1-a.png');
+		}
+		&.info1-b{
+			background-image: url('mm/_info1-b.png');
+			background-position: 30% center;
+			
+			div{
+				padding: $page-gutter 0 0 $page-gutter;
+				font-size:32px;
+				color:white;
+			}
+		}
+	}
+}
+
+#help {
+	
+	padding:0 $panel-margin;
+	background-color:$light-blue;
+	
+	button.action-close{
+		right:$panel-margin;
+		top:$panel-margin;
+	}
+	
+	.flex-row {
+		height: 100%;
+		&.instruction1 {
+			flex: 0 1 100px;
+			position: relative;
+			@if($debug-blocks) {
+				background-color: rgba(orange, .2);
+			}
+		}
+		&.instruction2 {
+			flex: 0 1 30px;
+			position: relative;
+			@if($debug-blocks) {
+				background-color: rgba(orange, .2);
+			}
+			div{
+				margin-top:-20px;
+			}
+		}
+		&.animation {
+			flex: 2 1 260px;
+			position: relative;
+			@if($debug-blocks) {
+				background-color: rgba(black, .2);
+			}
+		}
+		&.stretcher {
+			flex: 2 1 0;
+			@if ($debug-blocks) {
+				background-color: rgba(red, .5);
+			}
+		}
+	}
+	
+	.instruction{
+		font-size:40px;
+		margin:0;
+		padding:0;
+		line-height:40px;
+		color: $dark-blue;
+	}
+	
+	#help-animation1, #help-animation2 {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		
+		.background {
+			position:absolute;
+			height: 100%;
+			left:50%;
+			transform: translateX(-50%);
+			@if($debug-blocks){
+				border:1px solid green;
+			}
+		}
+		.hand {
+			position:absolute;
+			height: 100%;
+			@if($debug-blocks){
+				border:1px solid red;
 			}
 		}
 	}

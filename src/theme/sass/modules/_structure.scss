@@ -1,3 +1,5 @@
+$panel-margin: 90px;
+
 html, body, canvas{
 	margin:0;
 	padding:0;
@@ -8,22 +10,11 @@ body{
 }
 
 
-//	-------------------------------------- LOCALIZATION UTILITIES
-
-.lang-fr {
-	display: block;
-}
-.lang-en {
-	display: none;
-}
-
-
 //	-------------------------------------- INTERACTIONS UTILITIES
 
 .no-cursor{
 	cursor: url('mm/no-cursor.png'), none !important;
 }
-
 
 .alg-left{
 	text-align: left;
@@ -31,9 +22,14 @@ body{
 .alg-center{
 	text-align: center;
 }
-
 .alg-right{
 	text-align: right;
+}
+.vert-box{
+	width:100%;
+	position: absolute;
+	top:50%;
+	transform: translateY(-50%);
 }
 
 
@@ -41,21 +37,27 @@ body{
 
 .flex-rows{
 	display:flex;
-	height:100%;
-	width:100%;
 	align-content:stretch;
 	flex-direction:column;
 	flex-wrap:nowrap;
+	
+	margin:auto;
+	width:100vw;
+	height:100vh;
+	max-width:100%;
+	max-height:100vh;
 }
-
 .flex-row{
 	display:inline-flex;
 	flex-shrink:1;
 	flex-grow:1;
 	flex-basis:auto;
 	//border:1px blue solid;
+	
+	&.margin{
+		flex: 0 0 $panel-margin;
+	}
 }
-
 .flex-columns{
 	display:flex;
 	width:100%;
@@ -64,7 +66,6 @@ body{
 	flex-direction:row;
 	flex-wrap:nowrap;
 }
-
 .flex-column{
 	display:inline-flex;
 	flex-shrink:1;
@@ -74,6 +75,56 @@ body{
 }
 
 
+
+.blue-bg{
+	background-color:$light-blue;
+}
+
+
+//	--------------------------------------
+
+button.action-button {
+	position:absolute;
+	z-index: 100;
+	
+	display: block;
+	width: 70px;
+	height: 70px;
+	
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position:center center;
+	
+	// reset default button behaviour
+	cursor:pointer !important;
+	border:none !important;
+	background-color:transparent !important;
+	@if($debug-blocks){
+		background-color: rgba(red, .2);
+	}
+	
+	&.lang-fr{
+		background-image: url('mm/_icon-en.png');
+	}
+	&.lang-en{
+		background-image: url('mm/_icon-fr.png');
+	}
+	&.action-play{
+		background-image: url('mm/_icon-play.png');
+	}
+	&.action-info{
+		background-image: url('mm/_icon-info.png');
+	}
+	&.action-info2{
+		background-image: url('mm/_icon-info2.png');
+	}
+	&.action-close{
+		background-image: url('mm/_icon-close.png');
+	}
+	&.action-home{
+		background-image: url('mm/_icon-home.png');
+	}
+}
 
 //	--------------------------------------
 
@@ -88,9 +139,9 @@ header{
 	width:100%;
 }
 
-
 .page{
+	position:absolute;
 	width:100vw;
 	height:100vh;
-	//border:1px solid red;
+	overflow:hidden;
 }

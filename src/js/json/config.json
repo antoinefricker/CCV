@@ -3,7 +3,7 @@
 		"audio": {
 			"file": "landscape.mp3",
 			"isStereo": false,
-			"volume": 1
+			"volume": 0
 		},
 		"ground": {
 			"file": "_statics/ground.png",
@@ -96,6 +96,7 @@
 					},
 					"audio": {
 						"file": "chapeau.mp3",
+						"loop": false,
 						"isStereo": true,
 						"volume": 0.85
 					},
@@ -347,6 +348,7 @@
 					},
 					"audio": {
 						"file": "fusee.mp3",
+						"loop": false,
 						"isStereo": true,
 						"volume": 0.85
 					},
@@ -421,7 +423,7 @@
 			{
 				"id": "serre",
 				"indexable": true,
-				"marginLeft": 50, 
+				"marginLeft": 50,
 				"size": {
 					"x": 1233,
 					"y": 596
@@ -437,6 +439,7 @@
 				"blue": {
 					"audio": {
 						"file": "serre.mp3",
+						"loop": false,
 						"isStereo": true,
 						"volume": 0.85
 					},

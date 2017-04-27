@@ -49,9 +49,13 @@
 		},
 		"jsExecConcat": {
 			"js/exec-class.js": [
+				"src/js/exec/dgn/dgn-app.js",
 				"src/js/exec/kpf/kpf-global.js",
 				"src/js/exec/kpf/kpf-utilities.js",
 				"src/js/exec/ccv/ccv-core.js"
+			],
+			"js/main.js": [
+				"src/js/exec/main.js"
 			],
 			"js/exec-theme.js" : [
 				"src/theme/**/*.js"

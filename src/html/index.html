@@ -15,136 +15,191 @@
 	
 	<script src="js/libs.js"></script>
 	<script src="js/exec-class.js"></script>
-	
+	<script src="js/main.js"></script>
 </head>
-
-
 <body>
 
-	<div id="lang-menu">
-		<button class="action-button" title="version française">
-			<div class="version-fr"></div>
-		</button>
-		<button class="action-button" title="english version">
-			<div class="version-en"></div>
-		</button>
-	</div>
-	<div id="info-menu" title="aide">
-		<button class="action-button">
-			<div class="info"></div>
-		</button>
-	</div>
-	<div id="browse-menu">
-		<button class="action-button" title="suite">
-			<div class="browse-next"></div>
-		</button>
-	</div>
-	<div id="close-overlay">
-		<button class="action-button">
-			<div class="close-overlay"></div>
-		</button>
-	</div>
+<div id="help" class="page">
 	
+	<button class="action-button action-close" data-fr="fermer" data-en="close"></button>
 	
-	<div id="help" class="page">
+	<div class="flex-rows">
+		<div class="flex-row margin"></div>
 		
-		<div class="flex-rows">
-			
-			<div class="flex-row stretcher">
+		<!-- animation #help-animation1 -->
+		<div class="flex-row instruction instruction1">
+			<div class="vert-box alg-center">
+				<span class="lang-fr">
+					Munis-toi de la loupe papier du livre Cache-cache ville
+				</span>
+				<span class="lang-en">
+					Use the magnifying glass from the book Hide &amp; Seek City
+				</span>
 			</div>
-			
-			<div id="help1" class="flex-row">
-				<div class="background">
-					<div class="gfx"></div>
-				</div>
-				<div class="hand">
-					<div class="gfx"></div>
-				</div>
-				<div class="instructions">Munis-toi de la loupe papier du livre Cache-cache ville</div>
-			</div>
-			
-			<div id="help2" class="flex-row">
-				<div class="background">
-					<div class="gfx"></div>
-				</div>
-				<div class="hand">
-					<div class="gfx"></div>
-				</div>
-				<div class="instructions">ou active la loupe numérique dans l'application</div>
-			</div>
-			
-			<div class="flex-row stretcher">
-			</div>
-			
+		</div>
+		<div class="flex-row animation" id="help-animation1">
+			<img class="background" src="theme/mm/_help1-background.png" />
+			<img class="hand" src="theme/mm/_help1-hand.png" />
 		</div>
 		
-	</div>
-	
-	<div id="home" class="page">
-		
-		<div class="flex-rows">
-			
-			<div class="flex-row stretcher">
+		<!-- animation #help-animation2 -->
+		<div class="flex-row instruction instruction2">
+			<div class="vert-box alg-center">
+				<span class="lang-fr">
+					ou active la loupe numérique dans l'application
+				</span>
+				<span class="lang-en">
+					Or activate the digital magnifying glass in the app
+				</span>
 			</div>
-			 
-			<div class="flex-row">
-				
-				<div class="flex-columns">
-					<div class="flex-column house">
-						<div class="house1"></div>
-					</div>
-					<div class="flex-column house">
-						<div class="house2"></div>
-					</div>
-					<div class="flex-column house">
-						<div class="house3"></div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="flex-row stretcher">
-			</div>
-			
-			<div class="flex-row middle-stretcher">
-				<div class="title-box alg-right">
-					<h1>
-						<span class="lang-fr">CACHE-CACHE VILLE</span>
-						<span class="lang-en">CACHE-CACHE VILLE</span>
-					</h1>
-					<h2>
-						<span class="lang-fr">Agathe Demois et Vincent Godeau</span>
-						<span class="lang-en">Agathe Demois et Vincent Godeau</span>
-					</h2>
-				</div>
-			</div>
-			
-			<div class="flex-row stretcher">
-			</div>
-			
-			<div class="flex-row">
-				
-				<div class="flex-columns">
-					
-					<div class="flex-column house">
-						<div class="house4"></div>
-					</div>
-					<div class="flex-column house">
-						<div class="house5"></div>
-					</div>
-					<div class="flex-column house">
-						<div class="house6"></div>
-					</div>
-					
-				</div>
-				
-			</div>
-			
-			<div class="flex-row stretcher">
-			</div>
-			
+		</div>
+		<div class="flex-row animation" id="help-animation2">
+			<img class="background" src="theme/mm/_help2-background.png" />
+			<img class="hand" src="theme/mm/_help2-hand.png" />
 		</div>
 		
+		<div class="flex-row margin"></div>
 	</div>
+</div><!-- END #help -->
+
+<div id="play" class="page">
+	
+	<button class="action-button action-help" data-fr="aide" data-en="help"></button>
+	
+	<h1>play</h1>
+</div><!-- END #play -->
+
+<div id="info" class="page">
+	
+	<div class="page-title">
+		<button class="action-button action-info2"></button>
+		<span class="lang-fr">infos</span>
+		<span class="lang-en">infos</span>
+	</div>
+	
+	<button class="action-button action-home" data-fr="accueil" data-en="home"></button>
+	
+	<div id="info1" class="inner-page">
+		
+		<div class="flex-rows">
+			<div class="flex-row margin blue-bg"></div>
+			<div class="flex-row gutter blue-bg"></div>
+			
+			<div class="flex-row page-top blue-bg">
+				<div class="columns">
+					<div class="column gutter"></div>
+					<div class="column info1-a">
+					</div>
+					<div class="column gutter"></div>
+					<div class="column info1-b">
+						<div class="lang-fr">
+							Le livre "Cache-cache ville"<br />
+							sortie prévue en 2018<br />
+						</div>
+					</div>
+					<div class="column margin"></div>
+				</div>
+			</div><!-- end .page-top --->
+			
+			<div class="flex-row page-bottom">
+				<div class="columns">
+					<div class="column gutter"></div>
+					<div class="column">
+						<div class="lang-fr">
+							Une application imaginée<br />
+							d’après le livre "La grande traversée"<br />
+							paru aux Éditions du Seuil<br />
+							<a href="http://www.seuiljeunesse.com/ouvrage/la-grande-traversee-agathe-demois/9791023500448" target="_blank">Acheter le livre</a>
+						</div>
+					</div>
+					<div class="column gutter"></div>
+					<div class="column">
+						<div class="lang-fr">
+							Pour suivre la sortie, <br />
+							rendez-vous sur la page facebook :<br />
+							<a href="www.facebook.com/cachecacheville" target="_blank">www.facebook.com/cachecacheville</a>
+						</div>
+					</div>
+					<div class="column margin"></div>
+				</div>
+			</div><!-- end .page-bottom --->
+			
+			<div class="flex-row margin"></div>
+		</div>
+	</div>
+	<div id="info2" class="inner-page">
+		
+		<table>
+			<tr>
+				<td>
+					<span class="lang-fr">AUTEURS & ILLUSTRATEURS |</span>
+					<span class="lang-en">AUTEURS & ILLUSTRATEURS |</span>
+				</td>
+				<td><a href="http://agathedemois.com/" target="_blank">Agathe Demois</a> &amp; <a href="http://vincentgodeau.fr/" target="_blank">Vincent Godeau</a></td>
+			</tr>
+			<tr>
+				<td>
+					<span class="lang-fr">ANIMATEURS |</span>
+					<span class="lang-en">ANIMATEURS |</span>
+				</td>
+				<td><a href="http://www.matthieurotteleur.fr/" target="_blank">Matthieu Rotteleur</a> &amp; <a href="http://vincentgodeau.fr/" target="_blank">Vincent Godeau</a></td>
+			</tr>
+			<tr>
+				<td>
+					<span class="lang-fr">DÉVELOPPEUR |</span>
+					<span class="lang-en">DÉVELOPPEUR |</span>
+				</td>
+				<td><a href="http://www.kopfstoss.com/" target="_blank">Antoine Fricker</a></td>
+			</tr>
+			<tr>
+				<td>
+					<span class="lang-fr">DESIGNER SONORE |</span>
+					<span class="lang-en">DESIGNER SONORE |</span>
+				</td>
+				<td>Le Chevalier de Rinchy</td>
+			</tr>
+		</table>
+		
+		
+		<span>
+			Réalisée avec le concours et dans le cadre de "Croq' les mots, marmot!", avec le soutien des 4 communautés de communes de Haute Mayenne, le Kiosque - Centre d'action culturelle de Mayenne Communauté, l'Union Européenne - Fonds Leader, la Région des Pays de la Loire, le ministère de la Culture et de la Communication - DRAC des Pays de la Loire, la Caisse d'Allocations familiales et la Direction départementale de la cohésion sociale et de la protection des populations de la Mayenne.
+		</span>
+		<span>This app has been done with the help of the program "Croq' les mots, marmot!", with the Haute Mayenne community, the association le Kiosque - Centre d'action culturelle de Mayenne Communauté, the Leader fund from the European Union -, the Pays de la Loire region, the ministry for Culture and Communication - the directorate for cultural affairs DRAC des Pays de la Loire, the child benefits office Caisse d'Allocations familiales and the Direction départementale de la cohésion sociale et de la protection des populations de la Mayenne directorate.</span>
+	</div>
+	<div id="info3" class="inner-page">
+		<h1>info3</h1>
+	</div>
+</div><!-- END #info -->
+
+<div id="home" class="page">
+	
+	<button class="action-button lang-en" title="version française" data-lang="fr"></button>
+	<button class="action-button lang-fr" title="english version" data-lang="en"></button>
+	<button class="action-button action-play" data-fr="découvrir" data-en="discover"></button>
+	<button class="action-button action-info" data-fr="crédits" data-en="credits"></button>
+	
+	<div class="flex-rows">
+		<div class="flex-row margin"></div>
+		<div class="flex-row stretcher"></div>
+		<div class="flex-row houses houses1"></div>
+		<div class="flex-row title">
+			<div class="vert-box alg-center">
+				<span class="lang-fr">
+					<h1>CACHE-CACHE VILLE</h1>
+					<h2>Agathe Demois et Vincent Godeau</h2>
+				</span>
+				<span class="lang-en">
+					<h1>HIDE &amp; SEEK CITY</h1>
+					<h2>Agathe Demois and Vincent Godeau</h2>
+				</span>
+			</div>
+		</div>
+		<div class="flex-row houses houses2"></div>
+		<div class="flex-row stretcher"></div>
+		<div class="flex-row margin"></div>
+	</div>
+	
+</div><!-- END #home -->
 
 </body>
 </html>
