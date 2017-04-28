@@ -418,8 +418,8 @@ if(!CCV.app.Player){
 	proto._mgTidy = function(doTransition){
 		var p = CCV.player;
 		var pos = {
-			x: p.size.x * .5,
-			y: p.size.y
+			x: .5 * p.size.x,
+			y: .9 * p.size.y
 		};
 		
 		if(doTransition === false){
@@ -603,17 +603,30 @@ if(!CCV.app.Player){
 	
 	// --------------- WINDOW UTILITIES
 	
+	proto.activate = function(status){
+		if(status){
+			KPF.utils.log('Start application rendering', 'Player.windowFocus');
+			PIXI.ticker.shared.start();
+			this.animTicker.start();
+		}
+		else{
+			this.landscape.audio.stop();
+			
+			KPF.utils.log('Stop application rendering', 'Player.activate');
+			this.animTicker.stop();
+			this.application.stop();
+			PIXI.ticker.shared.stop();
+		}
+	};
+	
 	proto.windowBlur = function(){
-		KPF.utils.log('Stop application rendering', 'Player.windowBlur');
-		this.animTicker.stop();
-		this.application.stop();
-		PIXI.ticker.shared.stop();
+		this.activate(false);
 	};
 	proto.windowFocus = function(){
-		KPF.utils.log('Start application rendering', 'Player.windowFocus');
-		PIXI.ticker.shared.start();
-		this.animTicker.start();
+		this.activate(true);
 	};
+	
+	
 	proto.resizeInit = function(){
 		var maxAvailHeight = screen.height - CCV.global.FOOTER_HEIGHT -CCV.global.HEADER_HEIGHT;
 		if(CCV.global.SYS_ALLOW_LARGE && maxAvailHeight > .5 * (CCV.global.SCENE_MAX_HEIGHT + CCV.global.SCENE_GROUND_HEIGHT)){

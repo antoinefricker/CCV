@@ -142,7 +142,7 @@ a:active {
 }
 
 .flex-row.margin {
-	flex: 0 0 90px;
+	flex: 0 0 50px;
 }
 
 .flex-columns {
@@ -176,8 +176,8 @@ button.action-button {
 	position: absolute;
 	z-index: 100;
 	display: block;
-	width: 70px;
-	height: 70px;
+	width: 46px;
+	height: 46px;
 	cursor: pointer !important;
 	border: none !important;
 	background-color: transparent !important;
@@ -241,27 +241,27 @@ header {
 }
 
 #home {
-	padding: 0 90px;
+	padding: 0 50px;
 }
 
 #home button.lang-en {
-	top: 90px;
-	left: 90px;
+	top: 50px;
+	left: 50px;
 }
 
 #home button.lang-fr {
-	top: 90px;
-	left: 90px;
+	top: 50px;
+	left: 50px;
 }
 
 #home button.action-play {
-	right: 90px;
-	bottom: 90px;
+	right: 50px;
+	bottom: 50px;
 }
 
 #home button.action-info {
-	top: 90px;
-	right: 90px;
+	top: 50px;
+	right: 50px;
 }
 
 #home .flex-row {
@@ -270,6 +270,10 @@ header {
 
 #home .flex-row.stretcher {
 	flex: 2 1 0;
+}
+
+#home .flex-row.gutter-icons {
+	flex: 0 0 46px;
 }
 
 #home .flex-row.houses {
@@ -294,18 +298,18 @@ header {
 }
 
 #home h1 {
-	font-size: 72px;
-	line-height: 72px;
+	font-size: 64px;
+	line-height: 64px;
 	display: block;
 	float: none;
-	margin: 0 0 8px 0;
+	margin: 0 0 0 0;
 	padding: 0;
 	color: #7db0df;
 }
 
 #home h2 {
-	font-size: 40px;
-	line-height: 40px;
+	font-size: 38px;
+	line-height: 38px;
 	display: block;
 	float: none;
 	margin: 0;
@@ -315,23 +319,23 @@ header {
 
 #info button.action-home {
 	position: absolute;
-	top: 90px;
-	right: 90px;
+	top: 50px;
+	right: 50px;
 }
 
 #info .page-title {
 	position: absolute;
-	top: 90px;
-	left: 90px;
+	top: 50px;
+	left: 50px;
 	display: block;
 	width: 500px;
-	height: 70px;
+	height: 46px;
 }
 
 #info .page-title span {
-	font-size: 30px;
-	line-height: 70px;
-	padding: 74px;
+	font-size: 25.3px;
+	line-height: 46px;
+	padding: 52px;
 	color: white;
 }
 
@@ -340,11 +344,11 @@ header {
 }
 
 #info .flex-row.gutter {
-	flex: 0 0 70px;
+	flex: 0 0 35px;
 }
 
 #info .flex-row.gutter-small {
-	flex: 0 0 50px;
+	flex: 0 0 25px;
 }
 
 #info .flex-row.page-top {
@@ -358,12 +362,12 @@ header {
 }
 
 #info .page-top {
-	padding: 0 0 0 90px;
+	padding: 0 0 0 46px;
 }
 
 #info .page-bottom {
 	font-size: 22px;
-	padding: 50px 0 0 90px;
+	padding: 25px 0 0 46px;
 	color: #97c1e7;
 }
 
@@ -378,7 +382,7 @@ header {
 #info .pagination {
 	position: absolute;
 	z-index: 200;
-	bottom: 90px;
+	bottom: 50px;
 	left: 50%;
 	transform: translateX(-50%);
 }
@@ -409,11 +413,11 @@ header {
 }
 
 #info0 .column.gutter {
-	flex: 0 0 70px;
+	flex: 0 0 35px;
 }
 
 #info0 .column.margin {
-	flex: 0 0 90px;
+	flex: 0 0 50px;
 }
 
 #info0 .column.info1-a div,
@@ -426,7 +430,7 @@ header {
 #info0 .column.info1-a div {
 	width: 100%;
 	height: 100%;
-	background-position: 40% center;
+	background-position: 30% center;
 }
 
 #info0 .column.info1-a div.lang-fr {
@@ -443,8 +447,8 @@ header {
 }
 
 #info0 .column.info1-b div {
-	font-size: 32px;
-	padding: 70px 0 0 70px;
+	font-size: 26px;
+	padding: 52.5px 0 0 35px;
 	color: white;
 }
 
@@ -461,7 +465,7 @@ header {
 
 #info1 .page-top .vert-box {
 	box-sizing: border-box;
-	padding: 0 90px 0 90px;
+	padding: 0 50px 0 50px;
 }
 
 #info1 .page-top .vert-box > * {
@@ -469,7 +473,7 @@ header {
 }
 
 #info1 .page-top .vert-box h1 {
-	font-size: 36px;
+	font-size: 32px;
 	display: block;
 	width: auto;
 	color: white;
@@ -514,7 +518,7 @@ header {
 }
 
 #info1 .page-bottom {
-	padding: 50px 90px 0 90px;
+	padding: 25px 50px 0 50px;
 }
 
 #info1 .page-bottom .croq-logo {
@@ -529,8 +533,13 @@ header {
 	flex: 1 1 80%;
 }
 
+#info1 .page-bottom .thanx > * {
+	max-width: 880px;
+}
+
 #info1 .page-bottom h3 {
-	font-size: 24px;
+	font-size: 20px;
+	margin-bottom: 8px;
 }
 
 #info1 .page-bottom p {
@@ -555,7 +564,7 @@ header {
 
 #info2 .page-bottom {
 	font-size: 22px;
-	padding: 50px 0 0 0;
+	padding: 25px 0 0 0;
 	text-align: center;
 	color: #97c1e7;
 }
@@ -573,13 +582,13 @@ header {
 }
 
 #help {
-	padding: 0 90px;
+	padding: 0 50px;
 	background-color: #97c1e7;
 }
 
 #help button.action-close {
-	top: 90px;
-	right: 90px;
+	top: 50px;
+	right: 50px;
 }
 
 #help .flex-row {
@@ -588,12 +597,16 @@ header {
 
 #help .flex-row.instruction1 {
 	position: relative;
-	flex: 0 1 100px;
+	flex: 0 1 80px;
+}
+
+#help .flex-row.gutter-icons {
+	flex: 0 0 46px;
 }
 
 #help .flex-row.instruction2 {
 	position: relative;
-	flex: 0 1 30px;
+	flex: 0 1 10px;
 }
 
 #help .flex-row.instruction2 div {
@@ -610,8 +623,8 @@ header {
 }
 
 #help .instruction {
-	font-size: 40px;
-	line-height: 40px;
+	font-size: 30px;
+	line-height: 30px;
 	margin: 0;
 	padding: 0;
 	color: #3575bb;
@@ -641,9 +654,51 @@ header {
 
 .footer-menu {
 	position: absolute;
-	right: 50%;
-	bottom: 50%;
-	background: #000;
+	right: 50px;
+	bottom: 50px;
+	transition: all .8s;
+	transform: translateX(288px);
+}
+
+.footer-menu div.action-button {
+	display: block;
+	float: right;
+	width: 46px;
+	height: 46px;
+	margin-left: 50px;
+	transition: all .8s;
+	transform-origin: 50% 50%;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+}
+
+.footer-menu div.action-button.red-home {
+	background-image: url('mm/_icon-red-home.png');
+}
+
+.footer-menu div.action-button.red-magnifier {
+	background-image: url('mm/_icon-red-magnifier.png');
+}
+
+.footer-menu div.action-button.red-help {
+	background-image: url('mm/_icon-red-help.png');
+}
+
+.footer-menu div.action-button.red-arrow {
+	background-image: url('mm/_icon-red-to-left.png');
+}
+
+.footer-menu.opened {
+	transform: translateX(0);
+}
+
+.footer-menu.opened div.action-button {
+	margin-left: 12px;
+}
+
+.footer-menu.opened div.action-button.red-arrow {
+	transform: rotate(180deg);
 }
 
 canvas#pixi-stage {

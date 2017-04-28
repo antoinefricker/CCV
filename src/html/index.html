@@ -20,7 +20,7 @@
 			DGN.app = new DGN.core.Application();
 			DGN.app.initialize();
 			DGN.app.langSet();
-			DGN.app.pageSet('play', {});
+			DGN.app.pageSet('help');
 		});
 	</script>
 </head>
@@ -36,6 +36,7 @@
 	
 	<div class="flex-rows">
 		<div class="flex-row margin"></div>
+		<div class="flex-row gutter-icons"></div>
 		<div class="flex-row stretcher"></div>
 		<div class="flex-row houses houses1"></div>
 		<div class="flex-row title">
@@ -52,6 +53,7 @@
 		</div>
 		<div class="flex-row houses houses2"></div>
 		<div class="flex-row stretcher"></div>
+		<div class="flex-row gutter-icons"></div>
 		<div class="flex-row margin"></div>
 	</div>
 
@@ -65,8 +67,7 @@
 		<span class="lang-en">infos</span>
 	</div>
 	
-	<div class="pagination">
-	</div>
+	<div class="pagination"></div>
 	
 	<button class="action-button action-home"></button>
 	
@@ -301,6 +302,7 @@
 		<div class="flex-rows">
 			<div class="flex-row margin blue-bg"></div>
 			<div class="flex-row gutter blue-bg"></div>
+			<div class="flex-row gutter blue-bg"></div>
 			
 			<div class="flex-row page-top blue-bg">
 				<div class="vert-box">
@@ -331,10 +333,10 @@
 	<canvas id="pixi-stage"></canvas>
 	
 	<div class="footer-menu">
-		<div class="action-button red-home">home</div>
-		<div class="action-button red-magnifier">magnifier</div>
-		<div class="action-button red-help">help</div>
-		<div class="action-button red-arrow-left">arrow</div>
+		<div class="action-button red-home"></div>
+		<div class="action-button red-magnifier"></div>
+		<div class="action-button red-help"></div>
+		<div class="action-button red-arrow"></div>
 	</div>
 </div><!-- END #play -->
 
@@ -344,6 +346,7 @@
 	
 	<div class="flex-rows">
 		<div class="flex-row margin"></div>
+		<div class="flex-row gutter-icons"></div>
 		
 		<!-- animation #help-animation1 -->
 		<div class="flex-row instruction instruction1">

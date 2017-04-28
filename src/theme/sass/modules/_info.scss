@@ -13,12 +13,12 @@
 		
 		display:block;
 		width:500px;
-		height:70px;
+		height: $actions-icons-size;
 		span{
-			padding:74px;
+			padding:$actions-icons-size + 6px;
 			color: white;
-			font-size:30px;
-			line-height:70px;
+			font-size: .55 * $actions-icons-size;
+			line-height:$actions-icons-size;
 		}
 	}
 	
@@ -46,10 +46,10 @@
 	}
 	
 	.page-top{
-		padding:0 0 0 $panel-margin;
+		padding:0 0 0 $actions-icons-size;
 	}
 	.page-bottom{
-		padding:50px 0 0 $panel-margin;
+		padding:25px 0 0 $actions-icons-size;
 		
 		color: $light-blue;
 		font-size:22px;
@@ -109,7 +109,7 @@
 			div{
 				width:100%;
 				height:100%;
-				background-position: 40% center;
+				background-position: 30% center;
 				&.lang-fr{
 					background-image: url('mm/_info0-a-fr.png');
 				}
@@ -121,10 +121,9 @@
 		&.info1-b{
 			background-image: url('mm/_info0-b.png');
 			background-position: 30% center;
-			
 			div{
-				padding: $page-gutter 0 0 $page-gutter;
-				font-size:32px;
+				padding: 1.5 * $page-gutter 0 0 $page-gutter;
+				font-size:26px;
 				color:white;
 			}
 		}
@@ -159,7 +158,7 @@
 			h1{
 				display:block;
 				width:auto;
-				font-size: 36px;
+				font-size: 32px;
 				color:white;
 			}
 			
@@ -204,7 +203,7 @@
 	}
 	.page-bottom{
 		
-		padding:50px $panel-margin 0 $panel-margin;
+		padding:25px $panel-margin 0 $panel-margin;
 		
 		.croq-logo{
 			flex: 1 1 20%;
@@ -215,9 +214,13 @@
 		}
 		.thanx{
 			flex: 1 1 80%;
+			& > *{
+				max-width:880px;
+			}
 		}
 		h3{
-			font-size:24px;
+			font-size:20px;
+			margin-bottom:8px;
 		}
 		p{
 			text-transform:uppercase;
@@ -242,7 +245,7 @@
 	}
 	
 	.page-bottom{
-		padding:50px 0 0 0;
+		padding:25px 0 0 0;
 		
 		& > div{
 			width:100%;

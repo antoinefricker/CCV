@@ -27,6 +27,9 @@
 				background-color: rgba(orange, .5);
 			}
 		}
+		&.gutter-icons{
+			flex: 0 0 $actions-icons-size;
+		}
 		&.houses{
 			flex: 2 1 440px;
 			max-height:350px;
@@ -54,19 +57,19 @@
 	
 	h1{
 		display: block;
-		font-size: 72px;
-		line-height:72px;
-		margin:0 0 8px 0;
+		font-size: 64px;
+		line-height:64px;
+		margin:0 0 0 0;
 		padding:0;
 		color: $blue;
 		float: none;
 	}
 	h2{
 		display:block;
-		font-size:40px;
+		font-size:38px;
 		margin:0;
 		padding:0;
-		line-height:40px;
+		line-height:38px;
 		color: $blue;
 		float:none;
 	}

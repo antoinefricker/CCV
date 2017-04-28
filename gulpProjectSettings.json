@@ -40,6 +40,7 @@
 		"jsLibConcat": {
 			"js/libs.js": [
 				"src/js/libs/jquery/jquery.js",
+				"src/js/libs/jquery/jquery.touchSwipe.js",
 				"src/js/libs/pixijs/pixijs-core.js",
 				"src/js/libs/howler/howler-core.js",
 				"src/js/libs/howler/howler-spatial.js",
