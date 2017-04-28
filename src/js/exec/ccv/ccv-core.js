@@ -104,7 +104,7 @@ if (!CCV.global){
 		
 		SYS_FORCE_CANVAS: false,
 		SYS_USE_SHARED_TICKER: true,
-		SYS_FPS: 2,
+		SYS_FPS: 8,
 		SYS_ALLOW_LARGE: false,
 		
 		DEBUG_LANDSCAPE_GFX: false,
@@ -118,7 +118,7 @@ if (!CCV.global){
 		AUDIO_DELTA_VOLUME_COEF: 0.6,
 		AUDIO_DELTA_PAN_COEF: 0.6,
 		
-		SCENE_START_INDEX: 28,
+		SCENE_START_INDEX: 37,
 		SCENE_START_RAND: false,
 		SCENE_ACTIVATION_DELAY: 2000,
 		SCENE_DEACTIVATION_DELAY: 1400,
@@ -1583,7 +1583,10 @@ if (!CCV.app.Sequence) {
 		return str;
 	};
 	proto.activateDisplay = function(e, status){
-		var i, index, file;
+		var i, index, file, texture;
+		
+		var p = this.preview;
+		var scene = this.scene;
 		
 		// --- change active status or die
 		status = status !== false || !this.scene.disposable;
@@ -1592,11 +1595,12 @@ if (!CCV.app.Sequence) {
 			return;
 		this.active = status;
 		this.endSuspensionFrames = -1;
+		this.startSuspensionFrames = -1;
 		
-		if(!status && this.audio){
-			this.audio.stop();
+		if(!status){
+			if(this.audio)
+				this.audio.stop();
 		}
-		
 		
 		// active --> launch animmation
 		// .... OR
@@ -1608,27 +1612,53 @@ if (!CCV.app.Sequence) {
 				for (i = this.seqStart; i <= this.seqEnd; ++i) {
 					index = this.seqNumLength > 0 ? KPF.utils.fillTo(i, this.seqNumLength, '0') : i;
 					file = this.scene.folder + this.file.replace('[NUM]', index);
-					this.textures.push(new PIXI.Texture.fromImage(file));
+					texture = new PIXI.Texture.fromImage(file);
+					this.textures.push(texture);
 				}
 				
 				// create animation
 				this.animation = new PIXI.extras.AnimatedSprite(this.textures, false);
 				this.animation.textures = this.textures;
-				this.animation.gotoAndStop(1);
+				this.animation.gotoAndStop(0);
 				this.view.addChild(this.animation);
+				
+				// hide preview if or when first frame is loaded
+				if(p){
+					if(this.textures[0].baseTexture.hasLoaded)
+						p.visible = false;
+					else{
+						this.textures[0].baseTexture.on('loaded', function(e){
+							p.visible = false;
+						});
+					}
+				}
 			}
 			CCV.player.animTicker.addSequence(this);
+			
+			// auto-launch audio
 			if(this.audio && this.endFrames + this.startFrames == 0){
 				console.log('launch audio from activation');
 				this.scene.launchAudio(this.audio, false);
 			}
 		}
-		
 		else if(this.animation){
 			CCV.player.animTicker.removeSequence(this);
 			this.view.removeChild(this.animation);
 			this.animation.destroy(true);
 			this.animation = null;
+		}
+		
+		
+		if(p){
+			if(status){
+				this.textures[0].baseTexture.on('loaded', function(e){
+					console.log('--------------------------------------------------> hide scene ' + scene.id);
+					p.visible = false;
+				});
+			}
+			else{
+				p.visible = true;
+			}
 		}
 	};
 }

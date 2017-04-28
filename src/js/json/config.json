@@ -761,8 +761,8 @@
 				"blue": {
 					"preview": "seq/voiture-bus000.png",
 					"file": "seq/voiture-bus[NUM].png",
-					"endDelay": 5000,
-					"startDelay": 5000,
+					"endDelay": 0,
+					"startDelay": 0,
 					"seqNumLength": 3,
 					"seqStart": 0,
 					"seqEnd": 39
@@ -1034,12 +1034,12 @@
 				"red": {
 					"outline":
 					{
-						"preview": "_statics/oiseau-escalier00.png",
+						"preview": "_statics/oiseau-escalier12.png",
 						"file": "_statics/oiseau-escalier[NUM].png",
 						"endDelay": 0,
-						"startDelay": 0,
+						"startDelay": 1500,
 						"seqNumLength": 2,
-						"seqStart": 0,
+						"seqStart": 12,
 						"seqEnd": 69
 					}
 				}
@@ -1330,10 +1330,10 @@
 			{
 				"id": "_cat",
 				"indexable": false,
-				"marginLeft": 23,
+				"marginLeft": 30,
 				"size": {
-					"x": 196,
-					"y": 130
+					"x": 136,
+					"y": 92
 				},
 				"pos": {
 					"x": 0,
@@ -1356,7 +1356,7 @@
 			{
 				"id": "coiffeurs",
 				"indexable": true,
-				"marginLeft": 20,
+				"marginLeft": 0,
 				"size": {
 					"x": 952,
 					"y": 586
