@@ -14,7 +14,7 @@
 		"cssConcat": {
 			"theme/main.css": ["src/theme/css/*.css", "src/theme/css/**/*.css"]
 		},
-		"imagemin": {
+		"imagemin": { 
 			"sources": ["src/theme/mm/**/**/*{.jpg, .jpeg, .gif, .png}"]
 		},
 		"csso": {
