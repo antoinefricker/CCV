@@ -39,8 +39,11 @@ if(!DGN){
 						DGN.app.pageSet('info');
 					})
 					.on('click', 'button.action-play', function(){
-						DGN.app.pageSet('play');
-					});
+						DGN.app.pageSet('help');
+					})
+					.on('click', '.app-title', function(){
+						DGN.app.pageSet('help');
+					})
 			}
 			
 			/* help page */{
@@ -106,57 +109,53 @@ if(!DGN){
 		};
 		
 		/* ########################################## LANGUAGES UTILITIES */ {
-		/**
-		 * Defines application language
-		 * @param lang {String}
-		 */
-		proto.langSet = function(lang){
-			if(!lang)
-				lang = this.langGetFull();
-			else if(lang != 'fr' && lang != 'en')
-				lang = 'en';
-			this.lang = lang;
-			KPF.utils.log('Set application language: ' + this.lang, 'Application.langSet');
-			
-			var isfr = (this.lang == 'fr');
-			$('.lang-fr').toggle(isfr);
-			$('.lang-en').toggle(!isfr);
-		};
-		
-		/**
-		 * Returns preferred language w/ fallback to browser language
-		 * @return {String}
-		 * @private
-		 */
-		proto.langGetFull = function(){
-			var lang;
-			lang = window.navigator.languages ? window.navigator.languages[0] : null;
-			lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
-			return this.langCleanResults(lang);
-		};
-		
-		/**
-		 * Returns browser native language
-		 * @return {String}
-		 * @private
-		 */
-		proto.langGetNative = function(){
-			return this.langCleanResults(window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage);
-		};
-		
-		/**
-		 * Cleans language results and return language nick (fr, en, etc.)
-		 * @return {String}
-		 * @private
-		 */
-		proto.langCleanResults = function(v) {
-			if (v.indexOf('-') !== -1)
-				v = v.split('-')[0];
-			if (v.indexOf('_') !== -1)
-				v = v.split('_')[0];
-			return v;
-		};
-			
+			/**
+			 * Defines application language
+			 * @param lang {String}
+			 */
+			proto.langSet = function(lang){
+				if(!lang)
+					lang = this.langGetFull();
+				else if(lang != 'fr' && lang != 'en')
+					lang = 'en';
+				this.lang = lang;
+				KPF.utils.log('Set application language: ' + this.lang, 'Application.langSet');
+				
+				var isfr = (this.lang == 'fr');
+				$('.lang-fr').toggle(isfr);
+				$('.lang-en').toggle(!isfr);
+			};
+			/**
+			 * Returns preferred language w/ fallback to browser language
+			 * @return {String}
+			 * @private
+			 */
+			proto.langGetFull = function(){
+				var lang;
+				lang = window.navigator.languages ? window.navigator.languages[0] : null;
+				lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
+				return this.langCleanResults(lang);
+			};
+			/**
+			 * Returns browser native language
+			 * @return {String}
+			 * @private
+			 */
+			proto.langGetNative = function(){
+				return this.langCleanResults(window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage);
+			};
+			/**
+			 * Cleans language results and return language nick (fr, en, etc.)
+			 * @return {String}
+			 * @private
+			 */
+			proto.langCleanResults = function(v) {
+				if (v.indexOf('-') !== -1)
+					v = v.split('-')[0];
+				if (v.indexOf('_') !== -1)
+					v = v.split('_')[0];
+				return v;
+			};
 		}
 		
 		/* ########################################## PAGES UTILITIES */ {
@@ -164,10 +163,7 @@ if(!DGN){
 				if(!id)
 					id = 'home';
 				
-				
-				
 				// ---- handle states (ugly ok)
-				
 				
 				// info
 				if(id == 'info'){
@@ -176,8 +172,7 @@ if(!DGN){
 				
 				// help
 				if(id == 'help'){
-					// timeout prevent unloaded images
-					setTimeout(this._helpUtils.bind(this, true), 500);
+					setTimeout(this._helpUtils.bind(this, true), 500); // timeout prevents unloaded images
 				}
 				else if(this.formerId == 'help'){
 					this._helpUtils(false);
@@ -205,7 +200,6 @@ if(!DGN){
 				
 				this.formerId = id;
 			};
-			
 			proto._infoUtils = function(params){
 				var page;
 				
@@ -230,7 +224,6 @@ if(!DGN){
 					$(innerPageEl).toggle(innerPageIndex == DGN.app.infoIndex);
 				});
 			};
-			
 			proto._helpUtils = function(status){
 				
 				console.log('_helpUtils (status: ' + status + ')');

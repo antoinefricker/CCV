@@ -292,7 +292,7 @@ header {
 	background-image: url('mm/_houses2.png');
 }
 
-#home .flex-row.title {
+#home .flex-row.app-title {
 	position: relative;
 	flex: 0 1 260px;
 }

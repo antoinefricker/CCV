@@ -46,7 +46,7 @@
 		&.houses2{
 			background-image:url('mm/_houses2.png');
 		}
-		&.title{
+		&.app-title{
 			flex: 0 1 260px;
 			position:relative;
 			@if($debug-blocks) {
