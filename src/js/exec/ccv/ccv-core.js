@@ -104,11 +104,11 @@ if (!CCV.global){
 		
 		SYS_FORCE_CANVAS: false,
 		SYS_USE_SHARED_TICKER: true,
-		SYS_FPS: 8,
+		SYS_FPS: 2,
 		SYS_ALLOW_LARGE: false,
 		
 		DEBUG_LANDSCAPE_GFX: false,
-		DEBUG_SCENE_GFX: false,
+		DEBUG_SCENE_GFX: true,
 		DEBUG_SCROLL_GFX: false,
 		DEBUG_SCENE_MARGINS: false,
 		DEBUG_SWIPE: false,
@@ -117,9 +117,8 @@ if (!CCV.global){
 		AUDIO_GLOBAL_VOLUME: 0.3,
 		AUDIO_DELTA_VOLUME_COEF: 0.6,
 		AUDIO_DELTA_PAN_COEF: 0.6,
-		// AUDIO_GLOBAL_VOLUME: 1,
 		
-		SCENE_START_INDEX: 11,
+		SCENE_START_INDEX: 28,
 		SCENE_START_RAND: false,
 		SCENE_ACTIVATION_DELAY: 2000,
 		SCENE_DEACTIVATION_DELAY: 1400,
@@ -129,7 +128,7 @@ if (!CCV.global){
 		SCENE_MAX_HEIGHT: 650,
 		SCENE_EXTRAVIEW_COEF: .25,
 		SCENE_GROUND_HEIGHT: 100,
-		SCENE_ACTIVATE_BORDING_SCENES: true,
+		SCENE_ACTIVATE_BORDING_SCENES: false,
 		SCENE_ITEM_BEFORE: 10,
 		
 		MEDIA_FOLDER: 'ccv/',
@@ -404,7 +403,7 @@ if(!CCV.app.Player){
 	};
 	proto._mgDragEnd = function(e){
 		var mgCtx = this.cbks.mgCtx;
-		
+		 
 		mgCtx.dragTouch = null;
 		mgCtx.pinchTouch = null;
 		mgCtx.pinchStartScale = Number.NaN;
@@ -625,7 +624,6 @@ if(!CCV.app.Player){
 	proto.windowFocus = function(){
 		this.activate(true);
 	};
-	
 	
 	proto.resizeInit = function(){
 		var maxAvailHeight = screen.height - CCV.global.FOOTER_HEIGHT -CCV.global.HEADER_HEIGHT;
@@ -1485,13 +1483,13 @@ if (!CCV.app.Sequence) {
 		this.seqStart = data.hasOwnProperty('seqStart') ? data.seqStart : 1;
 		this.seqEnd = data.hasOwnProperty('seqEnd') ? data.seqEnd : 1;
 		
-		this.seqRepeatDelay = (data.hasOwnProperty('seqRepeatDelay') && data.seqRepeatDelay >= 0) ? data.seqRepeatDelay : CCV.global.SCENE_REPEAT_DELAY;
-		this.seqRepeatFrames = parseInt(this.seqRepeatDelay / 1000 * CCV.global.SYS_FPS);
-		this.seqRepeatSuspensionFrames = -1;
+		this.endDelay = (data.hasOwnProperty('endDelay') && data.endDelay >= 0) ? data.endDelay : CCV.global.SCENE_REPEAT_DELAY;
+		this.endFrames = parseInt(this.endDelay / 1000 * CCV.global.SYS_FPS);
+		this.endSuspensionFrames = -1;
 		
-		this.seqRestartDelay = (data.hasOwnProperty('seqRestartDelay') && data.seqRestartDelay >= 0) ? data.seqRestartDelay : CCV.global.SCENE_RESTART_DELAY;
-		this.seqRestartFrames = parseInt(this.seqRestartDelay / 1000 * CCV.global.SYS_FPS);
-		this.seqRestartSuspensionFrames = -1;
+		this.startDelay = (data.hasOwnProperty('startDelay') && data.startDelay >= 0) ? data.startDelay : CCV.global.SCENE_RESTART_DELAY;
+		this.startFrames = parseInt(this.startDelay / 1000 * CCV.global.SYS_FPS);
+		this.startSuspensionFrames = -1;
 		
 		if(data.hasOwnProperty('audio')){
 			this.audio = new CCV.app.AudioChannel(data.audio, true);
@@ -1511,14 +1509,14 @@ if (!CCV.app.Sequence) {
 		
 		// ##################### if repeat suspensions frames are defined, handle them
 		// ... wait
-		if(this.seqRepeatSuspensionFrames > 0) {
-			this.seqRepeatSuspensionFrames--;
+		if(this.endSuspensionFrames > 0) {
+			this.endSuspensionFrames--;
 		}
 		// ... repeat
-		else if(this.seqRepeatSuspensionFrames == 0) {
-			this.seqRepeatSuspensionFrames = -1
-			if(this.seqRestartFrames > 0)
-				this.seqRestartSuspensionFrames = this.seqRestartFrames;
+		else if(this.endSuspensionFrames == 0) {
+			this.endSuspensionFrames = -1;
+			if(this.startFrames > 0)
+				this.startSuspensionFrames = this.startFrames;
 			else if(this.audio){
 				console.log('launch audio from repeat pause');
 				this.scene.launchAudio(this.audio, false);
@@ -1528,12 +1526,12 @@ if (!CCV.app.Sequence) {
 		
 		// ##################### if restart suspensions frames are defined, handle them
 		// ... wait
-		else if(this.seqRestartSuspensionFrames > 0) {
-			this.seqRestartSuspensionFrames--;
+		else if(this.startSuspensionFrames > 0) {
+			this.startSuspensionFrames--;
 		}
 		// ... restart
-		else if(this.seqRestartSuspensionFrames == 0) {
-			this.seqRestartSuspensionFrames = -1;
+		else if(this.startSuspensionFrames == 0) {
+			this.startSuspensionFrames = -1;
 			a.gotoAndStop(1);
 			if(this.audio){
 				console.log('launch audio from restart pause');
@@ -1546,13 +1544,13 @@ if (!CCV.app.Sequence) {
 		}
 		else{
 			// sequence has a repeat pause
-			if(this.seqRepeatFrames > 0){
-				this.seqRepeatSuspensionFrames = this.seqRepeatFrames;
+			if(this.endFrames > 0){
+				this.endSuspensionFrames = this.endFrames;
 				a.gotoAndStop(t - 1);
 			}
 			// sequence has a restart pause
-			if(this.seqRestartFrames > 0){
-				this.seqRestartSuspensionFrames = this.seqRestartFrames;
+			else if(this.startFrames > 0){
+				this.startSuspensionFrames = this.startFrames;
 				a.gotoAndStop(0);
 			}
 			//
@@ -1567,10 +1565,10 @@ if (!CCV.app.Sequence) {
 		
 		if (CCV.global.DEBUG_SCENE_GFX) {
 			var log = a.currentFrame + '/' + a.totalFrames;
-			if(this.seqRestartFrames > 0)
-				log += ' [restart: ' + this.seqRestartSuspensionFrames + '/' + this.seqRestartFrames + ']';
-			if(this.seqRepeatFrames > 0)
-				log += ' [repeat: ' + this.seqRepeatSuspensionFrames + '/' + this.seqRepeatFrames + ']';
+			if(this.startFrames > 0)
+				log += ' [restart: ' + this.startSuspensionFrames + '/' + this.startFrames + ']';
+			if(this.endFrames > 0)
+				log += ' [repeat: ' + this.endSuspensionFrames + '/' + this.endFrames + ']';
 			this.text.text = log;
 		}
 	};
@@ -1593,7 +1591,7 @@ if (!CCV.app.Sequence) {
 		if(this.active === status)
 			return;
 		this.active = status;
-		this.seqRepeatSuspensionFrames = -1;
+		this.endSuspensionFrames = -1;
 		
 		if(!status && this.audio){
 			this.audio.stop();
@@ -1620,7 +1618,7 @@ if (!CCV.app.Sequence) {
 				this.view.addChild(this.animation);
 			}
 			CCV.player.animTicker.addSequence(this);
-			if(this.audio && this.seqRepeatFrames + this.seqRestartFrames == 0){
+			if(this.audio && this.endFrames + this.startFrames == 0){
 				console.log('launch audio from activation');
 				this.scene.launchAudio(this.audio, false);
 			}

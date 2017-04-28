@@ -1,2 +1,2485 @@
-var DGN,proto;DGN||(DGN={core:{}},DGN.core.Application||(DGN.core.Application=function(e){this.cnv=document.getElementById("pixi-stage"),this.helpTl=null,this.page=null,$(".page").hide(),this.lang="fr"},proto=DGN.core.Application.prototype,proto.initialize=function(){var e,i,t;$("[data-lang]").on("click",function(){DGN.app.langSet($(this).data("lang"))}),$("#home").on("click","button.action-info",function(){DGN.app.pageSet("info")}).on("click","button.action-play",function(){DGN.app.pageSet("play")}),$("#help").on("click","button.action-close",function(){DGN.app.pageSet("play")}),e=$("#info"),e.on("click","button.action-home",function(){DGN.app.pageSet("home")}),t=e.find(".pagination"),e.find(".inner-page").each(function(e,i){$("<div />").on("click",function(){DGN.app.pageSet("info",{innerIndex:e})}).appendTo(t),$(i).swipe({swipe:function(e,i){console.log("direction: "+i),"right"!=i&&"left"!=i||DGN.app.pageSet("info",{move:i})},threshold:0})}),i=$("#play .footer-menu"),i.on("click",".red-home",function(){DGN.app.pageSet("home")}).on("click",".red-magnifier",function(){CCV.player.magnifierDisplayToggle()}).on("click",".red-help",function(){DGN.app.pageSet("help")}).on("click",".red-arrow",function(){i.toggleClass("opened")})},proto.langSet=function(e){e?"fr"!=e&&"en"!=e&&(e="en"):e=this.langGetFull(),this.lang=e,KPF.utils.log("Set application language: "+this.lang,"Application.langSet");var i="fr"==this.lang;$(".lang-fr").toggle(i),$(".lang-en").toggle(!i)},proto.langGetFull=function(){var e;return e=window.navigator.languages?window.navigator.languages[0]:null,e=e||window.navigator.language||window.navigator.browserLanguage||window.navigator.userLanguage,this.langCleanResults(e)},proto.langGetNative=function(){return this.langCleanResults(window.navigator.language||window.navigator.browserLanguage||window.navigator.userLanguage)},proto.langCleanResults=function(e){return e.indexOf("-")!==-1&&(e=e.split("-")[0]),e.indexOf("_")!==-1&&(e=e.split("_")[0]),e},proto.pageSet=function(e,i){e||(e="home"),"info"==e&&this._infoUtils(i),"help"==e?setTimeout(this._helpUtils.bind(this,!0),500):"help"==this.formerId&&this._helpUtils(!1),"play"==e?(CCV.player||new CCV.app.Player(this.cnv,{magnifierDisplayStatus:!1,scenesShowFillStatus:!0}),CCV.player.activate(!0)):"play"==this.formerId&&CCV.player.activate(!1),e!=this.formerId&&($("#"+e).show(),$("#"+this.formerId).hide()),KPF.utils.log("set page #"+e+(this.formerId?", remove page #"+this.formerId:""),"Application.setPage",i),this.formerId=e},proto._infoUtils=function(e){var i;e?e.innerIndex?this.infoIndex=e.innerIndex:"right"==e.move?this.infoIndex=this.infoIndex-1:"left"==e.move?this.infoIndex=this.infoIndex+1:this.infoIndex=0:this.infoIndex=0,this.infoIndex=KPF.utils.clamp(this.infoIndex,0,2)||0,KPF.utils.log("infoIndex: "+this.infoIndex,"Application._infoUtils"),i=$("#info"),i.find(".pagination").children().each(function(e,i){$(i).toggleClass("current",e==DGN.app.infoIndex)}),i.find(".inner-page").each(function(e,i){$(i).toggle(e==DGN.app.infoIndex)})},proto._helpUtils=function(e){if(console.log("_helpUtils (status: "+e+")"),e){var i,t,s,n,o,a,r,l;this.helpTl=new TimelineMax({repeat:-1,repeatDelay:1.5}),i=$("#help-animation1"),t=i.find(".hand"),s=i.find(".background"),n=i.width(),o=t.width(),a=s.width(),r=.5*n-.2*a-.77*o,l=r-.1*a,TweenMax.set(t,{x:l}),this.helpTl.add(new TweenMax(t,1.5,{ease:Power1.easeInOut,x:r})),this.helpTl.add(new TweenMax(t,1.5,{ease:Power1.easeInOut,x:l}),"+=.5"),i=$("#help-animation2"),t=i.find(".hand"),s=i.find(".background"),n=i.width(),o=t.width(),a=s.width(),r=.5*n- -.14*a-.05*o,startXPrime=r-.01*o,l=r+.1*a,TweenMax.set(t,{x:l}),this.helpTl.add(TweenMax.to(t,2,{ease:Power1.easeInOut,x:r}),"+=2"),this.helpTl.add(TweenMax.to(t,.2,{ease:Power1.easeInOut,y:10,x:startXPrime})),this.helpTl.add(TweenMax.to(t,.2,{ease:Power1.easeInOut,y:0,x:r}),"+=.2"),this.helpTl.add(TweenMax.to(t,2,{ease:Power1.easeInOut,x:l}),"+=.5"),this.helpTl.restart()}else this.helpTl&&(console.log(this.helpTl),this.helpTl.stop(),this.helpTl=null)}));var KPF;KPF||(KPF={}),KPF.global||(KPF.global={}),KPF.global.PRODUCTION=!0,KPF.global.FORMAT_INDENT="   ";var KPF;KPF||(KPF={}),KPF.utils||(KPF.utils={},KPF.utils._logBuildStr=function(e,i){var t;return KPF.utils.isdefined(i)&&(t="["+i+"] "),KPF.utils.isdefined(e)&&(t=t?t+e:e),t},KPF.utils.error=function(e,i,t){var s=KPF.utils._logBuildStr(e,i);s?t?console.error(s,t):console.error(s):t&&console.error(t)},KPF.utils.warn=function(e,i,t){var s=KPF.utils._logBuildStr(e,i);s?t?console.warn(s,t):console.warn(s):t&&console.warn(t)},KPF.utils.log=function(e,i,t){if(KPF.global.PRODUCTION){var s=KPF.utils._logBuildStr(e,i);s?t?console.log(s,t):console.log(s):t&&console.log(t)}},KPF.utils.degToRad=function(e){return e/180*Math.PI},KPF.utils.rad2Deg=function(e){return e/Math.PI*180},KPF.utils.digits2=function(e){return e<10?"0"+e:e},KPF.utils.randomInt=function(e,i){return e=Math.ceil(e),i=Math.floor(i),Math.floor(Math.random()*(i-e+1))+e},KPF.utils.clamp=function(e,i,t){return Math.max(i,Math.min(t,e))},KPF.utils.roundTo=function(e,i){return Math.round(e/i)*i},KPF.utils.floorTo=function(e,i){return Math.floor(e/i)*i},KPF.utils.ceilTo=function(e,i){return Math.ceil(e/i)*i},KPF.utils.fillTo=function(e,i,t){for(e=e.toString();e.length<i;)e=t+e;return e},KPF.utils.isfilled=function(e){return"string"==typeof e&&e.length>0},KPF.utils.keepNumeric=function(e){return e.match(/\d/g).join("")},KPF.utils.repeat=function(e,i){var t="";if(isNaN(e))e=0;else if(!KPF.utils.isdefined(i))return KPF.utils.warn("Illegal arguments","KPF.utils.repeat",{iteration:e,pattern:i}),t;for(;e>0;)t+=i,--e;return t},KPF.utils.isdefined=function(e){return void 0!==e&&null!==e},KPF.utils.isstring=function(e){return"string"==typeof e},KPF.utils.isarray=function(e){return Array.isArray?Array.isArray(e):"[object Array]"===objectToString(e)},KPF.utils.isbool=function(e){return"boolean"==typeof e},KPF.utils.isan=function(e){return"number"==typeof e&&e+1==e+1},KPF.utils.arrGetUnique=function(e){for(var i={},t=[],s=0,n=e.length;s<n;++s)i.hasOwnProperty(e[s])||(t.push(e[s]),i[e[s]]=1);return t},KPF.utils.arraySum=function(e){return e.reduce(function(e,i){return e+i},0)});var CCV,proto;proto=PIXI.Point.prototype,proto.scale=function(e){this.x*=e,this.y*=e},proto.floor=function(){this.x=Math.floor(this.x),this.y=Math.floor(this.y)},proto.ceil=function(){this.x=Math.ceil(this.x),this.y=Math.ceil(this.y)},proto.round=function(){this.x=Math.round(this.x),this.y=Math.round(this.y)},proto.minus=function(e){this.x-=e.x,this.y-=e.y},proto.plus=function(e){this.x+=e.x,this.y+=e.y},proto.getLength=function(){return Math.sqrt(this.x*this.x+this.y*this.y)},proto.to=function(e){e.x=this.x,e.y=this.y},proto.toString=function(){return"[PIXI.Point] x: "+this.x.toFixed(1)+", y: "+this.y.toFixed(1)},proto=PIXI.Rectangle.prototype,proto.scale=function(e,i){void 0==i&&(i=e),this.x*=e,this.y*=e,this.width*=i,this.height*=i},CCV||(CCV={}),CCV.utils||(CCV.utils={},CCV.utils.drawDebugRect=function(e,i,t,s,n,o){isNaN(n)&&(n=1),isNaN(s)&&(s=1),void 0==o&&(o=!1),o&&e.beginFill(t,n),e.lineStyle(s,t,o?1:n),e.drawRect(i.x,i.y,i.width,i.height),e.moveTo(i.x,i.y),e.lineTo(i.x+i.width,i.y+i.height),e.moveTo(i.x+i.width,i.y),e.lineTo(i.x,i.y+i.height),o&&e.endFill()},CCV.utils.drawDebugPoint=function(e,i,t,s){isNaN(s)&&(s=1),e.lineStyle(s,t,1),e.drawCircle(i.x,i.y,10),e.moveTo(i.x,i.y),e.lineTo(i.x+20,i.y),e.moveTo(i.x,i.y),e.lineTo(i.x,i.y+20)}),CCV.global||(CCV.global={RED:16727593,BLUE:11391722,HEADER_HEIGHT:0,FOOTER_HEIGHT:0,SYS_FORCE_CANVAS:!1,SYS_USE_SHARED_TICKER:!0,SYS_FPS:8,SYS_ALLOW_LARGE:!1,DEBUG_LANDSCAPE_GFX:!1,DEBUG_SCENE_GFX:!1,DEBUG_SCROLL_GFX:!1,DEBUG_SCENE_MARGINS:!1,DEBUG_SWIPE:!1,AUDIO_FOLDER:"ccv/audio/",AUDIO_GLOBAL_VOLUME:.3,AUDIO_DELTA_VOLUME_COEF:.6,AUDIO_DELTA_PAN_COEF:.6,SCENE_START_INDEX:11,SCENE_START_RAND:!1,SCENE_ACTIVATION_DELAY:2e3,SCENE_DEACTIVATION_DELAY:1400,SCENE_REPEAT_DELAY:4e3,SCENE_RESTART_DELAY:2e3,SCENE_SLIDE_DURATION:1.6,SCENE_MAX_HEIGHT:650,SCENE_EXTRAVIEW_COEF:.25,SCENE_GROUND_HEIGHT:100,SCENE_ACTIVATE_BORDING_SCENES:!0,SCENE_ITEM_BEFORE:10,MEDIA_FOLDER:"ccv/",MAGNIFIER_RED:16717077,MAGNIFIER_PINCH_AMP:200,MAGNIFIER_PINCH_INCREMENT:.5,MAGNIFIER_APPEAR_TIME:.7,MAGNIFIER_VANISH_TIME:.5,MAGNIFIER_RADIUS:150,MAGNIFIER_DRAG_IDLE_TEMPO:-1,SCROLL_ELASTICITY:.08,SCROLL_SWIPE_ELASTICITY:.15,SCROLL_PREVIEW_OFFSET:120,SCROLL_MIN_OFFSET:250,SWIPE_ENABLED:!1,SWIPE_THRESHOLD:250,SWIPE_VIVACITY:400,SWIPE_VELOCITY:300}),CCV.app||(CCV.app={}),CCV.app.Player||(CCV.app.Player=function(e,i){this.target=e,this.options=Object.assign({magnifierDisplayStatus:!0,scenesShowFillStatus:!0,configurationFile:"json/config.json"},i),CCV.player=this,this.mediaFolder="",this.application=new PIXI.Application(800,600,{backgroundColor:16777215,view:this.target,transparent:!1,antialias:!0,preserveDrawingBuffer:!1,resolution:1,legacy:!1},CCV.global.SYS_FORCE_CANVAS,CCV.global.SYS_USE_SHARED_TICKER),this.application.stop(),this.animTicker=new CCV.app.AnimationsTicker,this.cbks={},this.cbks.windowFocus=this.windowFocus.bind(this),this.cbks.windowBlur=this.windowBlur.bind(this),this.cbks.resize=this.resize.bind(this),this.cbks.swCtx={name:"swCtx",active:!1,startTime:Number.NaN,startX:Number.NaN,startScrollPanelX:Number.NaN,elasticity:Number.NaN,scrollTarget:Number.NaN,scrollMin:Number.NaN,scrollMax:Number.NaN,swipeLockMin:Number.NaN,swipeLockMax:Number.NaN},Object.seal(this.cbks.swCtx),this.cbks.swipeStart=this._swipeStart.bind(this),this.cbks.swipeEnd=this._swipeEnd.bind(this),this.cbks.swipeMove=this._swipeMove.bind(this),this.cbks.scrollApply=this._scrollApply.bind(this),this.cbks.mgCtx={name:"mgCtx",dragTouch:null,pinchTouch:null,pinchStartScale:Number.NaN,pinchStartDelta:Number.NaN,idleTimeoutId:null},Object.seal(this.cbks.mgCtx),this.cbks.magnifierDragStart=this._mgDragStart.bind(this),this.cbks.magnifierDragMove=this._mgDragMove.bind(this),this.cbks.magnifierDragEnd=this._mgDragEnd.bind(this),window.onfocus=this.cbks.windowFocus,window.onblur=this.cbks.windowBlur,window.onresize=this.cbks.resize,this.landscapeHeight=CCV.global.SCENE_MAX_HEIGHT,this.groundHeight=CCV.global.SCENE_GROUND_HEIGHT,this.resizeInit(),this.configurationLoad()},proto=CCV.app.Player.prototype,proto.getMode=function(){return this.application.renderer instanceof PIXI.WebGLRenderer?"WebGL":"canvas"},proto.configurationLoad=function(){var e=this;$.ajax({url:this.options.configurationFile,dataType:"json",method:"GET",data:{context:KPF.global.PRODUCTION},error:function(i,t){KPF.utils.error('Unable to load configuration, url: "'+e.options.configurationFile+'", textStatus: "'+t+'"',"Application.loadConfiguration")},success:function(i,t){KPF.utils.log('Configuration loaded, textStatus: "'+t+'"',"Application.loadConfiguration"),e.configurationParse(i)}})},proto.configurationParse=function(e){this.landscape=new CCV.app.Landscape(e.landscape),this.application.stage.addChild(this.landscape.view),this.background=new PIXI.Graphics,this.background.beginFill(65280,0),this.background.drawRect(0,0,100,100),this.application.stage.addChild(this.background),this.magnifier=new CCV.app.Magnifier(CCV.global.MAGNIFIER_RADIUS),this.application.stage.addChild(this.magnifier.view),this.resize(),CCV.global.SCENE_START_RAND&&this.landscape.pickRandomScene(!1),this.initInteractions(),this.magnifierDisplayToggle(this.options.magnifierDisplayStatus),this.scenesShowFillToggle(this.options.scenesShowFillStatus!==!1),this.windowFocus(),this.landscape.audio.play(),$(this.target).trigger("ready",[this.landscape.scenes,this.landscape.scenesIndexed])},proto.initInteractions=function(){this.background.interactive=!0,this.background.on("pointerdown",this.cbks.swipeStart).on("pointerupoutside",this.cbks.swipeEnd).on("pointerup",this.cbks.swipeEnd),this.magnifier.view.interactive=!0,this.magnifier.view.on("pointerdown",this.cbks.magnifierDragStart)},proto._mgDragInteractionsReset=function(){this.magnifier.view.off("pointerup",this.cbks.magnifierDragEnd).off("pointerupoutside",this.cbks.magnifierDragEnd).off("pointermove",this.cbks.magnifierDragMove)},proto._mgDragStart=function(e){var i=this.cbks.mgCtx;i.idleTimeoutId&&window.clearTimeout(i.idleTimeoutId),i.dragTouch?i.pinchTouch||(i.pinchTouch=this._createTouch(e),i.pinchStartScale=this.magnifier.pinchScale,i.pinchStartDelta=this._mgPinchComputeDelta(i)):(i.dragTouch=this._createTouch(e),this.magnifier.view.on("pointerup",this.cbks.magnifierDragEnd).on("pointerupoutside",this.cbks.magnifierDragEnd).on("pointermove",this.cbks.magnifierDragMove))},proto._mgDragMove=function(e){var i,t,s=this.cbks.mgCtx;if(t=e.data.getLocalPosition(this.application.stage),s.pinchTouch){switch(e.data.identifier){case s.dragTouch.id:s.dragTouch.copy(t);break;case s.pinchTouch.id:s.pinchTouch.copy(t);break;default:return}i=this._mgPinchComputeDelta(s)-s.pinchStartDelta,i=KPF.utils.clamp(i,-CCV.global.MAGNIFIER_PINCH_AMP,CCV.global.MAGNIFIER_PINCH_AMP),this.magnifier.pinchScale=s.pinchStartScale+i/CCV.global.MAGNIFIER_PINCH_AMP*CCV.global.MAGNIFIER_PINCH_INCREMENT}else s.dragTouch&&e.data.identifier==s.dragTouch.id&&(this.magnifier.pos=t)},proto._mgDragEnd=function(e){var i=this.cbks.mgCtx;i.dragTouch=null,i.pinchTouch=null,i.pinchStartScale=Number.NaN,i.pinchStartDelta=Number.NaN,CCV.global.MAGNIFIER_DRAG_IDLE_TEMPO>0&&(i.idleTimeoutId=window.setTimeout(this._mgTidy,CCV.global.MAGNIFIER_DRAG_IDLE_TEMPO)),this._mgDragInteractionsReset()},proto._mgTidy=function(e){var i=CCV.player,t={x:.5*i.size.x,y:.9*i.size.y};e===!1?i.magnifier.pos=t:TweenMax.to(i.magnifier,.4,{ease:Circ.easeInOut,pinchScale:1,x:t.x,y:t.y})},proto._mgPinchComputeDelta=function(e){var i=new PIXI.Point;return i.copy(e.pinchTouch),i.minus(e.dragTouch),i.getLength()},proto._createTouch=function(e){return Object.assign(e.data.getLocalPosition(CCV.player.application.stage),{id:e.data.identifier})},proto._swipeStart=function(e){var i=this.cbks.swCtx;i.active||(i.active=!0,i.startTime=(new Date).getTime(),i.startX=e.data.getLocalPosition(this.application.stage).x,i.scrollMin=Math.floor(this.landscape.xTarget-this.landscape.scrollMin),i.swipeLockMin=Math.floor(i.scrollMin-this.landscape.scrollPreview),i.scrollMax=Math.ceil(this.landscape.xTarget+this.landscape.scrollMin),i.swipeLockMax=Math.ceil(i.scrollMax+this.landscape.scrollPreview),i.elasticity=CCV.global.SCROLL_ELASTICITY,i.startScrollPanelX=this.landscape.scenesScroll.x,this.background.on("pointermove",this.cbks.swipeMove),this._swipeMove(e),PIXI.ticker.shared.add(this.cbks.scrollApply))},proto._swipeMove=function(e){var i,t;i=this.cbks.swCtx,t=e.data.getLocalPosition(this.application.stage).x-i.startX,t<=-this.landscape.scrollMin?(i.scrollTarget=i.swipeLockMin,i.elasticity=CCV.global.SCROLL_SWIPE_ELASTICITY):t>=this.landscape.scrollMin?(i.scrollTarget=i.swipeLockMax,i.elasticity=CCV.global.SCROLL_SWIPE_ELASTICITY):(i.scrollTarget=i.startScrollPanelX+t,i.elasticity=CCV.global.SCROLL_ELASTICITY)},proto._scrollApply=function(e){var i=this.cbks.swCtx;isNaN(i.scrollTarget)||(this.landscape.scenesScroll.x-=(this.landscape.scenesScroll.x-i.scrollTarget)*i.elasticity)},proto._swipeEnd=function(e){var i=this.cbks.swCtx;if(i.scrollTarget==i.swipeLockMin)return this.landscape.move(1),void this._swipeReset();if(i.scrollTarget==i.swipeLockMax)return this.landscape.move(-1),void this._swipeReset();if(!CCV.global.SWIPE_ENABLED)return void this._swipeReset();var t,s,n,o,a,r,l,h=[];if(t=e.data.getLocalPosition(this.application.stage).x-i.startX,Math.abs(t)<10)return void this._swipeReset();s=Math.abs(t)>CCV.global.SWIPE_THRESHOLD,h.push("threshold: "+t.toFixed(0)+" ("+s+")"),n=(new Date).getTime()-i.startTime,o=n<CCV.global.SWIPE_VIVACITY,h.push("vicacity: "+n.toFixed(0)+" ("+o+")"),a=Math.abs(t)/n*1e3,r=a>=CCV.global.SWIPE_VELOCITY,h.push("velocity: "+a.toFixed(0)+" ("+r+")"),this._swipeReset(),l=s&&o&&r,CCV.global.DEBUG_SWIPE&&KPF.utils.log((l?"Apply":"Cancel")+" swipe gesture","Player._swipeEnd"," // "+h.join(", ")),l&&this.landscape.move(-t)},proto._swipeReset=function(){var e=this.cbks.swCtx;this.background.off("pointermove",this.cbks.swipeMove),PIXI.ticker.shared.remove(this.cbks.scrollApply),e.active=!1,e.startTime=Number.NaN,e.startX=Number.NaN,e.scrollTarget=Number.NaN,e.scrollMin=Number.NaN,e.scrollMax=Number.NaN,e.swipeLockMin=Number.NaN,e.swipeLockMax=Number.NaN,e.startScrollPanelX=Number.NaN},proto.magnifierDisplayToggle=function(e){this.magnifierDisplayStatus=KPF.utils.isbool(e)?e:!this.magnifierDisplayStatus,KPF.utils.log("magnifierDisplayStatus: "+this.magnifierDisplayStatus,"CCV.app.Player"),this.magnifierDisplayStatus?(this._mgTidy(!1),TweenMax.to(this.magnifier,CCV.global.MAGNIFIER_APPEAR_TIME,{scale:1,ease:Expo.easeIn,overwrite:"all"})):TweenMax.to(this.magnifier,CCV.global.MAGNIFIER_VANISH_TIME,{scale:0,ease:CustomEase.create("custom","M0,0,C0.646,-0.888,0.536,0.894,1,1"),overwrite:"all"}),$(this.target).trigger("magnifierDisplayChange",[this.magnifierDisplayStatus])},proto.scenesShowFillToggle=function(e){e=KPF.utils.isbool(e)?e:!this.scenesShowFillStatus,this.scenesShowFillStatus=e,KPF.utils.log("scenesShowFillStatus: "+this.scenesShowFillStatus,"Player.scenesShowFillToggle"),this.landscape.scenes.forEach(function(i){i.showFill(e)}),$(this.target).trigger("scenesShowFillChange",[this.scenesShowFillStatus])},proto.activate=function(e){e?(KPF.utils.log("Start application rendering","Player.windowFocus"),PIXI.ticker.shared.start(),this.animTicker.start()):(this.landscape.audio.stop(),KPF.utils.log("Stop application rendering","Player.activate"),this.animTicker.stop(),this.application.stop(),PIXI.ticker.shared.stop())},proto.windowBlur=function(){this.activate(!1)},proto.windowFocus=function(){this.activate(!0)},proto.resizeInit=function(){var e=screen.height-CCV.global.FOOTER_HEIGHT-CCV.global.HEADER_HEIGHT;CCV.global.SYS_ALLOW_LARGE&&e>.5*(CCV.global.SCENE_MAX_HEIGHT+CCV.global.SCENE_GROUND_HEIGHT)?(this.scaleFolder="x2",this.scaleSourceCoef=2):(this.scaleFolder="x1",this.scaleSourceCoef=1),CCV.global.SCENE_MAX_HEIGHT*=this.scaleSourceCoef,this.landscapeHeight*=this.scaleSourceCoef,this.groundHeight*=this.scaleSourceCoef,this.mediaFolder=CCV.global.MEDIA_FOLDER+this.scaleFolder+"/",KPF.utils.log("scale folder: "+this.scaleFolder+", scaleSourceCoef: "+this.scaleSourceCoef.toFixed(1),"Player.resizeInit")},proto.resize=function(){var e=!1;this.size=new PIXI.Point(window.innerWidth,window.innerHeight),this.size.y-=CCV.global.HEADER_HEIGHT,this.size.y-=CCV.global.FOOTER_HEIGHT,this.background.width=this.size.x,this.background.height=this.size.y,this.application.renderer.resize(this.size.x,this.size.y),this.scale=this.size.y/(this.landscapeHeight+this.groundHeight),this.scale>1&&(e=!0,this.scale=1),KPF.utils.log("- application size: "+this.size.toString()+"\n - application scale: "+this.scale.toFixed(2)+"\n - scaleOverflow: "+e,"Player.resize"),this.magnifier.redraw(this.scale),this._mgTidy(!1),this.landscape.resize(this.size,this.scale)},proto.triggerIndex=function(e,i,t){$(this.target).trigger("sceneIndexChange",[e,i,t])}),CCV.app.Landscape||(CCV.app.Landscape=function(e){this.view=void 0,this.ground=void 0,this.scenesScroll=void 0,this.scenesCtn=void 0,this.debugGfx=void 0,this.scenes=[],this.index=CCV.global.SCENE_START_INDEX,this.size=new PIXI.Point,this.xCenter=0,this.parse(e)},proto=CCV.app.Landscape.prototype,proto.resize=function(e,i){var t,s;this.scenesCtn.scale=new PIXI.Point(i,i),this.size=e.clone(),this.size.scale(1/i),this.size.round(),s=CCV.player.landscapeHeight+CCV.player.groundHeight,this.size.y>s?(this.size.y=s,this.view.y=Math.round(.66*(e.y-this.size.y))):this.view.y=0,this.xCenter=Math.round(.5*this.size.x),this.debugGfx.clear(),CCV.global.DEBUG_LANDSCAPE_GFX&&(t=.5*this.size.y,this.debugGfx.lineStyle(4,26163,1),this.debugGfx.moveTo(this.xCenter-20,t),this.debugGfx.lineTo(this.xCenter+20,t),this.debugGfx.moveTo(this.xCenter,t-20),this.debugGfx.lineTo(this.xCenter,t+20),this.debugGfx.lineStyle(),this.debugGfx.beginFill(16711680,.2),this.debugGfx.drawRect(0,0,this.size.x,CCV.player.landscapeHeight),this.debugGfx.endFill(),this.debugGfx.lineStyle(),this.debugGfx.beginFill(0,.2),this.debugGfx.drawRect(0,CCV.player.landscapeHeight,this.size.x,CCV.player.groundHeight),this.debugGfx.endFill()),this.setIndex(this.index,!1)},proto.toString=function(){this.info(0)},proto.info=function(e,i){var t,s="",n=this.scenes.length,o=KPF.global.FORMAT_INDENT;isNaN(e)&&(e=0),t=KPF.utils.repeat(e,o),i===!0&&(s=t),s+="[Landscape] ("+n+" scenes)";for(var a=0;a<n;++a)s+="\n"+t+o+this.scenes[a].info(e+1,!1);return s},proto.parse=function(e){var i,t,s,n,o,a,r;for(e.audio&&(this.audio=new CCV.app.AudioChannel(e.audio,!0)),this.scenes=[],this.scenesIndexed=[],i=0,t=e.scenes?e.scenes.length:0;i<t;++i)s=new CCV.app.Scene(e.scenes[i]),("_debug"!=s.id||CCV.global.DEBUG_LANDSCAPE_GFX)&&(s.indexable&&this.scenesIndexed.push({index:this.scenes.length,scene:s}),this.scenes.push(s));for(this.view=new PIXI.Container,this.scenesCtn=new PIXI.Container,this.view.addChild(this.scenesCtn),this.scenesScroll=new PIXI.Container,this.scenesCtn.addChild(this.scenesScroll),r=CCV.player.landscapeHeight,a=[],i=0,t=this.scenes.length,o=0;i<t;++i)s=this.scenes[i],o+=s.marginLeft,s.view.x=o,s.view.y=r-s.size.y,a.push(o),o+=s.size.x+s.pos.x,this.scenesScroll.addChild(s.view),s.popUnder&&n&&this.scenesScroll.swapChildren(s.view,n.view),n=s;for(this.scenesWidths=[],i=1,t=a.length;i<t;++i)this.scenesWidths.push(a[i]-a[i-1]);this.scenes.pop(),this.ground=new CCV.app.Ground(e.ground),this.ground.view.position=new PIXI.Point(0,r+this.ground.pos.y),this.scenesScroll.addChild(this.ground.view),this.debugGfx=new PIXI.Graphics,this.scenesCtn.addChild(this.debugGfx),this.scrollDebugGfx=new PIXI.Graphics,this.scenesScroll.addChild(this.scrollDebugGfx),this.scenes[0].view.x=this.scenes[0].marginLeft,this._reArrangeScenesFrom(0)},proto.pickRandomScene=function(e){var i,t;for(t=this.index;!KPF.utils.isan(i)||t==i;)i=KPF.utils.randomInt(0,this.scenes.length-1),this.scenes[i].indexable||(i=Number.NaN);e=e!==!1,KPF.utils.log("index: "+i+", doTransition: "+e,"CCV.app.Landscape.pickRandomScene"),this.setIndex(i,e)},proto.move=function(e,i){var t;if(i=i!==!1){for(var s,n,o,a=0,r=this.scenesIndexed.length;a<=r;++a)if(a==r||this.scenesIndexed[a].index>this.index){n=this.scenesIndexed[a%r],s=this.scenesIndexed[(a-1+r)%r],s.index==this.index&&(o=s,s=this.scenesIndexed[(a-2+r)%r]);break}if(0==e){if(o)return;t=Math.abs(s.index-this.index)<Math.abs(n.index-this.index)?s.index:n.index}else e<0?t=s.index:e>0&&(t=n.index)}else{if(0==e)return;t=this.index+(e>0?1:-1)}this.setIndex(t,!0)},proto.setIndex=function(e,i){var t,s,n,o,a,r,l,h,c,d,p;if(i=i!==!1,0==(s=this.scenes.length))return void KPF.log("[CCV.app.Landscape.setSceneIndex] Illegal call; scenes is empty");for(e<0?e=s-1:e>s-1&&(e=0),this.index=parseInt(e),KPF.utils.log("index: "+e,"Landscape.setIndex"),scene=this.scenes[this.index],t=0,s=this.scenesIndexed.length;t<=s;++t)if(t==s||this.scenesIndexed[t].index>this.index){p=this.scenesIndexed[t%s],d=this.scenesIndexed[(t-1+s)%s],d.index==this.index&&(d,d=this.scenesIndexed[(t-2+s)%s]);break}for(KPF.utils.log("activate sequences between ]#"+d.scene.id+", index:"+d.index+"; #"+p.scene.id+", index:"+p.index+"[","Landscape.setIndex"),s=this.scenes.length,a=Math.floor(s/2),o=-a,t=0;t<s;++t)n=t-this.index,n<o?n+=s:n>a&&(n-=s),r=CCV.global.SCENE_ACTIVATE_BORDING_SCENES?d.index>p.index?t>=d.index||t<=p.index:t>=d.index&&t<=p.index:d.index>p.index?t>d.index||t<p.index:t>d.index&&t<p.index,r&&KPF.utils.log("\t - activate index: "+t+" ("+this.scenes[t].id+")"),this.scenes[t].activateDisplay(r,n);for(this._reArrangeScenesFrom(this.index),scene=this.scenes[this.index],t=0,s=this.scenesIndexed.length;t<=s;++t)if(t==s||this.scenesIndexed[t].index>this.index){p=this.scenesIndexed[t%s],d=this.scenesIndexed[(t-1+s)%s],d.index==this.index&&(d,d=this.scenesIndexed[(t-2+s)%s]);break}l=d.scene.view.x+d.scene.pos.x+d.scene.size.x,h=p.scene.view.x+p.scene.pos.x,c=h-l,this.xTarget=this.xCenter-l-.5*c,this.scrollMin=Math.max(CCV.global.SCROLL_MIN_OFFSET,.5*(c-this.size.x)),this.scrollPreview=CCV.global.SCROLL_PREVIEW_OFFSET,KPF.utils.log("scrollMin: "+this.scrollMin+",  scrollPreview: "+this.scrollPreview,"Landscape.setIndex"),CCV.global.DEBUG_SCROLL_GFX&&(this.scrollDebugGfx.clear(),CCV.utils.drawDebugRect(this.scrollDebugGfx,new PIXI.Rectangle(l,0,h-l,CCV.global.SCENE_MAX_HEIGHT),65535,2,.5,!0)),i?TweenMax.to(this.scenesScroll,CCV.global.SCENE_SLIDE_DURATION,{x:this.xTarget,ease:Expo.easeInOut}):this.scenesScroll.x=this.xTarget,CCV.player.triggerIndex(this.index,this.scenes[this.index],this.scenes.length)},proto._reArrangeScenesFrom=function(e){var i,t,s,n;for(console.log("_reArrangeScenesFrom: "+e+", #"+this.scenes[e].id+" at: "+this.scenes[e].view.x),s=this.scenes[e].view.x,this.ground.view.x=KPF.utils.floorTo(s,this.ground.size.x)-this.ground.size.x,s=this.scenes[e].view.x,i=1,t=this.scenes.length;i<CCV.global.SCENE_ITEM_BEFORE;++i){for(n=e-i;n<0;)n+=t;n%=t,s-=this.scenesWidths[n],this.scenes[n].view.x=s}for(s=this.scenes[e].view.x+this.scenesWidths[e],i=1,t=this.scenes.length;i<t-CCV.global.SCENE_ITEM_BEFORE;++i){for(n=e+i;n<0;)n+=t;n%=t,this.scenes[n].view.x=s,s+=this.scenesWidths[n]}}),CCV.app.Scene||(CCV.app.Scene=function(e){var i=CCV.player.scaleSourceCoef;this.id=e.id,this.folder=CCV.player.mediaFolder,0!=this.id.indexOf("_")&&(this.folder+=this.id+"/"),this.indexable=e.indexable!==!1,this.disposable=e.disposable!==!1,this.popUnder=e.popUnder===!0,this.pos=new PIXI.Point,e.pos&&this.pos.copy(e.pos),this.pos.scale(i),this.marginLeft=e.marginLeft*i,this.size=new PIXI.Point(e.size.x,e.size.y),this.size.scale(i),this.xCenter=Math.round(.5*this.size.x),this.activationTimeoutId=null,e.hasOwnProperty("audio")&&(this.audio=new CCV.app.AudioChannel(e.audio)),this.viewBuild(e)},proto=CCV.app.Scene.prototype,proto.toString=function(){return this.info(0)},proto.info=function(e,i){var t,s="",n=KPF.global.FORMAT_INDENT;return isNaN(e)&&(e=0),t=KPF.utils.repeat(e,n),i===!0&&(s=t),s+="[Scene] #"+this.id,this.redFill&&(s+="\n"+t+n+"redFill: "+this.redFill.info(e+1,!1)),this.redOutline&&(s+="\n"+t+n+"redOutline: "+this.redOutline.info(e+1,!1)),this.blue&&(s+="\n"+t+n+"blue: "+this.blue.info(e+1,!1)),s},proto.factoryModel=function(e){return e?KPF.utils.isarray(e)?new CCV.app.CompoLayer(e,this):e.hasOwnProperty("video")?new CCV.app.VideoLayer(e,this):e.hasOwnProperty("seqEnd")?new CCV.app.Sequence(e,this):new CCV.app.Layer(e,this):null},proto.showFill=function(e){this.redFill&&TweenMax.to(this.redFill.view,.3,{ease:Expo.easeOut,alpha:e?1:0})},proto.viewBuild=function(e){if(this.view=new PIXI.Container,this.blue=this.factoryModel(e.blue),this.blue&&this.blue.view&&(this.blue.view.position.copy(this.pos),this.view.addChild(this.blue.view)),this.red=new CCV.app.CompoLayer(e.red),e.red&&(this.redOutline=this.red.addLayer(e.red.outline,this),this.redFill=this.red.addLayer(e.red.fill,this)),this.redFill&&this.redFill.view&&(this.redFill.view.position.copy(this.pos),this.redFill.view.blendMode=PIXI.BLEND_MODES.MULTIPLY,this.view.addChild(this.redFill.view)),this.redOutline&&this.redOutline.view&&(this.redOutline.view.position.copy(this.pos),this.redOutline.view.blendMode=PIXI.BLEND_MODES.MULTIPLY,this.view.addChild(this.redOutline.view)),CCV.global.DEBUG_SCENE_GFX){var i,t,s={fontFamily:"Verdana",fontSize:12,fill:0};this.debugGfx=new PIXI.Container,this.view.addChild(this.debugGfx),i=new PIXI.Graphics,CCV.utils.drawDebugPoint(i,this.pos,16711680,2),CCV.utils.drawDebugRect(i,new PIXI.Rectangle(this.pos.x,this.pos.y,this.size.x,this.size.y),255,1,1,!1),this.debugGfx.addChild(i),CCV.global.DEBUG_SCENE_MARGINS&&0!=this.marginLeft&&(i.lineStyle(1,255,1),i.drawRect(this.pos.x-this.marginLeft,this.pos.y,this.marginLeft,this.size.y),i.moveTo(this.pos.x,this.pos.y),i.lineTo(this.pos.x-this.marginLeft,this.pos.y+.5*this.size.y),i.lineTo(this.pos.x,this.pos.y+this.size.y),this.debugGfx.addChild(i)),t=new PIXI.Text("#"+this.id,s),t.position=new PIXI.Point(10,10),this.debugGfx.addChild(t),CCV.utils.drawDebugPoint(i,new PIXI.Point(0,0),16711680,2),CCV.utils.drawDebugRect(i,new PIXI.Rectangle(0,0,Math.abs(this.size.x+this.pos.x),this.size.y+this.pos.y),16711680,1,.2,!1)}},proto.activateDisplay=function(e,i){var t=this;this.volumeTarget=e?1:Math.max(0,1-CCV.global.AUDIO_DELTA_VOLUME_COEF*Math.abs(i)),this.panTarget=KPF.utils.clamp(i*CCV.global.AUDIO_DELTA_PAN_COEF,-1,1),this.audio&&this._launchAudio(this.audio),this.activationTimeoutId&&window.clearTimeout(this.activationTimeoutId),this.activationTimeoutId=window.setTimeout(function(){$(t).trigger("displayStateChange",[e])},e?CCV.global.SCENE_ACTIVATION_DELAY:CCV.global.SCENE_DEACTIVATION_DELAY)},proto.launchAudio=function(e,i){i=i!==!1,i?(e.isPlaying()||(startAtValues={volume:0}),TweenMax.to(e,CCV.global.SCENE_SLIDE_DURATION,{volume:this.volumeTarget,pan:this.panTarget,delay:.3,startAt:startAtValues,onUpdate:e.render.bind(e)}),this.volumeTarget>0&&!e.isPlaying()&&(e.play(),e.render())):(e.stop(),e.volume=this.volumeTarget,e.pan=this.panTarget,e.play(),e.render(),console.log("-----------------------------> audio"))}),CCV.app.CompoLayer||(CCV.app.CompoLayer=function(e,i){if(this.layers=[],e)for(var t=0,s=e.length;t<s;++t)this.addLayer(e[t],i)},proto=CCV.app.CompoLayer.prototype,proto.addLayer=function(e,i){var t=i.factoryModel(e);return this.layers.push(t),t},proto.toString=function(){return this.info(0)},proto.info=function(e,i){var t,s,n=KPF.global.FORMAT_INDENT,o=this.layers.length;isNaN(e)&&(e=0),s=KPF.utils.repeat(e,n),t=i===!0?s:"",t+="[CompoLayer] "+o+" layers";for(var a=0;a<o;++a)t+="\n"+this.layers[a].info(e+1,!0);return t}),CCV.app.Layer||(CCV.app.Layer=function(e,i){this.file=i.folder+e.file,this.view=PIXI.Sprite.fromImage(this.file)},proto=CCV.app.Layer.prototype,proto.toString=function(){return this.info(0)},proto.info=function(e,i){var t,s=KPF.global.FORMAT_INDENT;return t=i===!0?KPF.utils.repeat(e||0,s):"",t+='[Layer] file: "'+this.file+'"'}),CCV.app.Sequence||(CCV.app.Sequence=function(e,i){this.scene=i,this.parse(e),this.view=new PIXI.Container,e.hasOwnProperty("preview")&&(this.preview=new PIXI.Sprite(new PIXI.Texture.fromImage(this.scene.folder+e.preview)),this.view.addChild(this.preview)),CCV.global.DEBUG_SCENE_GFX&&(this.text=new PIXI.Text("",{fontFamily:"Verdana",fontSize:15,fill:0}),this.text.position=new PIXI.Point(20,-20),this.view.addChild(this.text)),this.active=void 0,$(this.scene).on("displayStateChange",this.activateDisplay.bind(this)),this.activateDisplay(null,!1)},proto=CCV.app.Sequence.prototype,proto.parse=function(e){this.seqNumLength=e.hasOwnProperty("seqNumLength")?e.seqNumLength:-1,this.seqStart=e.hasOwnProperty("seqStart")?e.seqStart:1,this.seqEnd=e.hasOwnProperty("seqEnd")?e.seqEnd:1,this.seqRepeatDelay=e.hasOwnProperty("seqRepeatDelay")&&e.seqRepeatDelay>=0?e.seqRepeatDelay:CCV.global.SCENE_REPEAT_DELAY,this.seqRepeatFrames=parseInt(this.seqRepeatDelay/1e3*CCV.global.SYS_FPS),this.seqRepeatSuspensionFrames=-1,this.seqRestartDelay=e.hasOwnProperty("seqRestartDelay")&&e.seqRestartDelay>=0?e.seqRestartDelay:CCV.global.SCENE_RESTART_DELAY,this.seqRestartFrames=parseInt(this.seqRestartDelay/1e3*CCV.global.SYS_FPS),this.seqRestartSuspensionFrames=-1,e.hasOwnProperty("audio")&&(this.audio=new CCV.app.AudioChannel(e.audio,!0)),this.file=e.file,this.loop=e.loop!==!1},proto.nextFrame=function(){var e=this.animation;if(e){var i=e.currentFrame+1,t=e.totalFrames;if(this.seqRepeatSuspensionFrames>0?this.seqRepeatSuspensionFrames--:0==this.seqRepeatSuspensionFrames?(this.seqRepeatSuspensionFrames=-1,this.seqRestartFrames>0?this.seqRestartSuspensionFrames=this.seqRestartFrames:this.audio&&(console.log("launch audio from repeat pause"),this.scene.launchAudio(this.audio,!1)),e.gotoAndStop(0)):this.seqRestartSuspensionFrames>0?this.seqRestartSuspensionFrames--:0==this.seqRestartSuspensionFrames?(this.seqRestartSuspensionFrames=-1,e.gotoAndStop(1),
-this.audio&&(console.log("launch audio from restart pause"),this.scene.launchAudio(this.audio,!1))):i<t?e.gotoAndStop(i):(this.seqRepeatFrames>0&&(this.seqRepeatSuspensionFrames=this.seqRepeatFrames,e.gotoAndStop(t-1)),this.seqRestartFrames>0?(this.seqRestartSuspensionFrames=this.seqRestartFrames,e.gotoAndStop(0)):(e.gotoAndStop(0),this.audio&&(console.log("launch audio from loop"),this.scene.launchAudio(this.audio,!1)))),CCV.global.DEBUG_SCENE_GFX){var s=e.currentFrame+"/"+e.totalFrames;this.seqRestartFrames>0&&(s+=" [restart: "+this.seqRestartSuspensionFrames+"/"+this.seqRestartFrames+"]"),this.seqRepeatFrames>0&&(s+=" [repeat: "+this.seqRepeatSuspensionFrames+"/"+this.seqRepeatFrames+"]"),this.text.text=s}}},proto.toString=function(){return this.info(0)},proto.info=function(e,i){var t;return t=i===!0?KPF.utils.repeat(e||0,KPF.global.FORMAT_INDENT):"",t+="[Sequence] "+(this.seqEnd-this.seqStart)+" frames ["+this.seqStart+" -> "+this.seqEnd+"]"},proto.activateDisplay=function(e,i){var t,s,n;if(i=i!==!1||!this.scene.disposable,this.active!==i)if(this.active=i,this.seqRepeatSuspensionFrames=-1,!i&&this.audio&&this.audio.stop(),this.active||!this.preview){if(!this.animation){for(this.textures=[],t=this.seqStart;t<=this.seqEnd;++t)s=this.seqNumLength>0?KPF.utils.fillTo(t,this.seqNumLength,"0"):t,n=this.scene.folder+this.file.replace("[NUM]",s),this.textures.push(new PIXI.Texture.fromImage(n));this.animation=new PIXI.extras.AnimatedSprite(this.textures,!1),this.animation.textures=this.textures,this.animation.gotoAndStop(1),this.view.addChild(this.animation)}CCV.player.animTicker.addSequence(this),this.audio&&this.seqRepeatFrames+this.seqRestartFrames==0&&(console.log("launch audio from activation"),this.scene.launchAudio(this.audio,!1))}else this.animation&&(CCV.player.animTicker.removeSequence(this),this.view.removeChild(this.animation),this.animation.destroy(!0),this.animation=null)}),CCV.app.Ground||(CCV.app.Ground=function(e){this.pos=new PIXI.Point(e.pos.x,e.pos.y),this.pos.scale(CCV.player.scaleSourceCoef),this.size=new PIXI.Point(e.size.x,e.size.y),this.size.scale(CCV.player.scaleSourceCoef),this.view=new PIXI.Container;for(var i=0,t=PIXI.Texture.fromImage(CCV.player.mediaFolder+e.file);i<3;++i)gfx=PIXI.Sprite.from(t),gfx.blendMode=PIXI.BLEND_MODES.MULTIPLY,gfx.position=new PIXI.Point(i*this.size.x,0),this.view.addChild(gfx)}),CCV.app.Magnifier||(CCV.app.Magnifier=function(e){this.radius=e,this.view=new PIXI.Container,this.gfx=new PIXI.Graphics,this.gfx.blendMode=PIXI.BLEND_MODES.MULTIPLY,this.gfx.scale=new PIXI.Point(1,1),this.view.addChild(this.gfx),this._scale=0,this._x=0,this._y=0,Object.defineProperty(this,"pinchScale",{get:function(){return this.gfx.scale?this.gfx.scale.x:1},set:function(e){e=KPF.utils.clamp(e,1,1+CCV.global.MAGNIFIER_PINCH_INCREMENT),this.gfx.scale=new PIXI.Point(e,e)}}),Object.defineProperty(this,"scale",{get:function(){return this.view.scale.x},set:function(e){this._scale=e,this._render()}}),Object.defineProperty(this,"x",{get:function(){return this._x},set:function(e){this._x=e,this._render()}}),Object.defineProperty(this,"y",{get:function(){return this._y},set:function(e){this._y=e,this._render()}}),Object.defineProperty(this,"pos",{get:function(){return{x:this._x,y:this._y}},set:function(e){this._x=e.x,this._y=e.y,this._render()}}),this.scale=0},proto=CCV.app.Magnifier.prototype,proto.redraw=function(e){this.gfx.clear(),this.gfx.beginFill(CCV.global.MAGNIFIER_RED),this.gfx.drawCircle(0,0,this.radius*CCV.player.scaleSourceCoef*e),this.gfx.endFill()},proto._render=function(){new PIXI.Point(this._x,this._y).to(this.view),this.view.scale.copy({x:this._scale,y:this._scale})}),CCV.app.AnimationsTicker||(CCV.app.AnimationsTicker=function(){this.askRenderCallback=this.askRender.bind(this),this.askRenderTimeoutId=null,this.scheduled=!1,this.deltaTime=Date.now(),this.time=0,this.sequences=[],this.start()},proto=CCV.app.AnimationsTicker.prototype,proto.start=function(){this.askRender()},proto.stop=function(){clearTimeout(this.askRenderTimeoutId)},proto.addSequence=function(e){this.sequences.indexOf(e)<0&&e.animation.totalFrames>1&&this.sequences.push(e)},proto.removeSequence=function(e){var i=this.sequences.indexOf(e);i>=0&&this.sequences.splice(i,1)},proto.askRender=function(){if(this.scheduled=!1,this.deltaTime=Date.now()-this.time,this.deltaTime<1e3/CCV.global.SYS_FPS)return void(this.scheduled||(this.scheduled=!0,this.askRenderTimeoutId=setTimeout(this.askRenderCallback,1e3/CCV.global.SYS_FPS-this.deltaTime)));this.time+=this.deltaTime,CCV.player.application.render();for(var e=0,i=this.sequences.length;e<i;++e)this.sequences[e].nextFrame();requestAnimationFrame(this.askRenderCallback)}),CCV.app.AudioChannel||(CCV.app.AudioChannel=function(e,i){this.file=CCV.global.AUDIO_FOLDER+e.file,this.isLoop=e.isLoop!==!1,this.isStereo=e.isStereo!==!1,this.volumeCoef=KPF.utils.isan(e.volume)?e.volume:1,this.autoRender=i===!0,this.sound=new Howl({src:this.file,volume:0}),this._volume=1,this._pan=0,Object.defineProperty(this,"pan",{get:function(){return this._pan},set:function(e){this._pan=KPF.utils.clamp(e,-1,1),this.autoRender&&this.render()}}),Object.defineProperty(this,"volume",{get:function(){return this._volume},set:function(e){this._volume=e,this.autoRender&&this.render()}})},proto=CCV.app.AudioChannel.prototype,proto.isPlaying=function(){return this.soundId&&this.sound.playing(this.soundId)},proto.play=function(){this.soundId=this.sound.play(),this.sound.loop(this.isLoop,this.soundId),this.render()},proto.stop=function(){this.soundId&&(this.sound.stop(this.soundId),this.soundId=null)},proto.render=function(){this.soundId&&(this.sound.volume(CCV.global.AUDIO_GLOBAL_VOLUME*this.volumeCoef*this._volume,this.soundId),this.sound.stereo(this._pan,this.soundId))},proto.toString=function(){return"[AudioChannel] loop:"+this.loop+", stereo: "+this.stereo+", volumeCoef: "+this.volumeCoef},proto.info=function(e,i){var t,s=KPF.global.FORMAT_INDENT,n=KPF.utils.repeat(e||0,s);return t=i===!0?n:"",t+="[AudioChannel] ",t+="\n"+n+s+'file: "'+this.file+'"',t+="\n"+n+s+"loop:"+this.loop+", stereo: "+this.stereo+", volumeCoef: "+this.volumeCoef});
+var DGN;
+var proto;
+
+if(!DGN){
+	DGN = {
+		core: {}
+	};
+	
+	if(!DGN.core.Application){
+		DGN.core.Application = function(pageId){
+			this.cnv = document.getElementById('pixi-stage');
+			
+			/** @var {TimelineMax} */
+			this.helpTl = null;
+			this.page = null;
+			$('.page').hide();
+			
+			this.lang = 'fr';
+		};
+		proto = DGN.core.Application.prototype;
+		
+		
+		proto.initialize = function(){
+			var page,
+				pointer,
+				pagination;
+			
+			/* application interactions */{
+				$('[data-lang]').on('click', function(){
+					DGN.app.langSet($(this).data('lang'));
+				});
+			}
+			
+			/* home page */{
+				
+				// buttons actions
+				$('#home')
+					.on('click', 'button.action-info', function(){
+						DGN.app.pageSet('info');
+					})
+					.on('click', 'button.action-play', function(){
+						DGN.app.pageSet('play');
+					});
+			}
+			
+			/* help page */{
+				// buttons actions
+				$('#help')
+					.on('click', 'button.action-close', function(){
+						DGN.app.pageSet('play');
+					});
+			}
+			
+			/* info page */{
+				page = $('#info');
+				
+				// buttons actions
+				page.on('click', 'button.action-home', function(){
+					DGN.app.pageSet('home');
+				});
+				
+				// initialize pagination
+				pagination = page.find('.pagination');
+				page.find('.inner-page').each(function(index, el){
+					
+					// create pagination item
+					$('<div />')
+						.on('click', function() {
+							DGN.app.pageSet('info', {
+								innerIndex: index
+							});
+						})
+						.appendTo(pagination);
+					
+					// handle swipe
+					$(el).swipe({
+						swipe: function(e, direction) {
+							console.log('direction: ' + direction)
+							if(direction == 'right' || direction == 'left')
+								DGN.app.pageSet('info', {
+									move: direction
+								});
+						},
+						threshold: 0 // min distance that triggers swipe
+					});
+				});
+			}
+			
+			/* play page */{
+				// buttons actions
+				pointer = $('#play .footer-menu');
+				pointer
+					.on('click', '.red-home', function(){
+						DGN.app.pageSet('home');
+					})
+					.on('click', '.red-magnifier', function(){
+						CCV.player.magnifierDisplayToggle();
+					})
+					.on('click', '.red-help', function(){
+						DGN.app.pageSet('help');
+					})
+					.on('click', '.red-arrow', function(){
+						pointer.toggleClass('opened');
+					});
+			}
+		};
+		
+		/* ########################################## LANGUAGES UTILITIES */ {
+		/**
+		 * Defines application language
+		 * @param lang {String}
+		 */
+		proto.langSet = function(lang){
+			if(!lang)
+				lang = this.langGetFull();
+			else if(lang != 'fr' && lang != 'en')
+				lang = 'en';
+			this.lang = lang;
+			KPF.utils.log('Set application language: ' + this.lang, 'Application.langSet');
+			
+			var isfr = (this.lang == 'fr');
+			$('.lang-fr').toggle(isfr);
+			$('.lang-en').toggle(!isfr);
+		};
+		
+		/**
+		 * Returns preferred language w/ fallback to browser language
+		 * @return {String}
+		 * @private
+		 */
+		proto.langGetFull = function(){
+			var lang;
+			lang = window.navigator.languages ? window.navigator.languages[0] : null;
+			lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
+			return this.langCleanResults(lang);
+		};
+		
+		/**
+		 * Returns browser native language
+		 * @return {String}
+		 * @private
+		 */
+		proto.langGetNative = function(){
+			return this.langCleanResults(window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage);
+		};
+		
+		/**
+		 * Cleans language results and return language nick (fr, en, etc.)
+		 * @return {String}
+		 * @private
+		 */
+		proto.langCleanResults = function(v) {
+			if (v.indexOf('-') !== -1)
+				v = v.split('-')[0];
+			if (v.indexOf('_') !== -1)
+				v = v.split('_')[0];
+			return v;
+		};
+			
+		}
+		
+		/* ########################################## PAGES UTILITIES */ {
+			proto.pageSet = function(id, params){
+				if(!id)
+					id = 'home';
+				
+				
+				
+				// ---- handle states (ugly ok)
+				
+				
+				// info
+				if(id == 'info'){
+					this._infoUtils(params);
+				}
+				
+				// help
+				if(id == 'help'){
+					// timeout prevent unloaded images
+					setTimeout(this._helpUtils.bind(this, true), 500);
+				}
+				else if(this.formerId == 'help'){
+					this._helpUtils(false);
+				}
+				
+				// help
+				if(id == 'play'){
+					if(!CCV.player){
+						new CCV.app.Player(this.cnv, {
+							magnifierDisplayStatus: false,
+							scenesShowFillStatus: true
+						});
+					}
+					CCV.player.activate(true);
+				}
+				else if(this.formerId == 'play'){
+					CCV.player.activate(false);
+				}
+				
+				if(id != this.formerId){
+					$('#' + id).show();
+					$('#' + this.formerId).hide();
+				}
+				KPF.utils.log('set page #' + id + (this.formerId ? ', remove page #' + this.formerId : ''), 'Application.setPage', params);
+				
+				this.formerId = id;
+			};
+			
+			proto._infoUtils = function(params){
+				var page;
+				
+				if(!params)
+					this.infoIndex = 0;
+				else if(params.innerIndex)
+					this.infoIndex = params.innerIndex;
+				else if(params.move == 'right')
+					this.infoIndex = this.infoIndex - 1;
+				else if(params.move == 'left')
+					this.infoIndex = this.infoIndex + 1;
+				else
+					this.infoIndex = 0;
+				this.infoIndex = KPF.utils.clamp(this.infoIndex, 0, 2) || 0;
+				KPF.utils.log('infoIndex: ' + this.infoIndex, 'Application._infoUtils');
+				
+				page = $('#info');
+				page.find('.pagination').children().each(function(paginationIndex, paginationEl){
+					$(paginationEl).toggleClass('current', paginationIndex == DGN.app.infoIndex);
+				});
+				page.find('.inner-page').each(function(innerPageIndex, innerPageEl){
+					$(innerPageEl).toggle(innerPageIndex == DGN.app.infoIndex);
+				});
+			};
+			
+			proto._helpUtils = function(status){
+				
+				console.log('_helpUtils (status: ' + status + ')');
+				
+				if(status) {
+					var anim, hand, bg,
+						animSize, handSize, bgSize,
+						startX, endX;
+					
+					this.helpTl = new TimelineMax({
+						repeat: -1,
+						repeatDelay: 1.5
+					});
+					
+					/* animation #1 */ {
+						
+						anim = $('#help-animation1');
+						hand = anim.find('.hand');
+						bg = anim.find('.background');
+						
+						animSize = anim.width();
+						handSize = hand.width();
+						bgSize = bg.width();
+						
+						startX = (.5 * animSize) - (.2 * bgSize) - (.77 * handSize);
+						endX = startX - (.1 * bgSize);
+						
+						TweenMax.set(hand, {
+							x: endX
+						});
+						
+						// search magnifier
+						this.helpTl.add(new TweenMax(hand, 1.5, {
+							ease: Power1.easeInOut,
+							x: startX
+						}));
+						// move away
+						this.helpTl.add(new TweenMax(hand, 1.5, {
+							ease: Power1.easeInOut,
+							x: endX
+						}), "+=.5");
+					}
+					
+					/* animation #2 */ {
+						anim = $('#help-animation2');
+						hand = anim.find('.hand');
+						bg = anim.find('.background');
+						
+						animSize = anim.width();
+						handSize = hand.width();
+						bgSize = bg.width();
+						
+						startX = (.5 * animSize) - ((.5 - .64) * bgSize) - (.05 * handSize);
+						startXPrime = startX - (.01 * handSize);
+						endX = startX + (.1 * bgSize);
+						
+						
+						
+						
+						TweenMax.set(hand, {
+							x: endX
+						});
+						
+						// move to button
+						this.helpTl.add(TweenMax.to(hand, 2, {
+							ease: Power1.easeInOut,
+							x: startX
+						}), "+=2");
+						// click
+						this.helpTl.add(TweenMax.to(hand, .2, {
+							ease: Power1.easeInOut,
+							y: 10,
+							x: startXPrime
+						}));
+						// release
+						this.helpTl.add(TweenMax.to(hand, .2, {
+							ease: Power1.easeInOut,
+							y: 0,
+							x: startX
+						}), "+=.2");
+						// move away
+						this.helpTl.add(TweenMax.to(hand, 2, {
+							ease: Power1.easeInOut,
+							x: endX
+						}), "+=.5");
+					}
+					
+					this.helpTl.restart();
+					
+				}
+				else if(this.helpTl){
+					console.log(this.helpTl);
+					this.helpTl.stop();
+					this.helpTl = null;
+				}
+			}
+		}
+	}
+}
+var KPF;
+
+if (!KPF)
+	KPF = {};
+
+
+
+// ######################################################################
+// KPF.global
+// ######################################################################
+
+if (!KPF.global)
+	KPF.global = {};
+
+KPF.global.PRODUCTION = true;
+KPF.global.FORMAT_INDENT = '   ';
+var KPF;
+
+if (!KPF)
+	KPF = {};
+
+
+// ######################################################################
+// KPF.utils
+// ######################################################################
+
+if (!KPF.utils) {
+	KPF.utils = {};
+	
+	/** @private */
+	KPF.utils._logBuildStr = function(message, context){
+		var str;
+		if(KPF.utils.isdefined(context))
+			str = '[' + context + '] ';
+		if(KPF.utils.isdefined(message))
+			str = str ? str + message : message;
+		return str;
+	};
+	/**
+	 * Displays a error log.
+	 * @param message    log string
+	 * @param context    execution context, usually class.method
+	 * @param data       appendix data to be exposed through console
+	 */
+	KPF.utils.error = function (message, context, data) {
+		var str = KPF.utils._logBuildStr(message, context);
+		if(str)
+			data ? console.error(str, data) : console.error(str);
+		else if(data)
+			console.error(data);
+	};
+	/**
+	 * Displays a warning log.
+	 * @param message    log string
+	 * @param context    execution context, usually class.method
+	 * @param data       appendix data to be exposed through console
+	 */
+	KPF.utils.warn = function (message, context, data) {
+		var str = KPF.utils._logBuildStr(message, context);
+		if(str)
+			data ? console.warn(str, data) : console.warn(str);
+		else if(data)
+			console.warn(data);
+	};
+	/**
+	 * Displays a default log.
+	 * @param message    log string
+	 * @param context    execution context, usually class.method
+	 * @param data       appendix data to be exposed through console
+	 */
+	KPF.utils.log = function (message, context, data) {
+		
+		if(!KPF.global.PRODUCTION)
+			return;
+			
+		var str = KPF.utils._logBuildStr(message, context);
+		if(str)
+			data ? console.log(str, data) : console.log(str);
+		else if(data)
+			console.log(data);
+	};
+	
+	// ----  number utilities
+	
+	/** @param num Number */
+	KPF.utils.degToRad = function (num) {
+		return num / 180 * Math.PI;
+	};
+	/** @param num Number */
+	KPF.utils.rad2Deg = function (num) {
+		return num / Math.PI * 180;
+	};
+	/** @param num {Number} */
+	KPF.utils.digits2 = function (num) {
+		return num < 10 ? '0' + num : num;
+	};
+	/**
+	 * @param min {Number}
+	 * @param max {Number}
+	 * @return {Number}
+	 */
+	KPF.utils.randomInt = function (min, max){
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min +1)) + min;
+	};
+	/**
+	 * Constrains value with the mini/maxi range.
+	 * @param val     {Number}
+	 * @param min     {Number}
+	 * @param max     {Number}
+	 * @return        {Number}
+	 */
+	KPF.utils.clamp = function(val, min, max){
+		return Math.max(min, Math.min(max, val));
+	};
+	KPF.utils.roundTo = function(v, precision){
+		return Math.round(v/precision) * precision;
+	};
+	KPF.utils.floorTo = function(v, precision){
+		return Math.floor(v/precision) * precision;
+	};
+	KPF.utils.ceilTo = function(v, precision){
+		return Math.ceil(v/precision) * precision;
+	};
+	
+	
+	// ----  string utilities
+	 
+	KPF.utils.fillTo = function (o, len, pattern) {
+		o = o.toString();
+		while(o.length < len)
+			o = pattern + o;
+		return o;
+	};
+	KPF.utils.isfilled = function (str) {
+		return typeof str === 'string' && str.length > 0;
+	};
+	/**
+	 * Keeps number within passed-in string.
+	 * @param str String
+	 */
+	KPF.utils.keepNumeric = function (str) {
+		return str.match(/\d/g).join('');
+	};
+	/**
+	 * Repeats passed-in pattern the according to iteration setting.
+	 * @param iteration Number
+	 * @param pattern String pattern to be repeated
+	 */
+	KPF.utils.repeat = function(iteration, pattern){
+		var out = '';
+		
+		if(isNaN(iteration))
+			iteration = 0;
+		else if(!(KPF.utils.isdefined(pattern))){
+			KPF.utils.warn('Illegal arguments', 'KPF.utils.repeat', {
+				iteration: iteration,
+				pattern: pattern
+			});
+			return out;
+		}
+		
+		while(iteration > 0){
+			out += pattern;
+			--iteration;
+		}
+		return out;
+	};
+	
+	
+	// ----  typecheck utilities
+	
+	KPF.utils.isdefined = function (arg) {
+		return arg !== void 0 && arg !== null;
+	};
+	KPF.utils.isstring = function (str) {
+		return typeof str === 'string';
+	};
+	KPF.utils.isarray = function (arg) {
+		if (Array.isArray)
+			return Array.isArray(arg);
+		return objectToString(arg) === '[object Array]';
+	};
+	KPF.utils.isbool = function (arg) {
+		return typeof arg === 'boolean';
+	};
+	KPF.utils.isan = function (arg) {
+		return typeof arg === 'number' && arg + 1 == arg + 1;
+	};
+	
+	
+	// ----  array utilities
+	
+	/**
+	 * @param arr Array
+	 * @returns Array
+	 */
+	KPF.utils.arrGetUnique = function (arr) {
+		var u = {},
+			a = [];
+		for (var i = 0, l = arr.length; i < l; ++i) {
+			if (u.hasOwnProperty(arr[i]))
+				continue;
+			a.push(arr[i]);
+			u[arr[i]] = 1;
+		}
+		return a;
+	};
+	
+	
+	KPF.utils.arraySum = function(arr){
+		return arr.reduce(function(pv, cv) { return pv + cv; }, 0);
+	}
+}
+var CCV;
+var proto;
+
+
+// ----------------------------------------------------------------------
+// PIXI add-ons
+// @see http://www.pixijs.com/
+// ----------------------------------------------------------------------
+proto = PIXI.Point.prototype;
+proto.scale = function(a){
+	this.x *= a;
+	this.y *= a;
+};
+proto.floor = function(){
+	this.x = Math.floor(this.x);
+	this.y = Math.floor(this.y);
+};
+proto.ceil = function(){
+	this.x = Math.ceil(this.x);
+	this.y = Math.ceil(this.y);
+};
+proto.round = function(){
+	this.x = Math.round(this.x);
+	this.y = Math.round(this.y);
+};
+proto.minus = function(p){
+	this.x -= p.x;
+	this.y -= p.y;
+};
+proto.plus = function(p){
+	this.x += p.x;
+	this.y += p.y;
+};
+proto.getLength = function(){
+	return Math.sqrt(this.x * this.x + this.y * this.y);
+};
+proto.to = function(target){
+	target.x = this.x;
+	target.y = this.y;
+};
+proto.toString = function(){
+	return '[PIXI.Point] x: ' + this.x.toFixed(1) + ', y: ' + this.y.toFixed(1);
+};
+
+proto = PIXI.Rectangle.prototype;
+proto.scale = function(a, b){
+	if(b == undefined)
+		b = a;
+	
+	this.x *= a;
+	this.y *= a;
+	this.width *= b;
+	this.height *= b;
+};
+
+
+
+if (!CCV)
+	CCV = {};
+
+if (!CCV.utils){
+	CCV.utils = {};
+	
+	CCV.utils.drawDebugRect = function(g, r, color, thickness, alpha, useFill){
+		if(isNaN(alpha))
+			alpha = 1;
+		if(isNaN(thickness))
+			thickness = 1;
+		if(useFill == undefined)
+			useFill = false;
+		
+		if(useFill)
+			g.beginFill(color, alpha);
+		g.lineStyle(thickness, color, useFill ? 1 : alpha);
+		g.drawRect(r.x, r.y, r.width, r.height);
+		g.moveTo(r.x, r.y);
+		g.lineTo(r.x + r.width, r.y + r.height);
+		g.moveTo(r.x + r.width, r.y);
+		g.lineTo(r.x, r.y + r.height);
+		if(useFill)
+			g.endFill();
+	};
+	CCV.utils.drawDebugPoint = function(g, pos, color, thickness){
+		if(isNaN(thickness))
+			thickness = 1;
+		
+		g.lineStyle(thickness, color, 1);
+		g.drawCircle(pos.x, pos.y, 10);
+		g.moveTo(pos.x, pos.y);
+		g.lineTo(pos.x + 20, pos.y);
+		g.moveTo(pos.x, pos.y);
+		g.lineTo(pos.x, pos.y + 20);
+	};
+}
+
+if (!CCV.global){
+	
+	CCV.global = {
+		RED: 0xFF3E29,
+		BLUE: 0xADD2EA,
+		
+		HEADER_HEIGHT: 0,
+		FOOTER_HEIGHT: 0,
+		
+		SYS_FORCE_CANVAS: false,
+		SYS_USE_SHARED_TICKER: true,
+		SYS_FPS: 2,
+		SYS_ALLOW_LARGE: false,
+		
+		DEBUG_LANDSCAPE_GFX: false,
+		DEBUG_SCENE_GFX: true,
+		DEBUG_SCROLL_GFX: false,
+		DEBUG_SCENE_MARGINS: false,
+		DEBUG_SWIPE: false,
+		
+		AUDIO_FOLDER: 'ccv/audio/',
+		AUDIO_GLOBAL_VOLUME: 0.3,
+		AUDIO_DELTA_VOLUME_COEF: 0.6,
+		AUDIO_DELTA_PAN_COEF: 0.6,
+		
+		SCENE_START_INDEX: 28,
+		SCENE_START_RAND: false,
+		SCENE_ACTIVATION_DELAY: 2000,
+		SCENE_DEACTIVATION_DELAY: 1400,
+		SCENE_REPEAT_DELAY: 4000,
+		SCENE_RESTART_DELAY: 2000,
+		SCENE_SLIDE_DURATION: 1.6,
+		SCENE_MAX_HEIGHT: 650,
+		SCENE_EXTRAVIEW_COEF: .25,
+		SCENE_GROUND_HEIGHT: 100,
+		SCENE_ACTIVATE_BORDING_SCENES: false,
+		SCENE_ITEM_BEFORE: 10,
+		
+		MEDIA_FOLDER: 'ccv/',
+		
+		MAGNIFIER_RED: 0xFF1515,
+		MAGNIFIER_PINCH_AMP: 200,
+		MAGNIFIER_PINCH_INCREMENT: .5,
+		MAGNIFIER_APPEAR_TIME: .7,
+		MAGNIFIER_VANISH_TIME: .5,
+		MAGNIFIER_RADIUS: 150,
+		MAGNIFIER_DRAG_IDLE_TEMPO: -1,
+		
+		SCROLL_ELASTICITY: .08,
+		SCROLL_SWIPE_ELASTICITY: .15,
+		SCROLL_PREVIEW_OFFSET: 120,
+		SCROLL_MIN_OFFSET: 250,
+		
+		SWIPE_ENABLED: false,
+		SWIPE_THRESHOLD: 250, /* minimal swipe distance in pixels */
+		SWIPE_VIVACITY: 400, /* maximal swipe duration in ms */
+		SWIPE_VELOCITY: 300 /* px per second */
+	};
+}
+
+if (!CCV.app)
+	CCV.app = {};
+
+// ----------------------------------------------------------------------
+// CCV.app.Player
+// ----------------------------------------------------------------------
+if(!CCV.app.Player){
+	
+	/**
+	 * Singleton PIXI canvas player.
+	 * @param target
+	 * @param options
+	 * @constructor
+	 */
+	CCV.app.Player = function(target, options){
+		
+		// ---   build options
+		this.target = target;
+		this.options = Object.assign({
+			magnifierDisplayStatus: true,
+			scenesShowFillStatus: true,
+			configurationFile: 'json/config.json'
+		}, options);
+		
+		// ---   register core options
+		CCV.player = this;
+		
+		this.mediaFolder = '';
+		
+		
+		// ---   create application
+		this.application = new PIXI.Application(800, 600, {
+			backgroundColor: 0xffffff,
+			view:  this.target,
+			transparent:  false,
+			antialias:  true,
+			preserveDrawingBuffer:  false,
+			resolution:  1,
+			legacy:  false
+		}, CCV.global.SYS_FORCE_CANVAS, CCV.global.SYS_USE_SHARED_TICKER);
+		
+		this.application.stop();
+		
+		
+		// --- tickers utilities
+		
+		this.animTicker = new CCV.app.AnimationsTicker();
+		
+		
+		// --- callbacks
+		
+		this.cbks = {};
+		
+		// window focus/blur
+		this.cbks.windowFocus = this.windowFocus.bind(this);
+		this.cbks.windowBlur = this.windowBlur.bind(this);
+		
+		// window resize
+		this.cbks.resize = this.resize.bind(this);
+		
+		// landscape swipe handlers
+		this.cbks.swCtx = {
+			name: 'swCtx',
+			active: false,
+			startTime: Number.NaN,
+			startX: Number.NaN,
+			startScrollPanelX: Number.NaN,
+			elasticity: Number.NaN,
+			scrollTarget: Number.NaN,
+			scrollMin: Number.NaN,
+			scrollMax: Number.NaN,
+			swipeLockMin: Number.NaN,
+			swipeLockMax: Number.NaN
+	};
+		Object.seal(this.cbks.swCtx);
+		
+		this.cbks.swipeStart = this._swipeStart.bind(this);
+		this.cbks.swipeEnd = this._swipeEnd.bind(this);
+		this.cbks.swipeMove = this._swipeMove.bind(this);
+		this.cbks.scrollApply = this._scrollApply.bind(this);
+		
+		// magnifier handlers
+		this.cbks.mgCtx = {
+			name: 'mgCtx',
+			dragTouch: null,
+			pinchTouch: null,
+			pinchStartScale: Number.NaN,
+			pinchStartDelta: Number.NaN,
+			idleTimeoutId: null
+		};
+		Object.seal(this.cbks.mgCtx);
+		
+		this.cbks.magnifierDragStart = this._mgDragStart.bind(this);
+		this.cbks.magnifierDragMove = this._mgDragMove.bind(this);
+		this.cbks.magnifierDragEnd = this._mgDragEnd.bind(this);
+		
+		
+		// --- window utilities
+		
+		// check for Internet Explorer - https://msdn.microsoft.com/en-us/library/ahx1z4fs(VS.80).aspx
+		if(/*@cc_on!@*/false) {
+			document.onfocusin = this.cbks.windowFocus;
+			document.onfocusout = this.cbks.windowBlur;
+		}
+		else {
+			window.onfocus = this.cbks.windowFocus;
+			window.onblur = this.cbks.windowBlur;
+		}
+		window.onresize = this.cbks.resize;
+		
+		
+		// --- launch display
+		this.landscapeHeight = CCV.global.SCENE_MAX_HEIGHT;
+		this.groundHeight = CCV.global.SCENE_GROUND_HEIGHT;
+		this.resizeInit();
+		this.configurationLoad();
+	};
+	proto = CCV.app.Player.prototype;
+	
+	// --------------- MODEL UTILITIES
+	
+	proto.getMode = function(){
+		return this.application.renderer instanceof PIXI.WebGLRenderer ? 'WebGL' : 'canvas';
+	};
+	proto.configurationLoad = function(){
+		var self = this;
+		
+		$.ajax({
+			url: this.options.configurationFile,
+			dataType: "json",
+			method: "GET",
+			data: {
+				context: KPF.global.PRODUCTION
+			},
+			error: function(jqXHR, textStatus){
+				KPF.utils.error('Unable to load configuration, url: "' + self.options.configurationFile + '", textStatus: "' + textStatus + '"', 'Application.loadConfiguration');
+			},
+			success: function(data, textStatus){
+				KPF.utils.log('Configuration loaded, textStatus: "' + textStatus + '"', 'Application.loadConfiguration');
+				self.configurationParse(data);
+			}
+		});
+	};
+	proto.configurationParse = function(data){
+		this.landscape = new CCV.app.Landscape(data.landscape);
+		this.application.stage.addChild(this.landscape.view);
+		
+		this.background = new PIXI.Graphics();
+		this.background.beginFill(0x00ff00, 0);
+		this.background.drawRect(0, 0, 100, 100);
+		this.application.stage.addChild(this.background);
+		
+		this.magnifier = new CCV.app.Magnifier(CCV.global.MAGNIFIER_RADIUS);
+		this.application.stage.addChild(this.magnifier.view);
+		
+		this.resize();
+		
+		if(CCV.global.SCENE_START_RAND)
+			this.landscape.pickRandomScene(false);
+		
+		this.initInteractions();
+		this.magnifierDisplayToggle(this.options.magnifierDisplayStatus);
+		
+		this.scenesShowFillToggle(this.options.scenesShowFillStatus !== false);
+		this.windowFocus();
+		this.landscape.audio.play();
+		
+		$(this.target).trigger('ready', [this.landscape.scenes, this.landscape.scenesIndexed]);
+	};
+	
+	
+	// --------------- USER INTERACTIONS
+	
+	proto.initInteractions = function(){
+		// swipe handling
+		this.background.interactive = true;
+		this.background
+			.on('pointerdown', this.cbks.swipeStart)
+			.on('pointerupoutside', this.cbks.swipeEnd)
+			.on('pointerup',this.cbks.swipeEnd);
+		
+		
+		// magnifier drag & drop
+		this.magnifier.view.interactive = true;
+		this.magnifier.view.on('pointerdown', this.cbks.magnifierDragStart)
+	};
+	
+	proto._mgDragInteractionsReset = function(){
+		this.magnifier.view
+			.off('pointerup', this.cbks.magnifierDragEnd)
+			.off('pointerupoutside', this.cbks.magnifierDragEnd)
+			.off('pointermove', this.cbks.magnifierDragMove);
+	};
+	proto._mgDragStart = function(e){
+		var mgCtx = this.cbks.mgCtx;
+		
+		if(mgCtx.idleTimeoutId){
+			window.clearTimeout(mgCtx.idleTimeoutId);
+		}
+		
+		if(!mgCtx.dragTouch){
+			mgCtx.dragTouch = this._createTouch(e);
+			this.magnifier.view
+				.on('pointerup', this.cbks.magnifierDragEnd)
+				.on('pointerupoutside', this.cbks.magnifierDragEnd)
+				.on('pointermove', this.cbks.magnifierDragMove);
+		}
+		else if(!mgCtx.pinchTouch){
+			mgCtx.pinchTouch = this._createTouch(e);
+			mgCtx.pinchStartScale = this.magnifier.pinchScale;
+			mgCtx.pinchStartDelta = this._mgPinchComputeDelta(mgCtx);
+		}
+	};
+	proto._mgDragMove = function(e){
+		var mgCtx = this.cbks.mgCtx, delta, pos;
+		
+		pos = e.data.getLocalPosition(this.application.stage);
+		
+		// pinch
+		if(mgCtx.pinchTouch){
+			switch(e.data.identifier) {
+				case mgCtx.dragTouch.id:
+					mgCtx.dragTouch.copy(pos);
+					break;
+				case mgCtx.pinchTouch.id:
+					mgCtx.pinchTouch.copy(pos);
+					break;
+				default:
+					/*
+					// checked use case : three or more touches on magnifier as expected -> clear warning
+					KPF.utils.warn('Touch does not correspond to any stored value ; cancel illegal method call', 'Player._mgDragMove', {
+						mgCtx: mgCtx,
+						dragTouchId: mgCtx.dragTouch.id,
+						pinchTouchId: mgCtx.pinchTouch.id,
+						currentTouchId: e.data.identifier
+					});
+					//*/
+					return;
+			}
+			
+			delta = this._mgPinchComputeDelta(mgCtx) - mgCtx.pinchStartDelta;
+			delta = KPF.utils.clamp(delta, - CCV.global.MAGNIFIER_PINCH_AMP, CCV.global.MAGNIFIER_PINCH_AMP);
+			this.magnifier.pinchScale = mgCtx.pinchStartScale + (delta / CCV.global.MAGNIFIER_PINCH_AMP * CCV.global.MAGNIFIER_PINCH_INCREMENT);
+		}
+		else if(mgCtx.dragTouch && e.data.identifier == mgCtx.dragTouch.id){
+			this.magnifier.pos = pos;
+		}
+	};
+	proto._mgDragEnd = function(e){
+		var mgCtx = this.cbks.mgCtx;
+		 
+		mgCtx.dragTouch = null;
+		mgCtx.pinchTouch = null;
+		mgCtx.pinchStartScale = Number.NaN;
+		mgCtx.pinchStartDelta = Number.NaN;
+		if(CCV.global.MAGNIFIER_DRAG_IDLE_TEMPO > 0){
+			mgCtx.idleTimeoutId = window.setTimeout(this._mgTidy, CCV.global.MAGNIFIER_DRAG_IDLE_TEMPO);
+		}
+		
+		this._mgDragInteractionsReset();
+	};
+	proto._mgTidy = function(doTransition){
+		var p = CCV.player;
+		var pos = {
+			x: .5 * p.size.x,
+			y: .9 * p.size.y
+		};
+		
+		if(doTransition === false){
+			p.magnifier.pos = pos;
+		}
+		else{
+			TweenMax.to(p.magnifier, .4, {
+				ease: Circ.easeInOut,
+				pinchScale: 1,
+				x: pos.x,
+				y: pos.y
+			});
+		}
+	};
+	
+	proto._mgPinchComputeDelta = function(mgCtx){
+		var delta = new PIXI.Point();
+		delta.copy(mgCtx.pinchTouch);
+		delta.minus(mgCtx.dragTouch);
+		return delta.getLength();
+	};
+	proto._createTouch = function(touch){
+		return Object.assign(touch.data.getLocalPosition(CCV.player.application.stage), { id: touch.data.identifier });
+	};
+	 
+	proto._swipeStart = function(e){
+		var swCtx = this.cbks.swCtx;
+		
+		if(swCtx.active)
+			return;
+		
+		swCtx.active = true;
+		swCtx.startTime = new Date().getTime();
+		swCtx.startX = e.data.getLocalPosition(this.application.stage).x;
+		
+		swCtx.scrollMin = Math.floor(this.landscape.xTarget - this.landscape.scrollMin);
+		swCtx.swipeLockMin = Math.floor(swCtx.scrollMin - this.landscape.scrollPreview);
+		
+		swCtx.scrollMax = Math.ceil(this.landscape.xTarget + this.landscape.scrollMin);
+		swCtx.swipeLockMax = Math.ceil(swCtx.scrollMax + this.landscape.scrollPreview);
+		
+		swCtx.elasticity = CCV.global.SCROLL_ELASTICITY;
+		swCtx.startScrollPanelX = this.landscape.scenesScroll.x;
+		
+		this.background.on('pointermove', this.cbks.swipeMove);
+		this._swipeMove(e);
+		PIXI.ticker.shared.add(this.cbks.scrollApply);
+	};
+	proto._swipeMove = function(e){
+		var swCtx, delta;
+		
+		swCtx = this.cbks.swCtx;
+		delta = (e.data.getLocalPosition(this.application.stage).x - swCtx.startX);
+		
+		if(delta <= -this.landscape.scrollMin){
+			swCtx.scrollTarget = swCtx.swipeLockMin;
+			swCtx.elasticity = CCV.global.SCROLL_SWIPE_ELASTICITY;
+		}
+		else if(delta >= this.landscape.scrollMin){
+			swCtx.scrollTarget = swCtx.swipeLockMax;
+			swCtx.elasticity = CCV.global.SCROLL_SWIPE_ELASTICITY;
+		}
+		else{
+			swCtx.scrollTarget = swCtx.startScrollPanelX + delta;
+			swCtx.elasticity = CCV.global.SCROLL_ELASTICITY;
+		}
+	};
+	proto._scrollApply = function(e){
+		var swCtx = this.cbks.swCtx;
+		
+		if(isNaN(swCtx.scrollTarget))
+			return;
+		this.landscape.scenesScroll.x -= (this.landscape.scenesScroll.x - swCtx.scrollTarget) * swCtx.elasticity;
+	};
+	proto._swipeEnd = function(e){
+		var swCtx = this.cbks.swCtx;
+		
+		// --- check drag limits
+		if(swCtx.scrollTarget ==  swCtx.swipeLockMin) {
+			this.landscape.move(1);
+			this._swipeReset();
+			return;
+		}
+		else if(swCtx.scrollTarget ==  swCtx.swipeLockMax){
+			this.landscape.move(-1);
+			this._swipeReset();
+			return;
+		}
+		
+		// --- skip further process if swipe gesture is not enabled
+		if(!CCV.global.SWIPE_ENABLED){
+			this._swipeReset();
+			return;
+		}
+		
+		// --- compute gesture
+		var threshold, passThreshold;
+		var vicacity, passVivacity;
+		var velocity, passVelocity;
+		var swipePass;
+		var logsCtx = [];
+		
+		threshold = e.data.getLocalPosition(this.application.stage).x - swCtx.startX;
+		if(Math.abs(threshold) < 10){ // avoid clicks pollution
+			this._swipeReset();
+			return;
+		}
+		passThreshold = Math.abs(threshold) > CCV.global.SWIPE_THRESHOLD;
+		logsCtx.push('threshold: ' + threshold.toFixed(0) + ' (' + passThreshold + ')');
+			
+		vicacity = (new Date()).getTime() - swCtx.startTime;
+		passVivacity = vicacity < CCV.global.SWIPE_VIVACITY;
+		logsCtx.push('vicacity: ' + vicacity.toFixed(0) + ' (' + passVivacity + ')');
+			
+		velocity = Math.abs(threshold) / vicacity * 1000;
+		passVelocity = velocity >= CCV.global.SWIPE_VELOCITY;
+		logsCtx.push('velocity: ' + velocity.toFixed(0) + ' (' + passVelocity + ')');
+		
+		// clean gesture context
+		this._swipeReset();
+		
+		// end process
+		swipePass = passThreshold && passVivacity && passVelocity;
+		if(CCV.global.DEBUG_SWIPE)
+			KPF.utils.log((swipePass ? 'Apply' : 'Cancel') + ' swipe gesture', 'Player._swipeEnd', ' // ' + logsCtx.join(', '));
+		if(swipePass)
+			this.landscape.move(- threshold);
+	};
+	proto._swipeReset = function(){
+		var swCtx = this.cbks.swCtx;
+		
+		this.background.off('pointermove', this.cbks.swipeMove);
+		
+		PIXI.ticker.shared.remove(this.cbks.scrollApply);
+		
+		swCtx.active = false;
+		swCtx.startTime = Number.NaN;
+		swCtx.startX = Number.NaN;
+		
+		swCtx.scrollTarget = Number.NaN;
+		swCtx.scrollMin = Number.NaN;
+		swCtx.scrollMax = Number.NaN;
+		swCtx.swipeLockMin = Number.NaN;
+		swCtx.swipeLockMax = Number.NaN;
+		swCtx.startScrollPanelX = Number.NaN;
+	};
+	
+	proto.magnifierDisplayToggle = function(status){
+		this.magnifierDisplayStatus = KPF.utils.isbool(status) ? status : !this.magnifierDisplayStatus;
+		KPF.utils.log('magnifierDisplayStatus: ' + this.magnifierDisplayStatus, 'CCV.app.Player');
+		
+		if(this.magnifierDisplayStatus){
+			this._mgTidy(false);
+			TweenMax.to(this.magnifier, CCV.global.MAGNIFIER_APPEAR_TIME, {
+				scale: 1,
+				ease: Expo.easeIn,
+				overwrite: 'all'
+			});
+		}
+		else{
+			TweenMax.to(this.magnifier, CCV.global.MAGNIFIER_VANISH_TIME, {
+				scale: 0,
+				ease: CustomEase.create('custom', 'M0,0,C0.646,-0.888,0.536,0.894,1,1'),
+				overwrite: 'all'
+			});
+		}
+		$(this.target).trigger('magnifierDisplayChange', [this.magnifierDisplayStatus]);
+	};
+	proto.scenesShowFillToggle = function(status){
+		status = KPF.utils.isbool(status) ? status : !this.scenesShowFillStatus;
+		this.scenesShowFillStatus = status;
+		
+		KPF.utils.log('scenesShowFillStatus: ' + this.scenesShowFillStatus, 'Player.scenesShowFillToggle')
+		
+		this.landscape.scenes.forEach(function(scene){
+			scene.showFill(status);
+		});
+		$(this.target).trigger('scenesShowFillChange', [this.scenesShowFillStatus]);
+	};
+	
+	
+	// --------------- WINDOW UTILITIES
+	
+	proto.activate = function(status){
+		if(status){
+			KPF.utils.log('Start application rendering', 'Player.windowFocus');
+			PIXI.ticker.shared.start();
+			this.animTicker.start();
+		}
+		else{
+			this.landscape.audio.stop();
+			
+			KPF.utils.log('Stop application rendering', 'Player.activate');
+			this.animTicker.stop();
+			this.application.stop();
+			PIXI.ticker.shared.stop();
+		}
+	};
+	
+	proto.windowBlur = function(){
+		this.activate(false);
+	};
+	proto.windowFocus = function(){
+		this.activate(true);
+	};
+	
+	proto.resizeInit = function(){
+		var maxAvailHeight = screen.height - CCV.global.FOOTER_HEIGHT -CCV.global.HEADER_HEIGHT;
+		if(CCV.global.SYS_ALLOW_LARGE && maxAvailHeight > .5 * (CCV.global.SCENE_MAX_HEIGHT + CCV.global.SCENE_GROUND_HEIGHT)){
+			this.scaleFolder = 'x2';
+			this.scaleSourceCoef = 2;
+		}
+		else{
+			this.scaleFolder = 'x1';
+			this.scaleSourceCoef = 1;
+		}
+		CCV.global.SCENE_MAX_HEIGHT *= this.scaleSourceCoef;
+		this.landscapeHeight *= this.scaleSourceCoef;
+		this.groundHeight *= this.scaleSourceCoef;
+		this.mediaFolder = CCV.global.MEDIA_FOLDER + this.scaleFolder + '/';
+		KPF.utils.log('scale folder: ' + this.scaleFolder + ', scaleSourceCoef: ' + this.scaleSourceCoef.toFixed(1), 'Player.resizeInit');
+	};
+	proto.resize = function(){
+		var scaleOverflow = false;
+		
+		this.size = new PIXI.Point(window.innerWidth, window.innerHeight);
+		this.size.y -= CCV.global.HEADER_HEIGHT;
+		this.size.y -= CCV.global.FOOTER_HEIGHT;
+		
+		this.background.width = this.size.x;
+		this.background.height = this.size.y;
+		
+		this.application.renderer.resize(this.size.x, this.size.y);
+		
+		this.scale = this.size.y / (this.landscapeHeight + this.groundHeight);
+		if(this.scale > 1){
+			scaleOverflow = true;
+			this.scale = 1;
+		}
+		KPF.utils.log('- application size: ' + this.size.toString()
+			+ '\n - application scale: ' + this.scale.toFixed(2)
+			+ '\n - scaleOverflow: ' + scaleOverflow,
+			'Player.resize');
+		
+		this.magnifier.redraw(this.scale);
+		this._mgTidy(false);
+		
+		this.landscape.resize(this.size, this.scale);
+	};
+	
+	
+	// --------------- EVENT HANDLERS
+	
+	proto.triggerIndex = function(index, scene, scenesLen){
+		$(this.target).trigger('sceneIndexChange', [index, scene, scenesLen]);
+	};
+}
+
+
+// ----------------------------------------------------------------------
+// CCV.app.Landscape
+// ----------------------------------------------------------------------
+if (!CCV.app.Landscape) {
+	/**
+	 * @constructor
+	 * @param data {{scenes:Array}}   data    JSON data holder
+	 */
+	CCV.app.Landscape = function (data) {
+		
+		/**
+		 * @var {PIXI.Container}
+		 */
+		this.view = undefined;
+		/**
+		 * @var {CCV.app.Ground}
+		 * @private
+		 */
+		this.ground = undefined;
+		/**
+		 * @var {CCV.app.Container}
+		 * @private
+		 */
+		this.scenesScroll = undefined;
+		/**
+		 * @var {CCV.app.Container}
+		 * @private
+		 */
+		this.scenesCtn = undefined;
+		/**
+		 * @var {PIXI.Graphics}
+		 * @private
+		 */
+		this.debugGfx = undefined;
+		/**
+		 * @var {Array.<CCV.app.Scene>}
+		 */
+		this.scenes = [];
+		/**
+		 * @var {number}
+		 * @private
+		 */
+		this.index = CCV.global.SCENE_START_INDEX;
+		/**
+		 * @var {PIXI.Point}
+		 * @private
+		 */
+		this.size = new PIXI.Point();
+		/**
+		 * @var {Number}
+		 * @private
+		 */
+		this.xCenter = 0;
+		
+		this.parse(data);
+		
+		/*
+		var separator = KPF.utils.repeat(80, '#');
+		KPF.utils.log(separator + '\n' + this.info() + '\n' + separator);
+		// */
+	};
+	proto = CCV.app.Landscape.prototype;
+	
+	/**
+	 * @param size    {PIXI.Point}
+	 * @param scale    {Number}
+	 */
+	proto.resize = function(size, scale){
+		var temp, heightMaxi;
+		
+		this.scenesCtn.scale = new PIXI.Point(scale, scale);
+		
+		this.size = size.clone();
+		this.size.scale(1 / scale);
+		this.size.round();
+		
+		heightMaxi = CCV.player.landscapeHeight + CCV.player.groundHeight;
+		if(this.size.y > heightMaxi){
+			this.size.y = heightMaxi;
+			this.view.y = Math.round((size.y - this.size.y) * .66);
+		}
+		else{
+			this.view.y = 0;
+		}
+		
+		this.xCenter = Math.round(this.size.x * .5);
+		
+		// graphic debug
+		this.debugGfx.clear();
+		if(CCV.global.DEBUG_LANDSCAPE_GFX){
+			
+			temp = .5 * this.size.y;
+			this.debugGfx.lineStyle(4, 0x006633, 1);
+			this.debugGfx.moveTo(this.xCenter - 20, temp);
+			this.debugGfx.lineTo(this.xCenter + 20, temp);
+			this.debugGfx.moveTo(this.xCenter, temp - 20);
+			this.debugGfx.lineTo(this.xCenter, temp + 20);
+			
+			// draw scene area
+			this.debugGfx.lineStyle();
+			this.debugGfx.beginFill(0xff0000, .2);
+			this.debugGfx.drawRect(0, 0, this.size.x, CCV.player.landscapeHeight);
+			this.debugGfx.endFill();
+			
+			// draw ground line
+			this.debugGfx.lineStyle();
+			this.debugGfx.beginFill(0x0, .2);
+			this.debugGfx.drawRect(0, CCV.player.landscapeHeight, this.size.x, CCV.player.groundHeight);
+			this.debugGfx.endFill();
+		}
+		
+		// reset landscape position
+		this.setIndex(this.index, false);
+	};
+	/**
+	 * Returns a string repreaentation of the instance.
+	 * @return {string}
+	 */
+	proto.toString = function () {
+		this.info(0);
+	};
+	/**
+	 * Returns a formatted string representation of the instance
+	 * @param depth   {Number} formatting depth
+	 * @param indentStart   {Boolean}   whether or not indentation should be added on string start
+	 * @return {String}
+	 */
+	proto.info = function (depth, indentStart) {
+		var str = '';
+		var ilen = this.scenes.length;
+		var pattern = KPF.global.FORMAT_INDENT;
+		var indent;
+		
+		if (isNaN(depth))
+			depth = 0;
+		
+		indent = KPF.utils.repeat(depth, pattern);
+		if (indentStart === true)
+			str = indent;
+		
+		str += '[Landscape] (' + ilen + ' scenes)';
+		for (var i = 0; i < ilen; ++i)
+			str += '\n' + indent + pattern + this.scenes[i].info(depth + 1, false);
+		return str;
+	};
+	/**
+	 * Parses JSON data holder.
+	 * @param data {{scenes:Array}}   data    JSON data holder
+	 */
+	proto.parse = function (data) {
+		var i, ilen, scene, formerScene, xPos, scenesPositions, yGround;
+		
+		// --- audio data
+		if(data.audio)
+			this.audio = new CCV.app.AudioChannel(data.audio, true);
+		
+		// --- parse scenes data
+		this.scenes = [];
+		this.scenesIndexed = [];
+		for (i = 0, ilen = (data.scenes ? data.scenes.length : 0); i < ilen; ++i) {
+			scene = new CCV.app.Scene(data.scenes[i]);
+			if(scene.id != '_debug' || CCV.global.DEBUG_LANDSCAPE_GFX){
+				if(scene.indexable)
+					this.scenesIndexed.push({
+						index: this.scenes.length,
+						scene: scene
+					});
+				this.scenes.push(scene);
+			}
+		}
+		// ---   build view
+		
+		this.view = new PIXI.Container();
+		
+		// global container
+		this.scenesCtn = new PIXI.Container();
+		this.view.addChild(this.scenesCtn);
+		
+		// scenes scroll container
+		this.scenesScroll = new PIXI.Container();
+		this.scenesCtn.addChild(this.scenesScroll);
+		
+		// add scenes and define scenes positions
+		yGround = CCV.player.landscapeHeight;
+		
+		scenesPositions = [];
+		for(i = 0, ilen = this.scenes.length, xPos = 0; i < ilen; ++i) {
+			scene = this.scenes[i];
+			
+			// left position part
+			xPos += scene.marginLeft;
+			
+			// assign position
+			scene.view.x = xPos;
+			scene.view.y = yGround - scene.size.y;
+			
+			// store
+			scenesPositions.push(xPos);
+			
+			// right position part
+			xPos += scene.size.x + scene.pos.x;
+			
+			// append scene to view
+			this.scenesScroll.addChild(scene.view);
+			if(scene.popUnder && formerScene)
+				this.scenesScroll.swapChildren(scene.view, formerScene.view);
+			formerScene = scene;
+		}
+		
+		// compute scenes widths and remove last utility scene (#_end)
+		this.scenesWidths = [];
+		for(i = 1, ilen = scenesPositions.length; i < ilen; ++i)
+			this.scenesWidths.push(scenesPositions[i] - scenesPositions[i - 1]);
+		this.scenes.pop();
+		
+		// ground
+		this.ground = new CCV.app.Ground(data.ground);
+		this.ground.view.position = new PIXI.Point(0, yGround + this.ground.pos.y);
+		this.scenesScroll.addChild(this.ground.view);
+		
+		// debug
+		this.debugGfx = new PIXI.Graphics();
+		this.scenesCtn.addChild(this.debugGfx);
+		
+		// debug amplitude
+		this.scrollDebugGfx = new PIXI.Graphics();
+		this.scenesScroll.addChild(this.scrollDebugGfx);
+		
+		// ---   initial positionning
+		this.scenes[0].view.x = this.scenes[0].marginLeft;
+		this._reArrangeScenesFrom(0);
+	};
+	/**
+	 * Picks a random indexable scene.
+	 * @param doTransition  {Boolean}
+	 */
+	proto.pickRandomScene = function(doTransition){
+		var index, indexFormer;
+		
+		indexFormer = this.index;
+		while(!KPF.utils.isan(index) || indexFormer == index){
+			index = KPF.utils.randomInt(0, this.scenes.length - 1);
+			if(!this.scenes[index].indexable){
+				index = Number.NaN;
+			}
+		}
+		doTransition = doTransition !== false;
+		
+		KPF.utils.log('index: ' + index + ', doTransition: ' + doTransition, 'CCV.app.Landscape.pickRandomScene');
+		this.setIndex(index, doTransition);
+	};
+	/**
+	 * @param orientation {Number}
+	 */
+	proto.move = function (orientation, indexedOnly) {
+		var newval;
+		
+		indexedOnly = indexedOnly !== false;
+		
+		if(indexedOnly){
+			for(var i = 0, ilen = this.scenesIndexed.length, beforeScene, afterScene, equalScene; i <= ilen; ++i){
+				if(i == ilen || this.scenesIndexed[i].index > this.index){
+					afterScene = this.scenesIndexed[i % ilen];
+					beforeScene = this.scenesIndexed[(i - 1 + ilen) % ilen];
+					if(beforeScene.index == this.index){
+						equalScene = beforeScene;
+						beforeScene = this.scenesIndexed[(i - 2 + ilen) % ilen];
+					}
+					break;
+				}
+			}
+			
+			/*
+			KPF.utils.log(
+				'move with orientation: ' + orientation + ', indexedOnly: ' + indexedOnly,
+				'Landscape.move', {
+					afterScene: afterScene,
+					equalScene: equalScene,
+					beforeScene: beforeScene
+				});
+			//*/
+			
+			if (orientation == 0){
+				if(equalScene)
+					return;
+				newval = (Math.abs(beforeScene.index - this.index) < Math.abs(afterScene.index - this.index)) ? beforeScene.index : afterScene.index;
+			}
+			else if(orientation < 0)
+				newval = beforeScene.index;
+			else if(orientation > 0)
+				newval = afterScene.index;
+		}
+		else if( orientation == 0)
+			return;
+		else
+			newval = this.index + (orientation > 0 ? 1 : -1);
+		this.setIndex(newval, true);
+	};
+	/**
+	 * @param index {Number}
+	 * @param doTransition {Boolean}
+	 */
+	proto.setIndex = function (index, doTransition) {
+		var i, ilen, activationDelta, activationDeltaMin, activationDeltaMax, activationTest;
+		var limitBefore, limitAfter,  limitDelta;
+		var sceneBefore, sceneAfter, sceneCurrent;
+		
+		doTransition = doTransition !== false;
+		ilen = this.scenes.length;
+		if (ilen == 0) {
+			KPF.log('[CCV.app.Landscape.setSceneIndex] Illegal call; scenes is empty');
+			return;
+		}
+		
+		// constrain index
+		if (index < 0)
+			index = ilen - 1;
+		else if (index > ilen - 1)
+			index = 0;
+		this.index = parseInt(index);
+		KPF.utils.log('index: ' + index, 'Landscape.setIndex');
+		
+		// retrieve bording indexed scenes
+		scene = this.scenes[this.index];
+		for(i = 0, ilen = this.scenesIndexed.length; i <= ilen; ++i){
+			if(i == ilen || this.scenesIndexed[i].index > this.index){
+				sceneAfter = this.scenesIndexed[i % ilen];
+				sceneBefore = this.scenesIndexed[(i - 1 + ilen) % ilen];
+				if(sceneBefore.index == this.index){
+					sceneCurrent = sceneBefore;
+					sceneBefore = this.scenesIndexed[(i - 2 + ilen) % ilen];
+				}
+				break;
+			}
+		}
+		
+		// activate/deactivate scene according to current scene
+		KPF.utils.log('activate sequences between ]#' + sceneBefore.scene.id + ', index:' + sceneBefore.index + '; #' + sceneAfter.scene.id + ', index:' + sceneAfter.index + '[', 'Landscape.setIndex')
+		
+		ilen = this.scenes.length;
+		activationDeltaMax = Math.floor(ilen / 2);
+		activationDeltaMin = - activationDeltaMax;
+		
+		for (i = 0; i < ilen; ++i){
+			activationDelta = i - this.index;
+			if(activationDelta < activationDeltaMin)
+				activationDelta += ilen;
+			else if(activationDelta > activationDeltaMax)
+				activationDelta -= ilen;
+			activationTest = CCV.global.SCENE_ACTIVATE_BORDING_SCENES ?
+				(sceneBefore.index > sceneAfter.index) ? (i >= sceneBefore.index) || (i <= sceneAfter.index) : (i >= sceneBefore.index) && (i <= sceneAfter.index) :
+				(sceneBefore.index > sceneAfter.index) ? (i > sceneBefore.index) || (i < sceneAfter.index) : (i > sceneBefore.index) && (i < sceneAfter.index);
+			if(activationTest){
+				KPF.utils.log('\t - activate index: ' + i + ' (' + this.scenes[i].id + ')');
+			}
+			this.scenes[i].activateDisplay(activationTest, activationDelta);
+		}
+		
+		// rearrange scenes positions
+		this._reArrangeScenesFrom(this.index);
+		
+		// retrieve bording indexed scenes
+		scene = this.scenes[this.index];
+		for(i = 0, ilen = this.scenesIndexed.length; i <= ilen; ++i){
+			if(i == ilen || this.scenesIndexed[i].index > this.index){
+				sceneAfter = this.scenesIndexed[i % ilen];
+				sceneBefore = this.scenesIndexed[(i - 1 + ilen) % ilen];
+				if(sceneBefore.index == this.index){
+					sceneCurrent = sceneBefore;
+					sceneBefore = this.scenesIndexed[(i - 2 + ilen) % ilen];
+				}
+				break;
+			}
+		}
+		
+		// ---   compute scene amplitude
+		limitBefore = sceneBefore.scene.view.x  + sceneBefore.scene.pos.x + sceneBefore.scene.size.x;
+		limitAfter = sceneAfter.scene.view.x + sceneAfter.scene.pos.x;
+		limitDelta = limitAfter - limitBefore;
+		
+		this.xTarget = this.xCenter - limitBefore - (.5 * limitDelta);
+		this.scrollMin = Math.max(CCV.global.SCROLL_MIN_OFFSET, .5 * (limitDelta - this.size.x));
+		this.scrollPreview = CCV.global.SCROLL_PREVIEW_OFFSET;
+		KPF.utils.log('scrollMin: ' + this.scrollMin + ',  scrollPreview: ' + this.scrollPreview, 'Landscape.setIndex');
+		
+		if(CCV.global.DEBUG_SCROLL_GFX){
+			this.scrollDebugGfx.clear();
+			CCV.utils.drawDebugRect(this.scrollDebugGfx, new PIXI.Rectangle(limitBefore, 0, limitAfter - limitBefore, CCV.global.SCENE_MAX_HEIGHT), 0x00ffff, 2, .5, true);
+		}
+		
+		// scroll position
+		if(doTransition){
+			TweenMax.to(this.scenesScroll, CCV.global.SCENE_SLIDE_DURATION, {
+				x: this.xTarget,
+				ease: Expo.easeInOut
+			});
+		}
+		else
+			this.scenesScroll.x = this.xTarget;
+		
+		
+		CCV.player.triggerIndex(this.index, this.scenes[this.index], this.scenes.length);
+	};
+	/** @private */
+	proto._reArrangeScenesFrom = function(index){
+		var i, ilen, xPos, clampedIndex;
+		
+		console.log('_reArrangeScenesFrom: ' + index + ', #' + this.scenes[index].id + ' at: ' + this.scenes[index].view.x);
+		
+		// ground
+		xPos = this.scenes[index].view.x;
+		this.ground.view.x = KPF.utils.floorTo(xPos, this.ground.size.x) - this.ground.size.x;
+			
+		// left-side items
+		xPos = this.scenes[index].view.x;
+		for(i = 1, ilen = this.scenes.length; i < CCV.global.SCENE_ITEM_BEFORE; ++i) {
+			clampedIndex = index - i;
+			while (clampedIndex < 0)
+				clampedIndex += ilen;
+			clampedIndex %= ilen;
+			
+			xPos -= this.scenesWidths[clampedIndex];
+			this.scenes[clampedIndex].view.x = xPos;
+		}
+		
+		// right-side items
+		xPos = this.scenes[index].view.x + this.scenesWidths[index];
+		for(i = 1, ilen = this.scenes.length; i < ilen - CCV.global.SCENE_ITEM_BEFORE; ++i) {
+			clampedIndex = index + i;
+			while (clampedIndex < 0)
+				clampedIndex += ilen;
+			clampedIndex %= ilen;
+			
+			this.scenes[clampedIndex].view.x = xPos;
+			xPos += this.scenesWidths[clampedIndex];
+		}
+	};
+}
+
+
+// ----------------------------------------------------------------------
+// CCV.app.Scene
+// ----------------------------------------------------------------------
+if (!CCV.app.Scene) {
+	/**
+	 * @param data {object}   data    JSON data holder
+	 * @constructor
+	 */
+	CCV.app.Scene = function (data) {
+		var ssc = CCV.player.scaleSourceCoef;
+		
+		// --- parse data
+		this.id = data.id;
+		
+		this.folder = CCV.player.mediaFolder;
+		if(this.id.indexOf('_') != 0){
+			this.folder += this.id + '/';
+		}
+		
+		this.indexable = data.indexable !== false;
+		this.disposable = data.disposable !== false;
+		this.popUnder = data.popUnder === true;
+		
+		this.pos = new PIXI.Point();
+		if(data.pos)
+			this.pos.copy(data.pos);
+		this.pos.scale(ssc);
+		
+		this.marginLeft = data.marginLeft * ssc;
+		
+		this.size = new PIXI.Point(data.size.x, data.size.y);
+		this.size.scale(ssc);
+		this.xCenter = Math.round(.5 * this.size.x);
+		
+		this.activationTimeoutId = null;
+		
+		
+		// ---   build audio
+		if(data.hasOwnProperty('audio'))
+			this.audio = new CCV.app.AudioChannel(data.audio);
+		
+		// ---   build view
+		this.viewBuild(data);
+	};
+	proto = CCV.app.Scene.prototype;
+	
+	/**
+	 * Returns a string representation of the instance.
+	 * @return {string}
+	 */
+	proto.toString = function () {
+		return this.info(0);
+	};
+	/**
+	 * Returns a formatted string representation of the instance
+	 * @param depth   {Number} formatting depth
+	 * @param indentStart   {Boolean}   whether or not indentation should be added on string start
+	 * @return {String}
+	 */
+	proto.info = function (depth, indentStart) {
+		var str = '';
+		var pattern = KPF.global.FORMAT_INDENT;
+		var indent;
+		
+		if (isNaN(depth))
+			depth = 0;
+		
+		indent = KPF.utils.repeat(depth, pattern);
+		if (indentStart === true)
+			str = indent;
+		
+		str += '[Scene] #' + this.id;
+		if (this.redFill)
+			str += '\n' + indent + pattern + 'redFill: ' + this.redFill.info(depth + 1, false);
+		if (this.redOutline)
+			str += '\n' + indent + pattern + 'redOutline: ' + this.redOutline.info(depth + 1, false);
+		if (this.blue)
+			str += '\n' + indent + pattern + 'blue: ' + this.blue.info(depth + 1, false);
+		return str;
+	};
+
+	proto.factoryModel = function (data) {
+		if (data) {
+			if (KPF.utils.isarray(data))
+				return new CCV.app.CompoLayer(data, this);
+			else if (data.hasOwnProperty('video'))
+				return new CCV.app.VideoLayer(data, this);
+			else if (data.hasOwnProperty('seqEnd'))
+				return new CCV.app.Sequence(data, this);
+			else
+				return new CCV.app.Layer(data, this);
+		}
+		return null;
+	};
+	proto.showFill = function(status){
+		if(!this.redFill)
+			return;
+		
+		TweenMax.to(this.redFill.view, .3, {
+			ease: Expo.easeOut,
+			alpha: status ? 1 : 0
+		});
+	};
+	proto.viewBuild = function (data) {
+		this.view = new PIXI.Container();
+		
+		// ---   blue layers
+		this.blue = this.factoryModel(data.blue);
+		if(this.blue && this.blue.view){
+			this.blue.view.position.copy(this.pos);
+			this.view.addChild(this.blue.view);
+		}
+		
+		// ---   red layers
+		this.red = new CCV.app.CompoLayer(data.red);
+		if(data.red){
+			this.redOutline = this.red.addLayer(data.red.outline, this);
+			this.redFill = this.red.addLayer(data.red.fill, this);
+		}
+		if(this.redFill && this.redFill.view){
+			this.redFill.view.position.copy(this.pos);
+			this.redFill.view.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+			this.view.addChild(this.redFill.view);
+		}
+		if(this.redOutline && this.redOutline.view){
+			this.redOutline.view.position.copy(this.pos);
+			this.redOutline.view.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+			this.view.addChild(this.redOutline.view);
+		}
+		
+		// ---   debug markers
+		if (CCV.global.DEBUG_SCENE_GFX) {
+			var gfx, text, textStyle = {
+				fontFamily: 'Verdana',
+				fontSize: 12,
+				fill: 0x0
+			};
+			
+			this.debugGfx = new PIXI.Container();
+			this.view.addChild(this.debugGfx);
+			
+			gfx = new PIXI.Graphics();
+			
+			// draw size and position
+			CCV.utils.drawDebugPoint(gfx, this.pos, 0xff0000, 2);
+			CCV.utils.drawDebugRect(gfx, new PIXI.Rectangle(this.pos.x, this.pos.y, this.size.x, this.size.y), 0x0000ff, 1, 1, false);
+			this.debugGfx.addChild(gfx);
+			
+			// draw left margin
+			if(CCV.global.DEBUG_SCENE_MARGINS){
+				if(this.marginLeft != 0){
+					gfx.lineStyle(1, 0x0000ff, 1);
+					gfx.drawRect(this.pos.x - this.marginLeft, this.pos.y, this.marginLeft, this.size.y);
+					gfx.moveTo(this.pos.x, this.pos.y);
+					gfx.lineTo(this.pos.x - this.marginLeft, this.pos.y + (.5 * this.size.y));
+					gfx.lineTo(this.pos.x, this.pos.y + this.size.y);
+					this.debugGfx.addChild(gfx);
+				}
+			}
+			
+			// show root ID and position
+			text = new PIXI.Text('#' + this.id, textStyle);
+			text.position = new PIXI.Point(10, 10);
+			this.debugGfx.addChild(text);
+			
+			CCV.utils.drawDebugPoint(gfx, new PIXI.Point(0, 0), 0xff0000, 2);
+			CCV.utils.drawDebugRect(gfx, new PIXI.Rectangle(0, 0, Math.abs(this.size.x + this.pos.x), this.size.y + this.pos.y), 0xff0000, 1, .2, false);
+		}
+	};
+	proto.activateDisplay = function(status, delta) {
+		var self = this;
+		
+		// audio management
+		this.volumeTarget = status ? 1 : Math.max(0, 1 - CCV.global.AUDIO_DELTA_VOLUME_COEF * Math.abs(delta));
+		this.panTarget = KPF.utils.clamp(delta * CCV.global.AUDIO_DELTA_PAN_COEF, -1, 1);
+		if(this.audio)
+			this._launchAudio(this.audio);
+		
+		if(this.activationTimeoutId)
+			window.clearTimeout(this.activationTimeoutId);
+		
+		this.activationTimeoutId = window.setTimeout(function(){
+			$(self).trigger('displayStateChange', [status]);
+		}, status ? CCV.global.SCENE_ACTIVATION_DELAY : CCV.global.SCENE_DEACTIVATION_DELAY);
+	};
+	proto.launchAudio = function(audio, doTransition){
+		doTransition = doTransition !== false;
+		
+		if(doTransition){
+			if(!audio.isPlaying()){
+				startAtValues = {
+					volume: 0
+				}
+			}
+			TweenMax.to(audio, CCV.global.SCENE_SLIDE_DURATION, {
+				volume: this.volumeTarget,
+				pan: this.panTarget,
+				delay: .3,
+				startAt: startAtValues,
+				onUpdate: audio.render.bind(audio)
+			});
+			if(this.volumeTarget > 0 && !audio.isPlaying()){
+				audio.play();
+				audio.render();
+			}
+		}
+		else{
+			audio.stop();
+			audio.volume = this.volumeTarget;
+			audio.pan = this.panTarget;
+			audio.play();
+			audio.render();
+			console.log('-----------------------------> audio')
+		}
+	}
+}
+
+
+// ----------------------------------------------------------------------
+// CCV.app.CompoLayer
+// ----------------------------------------------------------------------
+if (!CCV.app.CompoLayer) {
+	
+	/**
+	 * Composite layer model.
+	 * @param data    object   JSON formatted data holder
+	 * @param scene   CCV.app.Scene   context scene
+	 * @constructor
+	 */
+	CCV.app.CompoLayer = function (data, scene) {
+		this.layers = [];
+		
+		if(!data)
+			return;
+		
+		for (var i = 0, ilen = data.length; i < ilen; ++i)
+			this.addLayer(data[i], scene);
+	};
+	proto = CCV.app.CompoLayer.prototype;
+	
+	proto.addLayer = function(data, scene){
+		var view = scene.factoryModel(data);
+		this.layers.push(view);
+		return view;
+	};
+	
+	/**
+	 * Returns a string representation of the instance
+	 * @return {string}
+	 */
+	proto.toString = function () {
+		return this.info(0);
+	};
+	/**
+	 * Returns a formatted string representation of the instance
+	 * @param   {number}    depth          formatting depth
+	 * @param   {boolean}   indentStart    whether or not indentation should be added on string start
+	 * @return  {string}
+	 */
+	proto.info = function (depth, indentStart) {
+		var str;
+		var pattern = KPF.global.FORMAT_INDENT;
+		var indent;
+		var ilen = this.layers.length;
+		
+		if (isNaN(depth))
+			depth = 0;
+		
+		indent = KPF.utils.repeat(depth, pattern);
+		
+		str = (indentStart === true) ? indent : '';
+		str += '[CompoLayer] ' + ilen + ' layers';
+		for (var i = 0; i < ilen; ++i)
+			str += '\n' + this.layers[i].info(depth + 1, true);
+		return str;
+	}
+}
+
+
+// ----------------------------------------------------------------------
+// CCV.app.Layer
+// ----------------------------------------------------------------------
+if (!CCV.app.Layer) {
+	/**
+	 * Single frame layer model.
+	 *
+	 * @param data    Object  JSON formatted data holder
+	 * @param scene   CCV.app.Scene   context scene
+	 * @constructor
+	 */
+	CCV.app.Layer = function (data, scene) {
+		this.file = scene.folder + data.file;
+		this.view = PIXI.Sprite.fromImage(this.file);
+	};
+	proto = CCV.app.Layer.prototype;
+	
+	/**
+	 * Returns a string representation of the instance
+	 * @return {string}
+	 */
+	proto.toString = function () {
+		return this.info(0);
+	};
+	/**
+	 * Returns a formatted string representation of the instance
+	 * @param depth   Number   formatting depth
+	 * @param indentStart   Boolean   whether or not indentation should be added on string start
+	 * @return {string}
+	 */
+	proto.info = function (depth, indentStart) {
+		var pattern = KPF.global.FORMAT_INDENT;
+		var str;
+		
+		str = (indentStart === true) ? KPF.utils.repeat(depth || 0, pattern) : '';
+		str += '[Layer] file: "' + this.file + '"';
+		return str;
+	}
+}
+
+
+// ----------------------------------------------------------------------
+// CCV.app.Sequence
+// ----------------------------------------------------------------------
+if (!CCV.app.Sequence) {
+	/**
+	 * Multiple frame layer model.
+	 * @param data    object   JSON formatted data holder
+	 * @param scene   CCV.app.Scene   context scene
+	 * @constructor
+	 */
+	CCV.app.Sequence = function (data, scene) {
+		this.scene = scene;
+		
+		this.parse(data);
+		
+		this.view = new PIXI.Container();
+		
+		if(data.hasOwnProperty('preview')) {
+			/** @var {PIXI.Sprite} */
+			this.preview = new PIXI.Sprite(new PIXI.Texture.fromImage(this.scene.folder + data.preview));
+			this.view.addChild(this.preview);
+		}
+		
+		// ---   debug markers
+		if (CCV.global.DEBUG_SCENE_GFX) {
+			this.text = new PIXI.Text('', {
+				fontFamily: 'Verdana',
+				fontSize: 15,
+				fill: 0x0
+			});
+			this.text.position = new PIXI.Point(20, -20);
+			this.view.addChild(this.text);
+		}
+		
+		this.active = undefined;
+		$(this.scene).on('displayStateChange', this.activateDisplay.bind(this));
+		this.activateDisplay(null, false);
+	};
+	proto = CCV.app.Sequence.prototype;
+	
+	proto.parse = function(data){
+		this.seqNumLength = data.hasOwnProperty('seqNumLength') ? data.seqNumLength : -1;
+		this.seqStart = data.hasOwnProperty('seqStart') ? data.seqStart : 1;
+		this.seqEnd = data.hasOwnProperty('seqEnd') ? data.seqEnd : 1;
+		
+		this.endDelay = (data.hasOwnProperty('endDelay') && data.endDelay >= 0) ? data.endDelay : CCV.global.SCENE_REPEAT_DELAY;
+		this.endFrames = parseInt(this.endDelay / 1000 * CCV.global.SYS_FPS);
+		this.endSuspensionFrames = -1;
+		
+		this.startDelay = (data.hasOwnProperty('startDelay') && data.startDelay >= 0) ? data.startDelay : CCV.global.SCENE_RESTART_DELAY;
+		this.startFrames = parseInt(this.startDelay / 1000 * CCV.global.SYS_FPS);
+		this.startSuspensionFrames = -1;
+		
+		if(data.hasOwnProperty('audio')){
+			this.audio = new CCV.app.AudioChannel(data.audio, true);
+		}
+		
+		this.file = data.file;
+		this.loop = data.loop !== false;
+	};
+	proto.nextFrame = function(){
+		var a = this.animation;
+		
+		if(!a)
+			return;
+		
+		var c = a.currentFrame + 1;
+		var t = a.totalFrames;
+		
+		// ##################### if repeat suspensions frames are defined, handle them
+		// ... wait
+		if(this.endSuspensionFrames > 0) {
+			this.endSuspensionFrames--;
+		}
+		// ... repeat
+		else if(this.endSuspensionFrames == 0) {
+			this.endSuspensionFrames = -1;
+			if(this.startFrames > 0)
+				this.startSuspensionFrames = this.startFrames;
+			else if(this.audio){
+				console.log('launch audio from repeat pause');
+				this.scene.launchAudio(this.audio, false);
+			}
+			a.gotoAndStop(0);
+		}
+		
+		// ##################### if restart suspensions frames are defined, handle them
+		// ... wait
+		else if(this.startSuspensionFrames > 0) {
+			this.startSuspensionFrames--;
+		}
+		// ... restart
+		else if(this.startSuspensionFrames == 0) {
+			this.startSuspensionFrames = -1;
+			a.gotoAndStop(1);
+			if(this.audio){
+				console.log('launch audio from restart pause');
+				this.scene.launchAudio(this.audio, false);
+			}
+		}
+		// // ##################### else set playhead to move forward
+		else if(c < t){
+			a.gotoAndStop(c);
+		}
+		else{
+			// sequence has a repeat pause
+			if(this.endFrames > 0){
+				this.endSuspensionFrames = this.endFrames;
+				a.gotoAndStop(t - 1);
+			}
+			// sequence has a restart pause
+			else if(this.startFrames > 0){
+				this.startSuspensionFrames = this.startFrames;
+				a.gotoAndStop(0);
+			}
+			//
+			else{
+				a.gotoAndStop(0);
+				if(this.audio){
+					console.log('launch audio from loop');
+					this.scene.launchAudio(this.audio, false);
+				}
+			}
+		}
+		
+		if (CCV.global.DEBUG_SCENE_GFX) {
+			var log = a.currentFrame + '/' + a.totalFrames;
+			if(this.startFrames > 0)
+				log += ' [restart: ' + this.startSuspensionFrames + '/' + this.startFrames + ']';
+			if(this.endFrames > 0)
+				log += ' [repeat: ' + this.endSuspensionFrames + '/' + this.endFrames + ']';
+			this.text.text = log;
+		}
+	};
+	proto.toString = function () {
+		return this.info(0);
+	};
+	proto.info = function (depth, indentStart) {
+		var str;
+		
+		str = (indentStart === true) ? KPF.utils.repeat(depth || 0, KPF.global.FORMAT_INDENT) : '';
+		str += '[Sequence] ' + (this.seqEnd - this.seqStart) + ' frames [' + this.seqStart + ' -> ' + this.seqEnd + ']';
+		return str;
+	};
+	proto.activateDisplay = function(e, status){
+		var i, index, file;
+		
+		// --- change active status or die
+		status = status !== false || !this.scene.disposable;
+		
+		if(this.active === status)
+			return;
+		this.active = status;
+		this.endSuspensionFrames = -1;
+		
+		if(!status && this.audio){
+			this.audio.stop();
+		}
+		
+		
+		// active --> launch animmation
+		// .... OR
+		// inactive but no preview exist --> stop animmation
+		if(this.active || !this.preview) {
+			if(!this.animation){
+				// create textures
+				this.textures = [];
+				for (i = this.seqStart; i <= this.seqEnd; ++i) {
+					index = this.seqNumLength > 0 ? KPF.utils.fillTo(i, this.seqNumLength, '0') : i;
+					file = this.scene.folder + this.file.replace('[NUM]', index);
+					this.textures.push(new PIXI.Texture.fromImage(file));
+				}
+				
+				// create animation
+				this.animation = new PIXI.extras.AnimatedSprite(this.textures, false);
+				this.animation.textures = this.textures;
+				this.animation.gotoAndStop(1);
+				this.view.addChild(this.animation);
+			}
+			CCV.player.animTicker.addSequence(this);
+			if(this.audio && this.endFrames + this.startFrames == 0){
+				console.log('launch audio from activation');
+				this.scene.launchAudio(this.audio, false);
+			}
+		}
+		
+		else if(this.animation){
+			CCV.player.animTicker.removeSequence(this);
+			this.view.removeChild(this.animation);
+			this.animation.destroy(true);
+			this.animation = null;
+		}
+	};
+}
+
+
+// ----------------------------------------------------------------------
+// CCV.app.Ground
+// ----------------------------------------------------------------------
+if (!CCV.app.Ground){
+	
+	/**
+	 * Ground line model.
+	 * @param data    object   JSON formatted data holder
+	 * @constructor
+	 */
+	CCV.app.Ground = function (data) {
+		this.pos = new PIXI.Point(data.pos.x, data.pos.y);
+		this.pos.scale(CCV.player.scaleSourceCoef);
+		
+		this.size = new PIXI.Point(data.size.x, data.size.y);
+		this.size.scale(CCV.player.scaleSourceCoef);
+		
+		this.view = new PIXI.Container();
+		
+		for(var i = 0, texture = PIXI.Texture.fromImage(CCV.player.mediaFolder + data.file); i < 3; ++i){
+			gfx = PIXI.Sprite.from(texture);
+			gfx.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+			gfx.position = new PIXI.Point(i * this.size.x, 0);
+			this.view.addChild(gfx);
+		}
+	};
+}
+
+
+// ----------------------------------------------------------------------
+// CCV.app.Magnifier
+// ----------------------------------------------------------------------
+if(!CCV.app.Magnifier){
+	/**
+	 * @param radius           {Number} magnifier radius
+	 * @constructor
+	 */
+	CCV.app.Magnifier = function(radius){
+		this.radius = radius;
+		
+		this.view = new PIXI.Container();
+		
+		this.gfx = new PIXI.Graphics();
+		this.gfx.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+		this.gfx.scale = new PIXI.Point(1, 1);
+		this.view.addChild(this.gfx);
+		
+		/**
+		 * @type {number}
+		 * @private
+		 */
+		this._scale = 0;
+		/**
+		 * @type {number}
+		 * @private
+		 */
+		this._x = 0;
+		/**
+		 * @type {number}
+		 * @private
+		 */
+		this._y = 0;
+		
+		Object.defineProperty(this, 'pinchScale', {
+			get: function(){
+				return this.gfx.scale ? this.gfx.scale.x : 1;
+			},
+			set: function(pinchScale){
+				pinchScale = KPF.utils.clamp(pinchScale, 1, 1 + CCV.global.MAGNIFIER_PINCH_INCREMENT);
+				this.gfx.scale = new PIXI.Point(pinchScale, pinchScale);
+			}
+		});
+		Object.defineProperty(this, 'scale', {
+			get: function(){
+				return this.view.scale.x;
+			},
+			set: function(scale){
+				this._scale = scale;
+				this._render();
+			}
+		});
+		Object.defineProperty(this, 'x', {
+			get: function(){
+				return this._x;
+			},
+			set: function(x){
+				this._x = x;
+				this._render();
+			}
+		});
+		Object.defineProperty(this, 'y', {
+			get: function(){
+				return this._y;
+			},
+			set: function(y){
+				this._y = y;
+				this._render();
+			}
+		});
+		Object.defineProperty(this, 'pos', {
+			get: function(){
+				return {
+					x: this._x,
+					y: this._y
+				};
+			},
+			set: function(pos){
+				this._x = pos.x;
+				this._y = pos.y;
+				this._render();
+			}
+		});
+		this.scale = 0;
+	};
+	proto = CCV.app.Magnifier.prototype;
+	
+	proto.redraw = function(scale){
+		this.gfx.clear();
+		this.gfx.beginFill(CCV.global.MAGNIFIER_RED);
+		this.gfx.drawCircle(0, 0, this.radius * CCV.player.scaleSourceCoef * scale);
+		this.gfx.endFill();
+	};
+	/** @private */
+	proto._render = function(){
+		var pos = new PIXI.Point(this._x, this._y);
+		pos.to(this.view);
+		this.view.scale.copy({ x: this._scale, y: this._scale });
+	}
+}
+
+
+
+
+// ###################################################################################################################  PLAYER UTILITIES
+
+
+// ----------------------------------------------------------------------
+// CCV.app.AnimationsTicker
+// ----------------------------------------------------------------------
+if(!CCV.app.AnimationsTicker){
+	
+	/**
+	 * Global ticker for PIXI animations to provide support for FPS configuration.
+	 * @constructor
+	 */
+	CCV.app.AnimationsTicker = function(){
+		this.askRenderCallback = this.askRender.bind(this);
+		this.askRenderTimeoutId = null;
+		
+		this.scheduled = false;
+		this.deltaTime = Date.now();
+		this.time = 0;
+		
+		/** @var Array.<PIXI.extras.AnimatedSprite> */
+		this.sequences = [];
+		
+		this.start();
+		
+	};
+	proto = CCV.app.AnimationsTicker.prototype;
+	
+	proto.start = function(){
+		this.askRender();
+	};
+	proto.stop = function(){
+		clearTimeout(this.askRenderTimeoutId);
+	};
+	/**
+	 * @param sequence {CCV.app.Sequence}
+	 */
+	proto.addSequence = function(sequence){
+		if(this.sequences.indexOf(sequence) < 0 && sequence.animation.totalFrames > 1) {
+			this.sequences.push(sequence);
+		}
+	};
+	/**
+	 * @param sequence {CCV.app.Sequence}
+	 */
+	proto.removeSequence = function(sequence){
+		var i = this.sequences.indexOf(sequence);
+		if(i >= 0)
+			this.sequences.splice(i, 1);
+	};
+	proto.askRender = function(){
+		// ---   handle delayed calls
+		this.scheduled = false;
+		this.deltaTime = Date.now() - this.time;
+		if (this.deltaTime < 1000 / CCV.global.SYS_FPS) {
+			if(!this.scheduled) {
+				this.scheduled = true;
+				this.askRenderTimeoutId = setTimeout(this.askRenderCallback, 1000 / CCV.global.SYS_FPS - this.deltaTime);
+			}
+			return;
+		}
+		this.time += this.deltaTime;
+		
+		CCV.player.application.render();
+		for(var i = 0, ilen = this.sequences.length; i < ilen; ++i)
+			this.sequences[i].nextFrame();
+		
+		requestAnimationFrame(this.askRenderCallback);
+	};
+}
+
+
+// ----------------------------------------------------------------------
+// CCV.app.AudioChannel
+// ----------------------------------------------------------------------
+if(!CCV.app.AudioChannel){
+	
+	/**
+	 * @param data
+	 * @param autoRender
+	 * @constructor
+	 */
+	CCV.app.AudioChannel = function(data, autoRender){
+		this.file = CCV.global.AUDIO_FOLDER + data.file;
+		this.isLoop = data.isLoop !== false;
+		this.isStereo = data.isStereo !== false;
+		this.volumeCoef = KPF.utils.isan(data.volume) ? data.volume : 1;
+		
+		this.autoRender = autoRender === true;
+		
+		/** @var {Howl} */
+		this.sound  = new Howl({
+			src: this.file,
+			volume: 0
+		});
+		
+		// ---
+		this._volume = 1;
+		this._pan = 0;
+		Object.defineProperty(this, 'pan', {
+			get: function(){
+				return this._pan;
+			},
+			set: function(pan){
+				this._pan = KPF.utils.clamp(pan, -1, 1);
+				if(this.autoRender)
+					this.render();
+			}
+		});
+		Object.defineProperty(this, 'volume', {
+			get: function(){
+				return this._volume;
+			},
+			set: function(volume){
+				this._volume = volume;
+				if(this.autoRender)
+					this.render();
+			}
+		});
+	};
+	proto = CCV.app.AudioChannel.prototype;
+	
+	proto.isPlaying = function(){
+		return this.soundId && this.sound.playing(this.soundId);
+	};
+	proto.play = function(){
+		this.soundId = this.sound.play();
+		this.sound.loop(this.isLoop, this.soundId);
+		this.render();
+	};
+	proto.stop = function(){
+		if(this.soundId) {
+			this.sound.stop(this.soundId);
+			this.soundId = null;
+		}
+	};
+	proto.render = function(){
+		if(!this.soundId)
+			return;
+		this.sound.volume(CCV.global.AUDIO_GLOBAL_VOLUME * this.volumeCoef * this._volume, this.soundId);
+		this.sound.stereo(this._pan, this.soundId);
+	};
+	
+	
+	/**
+	 * Returns a string repreaentation of the instance.
+	 * @return {string}
+	 */
+	proto.toString = function(){
+		return '[AudioChannel] loop:' + this.loop + ', stereo: ' + this.stereo + ', volumeCoef: ' + this.volumeCoef;
+	};
+	/**
+	 * Returns a formatted string representation of the instance
+	 * @param depth   {number} formatting depth
+	 * @param indentStart   {boolean}   whether or not indentation should be added on string start
+	 * @return {string}
+	 */
+	proto.info = function (depth, indentStart) {
+		var pattern = KPF.global.FORMAT_INDENT;
+		var indent = KPF.utils.repeat(depth || 0, pattern);
+		var str;
+		
+		str = (indentStart === true) ? indent : '';
+		str += '[AudioChannel] ';
+		str += '\n' + indent + pattern + 'file: "' + this.file + '"';
+		str += '\n' + indent + pattern + 'loop:' + this.loop + ', stereo: ' + this.stereo + ', volumeCoef: ' + this.volumeCoef;
+		return str;
+	}
+}
