@@ -655,7 +655,7 @@ if (!CCV.global){
 		SYS_ALLOW_LARGE: false,
 		
 		DEBUG_LANDSCAPE_GFX: false,
-		DEBUG_SCENE_GFX: true,
+		DEBUG_SCENE_GFX: false,
 		DEBUG_SCROLL_GFX: false,
 		DEBUG_SCENE_MARGINS: false,
 		DEBUG_SWIPE: false,
