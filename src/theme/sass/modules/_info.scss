@@ -17,8 +17,8 @@
 		span{
 			padding:$actions-icons-size + 6px;
 			color: white;
-			font-size: .55 * $actions-icons-size;
-			line-height:$actions-icons-size;
+			font-size: $h3-size;
+			line-height: $actions-icons-size;
 		}
 	}
 	
@@ -97,33 +97,35 @@
 		&.gutter {
 			flex: 0 0 $page-gutter;
 		}
+		&.gutter-small {
+			flex: 0 0 (.5 * $page-gutter);
+		}
 		&.margin{
 			flex:0 0 $panel-margin;
 		}
-		&.info1-a div, &.info1-b{
-			background-position:center center;
+		&.info1-a, &.info1-b{
 			background-size:contain;
 			background-repeat: no-repeat;
 		}
-		&.info1-a{
-			div{
-				width:100%;
-				height:100%;
-				background-position: 30% center;
-				&.lang-fr{
-					background-image: url('mm/_info0-a-fr.png');
-				}
-				&.lang-en{
-					background-image: url('mm/_info0-a-en.png');
-				}
+		&.info1-a {
+			background-position: 30% center;
+			background-image: url('mm/_info0-a-fr.png');
+			
+			&[data-lang-toggler="en"]{
+				background-image: url('mm/_info0-a-en.png');
 			}
 		}
 		&.info1-b{
-			background-image: url('mm/_info0-b.png');
+			background-image: url('mm/_info0-b-fr.png');
 			background-position: 30% center;
+			
+			&[data-lang-toggler="en"]{
+				background-image: url('mm/_info0-b-en.png');
+			}
+			
 			div{
-				padding: 1.5 * $page-gutter 0 0 $page-gutter;
-				font-size:26px;
+				padding: (1.5 * $page-gutter) 0 0 $page-gutter;
+				font-size: $h3-size;
 				color:white;
 			}
 		}
@@ -158,7 +160,7 @@
 			h1{
 				display:block;
 				width:auto;
-				font-size: 32px;
+				font-size: $h2-size;
 				color:white;
 			}
 			
@@ -172,7 +174,7 @@
 					}
 					padding: 5px 6px;
 					width:50%;
-					font-size:20px;
+					font-size: $p-size;
 				}
 				td:nth-child(1){
 					color: white;
@@ -186,7 +188,7 @@
 			
 			.evaluation{
 				height: 24px;
-				font-size: 20px;
+				font-size: $p-size;
 				line-height: 24px;
 				box-sizing: border-box;
 				vertical-align: middle;
@@ -206,25 +208,26 @@
 		padding:25px $panel-margin 0 $panel-margin;
 		
 		.croq-logo{
-			flex: 1 1 20%;
+			flex: 0 1 190px;
 			margin-right:26px;
 			background: url('mm/_croq-les-mots.png') no-repeat;
 			background-position:left top;
 			background-size:contain;
 		}
+		.stretcher {
+			flex: 1 10 5px;
+		}
 		.thanx{
 			flex: 1 1 80%;
-			& > *{
-				max-width:880px;
-			}
+			max-width:880px;
 		}
 		h3{
-			font-size:20px;
+			font-size: $p-size;
 			margin-bottom:8px;
 		}
 		p{
 			text-transform:uppercase;
-			font-size:13px;
+			font-size:$mini-size;
 		}
 	}
 }
@@ -235,9 +238,13 @@
 		margin: 0;
 		text-align: center;
 		
-		.vert-box {
+		.few-bricks-box {
+			width:100%;
 			box-sizing: border-box;
-			height:100%;
+			height: calc(100% - 50px);
+			max-height: 80%;
+			position:absolute;
+			bottom:25px;
 			img{
 				height:100%;
 			}
@@ -253,7 +260,7 @@
 		
 		text-align:center;
 		color: $light-blue;
-		font-size:22px;
+		font-size: $p-size;
 		
 		a, a:link, a:hover, a:visited, a:active{
 			color: $dark-blue;

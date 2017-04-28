@@ -64,15 +64,21 @@ textarea,
 select,
 button {
 	font-family: 'campton-semibold';
+	font-weight: normal;
+	font-style: normal;
 }
 
 h1 {
 	font-family: 'avenir-heavy';
+	font-weight: normal;
+	font-style: normal;
 }
 
 h2,
 h3 {
 	font-family: 'campton-semibold';
+	font-weight: normal;
+	font-style: normal;
 }
 
 html,
@@ -111,7 +117,7 @@ body {
 }
 
 .blue-bg {
-	background-color: #97c1e7;
+	background-color: #87b2f8;
 }
 
 a,
@@ -214,6 +220,13 @@ button.action-button.action-home {
 	background-image: url('mm/_icon-home.png');
 }
 
+button.action-button span {
+	font-size: 25px;
+	line-height: 46px;
+	padding: 52px;
+	color: #87b2f8;
+}
+
 footer {
 	display: block;
 	width: 100%;
@@ -294,27 +307,29 @@ header {
 
 #home .flex-row.app-title {
 	position: relative;
+	cursor: pointer;
 	flex: 0 1 260px;
 }
 
-#home h1 {
-	font-size: 64px;
-	line-height: 64px;
-	display: block;
-	float: none;
-	margin: 0 0 0 0;
-	padding: 0;
-	color: #7db0df;
-}
-
+#home h1,
 #home h2 {
-	font-size: 38px;
-	line-height: 38px;
+	font-weight: normal;
 	display: block;
 	float: none;
 	margin: 0;
 	padding: 0;
-	color: #7db0df;
+	color: #87b2f8;
+}
+
+#home h1 {
+	font-size: 62px;
+	line-height: 62px;
+	margin: 10px 0 0 0;
+}
+
+#home h2 {
+	font-size: 32px;
+	line-height: 32px;
 }
 
 #info button.action-home {
@@ -333,7 +348,7 @@ header {
 }
 
 #info .page-title span {
-	font-size: 25.3px;
+	font-size: 25px;
 	line-height: 46px;
 	padding: 52px;
 	color: white;
@@ -368,7 +383,7 @@ header {
 #info .page-bottom {
 	font-size: 22px;
 	padding: 25px 0 0 46px;
-	color: #97c1e7;
+	color: #87b2f8;
 }
 
 #info .page-bottom a,
@@ -376,7 +391,7 @@ header {
 #info .page-bottom a:hover,
 #info .page-bottom a:visited,
 #info .page-bottom a:active {
-	color: #3575bb;
+	color: #3477da;
 }
 
 #info .pagination {
@@ -416,38 +431,40 @@ header {
 	flex: 0 0 35px;
 }
 
+#info0 .column.gutter-small {
+	flex: 0 0 17.5px;
+}
+
 #info0 .column.margin {
 	flex: 0 0 50px;
 }
 
-#info0 .column.info1-a div,
+#info0 .column.info1-a,
 #info0 .column.info1-b {
 	background-repeat: no-repeat;
-	background-position: center center;
 	background-size: contain;
 }
 
-#info0 .column.info1-a div {
-	width: 100%;
-	height: 100%;
+#info0 .column.info1-a {
+	background-image: url('mm/_info0-a-fr.png');
 	background-position: 30% center;
 }
 
-#info0 .column.info1-a div.lang-fr {
-	background-image: url('mm/_info0-a-fr.png');
-}
-
-#info0 .column.info1-a div.lang-en {
+#info0 .column.info1-a[data-lang-toggler='en'] {
 	background-image: url('mm/_info0-a-en.png');
 }
 
 #info0 .column.info1-b {
-	background-image: url('mm/_info0-b.png');
+	background-image: url('mm/_info0-b-fr.png');
 	background-position: 30% center;
 }
 
+#info0 .column.info1-b[data-lang-toggler='en'] {
+	background-image: url('mm/_info0-b-en.png');
+}
+
 #info0 .column.info1-b div {
-	font-size: 26px;
+	font-size: 25px;
 	padding: 52.5px 0 0 35px;
 	color: white;
 }
@@ -496,7 +513,7 @@ header {
 
 #info1 .page-top .vert-box table td:nth-child(2) {
 	text-align: left;
-	color: #3575bb;
+	color: #3477da;
 }
 
 #info1 .page-top .vert-box .evaluation {
@@ -526,15 +543,16 @@ header {
 	background: url('mm/_croq-les-mots.png') no-repeat;
 	background-position: left top;
 	background-size: contain;
-	flex: 1 1 20%;
+	flex: 0 1 190px;
+}
+
+#info1 .page-bottom .stretcher {
+	flex: 1 10 5px;
 }
 
 #info1 .page-bottom .thanx {
-	flex: 1 1 80%;
-}
-
-#info1 .page-bottom .thanx > * {
 	max-width: 880px;
+	flex: 1 1 80%;
 }
 
 #info1 .page-bottom h3 {
@@ -543,7 +561,7 @@ header {
 }
 
 #info1 .page-bottom p {
-	font-size: 13px;
+	font-size: 12px;
 	text-transform: uppercase;
 }
 
@@ -553,20 +571,24 @@ header {
 	text-align: center;
 }
 
-#info2 .page-top .vert-box {
+#info2 .page-top .few-bricks-box {
+	position: absolute;
+	bottom: 25px;
 	box-sizing: border-box;
-	height: 100%;
+	width: 100%;
+	height: calc(100% - 50px);
+	max-height: 80%;
 }
 
-#info2 .page-top .vert-box img {
+#info2 .page-top .few-bricks-box img {
 	height: 100%;
 }
 
 #info2 .page-bottom {
-	font-size: 22px;
+	font-size: 20px;
 	padding: 25px 0 0 0;
 	text-align: center;
-	color: #97c1e7;
+	color: #87b2f8;
 }
 
 #info2 .page-bottom > div {
@@ -578,12 +600,12 @@ header {
 #info2 .page-bottom a:hover,
 #info2 .page-bottom a:visited,
 #info2 .page-bottom a:active {
-	color: #3575bb;
+	color: #3477da;
 }
 
 #help {
 	padding: 0 50px;
-	background-color: #97c1e7;
+	background-color: #87b2f8;
 }
 
 #help button.action-close {
@@ -627,7 +649,7 @@ header {
 	line-height: 30px;
 	margin: 0;
 	padding: 0;
-	color: #3575bb;
+	color: #3477da;
 }
 
 #help #help-animation1,
@@ -655,9 +677,8 @@ header {
 .footer-menu {
 	position: absolute;
 	right: 50px;
-	bottom: 50px;
 	transition: all .8s;
-	transform: translateX(288px);
+	transform: translate(288px, -50%);
 }
 
 .footer-menu div.action-button {
@@ -690,7 +711,7 @@ header {
 }
 
 .footer-menu.opened {
-	transform: translateX(0);
+	transform: translate(0, -50%);
 }
 
 .footer-menu.opened div.action-button {

@@ -39,7 +39,7 @@
 			DGN.app = new DGN.core.Application();
 			DGN.app.initialize();
 			DGN.app.langSet();
-			DGN.app.pageSet('home');
+			DGN.app.pageSet('play');
 		});
 	</script>
 </head>
@@ -48,8 +48,12 @@
 
 <div id="home" class="page">
 	
-	<button class="action-button lang-en" title="version française" data-lang="fr"></button>
-	<button class="action-button lang-fr" title="english version" data-lang="en"></button>
+	<button class="action-button lang-en" title="version française" data-lang="fr">
+		<span>FR</span>
+	</button>
+	<button class="action-button lang-fr" title="english version" data-lang="en">
+		<span>EN</span>
+	</button>
 	<button class="action-button action-play"></button>
 	<button class="action-button action-info"></button>
 	
@@ -99,12 +103,10 @@
 			<div class="flex-row page-top blue-bg">
 				<div class="columns">
 					<div class="column gutter"></div>
-					<div class="column info1-a">
-						<div class="lang-fr"></div>
-						<div class="lang-en"></div>
+					<div class="column info1-a" data-lang-toggler>
 					</div>
 					<div class="column gutter"></div>
-					<div class="column info1-b">
+					<div class="column info1-b" data-lang-toggler>
 						<div class="lang-fr">
 							Le livre "Cache-cache ville"<br />
 							sortie prévue en 2018<br />
@@ -161,7 +163,6 @@
 		<div class="flex-rows lang-fr">
 			<div class="flex-row margin blue-bg"></div>
 			<div class="flex-row gutter blue-bg"></div>
-			
 			<div class="flex-row page-top blue-bg">
 				
 				<div class="vert-box">
@@ -172,8 +173,7 @@
 								AUTEURS &amp; ILLUSTRATEURS |
 							</td>
 							<td>
-								<a href="http://agathedemois.com/" target="_blank">Agathe Demois</a>
-								&amp; <a href="http://vincentgodeau.fr/" target="_blank">Vincent Godeau</a>
+								<a href="http://agathedemois.com/" target="_blank">Agathe Demois</a>&nbsp;&amp;&nbsp;<a href="http://vincentgodeau.fr/" target="_blank">Vincent Godeau</a>
 							</td>
 						</tr>
 						
@@ -182,8 +182,7 @@
 								ANIMATEURS |
 							</td>
 							<td>
-								<a href="http://www.matthieurotteleur.fr/" target="_blank">Matthieu Rotteleur</a>
-								&amp; <a href="http://vincentgodeau.fr/" target="_blank">Vincent Godeau</a>
+								<a href="http://www.matthieurotteleur.fr/" target="_blank">Matthieu Rotteleur</a>&nbsp;&amp;&nbsp;<a href="http://vincentgodeau.fr/" target="_blank">Vincent Godeau</a>
 							</td>
 						</tr>
 						
@@ -206,16 +205,19 @@
 						</tr>
 					</table>
 					
+					<!--
 					<div class="evaluation">
 						<img src="theme/mm/_star24.png" alt="" />
 						<span><a href="#">Évaluer l'application</a></span>
 					</div>
+					-->
 				</div>
 			</div>
 			
 			<div class="flex-row page-bottom">
 				
 				<div class="flex-columns">
+					<div class="flex-column stretcher"></div>
 					<div class="flex-column croq-logo" title="croq' les mots marmot!">
 						<!-- croq logo -->
 					</div>
@@ -225,14 +227,15 @@
 								Réalisée avec le concours et dans le cadre de "Croq' les mots, marmot!"
 							</h3>
 							<p>
-								avec le soutien des 4 communautés de communes de Haute Mayenne, le Kiosque - Centre d'action culturelle
-								de Mayenne Communauté, l'Union Européenne - Fonds Leader, la Région des Pays de la Loire, le ministère
-								de la Culture et de la Communication - DRAC des Pays de la Loire, la Caisse d'Allocations familiales
-								et la Direction départementale de la cohésion sociale et de la protection des populations de la Mayenne.
+								Une co-production des Communautés de communes du Bocage Mayennais, de l’Ernée, du Mont des Avaloirs,
+								Mayenne Communauté et Le Kiosque - Centre d’action culturelle de Mayenne Communauté.
+								Avec le soutien de l’Union Européenne - Fonds Leader, la Région des Pays de la Loire, le ministère de la Culture
+								et de la Communication - DRAC des Pays de la Loire, la Caisse d’Allocations familiales et la Direction départementale
+								de la cohésion sociale et de la protection des populations de la Mayenne.
 							</p>
 						</div>
 					</div>
-				
+					<div class="flex-column stretcher"></div>
 				</div>
 			</div>
 			<div class="flex-row margin"></div>
@@ -241,7 +244,6 @@
 		<div class="flex-rows lang-en">
 			<div class="flex-row margin blue-bg"></div>
 			<div class="flex-row gutter blue-bg"></div>
-			
 			<div class="flex-row page-top blue-bg">
 				<div class="vert-box">
 					<h1>CREDITS</h1>
@@ -251,8 +253,7 @@
 								AUTHORS &amp; ILLUSTRATORS |
 							</td>
 							<td>
-								<a href="http://agathedemois.com/" target="_blank">Agathe Demois</a>
-								&amp; <a href="http://vincentgodeau.fr/" target="_blank">Vincent Godeau</a>
+								<a href="http://agathedemois.com/" target="_blank">Agathe Demois</a>&nbsp;&amp;&nbsp;<a href="http://vincentgodeau.fr/" target="_blank">Vincent Godeau</a>
 							</td>
 						</tr>
 						
@@ -261,8 +262,7 @@
 								ANIMATORS |
 							</td>
 							<td>
-								<a href="http://www.matthieurotteleur.fr/" target="_blank">Matthieu Rotteleur</a>
-								&amp; <a href="http://vincentgodeau.fr/" target="_blank">Vincent Godeau</a>
+								<a href="http://www.matthieurotteleur.fr/" target="_blank">Matthieu Rotteleur</a>&nbsp;&amp;&nbsp;<a href="http://vincentgodeau.fr/" target="_blank">Vincent Godeau</a>
 							</td>
 						</tr>
 						
@@ -285,10 +285,12 @@
 						</tr>
 					</table>
 					
+					<!--
 					<div class="evaluation">
 						<img src="theme/mm/_star24.png" alt="" />
 						<span><a href="#">Évaluer l'application</a></span>
 					</div>
+					-->
 				</div>
 			</div>
 			
@@ -321,17 +323,14 @@
 		<div class="flex-rows">
 			<div class="flex-row margin blue-bg"></div>
 			<div class="flex-row gutter blue-bg"></div>
-			<div class="flex-row gutter blue-bg"></div>
-			
 			<div class="flex-row page-top blue-bg">
-				<div class="vert-box">
+				<div class="few-bricks-box">
 					<a href="https://itunes.apple.com/fr/app/avec-quelques-briques/id1057876475?mt=8" target="_blank">
 						<img src="theme/mm/_info2-fr.png" class="lang-fr" />
 						<img src="theme/mm/_info2-en.png" class="lang-en" />
 					</a>
 				</div>
 			</div>
-			<div class="flex-row gutter-small blue-bg"></div>
 			<div class="flex-row page-bottom">
 				<div class="lang-fr">
 					<a href="https://itunes.apple.com/fr/app/avec-quelques-briques/id1057876475?mt=8" target="_blank">Avec quelques briques</a><br />

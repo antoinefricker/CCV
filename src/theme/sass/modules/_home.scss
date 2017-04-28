@@ -47,6 +47,7 @@
 			background-image:url('mm/_houses2.png');
 		}
 		&.app-title{
+			cursor: pointer;
 			flex: 0 1 260px;
 			position:relative;
 			@if($debug-blocks) {
@@ -55,22 +56,22 @@
 		}
 	}
 	
-	h1{
+	h1, h2{
 		display: block;
-		font-size: 64px;
-		line-height:64px;
-		margin:0 0 0 0;
-		padding:0;
-		color: $blue;
-		float: none;
-	}
-	h2{
-		display:block;
-		font-size:38px;
 		margin:0;
 		padding:0;
-		line-height:38px;
-		color: $blue;
-		float:none;
+		color: $light-blue;
+		float: none;
+		font-weight: normal;
+	}
+	h1{
+		font-size: $h1-size;
+		line-height:$h1-size;
+		margin:10px 0 0 0;
+		
+	}
+	h2{
+		font-size: $h2-size;
+		line-height: $h2-size;
 	}
 }

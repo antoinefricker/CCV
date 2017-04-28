@@ -19,7 +19,6 @@ if(!DGN){
 		};
 		proto = DGN.core.Application.prototype;
 		
-		
 		proto.initialize = function(){
 			var page,
 				pointer,
@@ -120,6 +119,10 @@ if(!DGN){
 					lang = 'en';
 				this.lang = lang;
 				KPF.utils.log('Set application language: ' + this.lang, 'Application.langSet');
+				
+				$('[data-lang-toggler]').each(function(index, el){
+					$(el).attr('data-lang-toggler', lang);
+				});
 				
 				var isfr = (this.lang == 'fr');
 				$('.lang-fr').toggle(isfr);
@@ -593,8 +596,6 @@ proto.scale = function(a, b){
 	this.height *= b;
 };
 
-
-
 if (!CCV)
 	CCV = {};
 
@@ -642,7 +643,7 @@ if (!CCV.global){
 		HEADER_HEIGHT: 0,
 		FOOTER_HEIGHT: 0,
 		
-		SYS_FORCE_CANVAS: false,
+		SYS_FORCE_CANVAS: true,
 		SYS_USE_SHARED_TICKER: true,
 		SYS_FPS: 8,
 		SYS_ALLOW_LARGE: false,
@@ -1203,6 +1204,8 @@ if(!CCV.app.Player){
 			+ '\n - scaleOverflow: ' + scaleOverflow,
 			'Player.resize');
 		
+		
+		
 		this.magnifier.redraw(this.scale);
 		this._mgTidy(false);
 		
@@ -1302,6 +1305,11 @@ if (!CCV.app.Landscape) {
 		else{
 			this.view.y = 0;
 		}
+		
+		var gy = this.view.y + (scale * CCV.player.landscapeHeight);
+		var dy = CCV.player.size.y - gy;
+		var ty = gy + (.5 * dy);
+		$('.footer-menu').css('top', ty);
 		
 		this.xCenter = Math.round(this.size.x * .5);
 		

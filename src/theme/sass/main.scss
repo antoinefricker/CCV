@@ -9,9 +9,14 @@ $page-small-gutter: 25px;
 $debug-blocks:false;
 
 $red: #FF3C23;
-$light-blue: #97c1e7;
-$blue: #7DB0DF;
-$dark-blue: #3575bb;
+$light-blue: rgb(135, 178, 248);
+$dark-blue: rgb(52, 119, 218);
+
+$h1-size: 62px;
+$h2-size: 32px;
+$h3-size: 25px;
+$p-size: 20px;
+$mini-size:12px;
 
 
 @import 'core/_mixins';

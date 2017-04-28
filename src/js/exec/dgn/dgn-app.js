@@ -19,7 +19,6 @@ if(!DGN){
 		};
 		proto = DGN.core.Application.prototype;
 		
-		
 		proto.initialize = function(){
 			var page,
 				pointer,
@@ -120,6 +119,10 @@ if(!DGN){
 					lang = 'en';
 				this.lang = lang;
 				KPF.utils.log('Set application language: ' + this.lang, 'Application.langSet');
+				
+				$('[data-lang-toggler]').each(function(index, el){
+					$(el).attr('data-lang-toggler', lang);
+				});
 				
 				var isfr = (this.lang == 'fr');
 				$('.lang-fr').toggle(isfr);

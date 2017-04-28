@@ -4,8 +4,9 @@
 	$icons-margin-closed: 12px;
 	
 	position:absolute;
-	bottom: $panel-margin;
+	//bottom: $panel-margin;
 	right: $panel-margin;
+	//background: rgba(blue , .2);
 	
 	div.action-button{
 		display: block;
@@ -18,6 +19,7 @@
 		background-size:contain;
 		background-position:center center;
 		transform-origin: 50% 50%;
+		
 		transition: all 0.8s;
 		
 		&.red-home{
@@ -34,11 +36,11 @@
 		}
 	}
 	
-	transform: translateX(($actions-icons-size + $icons-margin-opened)* 3);
+	transform: translate(($actions-icons-size + $icons-margin-opened)* 3, -50%);
 	transition: all 0.8s;
 	
 	&.opened{
-		transform: translateX(0);
+		transform: translate(0, -50%);
 		div.action-button{
 			margin-left:$icons-margin-closed;
 		}

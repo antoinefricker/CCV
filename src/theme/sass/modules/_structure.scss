@@ -135,6 +135,13 @@ button.action-button {
 	&.action-home{
 		background-image: url('mm/_icon-home.png');
 	}
+	
+	span{
+		padding:$actions-icons-size + 6px;
+		color: $light-blue;
+		font-size: $h3-size;
+		line-height: $actions-icons-size;
+	}
 }
 
 //	-------------------------------------- PAGE ARCHITECTURE
