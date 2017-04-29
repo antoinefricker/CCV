@@ -95,7 +95,8 @@ proto.behave = function(){
 	
 	// buttons interactions
 	$('#help')
-		.on('click', 'button.action-close', function () {
+		// .on('click', 'button.action-close', function () {
+		.on('click', function () {
 			self.openPlay();
 		});
 	
@@ -170,7 +171,7 @@ proto.onenterstate = function(e, from, to){
 	switch(to){
 		case DGN.states.HOME:
 		case DGN.states.INFO:
-			this._soundPlay({
+			this.soundPlay({
 				src: 'ccv/audio/interface.mp3',
 				loop: false
 			});
@@ -178,7 +179,7 @@ proto.onenterstate = function(e, from, to){
 			
 		case DGN.states.PLAY:
 		case DGN.states.HELP:
-			this._soundPlay({
+			this.soundPlay({
 				src: 'ccv/audio/landscape.mp3',
 				loop: true
 			});
@@ -190,7 +191,7 @@ proto.onenterstate = function(e, from, to){
 	console.log('----------------------------------------------------------------------------------------------------');
 };
 
-proto._soundPlay = function(props){
+proto.soundPlay = function(props){
 	if(!props || !props.hasOwnProperty('src'))
 		return;
 	
@@ -278,13 +279,13 @@ proto.setInfoIndex = function (index, doTransition) {
 
 proto.onopenHelp = function (e, from, to) {
 	if (this.helpResizedFlag) {
-		window.setTimeout(this._helpBuild.bind(this), 250);
+		window.setTimeout(this.helpBuild.bind(this), 250);
 		$('#help').find('.hand').css('opacity', 0.01);
 		return;
 	}
-	this._helpLaunch();
+	this.helpLaunch();
 };
-proto._helpLaunch = function(){
+proto.helpLaunch = function(){
 	this.helpAnimation.restart();
 	
 	TweenMax.to($('#help'), .3, {
@@ -302,13 +303,10 @@ proto._helpLaunch = function(){
 		}
 	});
 };
-proto._helpBuild = function(){
+proto.helpBuild = function(){
 	var anim, hand, bg;
 	var animSize, handSize, bgSize;
 	var startX, endX;
-	
-	
-	KPF.utils.log('[Application._helpBuild]');
 	
 	this.helpAnimation = new TimelineMax({
 		repeat: -1,
@@ -337,7 +335,6 @@ proto._helpBuild = function(){
 	
 	startX = (.5 * animSize) - (.2 * bgSize) - (.77 * handSize);
 	endX = startX - (.1 * bgSize);
-	console.log(animSize, handSize, bgSize);
 	
 	TweenMax.set(hand, {
 		x: endX
@@ -398,7 +395,7 @@ proto._helpBuild = function(){
 	
 	
 	this.helpResizedFlag = false;
-	this._helpLaunch();
+	this.helpLaunch();
 };
 
 proto.onopenPlay = function (e, from, to) {
