@@ -204,7 +204,6 @@
 		}
 	}
 	.page-bottom{
-		
 		padding:25px $panel-margin 0 $panel-margin;
 		
 		.croq-logo{
@@ -221,13 +220,19 @@
 			flex: 1 1 80%;
 			max-width:880px;
 		}
+		
 		h3{
 			font-size: $p-size;
 			margin-bottom:8px;
 		}
-		p{
-			text-transform:uppercase;
-			font-size:$mini-size;
+		p {
+			text-transform: uppercase;
+			font-size: $mini-size;
+		}
+	}
+	@media (max-width: 1030px) {
+		.lang-en h3 {
+			font-size: $p-size - 2px;
 		}
 	}
 }

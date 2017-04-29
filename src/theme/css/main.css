@@ -565,6 +565,12 @@ header {
 	text-transform: uppercase;
 }
 
+@media (max-width: 1030px) {
+	#info1 .lang-en h3 {
+		font-size: 18px;
+	}
+}
+
 #info2 .page-top {
 	margin: 0;
 	padding: 0;
