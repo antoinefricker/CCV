@@ -4,7 +4,7 @@ html, body, canvas{
 }
 body{
 	background-color:#ffffff;
-	overflow:hidden;
+	//overflow:hidden;
 }
 
 
@@ -160,11 +160,31 @@ header{
 .page, .inner-page{
 	width:100vw;
 	height:100vh;
-	//overflow:hidden;
 }
 .page{
 	position:absolute;
+	display:none;
+	background-color:white;
+	transition: transform .5s;
+}
+
+.inner-pages{
+	position:absolute;
+	display: flex;
 }
 .inner-page{
-	float:left;
+	flex: 0 0 100vw;
+}
+
+#info{
+	z-index:1000;
+}
+#help{
+	z-index:975;
+}
+#play{
+	z-index:950;
+}
+#home{
+	z-index:900;
 }

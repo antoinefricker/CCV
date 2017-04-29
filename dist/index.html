@@ -41,10 +41,8 @@
 	<script src="js/exec-class.js"></script>
 	<script>
 		$(document).ready(function(){
-			DGN.app = new DGN.core.Application();
+			DGN.app = new DGN.Application();
 			DGN.app.initialize();
-			DGN.app.langSet();
-			DGN.app.pageSet('home');
 		});
 	</script>
 </head>
@@ -98,7 +96,9 @@
 	
 	<button class="action-button action-home"></button>
 	
-	<div id="info0" class="inner-page">
+	<div class="inner-pages">
+		
+		<div id="info0" class="inner-page">
 	
 	<div class="flex-rows">
 		<div class="flex-row margin blue-bg"></div>
@@ -161,7 +161,8 @@
 		<div class="flex-row margin"></div>
 	</div>
 </div>
-	<div id="info1" class="inner-page">
+		
+		<div id="info1" class="inner-page">
 	
 	<div class="flex-rows lang-fr">
 		<div class="flex-row margin blue-bg"></div>
@@ -318,7 +319,8 @@
 		<div class="flex-row margin"></div>
 	</div>
 </div>
-	<div id="info2" class="inner-page">
+		
+		<div id="info2" class="inner-page">
 	<div class="flex-rows">
 		<div class="flex-row margin blue-bg"></div>
 		<div class="flex-row gutter blue-bg"></div>
@@ -343,6 +345,8 @@
 		<div class="flex-row margin"></div>
 	</div>
 </div>
+		
+	</div>
 	
 </div>
 

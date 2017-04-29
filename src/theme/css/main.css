@@ -89,7 +89,6 @@ canvas {
 }
 
 body {
-	overflow: hidden;
 	background-color: #fff;
 }
 
@@ -247,10 +246,34 @@ header {
 
 .page {
 	position: absolute;
+	display: none;
+	transition: transform .5s;
+	background-color: white;
+}
+
+.inner-pages {
+	position: absolute;
+	display: flex;
 }
 
 .inner-page {
-	float: left;
+	flex: 0 0 100vw;
+}
+
+#info {
+	z-index: 1000;
+}
+
+#help {
+	z-index: 975;
+}
+
+#play {
+	z-index: 950;
+}
+
+#home {
+	z-index: 900;
 }
 
 #home {

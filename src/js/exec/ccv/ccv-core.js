@@ -316,7 +316,6 @@ if(!CCV.app.Player){
 		
 		this.scenesShowFillToggle(this.options.scenesShowFillStatus !== false);
 		this.windowFocus();
-		this.landscape.audio.play();
 		
 		$(this.target).trigger('ready', [this.landscape.scenes, this.landscape.scenesIndexed]);
 	};
@@ -607,8 +606,6 @@ if(!CCV.app.Player){
 			this.animTicker.start();
 		}
 		else{
-			this.landscape.audio.stop();
-			
 			KPF.utils.log('Stop application rendering', 'Player.activate');
 			this.animTicker.stop();
 			this.application.stop();
@@ -763,12 +760,13 @@ if (!CCV.app.Landscape) {
 			this.view.y = 0;
 		}
 		
+		this.xCenter = Math.round(this.size.x * .5);
+		
+		// reposition bottom footer
 		var gy = this.view.y + (scale * CCV.player.landscapeHeight);
 		var dy = CCV.player.size.y - gy;
 		var ty = gy + (.5 * dy);
 		$('.footer-menu').css('top', ty);
-		
-		this.xCenter = Math.round(this.size.x * .5);
 		
 		// graphic debug
 		this.debugGfx.clear();
@@ -834,10 +832,6 @@ if (!CCV.app.Landscape) {
 	 */
 	proto.parse = function (data) {
 		var i, ilen, scene, formerScene, xPos, scenesPositions, yGround;
-		
-		// --- audio data
-		if(data.audio)
-			this.audio = new CCV.app.AudioChannel(data.audio, true);
 		
 		// --- parse scenes data
 		this.scenes = [];
