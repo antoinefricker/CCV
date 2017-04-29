@@ -1,0 +1,83 @@
+#####################################################################
+	TEAM
+#####################################################################
+
+
+-------- AUTHORS & ILLUSTRATORS
+
+Agathe Demois
+Site: http://agathedemois.com/
+Location: Strasbourg, France
+
+Vincent Godeau
+Site: http://vincentgodeau.fr/
+Location: Strasbourg, France
+
+
+-------- ANIMATORS
+
+Matthieu Rotteleur
+Site: http://www.matthieurotteleur.fr/
+Location: Strasbourg, France
+
+Vincent Godeau
+Site: http://vincentgodeau.fr/
+Location: Strasbourg, France
+
+
+-------- INTERRACTIVE DEVELOPER
+
+Antoine Fricker
+Site: http://www.kopfstoss.com/
+Location: Strasbourg, France
+
+
+-------- SOUND DESIGNER
+
+Le Chevalier de Rinchy
+Site: https://soundcloud.com/le-chevalier-de-rinchy
+
+
+
+
+#####################################################################
+	THANKS
+#####################################################################
+
+
+Croq’ les mots, marmot
+Site: https://www.croqlesmotsmarmot.org/
+
+Communautés de communes du Bocage Mayennais
+Communautés de communes de l’Ernée
+Communautés du Mont des Avaloirs
+Le Kiosque - Centre d’action culturelle de Mayenne Communauté
+Union Européenne - Fonds Leader
+Région des Pays de la Loire
+Ministère de la Culture et de la Communication
+DRAC des Pays de la Loire
+Caisse d’Allocations familiales
+Direction départementale de la cohésion sociale et de la protection des populations de la Mayenne
+
+
+
+
+#####################################################################
+	SITE
+#####################################################################
+
+Last update: 2017/05/01
+Standards: HTML5, CSS3, JS
+
+Components:
+	-  pixi.js
+		http://www.pixijs.com/
+	-  howler.js
+		https://howlerjs.com/
+	-  jQuery
+		https://jquery.com/
+	-  TouchSwipe jQuery plugin
+		https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
+		Matthew Bryson - https://www.linkedin.com/in/mattbryson
+	-  gsap
+		https://greensock.com/gsap
