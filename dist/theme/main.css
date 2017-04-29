@@ -81,18 +81,63 @@ h3 {
 	font-style: normal;
 }
 
-html,
-body,
-canvas {
-	margin: 0;
-	padding: 0;
+body {
+	display: block;
+	min-width: 1024px !important;
+	min-height: 700px !important;
+	background-color: #fff;
 }
 
-body {
-	overflow: hidden;
-	min-width: 1024px;
-	min-height: 650px;
-	background-color: #fff;
+@media (min-width: 1024px) {
+	body {
+		overflow-x: hidden;
+	}
+}
+
+@media (min-height: 700px) {
+	body {
+		overflow-y: hidden;
+	}
+}
+
+.page,
+.inner-page {
+	width: 100%;
+	min-width: 1024px !important;
+	height: 100vh;
+	min-height: 700px !important;
+}
+
+.page {
+	position: absolute;
+	display: none;
+	transition: transform .5s;
+	background-color: white;
+}
+
+.inner-pages {
+	position: absolute;
+	display: flex;
+}
+
+.inner-page {
+	flex: 0 0 100vw;
+}
+
+#info {
+	z-index: 1000;
+}
+
+#help {
+	z-index: 975;
+}
+
+#play {
+	z-index: 950;
+}
+
+#home {
+	z-index: 900;
 }
 
 .no-cursor {
@@ -133,10 +178,8 @@ a:active {
 .flex-rows {
 	display: flex;
 	flex-direction: column;
-	width: 100vw;
-	max-width: 100%;
-	height: 100vh;
-	max-height: 100vh;
+	width: 100%;
+	height: 100%;
 	margin: auto;
 	align-content: stretch;
 	flex-wrap: nowrap;
@@ -229,56 +272,6 @@ button.action-button span {
 	color: #87b2f8;
 }
 
-footer {
-	display: block;
-	width: 100%;
-	height: 0;
-}
-
-header {
-	display: block;
-	width: 100%;
-	height: 0;
-}
-
-.page,
-.inner-page {
-	width: 100vw;
-	height: 100vh;
-}
-
-.page {
-	position: absolute;
-	display: none;
-	transition: transform .5s;
-	background-color: white;
-}
-
-.inner-pages {
-	position: absolute;
-	display: flex;
-}
-
-.inner-page {
-	flex: 0 0 100vw;
-}
-
-#info {
-	z-index: 1000;
-}
-
-#help {
-	z-index: 975;
-}
-
-#play {
-	z-index: 950;
-}
-
-#home {
-	z-index: 900;
-}
-
 #home {
 	padding: 0 50px;
 }
@@ -315,26 +308,89 @@ header {
 	flex: 0 0 46px;
 }
 
-#home .flex-row.houses {
-	max-height: 350px;
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: contain;
-	flex: 2 1 440px;
-}
-
-#home .flex-row.houses1 {
-	background-image: url('mm/_houses1.png');
-}
-
-#home .flex-row.houses2 {
-	background-image: url('mm/_houses2.png');
-}
-
 #home .flex-row.app-title {
 	position: relative;
 	cursor: pointer;
 	flex: 0 1 260px;
+}
+
+#home .flex-row.houses {
+	flex: 2 1 440px;
+}
+
+#home .flex-row.houses .flex-columns.houses1 div.house,
+#home .flex-row.houses .flex-columns.houses2 div.house {
+	background-repeat: no-repeat;
+	background-size: contain;
+	flex-grow: 1;
+	flex-shrink: 1;
+}
+
+#home .flex-row.houses .flex-columns.houses1 div.stretcher,
+#home .flex-row.houses .flex-columns.houses2 div.stretcher {
+	flex: 10 2 200px;
+}
+
+#home .flex-row.houses .flex-columns.houses1 div.house {
+	background-position: center bottom;
+}
+
+#home .flex-row.houses .flex-columns.houses1 div.house1 {
+	background-image: url('mm/home/m1s.gif');
+	flex-basis: 410px;
+}
+
+#home .flex-row.houses .flex-columns.houses1 div.house1:hover {
+	background-image: url('mm/home/m1a.gif');
+}
+
+#home .flex-row.houses .flex-columns.houses1 div.house2 {
+	background-image: url('mm/home/m2s.gif');
+	flex-basis: 290px;
+}
+
+#home .flex-row.houses .flex-columns.houses1 div.house2:hover {
+	background-image: url('mm/home/m2a.gif');
+}
+
+#home .flex-row.houses .flex-columns.houses1 div.house3 {
+	background-image: url('mm/home/m3s.gif');
+	flex-basis: 300px;
+}
+
+#home .flex-row.houses .flex-columns.houses1 div.house3:hover {
+	background-image: url('mm/home/m3a.gif');
+}
+
+#home .flex-row.houses .flex-columns.houses2 div.house {
+	background-position: center top;
+}
+
+#home .flex-row.houses .flex-columns.houses2 div.house1 {
+	background-image: url('mm/home/m4s.gif');
+	flex-basis: 300px;
+}
+
+#home .flex-row.houses .flex-columns.houses2 div.house1:hover {
+	background-image: url('mm/home/m4a.gif');
+}
+
+#home .flex-row.houses .flex-columns.houses2 div.house2 {
+	background-image: url('mm/home/m5s.gif');
+	flex-basis: 320px;
+}
+
+#home .flex-row.houses .flex-columns.houses2 div.house2:hover {
+	background-image: url('mm/home/m5a.gif');
+}
+
+#home .flex-row.houses .flex-columns.houses2 div.house3 {
+	background-image: url('mm/home/m6s.gif');
+	flex-basis: 380px;
+}
+
+#home .flex-row.houses .flex-columns.houses2 div.house3:hover {
+	background-image: url('mm/home/m6a.gif');
 }
 
 #home h1,
@@ -754,16 +810,17 @@ header {
 	transform: rotate(180deg);
 }
 
-canvas#pixi-stage {
+#pixi-stage {
 	margin: 0;
 	padding: 0;
+	border: none;
 }
 
 #player-console,
 #player-controls {
 	font-weight: normal;
 	position: absolute;
-	z-index: 1000;
+	z-index: 2000;
 	bottom: 10px;
 	padding: 5px;
 	color: white;
