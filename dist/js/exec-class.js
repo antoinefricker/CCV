@@ -52,6 +52,9 @@ DGN.Application = function (lang) {
 	
 	this.behave();
 	this.langSet(lang);
+	
+	/** @var {Howl} */
+	this.soundInterface  = null;
 };
 proto = DGN.Application.prototype;
 
@@ -143,7 +146,7 @@ proto.behave = function(){
 			self.player.magnifierDisplayToggle();
 		})
 		.on('click', '.red-help', function () {
-			self.openPlay();
+			self.helpOpen();
 		})
 		.on('click', '.red-arrow', function () {
 			pointer.toggleClass('opened');
@@ -164,9 +167,49 @@ proto.onenterstate = function(e, from, to){
 	if(KPF.PRODUCTION)
 		return;
 	
+	switch(to){
+		case DGN.states.HOME:
+		case DGN.states.INFO:
+			this._soundPlay({
+				src: 'ccv/audio/interface.mp3',
+				loop: false
+			});
+			break;
+			
+		case DGN.states.PLAY:
+		case DGN.states.HELP:
+			this._soundPlay({
+				src: 'ccv/audio/landscape.mp3',
+				loop: true
+			});
+			break;
+	}
+	
 	console.log('----------------------------------------------------------------------------------------------------');
 	console.log('Change state from: "' + from + '" to: "' + to + '" [event: "' + e + '"]', 'Application.onenterstate');
 	console.log('----------------------------------------------------------------------------------------------------');
+};
+
+proto._soundPlay = function(props){
+	if(!props || !props.hasOwnProperty('src'))
+		return;
+	
+	if(this.soundInterface){
+		if(this.soundInterface._src == props.src)
+			return;
+		this.soundInterface.fade(this.soundInterface.volume(), 0, 2000);
+	}
+	
+	this.soundInterface = new Howl(Object.assign({
+		src: 'ccv/audio/interface.mp3',
+		volume: 0,
+		buffer: false,
+		loop: true,
+		autoplay: true,
+		onplay: function(){
+			this.fade(0, CCV.global.AUDIO_GLOBAL_VOLUME, 8000);
+		}
+	}, props));
 };
 
 proto.oninitialize = function (e, from, to) {
@@ -1338,8 +1381,6 @@ if(!CCV.app.Player){
 			+ '\n - application scale: ' + this.scale.toFixed(2)
 			+ '\n - scaleOverflow: ' + scaleOverflow,
 			'Player.resize');
-		
-		
 		
 		this.magnifier.redraw(this.scale);
 		this._mgTidy(false);
@@ -2602,6 +2643,7 @@ if(!CCV.app.AudioChannel){
 	proto.isPlaying = function(){
 		return this.soundId && this.sound.playing(this.soundId);
 	};
+	
 	proto.play = function(){
 		this.soundId = this.sound.play();
 		this.sound.loop(this.isLoop, this.soundId);

@@ -658,8 +658,6 @@ if(!CCV.app.Player){
 			+ '\n - scaleOverflow: ' + scaleOverflow,
 			'Player.resize');
 		
-		
-		
 		this.magnifier.redraw(this.scale);
 		this._mgTidy(false);
 		
@@ -1921,6 +1919,7 @@ if(!CCV.app.AudioChannel){
 	proto.isPlaying = function(){
 		return this.soundId && this.sound.playing(this.soundId);
 	};
+	
 	proto.play = function(){
 		this.soundId = this.sound.play();
 		this.sound.loop(this.isLoop, this.soundId);
