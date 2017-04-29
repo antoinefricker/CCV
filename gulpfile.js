@@ -19,7 +19,7 @@ var settings = require('./gulpProjectSettings');
 gulp.task('start', function () {
 	browserSync.init(settings.options.browserSync);
 	
-	gulp.watch(['src/html/**/*.{htm,html}', 'src/html/*.{htm,html}'], ['html_compile']);
+	gulp.watch(['src/html/**/*.{htm,html,txt}', 'src/html/*.{htm,html,txt}'], ['html_compile']);
 	gulp.watch(['src/theme/sass/*.scss', 'src/theme/sass/**/*.scss'], ['css_compile']);
 	gulp.watch(['src/theme/plugins/**/*.css'], ['css_compile']);
 	
@@ -37,7 +37,7 @@ gulp.task('start', function () {
 gulp.task('default', ['start', 'js_libs_compile']);
 
 gulp.task('html_compile', function () {
-	return gulp.src('src/html/*.html')
+	return gulp.src('src/html/*.{htm,html,txt}')
 		.pipe(injectPartials(settings.options.injectPartials))
 		.pipe(gulpif(settings.production, htmlmin(settings.options.htmlmin)))
 		.pipe(gulp.dest('dist/'))
