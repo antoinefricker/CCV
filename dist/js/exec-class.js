@@ -31,6 +31,12 @@ DGN.Application = function (lang) {
 	
 	this.cnv = document.getElementById('pixi-stage');
 	
+	this.slidesDuration = 300;
+	this.slidesTimeoutDelay = this.slidesDuration * 1000 * 1.2;
+	
+	this.slideEaseDuration = this.slidesDuration * .001;
+	this.slideEase = Strong.easeOut;
+	
 	/** @var {CCV.core.Player} */
 	if(CCV.player)
 		this.player = CCV.player;
@@ -220,27 +226,46 @@ proto.oninitialize = function (e, from, to) {
 };
 	
 proto.onopenInfo = function (e, from, to) {
+	
+	// reset info index
 	this.setInfoIndex(0);
 	
-	TweenMax.to($('#info'), .3, {
-		ease: Circ.easeInOut,
-		immediateRender: true,
-		startAt: {
-			display: 'block',
-			transform: 'translateY(-100vh)'
-		},
+	// slide info
+	TweenMax.set($('#info'), {
+		display: 'block',
+		transform: 'translateY(-100vh)'
+	});
+	TweenMax.to($('#info'), this.slideEaseDuration, {
+		ease: this.slideEase,
 		transform: 'translateY(0)'
 	});
+	
+	// hide home after transition
+	window.setTimeout(function () {
+		$('#home').css({
+			display: 'none'
+		});
+	}, this.slidesTimeoutDelay);
 };
 proto.oncloseInfo = function (e, from, to) {
+	
+	// rset home
 	$('#home').css({
 		display: 'block'
 	});
-	TweenMax.to($('#info'), .3, {
-		ease: Circ.easeInOut,
-		immediateRender: true,
+	
+	// slide info
+	TweenMax.to($('#info'), this.slideEaseDuration, {
+		ease: this.slideEase,
 		transform: 'translateY(-100vh)'
 	});
+	
+	// hide info after transition
+	window.setTimeout(function () {
+		$('#info').css({
+			display: 'none'
+		});
+	}, this.slidesTimeoutDelay);
 };
 proto.incInfoIndex = function (increment) {
 	this.setInfoIndex(this.infoIndex + increment, true);
@@ -288,20 +313,22 @@ proto.onopenHelp = function (e, from, to) {
 proto.helpLaunch = function(){
 	this.helpAnimation.restart();
 	
-	TweenMax.to($('#help'), .3, {
-		ease: Circ.easeInOut,
-		immediateRender: true,
-		startAt: {
-			display: 'block',
-			transform: 'translateY(100vh)'
-		},
-		transform: 'translateY(0)',
-		onComplete: function(){
-			$('#home').css({
-				display: 'none'
-			})
-		}
+	// slide help
+	TweenMax.set($('#help'), {
+		display: 'block',
+		transform: 'translateY(100vh)'
 	});
+	TweenMax.to($('#help'), this.slideEaseDuration, {
+		ease: this.slideEase,
+		transform: 'translateY(0)'
+	});
+	
+	// hide home after transition
+	window.setTimeout(function () {
+		$('#home').css({
+			display: 'none'
+		});
+	}, this.slidesTimeoutDelay);
 };
 proto.helpBuild = function(){
 	var anim, hand, bg;
@@ -402,32 +429,39 @@ proto.onopenPlay = function (e, from, to) {
 	var self = this;
 	
 	if(from == DGN.states.HELP) {
+		
 		this.helpAnimation.stop();
 		
-		TweenMax.to($('#help'), 1, {
-			ease: Circ.easeInOut,
-			immediateRender: true,
-			transform: 'translateY(100vh)',
-			onComplete: function(){
-				self.player.activate(true);
-			}
+		TweenMax.to($('#help'), this.slideEaseDuration, {
+			ease: this.slideEase,
+			transform: 'translateY(-100vh)'
 		});
+		
+		// hide home after transition
+		window.setTimeout(function () {
+			$('#help').css({
+				display: 'none'
+			});
+		}, this.slidesTimeoutDelay);
 	}
 	
 	$('#play').css({
 		display: 'block'
 	});
-	
 };
 proto.onclosePlay = function (e, from, to) {
 	this.player.activate(false);
 	
-	$('#play').css({
-		display: 'none'
+	TweenMax.to($('#play'), 1, {
+		ease: Circ.easeInOut,
+		transform: 'translateY(100vh)'
 	});
-	$('#help').css({
-		display: 'none'
-	});
+	
+	window.setTimeout(function () {
+		$('#play').css({
+			display: 'none'
+		});
+	}, 1100);
 	
 	$('#home').css({
 		display: 'block'
@@ -833,7 +867,7 @@ if (!CCV.global){
 		DEBUG_SWIPE: false,
 		
 		AUDIO_FOLDER: 'ccv/audio/',
-		AUDIO_GLOBAL_VOLUME: 0.3,
+		AUDIO_GLOBAL_VOLUME: .6,
 		AUDIO_DELTA_VOLUME_COEF: 0.6,
 		AUDIO_DELTA_PAN_COEF: 0.6,
 		
@@ -2340,6 +2374,7 @@ if (!CCV.app.Sequence) {
 				this.animation.gotoAndStop(0);
 				this.view.addChild(this.animation);
 				
+				/* #EDIT 2017/04/30 - provoques flicker
 				// hide preview if or when first frame is loaded
 				if(p){
 					if(this.textures[0].baseTexture.hasLoaded)
@@ -2350,6 +2385,7 @@ if (!CCV.app.Sequence) {
 						});
 					}
 				}
+				*/
 			}
 			CCV.player.animTicker.addSequence(this);
 			

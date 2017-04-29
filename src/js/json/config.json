@@ -1034,7 +1034,6 @@
 				"red": {
 					"outline":
 					{
-						"preview": "_statics/oiseau-escalier12.png",
 						"file": "_statics/oiseau-escalier[NUM].png",
 						"endDelay": 0,
 						"startDelay": 1500,

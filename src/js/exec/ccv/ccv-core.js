@@ -112,7 +112,7 @@ if (!CCV.global){
 		DEBUG_SWIPE: false,
 		
 		AUDIO_FOLDER: 'ccv/audio/',
-		AUDIO_GLOBAL_VOLUME: 0.3,
+		AUDIO_GLOBAL_VOLUME: .6,
 		AUDIO_DELTA_VOLUME_COEF: 0.6,
 		AUDIO_DELTA_PAN_COEF: 0.6,
 		
@@ -1619,6 +1619,7 @@ if (!CCV.app.Sequence) {
 				this.animation.gotoAndStop(0);
 				this.view.addChild(this.animation);
 				
+				/* #EDIT 2017/04/30 - provoques flicker
 				// hide preview if or when first frame is loaded
 				if(p){
 					if(this.textures[0].baseTexture.hasLoaded)
@@ -1629,6 +1630,7 @@ if (!CCV.app.Sequence) {
 						});
 					}
 				}
+				*/
 			}
 			CCV.player.animTicker.addSequence(this);
 			
