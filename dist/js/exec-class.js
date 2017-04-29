@@ -146,7 +146,7 @@ proto.behave = function(){
 			self.player.magnifierDisplayToggle();
 		})
 		.on('click', '.red-help', function () {
-			self.helpOpen();
+			self.openHelp();
 		})
 		.on('click', '.red-arrow', function () {
 			pointer.toggleClass('opened');

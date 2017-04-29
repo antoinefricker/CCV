@@ -4,7 +4,9 @@ html, body, canvas{
 }
 body{
 	background-color:#ffffff;
-	//overflow:hidden;
+	overflow:hidden;
+	min-width: 1024px;
+	min-height: 650px;
 }
 
 
