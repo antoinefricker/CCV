@@ -184,7 +184,7 @@ proto.onenterstate = function(e, from, to){
 		case DGN.states.HOME:
 		case DGN.states.INFO:
 			this.soundPlay({
-				src: 'ccv/audio/interface.mp3',
+				src: 'ccv/audio/interface128.mp3',
 				loop: false
 			});
 			break;
@@ -192,7 +192,7 @@ proto.onenterstate = function(e, from, to){
 		case DGN.states.PLAY:
 		case DGN.states.HELP:
 			this.soundPlay({
-				src: 'ccv/audio/landscape.mp3',
+				src: 'ccv/audio/landscape128.mp3',
 				loop: true
 			});
 			break;
