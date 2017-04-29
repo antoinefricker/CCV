@@ -1,30 +1,40 @@
-$min-width: 1024px;
-$min-height: 700px;
 
 body{
 	display:block;
 	background-color:#ffffff;
-	min-width: $min-width !important;
-	min-height: $min-height !important;
-	@media(min-width: $min-width){
-		overflow-x:hidden;
-	}
-	@media(min-height: $min-height){
-		overflow-y:hidden;
-	}
+	overflow:hidden;
 }
 
-.page, .inner-page{
-	width:100%;
+.page{
+	display:block;
+	width:100vw;
 	height:100vh;
-	min-width: $min-width !important;
-	min-height: $min-height !important;
+	transform: translateY(0);
+	transition:unset;
+	
+	&.sliding{
+		transition: transform 0.3s;
+	}
+	&.disabled{
+		display:none;
+	}
+	
+	&[data-pos='at-default']{
+		transform: translateY(0);
+	}
+	&[data-pos='at-default']{
+		transform: translateY(0);
+	}
+	&[data-pos='at-top']{
+		transform: translateY(-100vh);
+	}
+	&[data-pos='at-bottom']{
+		transform: translateY(100vh);
+	}
 }
 .page{
 	position:absolute;
-	display:none;
 	background-color:white;
-	transition: transform .5s;
 }
 
 .inner-pages{
@@ -33,8 +43,13 @@ body{
 }
 .inner-page{
 	flex: 0 0 100vw;
+	width:100vw;
+	height:100vh;
 }
 
+#mobile{
+	z-index:1025;
+}
 #info{
 	z-index:1000;
 }
@@ -43,6 +58,7 @@ body{
 }
 #play{
 	z-index:950;
+	background-color:red;
 }
 #home{
 	z-index:900;
@@ -78,6 +94,7 @@ body{
 a, a:link, a:hover, a:visited, a:active{
 	text-decoration:none;
 }
+
 
 //	-------------------------------------- FLEX GRID
 

@@ -112,7 +112,7 @@ if (!CCV.global){
 		DEBUG_SWIPE: false,
 		
 		AUDIO_FOLDER: 'ccv/audio/',
-		AUDIO_GLOBAL_VOLUME: .6,
+		AUDIO_GLOBAL_VOLUME: 0,
 		AUDIO_DELTA_VOLUME_COEF: 0.6,
 		AUDIO_DELTA_PAN_COEF: 0.6,
 		
@@ -621,7 +621,7 @@ if(!CCV.app.Player){
 	};
 	
 	proto.resizeInit = function(){
-		var maxAvailHeight = screen.height - CCV.global.FOOTER_HEIGHT -CCV.global.HEADER_HEIGHT;
+		var maxAvailHeight = window.innerHeight - CCV.global.FOOTER_HEIGHT -CCV.global.HEADER_HEIGHT;
 		if(CCV.global.SYS_ALLOW_LARGE && maxAvailHeight > .5 * (CCV.global.SCENE_MAX_HEIGHT + CCV.global.SCENE_GROUND_HEIGHT)){
 			this.scaleFolder = 'x2';
 			this.scaleSourceCoef = 2;

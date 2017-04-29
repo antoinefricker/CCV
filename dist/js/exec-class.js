@@ -31,12 +31,6 @@ DGN.Application = function (lang) {
 	
 	this.cnv = document.getElementById('pixi-stage');
 	
-	this.slidesDuration = 300;
-	this.slidesTimeoutDelay = this.slidesDuration * 1000 * 1.2;
-	
-	this.slideEaseDuration = this.slidesDuration * .001;
-	this.slideEase = Strong.easeOut;
-	
 	/** @var {CCV.core.Player} */
 	if(CCV.player)
 		this.player = CCV.player;
@@ -56,7 +50,7 @@ DGN.Application = function (lang) {
 	/** @var {Boolean} */
 	this.helpResizedFlag = true;
 	
-	this.behave();
+	this.initInteractions();
 	this.langSet(lang);
 	
 	/** @var {Howl} */
@@ -70,7 +64,7 @@ proto = DGN.Application.prototype;
 //         INITIALIZATION & DATA
 // ------------------------------------------------------------------------------------------
 
-proto.behave = function(){
+proto.initInteractions = function(){
 	var self = this, page, pagination;
 	
 	// ---   application
@@ -124,11 +118,12 @@ proto.behave = function(){
 		// create items
 		$('<div />')
 			.on('click', function () {
-				self.setInfoIndex(index);
+				self.setInfoIndex(index, true);
 			})
 			.appendTo(pagination);
 		
 		// handle swipe
+		// @see doc
 		$(el).swipe({
 			swipe: function (e, direction) {
 				if (direction == 'right')
@@ -159,44 +154,6 @@ proto.behave = function(){
 			pointer.toggleClass('opened');
 		});
 };
-proto.toString = function(){
-	return '[DGNApplication] lang: ' + this.lang + ', state: "' + this.current + '"';
-};
-
-
-
-
-// ------------------------------------------------------------------------------------------
-//         STATE MACHINE & PAGES
-// ------------------------------------------------------------------------------------------
-
-proto.onenterstate = function(e, from, to){
-	if(KPF.PRODUCTION)
-		return;
-	
-	switch(to){
-		case DGN.states.HOME:
-		case DGN.states.INFO:
-			this.soundPlay({
-				src: 'ccv/audio/interface.mp3',
-				loop: false
-			});
-			break;
-			
-		case DGN.states.PLAY:
-		case DGN.states.HELP:
-			this.soundPlay({
-				src: 'ccv/audio/landscape.mp3',
-				loop: true
-			});
-			break;
-	}
-	
-	console.log('----------------------------------------------------------------------------------------------------');
-	console.log('Change state from: "' + from + '" to: "' + to + '" [event: "' + e + '"]', 'Application.onenterstate');
-	console.log('----------------------------------------------------------------------------------------------------');
-};
-
 proto.soundPlay = function(props){
 	if(!props || !props.hasOwnProperty('src'))
 		return;
@@ -219,53 +176,68 @@ proto.soundPlay = function(props){
 	}, props));
 };
 
+proto.onenterstate = function(e, from, to){
+	if(KPF.PRODUCTION)
+		return;
+	
+	switch(to){
+		case DGN.states.HOME:
+		case DGN.states.INFO:
+			this.soundPlay({
+				src: 'ccv/audio/interface.mp3',
+				loop: false
+			});
+			break;
+		
+		case DGN.states.PLAY:
+		case DGN.states.HELP:
+			this.soundPlay({
+				src: 'ccv/audio/landscape.mp3',
+				loop: true
+			});
+			break;
+	}
+	var separator = '-------------------------------------------------';
+	console.log(separator + '\n'
+		+ e + ': [' + from + ' >> ' + to + ']'
+		+ '\n' + separator
+		);
+};
+proto.toString = function(){
+	return '[DGNApplication] lang: ' + this.lang + ', state: "' + this.current + '"';
+};
+
+
+
+// ------------------------------------------------------------------------------------------
+//         STATE MACHINE & PAGES
+// ------------------------------------------------------------------------------------------
+
+
 proto.oninitialize = function (e, from, to) {
-	$('#home').css({
-		display: "block"
-	});
+	$('#home').attr('data-pos', 'at-default');
+	$('#info').attr('data-pos', 'at-top');
+	$('#help').attr('data-pos', 'at-bottom');
+	$('#play').attr('data-pos', 'at-bottom');
+	
+	window.setTimeout(function(){
+		$('#home').addClass('sliding');
+		$('#info').addClass('sliding');
+		$('#help').addClass('sliding');
+		$('#play').addClass('sliding');
+	}, 250);
+	
 };
 	
 proto.onopenInfo = function (e, from, to) {
+	this.setInfoIndex(0, false);
+	$('#info').attr('data-pos', 'at-default');
+	$('#home').attr('data-pos', 'at-bottom');
 	
-	// reset info index
-	this.setInfoIndex(0);
-	
-	// slide info
-	TweenMax.set($('#info'), {
-		display: 'block',
-		transform: 'translateY(-100vh)'
-	});
-	TweenMax.to($('#info'), this.slideEaseDuration, {
-		ease: this.slideEase,
-		transform: 'translateY(0)'
-	});
-	
-	// hide home after transition
-	window.setTimeout(function () {
-		$('#home').css({
-			display: 'none'
-		});
-	}, this.slidesTimeoutDelay);
 };
 proto.oncloseInfo = function (e, from, to) {
-	
-	// rset home
-	$('#home').css({
-		display: 'block'
-	});
-	
-	// slide info
-	TweenMax.to($('#info'), this.slideEaseDuration, {
-		ease: this.slideEase,
-		transform: 'translateY(-100vh)'
-	});
-	
-	// hide info after transition
-	window.setTimeout(function () {
-		$('#info').css({
-			display: 'none'
-		});
-	}, this.slidesTimeoutDelay);
+	$('#info').attr('data-pos', 'at-top');
+	$('#home').attr('data-pos', 'at-default');
 };
 proto.incInfoIndex = function (increment) {
 	this.setInfoIndex(this.infoIndex + increment, true);
@@ -303,52 +275,34 @@ proto.setInfoIndex = function (index, doTransition) {
 };
 
 proto.onopenHelp = function (e, from, to) {
-	if (this.helpResizedFlag) {
-		window.setTimeout(this.helpBuild.bind(this), 250);
-		$('#help').find('.hand').css('opacity', 0.01);
-		return;
+	if (this.helpResizedFlag)
+		return window.setTimeout(this.helpBuild.bind(this, e, from, to), 120);
+	this.helpLaunch(e, from, to);
+};
+proto.helpLaunch = function(e, from, to){
+	if(from == DGN.states.PLAY){
+		$('#help')
+			.addClass('sliding')
+			.attr('data-pos', 'at-default');
+		$('#play').attr('data-pos', 'at-bottom');
 	}
-	this.helpLaunch();
-};
-proto.helpLaunch = function(){
+	else if(from == DGN.states.HOME){
+		$('#help')
+			.addClass('sliding')
+			.attr('data-pos', 'at-default');
+		$('#home').attr('data-pos', 'at-top');
+	}
 	this.helpAnimation.restart();
-	
-	// slide help
-	TweenMax.set($('#help'), {
-		display: 'block',
-		transform: 'translateY(100vh)'
-	});
-	TweenMax.to($('#help'), this.slideEaseDuration, {
-		ease: this.slideEase,
-		transform: 'translateY(0)'
-	});
-	
-	// hide home after transition
-	window.setTimeout(function () {
-		$('#home').css({
-			display: 'none'
-		});
-	}, this.slidesTimeoutDelay);
 };
-proto.helpBuild = function(){
+proto.helpBuild = function(e, from, to){
 	var anim, hand, bg;
 	var animSize, handSize, bgSize;
 	var startX, endX;
 	
 	this.helpAnimation = new TimelineMax({
 		repeat: -1,
-		repeatDelay: 1.5
+		repeatDelay: .8
 	});
-	
-	// --- show hands
-	if(this.current != DGN.HELP){
-		$('#help')
-			.css({
-				display: 'block',
-				transform: 'translateY(100vh)'
-			})
-			.find('.hand').css('opacity', 1);
-	}
 	
 	// ---   animation #1
 	
@@ -368,12 +322,12 @@ proto.helpBuild = function(){
 	});
 	
 	// search magnifier
-	this.helpAnimation.add(new TweenMax(hand, 1.5, {
+	this.helpAnimation.add(new TweenMax(hand, 1, {
 		ease: Power1.easeInOut,
 		x: startX
 	}));
 	// move away
-	this.helpAnimation.add(new TweenMax(hand, 1.5, {
+	this.helpAnimation.add(new TweenMax(hand, 1, {
 		ease: Power1.easeInOut,
 		x: endX
 	}), "+=.5");
@@ -398,74 +352,52 @@ proto.helpBuild = function(){
 	});
 	
 	// move to button
-	this.helpAnimation.add(TweenMax.to(hand, 2, {
+	this.helpAnimation.add(TweenMax.to(hand, 1, {
 		ease: Power1.easeInOut,
 		x: startX
-	}), "+=2");
+	}), "+=.8");
 	// click
 	this.helpAnimation.add(TweenMax.to(hand, .2, {
 		ease: Power1.easeInOut,
-		y: 10,
+		y: 7,
 		x: startXPrime
 	}));
 	// release
-	this.helpAnimation.add(TweenMax.to(hand, .2, {
+	this.helpAnimation.add(TweenMax.to(hand, .12, {
 		ease: Power1.easeInOut,
 		y: 0,
 		x: startX
-	}), "+=.2");
+	}), "+=.1");
 	// move away
-	this.helpAnimation.add(TweenMax.to(hand, 2, {
+	this.helpAnimation.add(TweenMax.to(hand, 1, {
 		ease: Power1.easeInOut,
 		x: endX
 	}), "+=.5");
 	
 	
 	this.helpResizedFlag = false;
-	this.helpLaunch();
+	this.helpLaunch(e, from, to);
 };
 
 proto.onopenPlay = function (e, from, to) {
-	var self = this;
-	
-	if(from == DGN.states.HELP) {
-		
-		this.helpAnimation.stop();
-		
-		TweenMax.to($('#help'), this.slideEaseDuration, {
-			ease: this.slideEase,
-			transform: 'translateY(-100vh)'
-		});
-		
-		// hide home after transition
-		window.setTimeout(function () {
-			$('#help').css({
-				display: 'none'
-			});
-		}, this.slidesTimeoutDelay);
-	}
-	
-	$('#play').css({
-		display: 'block'
-	});
+	this.helpAnimation.stop();
+	$('#help').attr('data-pos', 'at-top');
+	window.setTimeout(function () {
+		$('#help')
+			.removeClass('sliding')
+			.attr('data-pos', 'at-top');
+	}, 300);
+	$('#play').attr('data-pos', 'at-default');
 };
 proto.onclosePlay = function (e, from, to) {
 	this.player.activate(false);
-	
-	TweenMax.to($('#play'), 1, {
-		ease: Circ.easeInOut,
-		transform: 'translateY(100vh)'
-	});
-	
+	$('#home').attr('data-pos', 'at-default');
+	$('#play').attr('data-pos', 'at-bottom');
 	window.setTimeout(function () {
-		$('#play').css({
-			display: 'none'
-		});
-	}, 1100);
-	
-	$('#home').css({
-		display: 'block'
-	});
+		$('#help')
+			.removeClass('sliding')
+			.attr('data-pos', 'at-bottom');
+	}, 300);
 };
 
 
@@ -867,7 +799,7 @@ if (!CCV.global){
 		DEBUG_SWIPE: false,
 		
 		AUDIO_FOLDER: 'ccv/audio/',
-		AUDIO_GLOBAL_VOLUME: .6,
+		AUDIO_GLOBAL_VOLUME: 0,
 		AUDIO_DELTA_VOLUME_COEF: 0.6,
 		AUDIO_DELTA_PAN_COEF: 0.6,
 		
@@ -1376,7 +1308,7 @@ if(!CCV.app.Player){
 	};
 	
 	proto.resizeInit = function(){
-		var maxAvailHeight = screen.height - CCV.global.FOOTER_HEIGHT -CCV.global.HEADER_HEIGHT;
+		var maxAvailHeight = window.innerHeight - CCV.global.FOOTER_HEIGHT -CCV.global.HEADER_HEIGHT;
 		if(CCV.global.SYS_ALLOW_LARGE && maxAvailHeight > .5 * (CCV.global.SCENE_MAX_HEIGHT + CCV.global.SCENE_GROUND_HEIGHT)){
 			this.scaleFolder = 'x2';
 			this.scaleSourceCoef = 2;
