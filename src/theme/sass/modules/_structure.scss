@@ -1,137 +1,153 @@
 
-body{
-	display:block;
-	background-color:#ffffff;
-	overflow:hidden;
+body {
+	display: block;
+	background-color: #ffffff;
+	overflow: hidden;
+	height: 100vh;
 }
 
-.page{
-	display:block;
-	width:100vw;
-	height:100vh;
+.main-container, .page {
+	display: block;
+	width: 100vw;
+	height: 100vh;
 	transform: translateY(0);
-	transition:unset;
+	transition: unset;
+	overflow: hidden;
 	
-	&.sliding{
+	&.sliding {
 		transition: transform 0.3s;
 	}
-	&.disabled{
-		display:none;
+	&.disabled {
+		display: none;
 	}
 	
-	&[data-pos='at-default']{
+	&[data-pos='at-default'] {
 		transform: translateY(0);
 	}
-	&[data-pos='at-default']{
+	&[data-pos='at-default'] {
 		transform: translateY(0);
 	}
-	&[data-pos='at-top']{
+	&[data-pos='at-top'] {
 		transform: translateY(-100vh);
 	}
-	&[data-pos='at-bottom']{
+	&[data-pos='at-bottom'] {
 		transform: translateY(100vh);
 	}
 }
-.page{
-	position:absolute;
-	background-color:white;
+
+.page {
+	position: absolute;
+	background-color: white;
 }
 
-.inner-pages{
-	position:absolute;
+.inner-pages {
+	position: absolute;
 	display: flex;
 }
-.inner-page{
+
+.inner-page {
 	flex: 0 0 100vw;
-	width:100vw;
-	height:100vh;
+	width: 100vw;
+	height: 100vh;
 }
 
-#mobile{
-	z-index:1025;
-}
-#info{
-	z-index:1000;
-}
-#help{
-	z-index:975;
-}
-#play{
-	z-index:950;
-	background-color:red;
-}
-#home{
-	z-index:900;
+#mobile {
+	z-index: 1025;
 }
 
+#info {
+	z-index: 1000;
+}
+
+#help {
+	z-index: 975;
+}
+
+#play {
+	z-index: 950;
+	background-color: red;
+}
+
+#home {
+	z-index: 900;
+}
 
 //	-------------------------------------- CORE GRAPHIC AND INTERACTIONS STYLES
 
-.no-cursor{
+.no-cursor {
 	cursor: url('mm/no-cursor.png'), none !important;
 }
 
-.alg-left{
+.alg-left {
 	text-align: left;
 }
-.alg-center{
+
+.alg-center {
 	text-align: center;
 }
-.alg-right{
+
+.alg-right {
 	text-align: right;
 }
-.vert-box{
-	width:100%;
+
+.vert-box {
+	width: 100%;
 	position: absolute;
-	top:50%;
+	top: 50%;
 	transform: translateY(-50%);
 }
 
-.blue-bg{
-	background-color:$light-blue;
+.blue-bg {
+	background-color: $light-blue;
 }
 
-a, a:link, a:hover, a:visited, a:active{
-	text-decoration:none;
+a, a:link, a:hover, a:visited, a:active {
+	text-decoration: none;
 }
-
 
 //	-------------------------------------- FLEX GRID
 
-.flex-rows{
-	display:flex;
-	align-content:stretch;
-	flex-direction:column;
-	flex-wrap:nowrap;
-	
-	margin:auto;
+.flex-breaker{
+	display:inline-block;
+	position: absolute;
 	width:100%;
 	height:100%;
 }
-.flex-row{
-	display:inline-flex;
-	flex-shrink:1;
-	flex-grow:1;
-	flex-basis:auto;
-	//border:1px blue solid;
+.flex-rows {
+	display: flex;
+	align-content: stretch;
+	flex-direction: column;
+	flex-wrap: nowrap;
 	
-	&.margin{
+	margin: auto;
+	width: 100%;
+	height: 100%;
+}
+
+.flex-row {
+	display: inline-flex;
+	flex-shrink: 1;
+	flex-grow: 1;
+	flex-basis: auto;
+	&.margin {
 		flex: 0 0 $panel-margin;
 	}
 }
-.flex-columns{
-	display:flex;
-	width:100%;
-	height:100%;
-	align-content:stretch;
-	flex-direction:row;
-	flex-wrap:nowrap;
+
+.flex-columns {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-content: stretch;
+	flex-direction: row;
+	flex-wrap: nowrap;
 }
-.flex-column{
-	display:inline-flex;
-	flex-shrink:1;
-	flex-grow:1;
-	flex-basis:auto;
+
+.flex-column {
+	display: inline-flex;
+	flex-shrink: 1;
+	flex-grow: 1;
+	flex-basis: auto;
 	//border:1px red solid;
 }
 
@@ -142,58 +158,58 @@ a, a:link, a:hover, a:visited, a:active{
 		clear: both;
 	}
 }
-br.cleaner{
-	display:block;
-	clear:both;
-}
 
+br.cleaner {
+	display: block;
+	clear: both;
+}
 
 //	-------------------------------------- ACTION BUTTONS
 
 button.action-button {
-	position:absolute;
+	position: absolute;
 	z-index: 100;
 	
 	display: block;
 	width: $actions-icons-size;
 	height: $actions-icons-size;
 	
-	background-repeat:no-repeat;
-	background-size:contain;
-	background-position:center center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center center;
 	
 	// reset default button behaviour
-	cursor:pointer !important;
-	border:none !important;
-	background-color:transparent !important;
-	@if($debug-blocks){
+	cursor: pointer !important;
+	border: none !important;
+	background-color: transparent !important;
+	@if ($debug-blocks) {
 		background-color: rgba(red, .2);
 	}
 	
-	&.lang-fr{
+	&.lang-fr {
 		background-image: url('mm/_icon-en.png');
 	}
-	&.lang-en{
+	&.lang-en {
 		background-image: url('mm/_icon-fr.png');
 	}
-	&.action-play{
+	&.action-play {
 		background-image: url('mm/_icon-play.png');
 	}
-	&.action-info{
+	&.action-info {
 		background-image: url('mm/_icon-info.png');
 	}
-	&.action-info2{
+	&.action-info2 {
 		background-image: url('mm/_icon-info2.png');
 	}
-	&.action-close{
+	&.action-close {
 		background-image: url('mm/_icon-close.png');
 	}
-	&.action-home{
+	&.action-home {
 		background-image: url('mm/_icon-home.png');
 	}
 	
-	span{
-		padding:$actions-icons-size + 6px;
+	span {
+		padding: $actions-icons-size + 6px;
 		color: $light-blue;
 		font-size: $h3-size;
 		line-height: $actions-icons-size;

@@ -17,43 +17,51 @@
 	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
 	
 	<link rel="stylesheet" href="theme/main.css" />
-	 
+	
 	<!-- partial "partials/_icons.html" -->
 	 
 	<script src="js/libs.js"></script>
 	<script src="js/exec-class.js"></script>
-	<script>
-		$(document).ready(function(){
-			CCV.global.AUDIO_GLOBAL_VOLUME = 1;
-			DGN.app = new DGN.Application();
-			DGN.app.initialize();
-		});
-	</script>
 </head>
+
 <body>
 
-<!-- partial "partials/_home.html" -->
-<div id="info" class="page">
+<div class="main-container">
 	
-	<div class="page-title">
-		<button class="action-button action-info2"></button>
-		<span class="lang-fr">infos</span>
-		<span class="lang-en">infos</span>
+	<!-- partial "partials/_home.html" -->
+	
+	<div id="info" class="page">
+		<div class="page-title">
+			<button class="action-button action-info2"></button>
+			<span class="lang-fr">infos</span>
+			<span class="lang-en">infos</span>
+		</div>
+	
+		<div class="pagination"></div>
+	
+		<button class="action-button action-home"></button>
+	
+		<div class="inner-pages">
+			<!-- partial "partials/_info0.html" -->
+			<!-- partial "partials/_info1.html" -->
+			<!-- partial "partials/_info2.html" -->
+		</div>
 	</div>
 	
-	<div class="pagination"></div>
+	<!-- partial "partials/_play.html" -->
 	
-	<button class="action-button action-home"></button>
+	<!-- partial "partials/_help.html" -->
 	
-	<div class="inner-pages">
-		<!-- partial "partials/_info0.html" -->
-		<!-- partial "partials/_info1.html" -->
-		<!-- partial "partials/_info2.html" -->
-	</div>
-
 </div>
-<!-- partial "partials/_play.html" -->
-<!-- partial "partials/_help.html" -->
 
 </body>
 </html>
+
+<script>
+	$(document).ready(function(){
+		CCV.global.SCENE_START_RAND = true;
+		CCV.global.AUDIO_GLOBAL_VOLUME = 1;
+		DGN.app = new DGN.Application();
+		DGN.app.initialize();
+	});
+</script>

@@ -20,7 +20,7 @@
 	}
 	
 	.flex-row{
-		height:100%;
+		
 		&.stretcher{
 			flex: 2 1 0;
 			@if($debug-blocks){
@@ -40,14 +40,21 @@
 		}
 		&.houses{
 			flex: 2 1 440px;
-			//max-height:350px;
+			position: relative;
 			
 			@if($debug-blocks) {
-				background-color: rgba(black, .2);
+				border:10px solid red;
+				background-color: rgba(red, .2);
 			}
+			
 			.flex-columns{
-				//border:2px solid orange;
-				
+				position:relative;
+				& > div{
+					height:100%;
+					@if($debug-blocks) {
+						border: orange 1px solid;
+					}
+				}
 				&.houses1, &.houses2 {
 					div.house {
 						flex-grow: 1;
@@ -67,7 +74,7 @@
 				}
 				&.houses1{
 					div.house{
-						background-position: center bottom;
+						background-position: center center;
 					}
 					div.house1{
 						flex-basis: 410px;
@@ -93,7 +100,7 @@
 				}
 				&.houses2{
 					div.house{
-						background-position: center top;
+						background-position: center center;
 					}
 					div.house1{
 						flex-basis:300px;

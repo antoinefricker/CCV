@@ -17,7 +17,7 @@
 	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
 	
 	<link rel="stylesheet" href="theme/main.css" />
-	 
+	
 	
 	<link rel="apple-touch-icon" sizes="57x57" href="theme/favicon/apple-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="theme/favicon/apple-icon-60x60.png">
@@ -39,17 +39,13 @@
 	 
 	<script src="js/libs.js"></script>
 	<script src="js/exec-class.js"></script>
-	<script>
-		$(document).ready(function(){
-			CCV.global.AUDIO_GLOBAL_VOLUME = 1;
-			DGN.app = new DGN.Application();
-			DGN.app.initialize();
-		});
-	</script>
 </head>
+
 <body>
 
-
+<div class="main-container">
+	
+	
 <div id="home" class="page">
 	
 	<button class="action-button lang-en" title="version française" data-lang="fr">
@@ -67,12 +63,14 @@
 		<div class="flex-row stretcher"></div>
 		
 		<div class="flex-row houses">
-			<div class="flex-columns houses1">
-				<div class="stretcher">&nbsp;</div>
-				<div class="house house1"></div>
-				<div class="house house2"></div>
-				<div class="house house3"></div>
-				<div class="stretcher">&nbsp;</div>
+			<div class="flex-breaker">
+				<div class="flex-columns houses1">
+					<div class="stretcher"></div>
+					<div class="house house1"></div>
+					<div class="house house2"></div>
+					<div class="house house3"></div>
+					<div class="stretcher"></div>
+				</div>
 			</div>
 		</div>
 		
@@ -90,12 +88,14 @@
 		</div>
 		
 		<div class="flex-row houses">
-			<div class="flex-columns houses2">
-				<div class="stretcher"></div>
-				<div class="house house1"></div>
-				<div class="house house2"></div>
-				<div class="house house3"></div>
-				<div class="stretcher"></div>
+			<div class="flex-breaker">
+				<div class="flex-columns houses2">
+					<div class="stretcher"></div>
+					<div class="house house1"></div>
+					<div class="house house2"></div>
+					<div class="house house3"></div>
+					<div class="stretcher"></div>
+				</div>
 			</div>
 		</div>
 		
@@ -105,20 +105,20 @@
 	</div>
 
 </div>
-<div id="info" class="page">
 	
-	<div class="page-title">
-		<button class="action-button action-info2"></button>
-		<span class="lang-fr">infos</span>
-		<span class="lang-en">infos</span>
-	</div>
+	<div id="info" class="page">
+		<div class="page-title">
+			<button class="action-button action-info2"></button>
+			<span class="lang-fr">infos</span>
+			<span class="lang-en">infos</span>
+		</div>
 	
-	<div class="pagination"></div>
+		<div class="pagination"></div>
 	
-	<button class="action-button action-home"></button>
+		<button class="action-button action-home"></button>
 	
-	<div class="inner-pages">
-		<div id="info0" class="inner-page">
+		<div class="inner-pages">
+			<div id="info0" class="inner-page">
 	
 	<div class="flex-rows">
 		<div class="flex-row margin blue-bg"></div>
@@ -181,7 +181,7 @@
 		<div class="flex-row margin"></div>
 	</div>
 </div>
-		<div id="info1" class="inner-page">
+			<div id="info1" class="inner-page">
 	
 	<div class="flex-rows lang-fr">
 		<div class="flex-row margin blue-bg"></div>
@@ -338,7 +338,7 @@
 		<div class="flex-row margin"></div>
 	</div>
 </div>
-		<div id="info2" class="inner-page">
+			<div id="info2" class="inner-page">
 	<div class="flex-rows">
 		<div class="flex-row margin blue-bg"></div>
 		<div class="flex-row gutter blue-bg"></div>
@@ -363,10 +363,10 @@
 		<div class="flex-row margin"></div>
 	</div>
 </div>
+		</div>
 	</div>
-
-</div>
-
+	
+	
 <div id="play" class="page">
 	<canvas id="pixi-stage"></canvas>
 	<div class="footer-menu">
@@ -376,7 +376,8 @@
 		<div class="action-button red-arrow"></div>
 	</div>
 </div>
-<div id="help" class="page">
+	
+	<div id="help" class="page">
 	
 	<button class="action-button action-close"></button>
 	
@@ -419,6 +420,17 @@
 		<div class="flex-row margin"></div>
 	</div>
 </div><!-- END #help -->
+	
+</div>
 
 </body>
 </html>
+
+<script>
+	$(document).ready(function(){
+		CCV.global.SCENE_START_RAND = true;
+		CCV.global.AUDIO_GLOBAL_VOLUME = 1;
+		DGN.app = new DGN.Application();
+		DGN.app.initialize();
+	});
+</script>
