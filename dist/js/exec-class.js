@@ -1294,9 +1294,9 @@ if(!CCV.app.Player){
 		}
 		else{
 			KPF.utils.log('Stop application rendering', 'Player.activate');
+			PIXI.ticker.shared.stop();
 			this.animTicker.stop();
 			this.application.stop();
-			PIXI.ticker.shared.stop();
 		}
 	};
 	
@@ -1356,6 +1356,67 @@ if(!CCV.app.Player){
 	
 	proto.triggerIndex = function(index, scene, scenesLen){
 		$(this.target).trigger('sceneIndexChange', [index, scene, scenesLen]);
+	};
+}
+
+
+// ###################################################################################################################  PLAYER UTILITIES
+
+
+// ----------------------------------------------------------------------
+// CCV.app.AnimationsTicker
+// ----------------------------------------------------------------------
+if(!CCV.app.AnimationsTicker){
+	
+	/**
+	 * Global ticker for PIXI animations to provide support for FPS configuration.
+	 * @constructor
+	 */
+	CCV.app.AnimationsTicker = function(){
+		this.renderCallback = this.render.bind(this);
+		this.renderIntervalId = null;
+		this.frameLength = 1000 / CCV.global.SYS_FPS;
+		this.running = false;
+		 
+		/** @var Array.<PIXI.extras.AnimatedSprite> */
+		this.sequences = [];
+	};
+	proto = CCV.app.AnimationsTicker.prototype;
+	
+	proto.start = function(){
+		if(this.running)
+			return;
+		
+		this.running = true;
+		this.renderIntervalId = window.setInterval(this.renderCallback, this.frameLength);
+		this.render();
+	};
+	proto.stop = function(){
+		if(!this.running)
+			this.running = false;
+		
+		this.running = false;
+		window.clearInterval(this.renderIntervalId);
+	};
+	/**
+	 * @param sequence {CCV.app.Sequence}
+	 */
+	proto.addSequence = function(sequence){
+		if(this.sequences.indexOf(sequence) < 0 && sequence.animation.totalFrames > 1) {
+			this.sequences.push(sequence);
+		}
+	};
+	/**
+	 * @param sequence {CCV.app.Sequence}
+	 */
+	proto.removeSequence = function(sequence){
+		var i = this.sequences.indexOf(sequence);
+		if(i >= 0)
+			this.sequences.splice(i, 1);
+	};
+	proto.render = function(e){
+		for(var i = 0, ilen = this.sequences.length; i < ilen; i++)
+			this.sequences[i].nextFrame();
 	};
 }
 
@@ -2480,79 +2541,6 @@ if(!CCV.app.Magnifier){
 	}
 }
 
-
-
-
-// ###################################################################################################################  PLAYER UTILITIES
-
-
-// ----------------------------------------------------------------------
-// CCV.app.AnimationsTicker
-// ----------------------------------------------------------------------
-if(!CCV.app.AnimationsTicker){
-	
-	/**
-	 * Global ticker for PIXI animations to provide support for FPS configuration.
-	 * @constructor
-	 */
-	CCV.app.AnimationsTicker = function(){
-		this.askRenderCallback = this.askRender.bind(this);
-		this.askRenderTimeoutId = null;
-		
-		this.scheduled = false;
-		this.deltaTime = Date.now();
-		this.time = 0;
-		
-		/** @var Array.<PIXI.extras.AnimatedSprite> */
-		this.sequences = [];
-		
-		this.start();
-		
-	};
-	proto = CCV.app.AnimationsTicker.prototype;
-	
-	proto.start = function(){
-		this.askRender();
-	};
-	proto.stop = function(){
-		clearTimeout(this.askRenderTimeoutId);
-	};
-	/**
-	 * @param sequence {CCV.app.Sequence}
-	 */
-	proto.addSequence = function(sequence){
-		if(this.sequences.indexOf(sequence) < 0 && sequence.animation.totalFrames > 1) {
-			this.sequences.push(sequence);
-		}
-	};
-	/**
-	 * @param sequence {CCV.app.Sequence}
-	 */
-	proto.removeSequence = function(sequence){
-		var i = this.sequences.indexOf(sequence);
-		if(i >= 0)
-			this.sequences.splice(i, 1);
-	};
-	proto.askRender = function(){
-		// ---   handle delayed calls
-		this.scheduled = false;
-		this.deltaTime = Date.now() - this.time;
-		if (this.deltaTime < 1000 / CCV.global.SYS_FPS) {
-			if(!this.scheduled) {
-				this.scheduled = true;
-				this.askRenderTimeoutId = setTimeout(this.askRenderCallback, 1000 / CCV.global.SYS_FPS - this.deltaTime);
-			}
-			return;
-		}
-		this.time += this.deltaTime;
-		
-		CCV.player.application.render();
-		for(var i = 0, ilen = this.sequences.length; i < ilen; ++i)
-			this.sequences[i].nextFrame();
-		
-		requestAnimationFrame(this.askRenderCallback);
-	};
-}
 
 
 // ----------------------------------------------------------------------
