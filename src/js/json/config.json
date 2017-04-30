@@ -1,10 +1,5 @@
 {
 	"landscape": {
-		"audio": {
-			"file": "landscape.mp3",
-			"isStereo": false,
-			"volume": 0
-		},
 		"ground": {
 			"file": "_statics/ground.png",
 			"size": {
@@ -97,7 +92,6 @@
 					"audio": {
 						"file": "chapeau.mp3",
 						"loop": false,
-						"isStereo": true,
 						"volume": 0.85
 					},
 					"preview": "seq/chapeau-bleu_00010.png",
@@ -349,7 +343,6 @@
 					"audio": {
 						"file": "fusee.mp3",
 						"loop": false,
-						"isStereo": true,
 						"volume": 0.85
 					},
 					"preview": "seq/fuseeBleu_00008.png",
@@ -440,7 +433,6 @@
 					"audio": {
 						"file": "serre.mp3",
 						"loop": false,
-						"isStereo": true,
 						"volume": 0.85
 					},
 					"preview": "seq/serreBleu_00019.png",
