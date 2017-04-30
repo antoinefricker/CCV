@@ -1289,27 +1289,38 @@ if(!CCV.app.Player){
 	// --------------- WINDOW UTILITIES
 	
 	proto.activate = function(status){
-		var i, ilen = this.audioChannels.length;
+		var i, ilen;
 		
 		if(status){
-			KPF.utils.log('Start application rendering', 'Player.windowFocus');
+			KPF.utils.log('Start application rendering', 'Player.activate');
 			
 			PIXI.ticker.shared.start();
 			this.animTicker.start();
 			
-			for(i =0; i < ilen; i++){
-				this.audioChannels[i].start();
+			if(this.sleepCache){
+				ilen = this.sleepCache.audios.length;
+				KPF.utils.log('\t - launch: ' + ilen + ' audios', 'Player.activate');
+				for(i = 0; i < ilen; i++){
+					this.sleepCache.audios[i].start();
+				}
 			}
 		}
 		else{
+			this.sleepCache = {
+				audios: []
+			};
+			
 			KPF.utils.log('Stop application rendering', 'Player.activate');
 			
 			PIXI.ticker.shared.stop();
 			this.animTicker.stop();
 			this.application.stop();
 			
-			for(i =0; i < ilen; i++){
-				this.audioChannels[i].pause();
+			ilen = this.audioChannels.length;
+			for(i = 0; i < ilen; i++){
+				if(this.audioChannels[i].pause()){
+					this.sleepCache.audios.push(this.audioChannels[i]);
+				}
 			}
 		}
 	};
@@ -2151,10 +2162,31 @@ if (!CCV.app.Layer) {
 	 */
 	CCV.app.Layer = function (data, scene) {
 		this.file = scene.folder + data.file;
-		this.view = PIXI.Sprite.fromImage(this.file);
+		
+		this.view = new PIXI.Container();
+		this.img = null;
+		
+		$(scene).on('displayStateChange', this.activateDisplay.bind(this));
+		this.activateDisplay(null, false, 10);
 	};
 	proto = CCV.app.Layer.prototype;
 	
+	
+	proto.activateDisplay = function(e, status, delta){
+		if(Math.abs(delta) < 10){
+			if(this.img)
+				return;
+			
+			this.img = PIXI.Sprite.fromImage(this.file);
+			this.img.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+			this.view.addChild(this.img);
+		}
+		else if(this.img){
+			this.view.removeChildren();
+			this.img.destroy(true);
+			this.img = null;
+		}
+	};
 	/**
 	 * Returns a string representation of the instance
 	 * @return {string}
@@ -2215,7 +2247,7 @@ if (!CCV.app.Sequence) {
 		
 		this.active = undefined;
 		$(this.scene).on('displayStateChange', this.activateDisplay.bind(this));
-		this.activateDisplay(null, false);
+		this.activateDisplay(null, false, 10);
 	};
 	proto = CCV.app.Sequence.prototype;
 	
@@ -2387,7 +2419,7 @@ if (!CCV.app.Sequence) {
 			if(deltaAbs > 10){
 				this.audio.soundDispose();
 			}
-			if(Math.abs(delta) < 10){
+			if(Math.abs(delta) <= 10){
 				this.audio.soundInit();
 				
 				if(!status){
@@ -2592,9 +2624,8 @@ if(!CCV.app.AudioChannel){
 			return;
 		
 		this.stop(false);
-		
 		this.sound.unload();
-		delete this.sound;
+		this.sound = null;
 	};
 	proto.isPlaying = function(){
 		return this.soundId && this.sound.playing(this.soundId);
@@ -2624,9 +2655,10 @@ if(!CCV.app.AudioChannel){
 	};
 	proto.pause = function(doTransition){
 		if(!this.soundId || !this.isPlaying())
-			return;
+			return false;
 		
 		this.sound.pause(this.soundId);
+		return true;
 	};
 	proto.stop = function(doTransition){
 		var self = this;
