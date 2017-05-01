@@ -158,22 +158,25 @@ proto.soundPlay = function(props){
 	if(!props || !props.hasOwnProperty('src'))
 		return;
 	
+	console.warn('mobileAutoEnable: ' + Howler.mobileAutoEnable);
+	
 	if(this.soundInterface){
 		if(this.soundInterface._src == props.src)
 			return;
-		this.soundInterface.fade(this.soundInterface.volume(), 0, 2000);
+		this.soundInterface.fade(this.soundInterface.volume(null, this.soundInterfaceId), 0, 2000);
 	}
 	
 	this.soundInterface = new Howl(Object.assign({
-		src: 'ccv/audio/interface.mp3',
+		src: 'ccv/audio/interface128.mp3',
 		volume: 0,
-		buffer: false,
+		buffer: true,
 		loop: true,
-		autoplay: true,
+		autoplay: false,
 		onplay: function(){
 			this.fade(0, CCV.global.AUDIO_GLOBAL_VOLUME, 8000);
 		}
 	}, props));
+	this.soundInterfaceId = this.soundInterface.play();
 };
 
 proto.onenterstate = function(e, from, to){
@@ -184,7 +187,7 @@ proto.onenterstate = function(e, from, to){
 		case DGN.states.HOME:
 		case DGN.states.INFO:
 			this.soundPlay({
-				src: 'ccv/audio/interface128.mp3',
+				src: ['ccv/audio/interface128.aac', 'ccv/audio/interface128.mp3'],
 				loop: false
 			});
 			break;
@@ -192,7 +195,7 @@ proto.onenterstate = function(e, from, to){
 		case DGN.states.PLAY:
 		case DGN.states.HELP:
 			this.soundPlay({
-				src: 'ccv/audio/landscape128.mp3',
+				src: ['ccv/audio/landscape128.aac', 'ccv/audio/landscape128.mp3'],
 				loop: true
 			});
 			break;
@@ -781,8 +784,13 @@ if (!CCV.utils){
 if (!CCV.global){
 	
 	CCV.global = {
+		
 		RED: 0xFF3E29,
 		BLUE: 0xADD2EA,
+		
+		PRELOAD_AUDIO_DELTA: 5,
+		PRELOAD_LAYER_DELTA: 6,
+		PRELOAD_SEQUENCE_DELTA: 2,
 		
 		HEADER_HEIGHT: 0,
 		FOOTER_HEIGHT: 0,
@@ -876,7 +884,7 @@ if(!CCV.app.Player){
 			resolution:  1,
 			legacy:  false
 		}, CCV.global.SYS_FORCE_CANVAS, CCV.global.SYS_USE_SHARED_TICKER);
-		
+		this.textures = 0;
 		this.application.stop();
 		
 		
@@ -1566,19 +1574,9 @@ if (!CCV.app.Landscape) {
 		// reset landscape position
 		this.setIndex(this.index, false);
 	};
-	/**
-	 * Returns a string repreaentation of the instance.
-	 * @return {string}
-	 */
 	proto.toString = function () {
 		this.info(0);
 	};
-	/**
-	 * Returns a formatted string representation of the instance
-	 * @param depth   {Number} formatting depth
-	 * @param indentStart   {Boolean}   whether or not indentation should be added on string start
-	 * @return {String}
-	 */
 	proto.info = function (depth, indentStart) {
 		var str = '';
 		var ilen = this.scenes.length;
@@ -1935,19 +1933,9 @@ if (!CCV.app.Scene) {
 	};
 	proto = CCV.app.Scene.prototype;
 	
-	/**
-	 * Returns a string representation of the instance.
-	 * @return {string}
-	 */
 	proto.toString = function () {
 		return this.info(0);
 	};
-	/**
-	 * Returns a formatted string representation of the instance
-	 * @param depth   {Number} formatting depth
-	 * @param indentStart   {Boolean}   whether or not indentation should be added on string start
-	 * @return {String}
-	 */
 	proto.info = function (depth, indentStart) {
 		var str = '';
 		var pattern = KPF.global.FORMAT_INDENT;
@@ -2059,22 +2047,17 @@ if (!CCV.app.Scene) {
 		}
 	};
 	proto.activateDisplay = function(status, delta) {
-		var self = this,
-			deltaAbs = Math.abs(delta);
+		var self = this;
+		var deltaAbs = Math.abs(delta);
 		
 		// audio management
 		if(this.audio){
-			if(deltaAbs > 10){
+			if(deltaAbs > CCV.global.PRELOAD_AUDIO_DELTA){
 				this.audio.soundDispose();
 			}
-			if(Math.abs(delta) < 5){
+			else{
 				this.audio.soundInit();
-				if(status){
-					this.audio.start(true);
-				}
-				else{
-					this.audio.stop(true);
-				}
+				status ? this.audio.start(true) : this.audio.stop(true);
 			}
 		}
 		
@@ -2167,24 +2150,28 @@ if (!CCV.app.Layer) {
 		this.img = null;
 		
 		$(scene).on('displayStateChange', this.activateDisplay.bind(this));
-		this.activateDisplay(null, false, 10);
+		this.activateDisplay(null, scene == false, 10);
 	};
 	proto = CCV.app.Layer.prototype;
 	
 	
 	proto.activateDisplay = function(e, status, delta){
-		if(Math.abs(delta) < 10){
+		if(Math.abs(delta) < CCV.global.PRELOAD_LAYER_DELTA){
 			if(this.img)
 				return;
 			
 			this.img = PIXI.Sprite.fromImage(this.file);
 			this.img.blendMode = PIXI.BLEND_MODES.MULTIPLY;
 			this.view.addChild(this.img);
+			
+			CCV.player.textures++;
 		}
 		else if(this.img){
 			this.view.removeChildren();
 			this.img.destroy(true);
 			this.img = null;
+			
+			CCV.player.textures--;
 		}
 	};
 	/**
@@ -2229,9 +2216,7 @@ if (!CCV.app.Sequence) {
 		this.view = new PIXI.Container();
 		
 		if(data.hasOwnProperty('preview')) {
-			/** @var {PIXI.Sprite} */
-			this.preview = new PIXI.Sprite(new PIXI.Texture.fromImage(this.scene.folder + data.preview));
-			this.view.addChild(this.preview);
+			this.previewSrc = this.scene.folder + data.preview;
 		}
 		
 		// ---   debug markers
@@ -2359,78 +2344,85 @@ if (!CCV.app.Sequence) {
 		return str;
 	};
 	proto.activateDisplay = function(e, status, delta){
-		var i, index, file, texture;
+		var i, textures, file, index;
 		var deltaAbs = Math.abs(delta);
 		
-		// --- change active status or die
-		status = status !== false || !this.scene.disposable;
 		
-		if(this.active === status)
-			return;
-		this.active = status;
-		this.endSuspensionFrames = -1;
-		this.startSuspensionFrames = -1;
+		// #################### handle audio preload
+		if(this.audio)
+			deltaAbs < CCV.global.PRELOAD_AUDIO_DELTA ? this.audio.soundInit() : this.audio.soundDispose();
 		
-		// active --> launch animmation
-		// .... OR
-		// inactive but no preview exist --> stop animmation
-		if(this.active || !this.preview) {
+		
+		// #################### handle preview preload
+		if(this.previewSrc) {
+			if (deltaAbs < CCV.global.PRELOAD_LAYER_DELTA) {
+				if(!this.preview){
+					this.preview = new PIXI.Sprite(new PIXI.Texture.fromImage(this.previewSrc));
+					this.view.addChild(this.preview);
+					CCV.player.textures++;
+					console.log('create ' + this.scene.id + ' preview');
+				}
+			}
+			else if (this.preview) {
+				this.view.removeChild(this.preview);
+				this.preview.destroy(true);
+				this.preview = null;
+				CCV.player.textures--;
+				console.log('destroy ' + this.scene.id + ' preview');
+			}
+		}
+		
+		// #################### handle sequence preload
+		if(
+			this.previewSrc == null ?
+				deltaAbs < CCV.global.PRELOAD_LAYER_DELTA :
+				deltaAbs < CCV.global.PRELOAD_SEQUENCE_DELTA
+		){
 			if(!this.animation){
-				// create textures
-				this.textures = [];
-				for (i = this.seqStart; i <= this.seqEnd; ++i) {
+				textures = [];
+				for (i = this.seqStart; i <= this.seqEnd; ++i){
 					index = this.seqNumLength > 0 ? KPF.utils.fillTo(i, this.seqNumLength, '0') : i;
 					file = this.scene.folder + this.file.replace('[NUM]', index);
-					texture = new PIXI.Texture.fromImage(file);
-					this.textures.push(texture);
+					textures.push(new PIXI.Texture.fromImage(file));
 				}
+				CCV.player.textures += textures.length;
 				
-				// create animation
-				this.animation = new PIXI.extras.AnimatedSprite(this.textures, false);
-				this.animation.textures = this.textures;
+				this.animation = new PIXI.extras.AnimatedSprite(textures, false);
 				this.animation.gotoAndStop(0);
 				this.view.addChild(this.animation);
 				
-				/* #EDIT 2017/04/30 - provoques flicker
-				// hide preview if or when first frame is loaded
-				var p = this.preview;
-				if(p){
-					if(this.textures[0].baseTexture.hasLoaded)
-						p.visible = false;
-					else{
-						this.textures[0].baseTexture.on('loaded', function(e){
-							p.visible = false;
-						});
-					}
-				}
-				*/
+				console.log('create ' + this.scene.id + ' sequence');
 			}
-			CCV.player.animTicker.addSequence(this);
 		}
-		else if(this.animation){
+		else if(this.animation) {
+			CCV.player.textures -= this.animation.totalFrames;
+			
 			CCV.player.animTicker.removeSequence(this);
 			this.view.removeChild(this.animation);
 			this.animation.destroy(true);
 			this.animation = null;
+			
+			console.log('destroy ' + this.scene.id + ' sequence');
 		}
 		
-		// ---   audio management
-		if(this.audio){
-			if(deltaAbs > 10){
-				this.audio.soundDispose();
-			}
-			if(Math.abs(delta) <= 10){
-				this.audio.soundInit();
-				
-				if(!status){
-					this.audio.stop(true);
-				}
-				else if(this.animation){
-					console.log('--------------------- launch audio from activation');
-					this.audio.start(true);
-				}
-			}
+		// --- change active status or die
+		status = status !== false;
+		this.active = status;
+		
+		
+		if(status || (this.preview == null && deltaAbs < CCV.global.PRELOAD_LAYER_DELTA)){
+			this.startSuspensionFrames = -1;
+			this.endSuspensionFrames = -1;
+			CCV.player.animTicker.addSequence(this);
+			console.log('launch ' + this.scene.id + 'ticker (' + (this.animation != null) + ')');
 		}
+		else if(this.animation != null){
+			CCV.player.animTicker.removeSequence(this);
+			console.log('remove ' + this.scene.id + ' ticker');
+		}
+		
+		if(this.audio)
+			status ?  this.audio.start(true) : this.audio.stop(true);
 	};
 }
 
