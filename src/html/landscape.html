@@ -37,6 +37,10 @@
 		<span id="animationFPS">-</span>
 	</div>
 	<div>
+		<span class="label">textures:</span>
+		<span id="textures">-</span>
+	</div>
+	<div>
 		<span class="label">source folder:</span>
 		<span id="sourceFolder">-</span>
 	</div>
@@ -107,6 +111,7 @@
 	window.setInterval(function(){
 		$('#pixiFPS').html(PIXI.ticker.shared.FPS.toFixed(1));
 		$('#animationFPS').html(CCV.global.SYS_FPS + ' FPS (on ' + app.animTicker.sequences.length + ' animations)');
+		$('#textures').html(app.textures + ' textures)');
 		$('#sourceFolder').html(app.scaleFolder);
 		$('#scale').html(app.scale.toFixed(2));
 		$('#renderMode').html(app.getMode());
