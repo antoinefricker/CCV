@@ -82,8 +82,21 @@ proto.initInteractions = function(){
 		.on('click', 'button.action-info', function () {
 			self.openInfo();
 		})
-		.on('click', 'button.action-play', function () {
-			self.openHelp();
+		.on('click', 'button.action-play', function (e) {
+			self.openHelp(e);
+		})
+		.on('click', 'button.action-play', function (e) {
+			new Howl(Object.assign({
+				src: 'ccv/audio/interface128.aac',
+				volume: 0,
+				buffer: true,
+				loop: true,
+				autoplay: false,
+				onplay: function(){
+					this.fade(0, CCV.global.AUDIO_GLOBAL_VOLUME, 8000);
+				}
+			}, props));
+			this.soundInterfaceId = this.soundInterface.play();
 		})
 		.on('click', '.app-title', function () {
 			self.openHelp();
@@ -166,7 +179,7 @@ proto.soundPlay = function(props){
 	}
 	
 	this.soundInterface = new Howl(Object.assign({
-		src: 'ccv/audio/interface128.mp3',
+		src: 'ccv/audio/interface128.aac',
 		volume: 0,
 		buffer: true,
 		loop: true,
@@ -182,6 +195,7 @@ proto.onenterstate = function(e, from, to){
 	if(KPF.PRODUCTION)
 		return;
 	
+	/*
 	switch(to){
 		case DGN.states.HOME:
 		case DGN.states.INFO:
@@ -204,6 +218,7 @@ proto.onenterstate = function(e, from, to){
 		+ e + ': [' + from + ' >> ' + to + ']'
 		+ '\n' + separator
 		);
+		*/
 };
 proto.toString = function(){
 	return '[DGNApplication] lang: ' + this.lang + ', state: "' + this.current + '"';
@@ -235,7 +250,6 @@ proto.onopenInfo = function (e, from, to) {
 	this.setInfoIndex(0, false);
 	$('#info').attr('data-pos', 'at-default');
 	$('#home').attr('data-pos', 'at-bottom');
-	
 };
 proto.oncloseInfo = function (e, from, to) {
 	$('#info').attr('data-pos', 'at-top');
@@ -390,9 +404,10 @@ proto.onopenPlay = function (e, from, to) {
 			.attr('data-pos', 'at-top');
 	}, 300);
 	$('#play').attr('data-pos', 'at-default');
+	this.player.activateSet(true);
 };
 proto.onclosePlay = function (e, from, to) {
-	this.player.activate(false);
+	this.player.activateSet(false);
 	$('#home').attr('data-pos', 'at-default');
 	$('#play').attr('data-pos', 'at-bottom');
 	window.setTimeout(function () {
