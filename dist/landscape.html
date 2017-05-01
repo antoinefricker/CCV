@@ -96,10 +96,10 @@
 	});
 	
 	$('#sceneSelect').on('change', function(){
-		app.landscape.setIndex($(this).val().replace('index_', ''), false);
+		app.landscape.setIndex($(this).val().replace('index_', ''), true, false);
 	});
 	$('#indexedSceneSelect').on('change', function(){
-		app.landscape.setIndex($(this).val().replace('index_', ''), false);
+		app.landscape.setIndex($(this).val().replace('index_', ''), true, false);
 	});
 	
 	$(cnv).on('sceneIndexChange', function(e, index, scene, scenesLen){
@@ -110,7 +110,7 @@
 	
 	window.setInterval(function(){
 		$('#pixiFPS').html(PIXI.ticker.shared.FPS.toFixed(1));
-		$('#animationFPS').html(CCV.global.SYS_FPS + ' FPS (on ' + app.animTicker.sequences.length + ' animations)');
+		$('#animationFPS').html(CCV.global.SYS_FPS + ' FPS (' + app.animTicker.sequences.length + ' seq)');
 		$('#textures').html(app.textures + ' textures)');
 		$('#sourceFolder').html(app.scaleFolder);
 		$('#scale').html(app.scale.toFixed(2));
