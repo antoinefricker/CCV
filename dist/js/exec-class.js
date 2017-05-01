@@ -742,12 +742,13 @@ proto.scale = function(a, b){
 	this.height *= b;
 };
 
-if (!CCV)
+
+if (!CCV){
 	CCV = {};
+}
 
 if (!CCV.utils){
 	CCV.utils = {};
-	
 	CCV.utils.drawDebugRect = function(g, r, color, thickness, alpha, useFill){
 		if(isNaN(alpha))
 			alpha = 1;
@@ -781,7 +782,6 @@ if (!CCV.utils){
 }
 
 if (!CCV.global){
-	
 	CCV.global = {
 		
 		RED: 0xFF3E29,
@@ -796,7 +796,7 @@ if (!CCV.global){
 		
 		SYS_FORCE_CANVAS: true,
 		SYS_USE_SHARED_TICKER: true,
-		SYS_FPS: 20,
+		SYS_FPS: 8,
 		SYS_ALLOW_LARGE: false,
 		
 		DEBUG_LANDSCAPE_GFX: false,
@@ -844,8 +844,10 @@ if (!CCV.global){
 	};
 }
 
-if (!CCV.app)
+if (!CCV.app){
 	CCV.app = {};
+}
+
 
 // ----------------------------------------------------------------------
 // CCV.app.Player
@@ -1141,33 +1143,25 @@ if(!CCV.app.Player){
 			return;
 		
 		swCtx.active = true;
-		swCtx.startTime = new Date().getTime();
-		swCtx.startX = e.data.getLocalPosition(this.application.stage).x;
 		swCtx.elasticity = CCV.global.SCROLL_ELASTICITY;
+		swCtx.startX = e.data.getLocalPosition(this.application.stage).x;
 		swCtx.startScrollPanelX = this.landscape.scenesScroll.x;
 		
 		this.background.on('pointermove', this.cbks.swipeMove);
 		this._swipeMove(e);
+		
 		PIXI.ticker.shared.add(this.cbks.scrollApply);
 	};
 	proto._swipeMove = function(e){
-		var swCtx, delta;
-		
-		swCtx = this.cbks.swCtx;
-		delta = (e.data.getLocalPosition(this.application.stage).x - swCtx.startX);
-		swCtx.scrollTarget = swCtx.startScrollPanelX + delta;
-		swCtx.elasticity = CCV.global.SCROLL_SWIPE_ELASTICITY;
-	};
-	proto._scrollApply = function(e){
 		var swCtx = this.cbks.swCtx;
 		
-		if(isNaN(swCtx.scrollTarget))
-			return;
-		this.landscape.scenesScroll.x -= (this.landscape.scenesScroll.x - swCtx.scrollTarget) * swCtx.elasticity;
+		swCtx.scrollTarget = swCtx.startScrollPanelX + (e.data.getLocalPosition(this.application.stage).x - swCtx.startX);
+		swCtx.elasticity = CCV.global.SCROLL_SWIPE_ELASTICITY;
 	};
 	proto._swipeEnd = function(){
+		this.background.off('pointermove', this.cbks.swipeMove);
+		this.cbks.swCtx.active = false;
 		this.landscape.indexFitFromScroll();
-		this._swipeReset();
 	};
 	proto._swipeReset = function(){
 		var swCtx = this.cbks.swCtx;
@@ -1177,15 +1171,26 @@ if(!CCV.app.Player){
 		PIXI.ticker.shared.remove(this.cbks.scrollApply);
 		
 		swCtx.active = false;
-		swCtx.startTime = Number.NaN;
 		swCtx.startX = Number.NaN;
-		
 		swCtx.scrollTarget = Number.NaN;
-		swCtx.scrollMin = Number.NaN;
-		swCtx.scrollMax = Number.NaN;
-		swCtx.swipeLockMin = Number.NaN;
-		swCtx.swipeLockMax = Number.NaN;
 		swCtx.startScrollPanelX = Number.NaN;
+	};
+	
+	proto._scrollApply = function(e){
+		var swCtx = this.cbks.swCtx;
+		var delta;
+		
+		if(!swCtx || isNaN(swCtx.scrollTarget))
+			return;
+		
+		delta = (this.landscape.scenesScroll.x - swCtx.scrollTarget);
+		if(!swCtx.active && Math.abs(delta) < .5){
+			this.landscape.scenesScroll.x -= delta;
+			this._swipeReset();
+		}
+		else{
+			this.landscape.scenesScroll.x -= delta * swCtx.elasticity;
+		}
 	};
 	
 	proto.magnifierDisplayToggle = function(status){
@@ -2506,7 +2511,6 @@ if(!CCV.app.Magnifier){
 		this.view.scale.copy({ x: this._scale, y: this._scale });
 	}
 }
-
 
 
 // ----------------------------------------------------------------------
