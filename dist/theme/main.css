@@ -130,7 +130,7 @@ body {
 
 .page {
 	position: absolute;
-	background-color: white;
+	background-color: #fff;
 }
 
 .inner-pages {
@@ -158,7 +158,6 @@ body {
 
 #play {
 	z-index: 950;
-	background-color: red;
 }
 
 #home {
