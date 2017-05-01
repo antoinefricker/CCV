@@ -59,7 +59,6 @@ DGN.Application = function (lang) {
 proto = DGN.Application.prototype;
 
 
-
 // ------------------------------------------------------------------------------------------
 //         INITIALIZATION & DATA
 // ------------------------------------------------------------------------------------------
@@ -806,6 +805,7 @@ if (!CCV.global){
 		DEBUG_SCENE_MARGINS: false,
 		DEBUG_SWIPE: false,
 		
+		AUDIO_ENABLED: true,
 		AUDIO_FOLDER: 'ccv/audio/',
 		AUDIO_GLOBAL_VOLUME: 1,
 		
@@ -1807,20 +1807,6 @@ if (!CCV.app.Landscape) {
 		// rearrange scenes positions
 		this._reArrangeScenesFrom(this.index);
 		
-		// retrieve bording indexed scenes
-		scene = this.scenes[this.index];
-		for(i = 0, ilen = this.scenesIndexed.length; i <= ilen; ++i){
-			if(i == ilen || this.scenesIndexed[i].index > this.index){
-				sceneAfter = this.scenesIndexed[i % ilen];
-				sceneBefore = this.scenesIndexed[(i - 1 + ilen) % ilen];
-				if(sceneBefore.index == this.index){
-					sceneCurrent = sceneBefore;
-					sceneBefore = this.scenesIndexed[(i - 2 + ilen) % ilen];
-				}
-				break;
-			}
-		}
-		
 		// ---   compute scene amplitude
 		limitBefore = sceneBefore.scene.view.x  + sceneBefore.scene.pos.x + sceneBefore.scene.size.x;
 		limitAfter = sceneAfter.scene.view.x + sceneAfter.scene.pos.x;
@@ -2052,13 +2038,8 @@ if (!CCV.app.Scene) {
 		
 		// audio management
 		if(this.audio){
-			if(deltaAbs > CCV.global.PRELOAD_AUDIO_DELTA){
-				this.audio.soundDispose();
-			}
-			else{
-				this.audio.soundInit();
-				status ? this.audio.start(true) : this.audio.stop(true);
-			}
+			(deltaAbs > CCV.global.PRELOAD_AUDIO_DELTA) ? this.audio.soundDispose() : this.audio.soundInit();
+			status && CCV.global.AUDIO_ENABLED ? this.audio.start(true) : this.audio.stop(true);
 		}
 		
 		if(this.activationTimeoutId)
@@ -2421,7 +2402,7 @@ if (!CCV.app.Sequence) {
 			console.log('remove ' + this.scene.id + ' ticker');
 		}
 		
-		if(this.audio)
+		if(this.audio && CCV.global.AUDIO_ENABLED)
 			status ?  this.audio.start(true) : this.audio.stop(true);
 	};
 }
