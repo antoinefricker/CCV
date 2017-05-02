@@ -196,6 +196,7 @@ proto.soundPlay = function(props){
 	this.soundInterfaceId = this.soundInterface.play();
 };
 proto.resetHome = function(){
+	$('#home').find('.house').removeClass('active');
 };
 proto.onenterstate = function(e, from, to){
 	if(KPF.PRODUCTION)
