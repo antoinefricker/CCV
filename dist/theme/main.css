@@ -376,7 +376,7 @@ button.action-button span {
 	flex-basis: 410px;
 }
 
-#home .flex-row.houses .flex-columns.houses1 div.house1:hover {
+#home .flex-row.houses .flex-columns.houses1 div.house1.active {
 	background-image: url('mm/home/m1a.gif');
 }
 
@@ -385,7 +385,7 @@ button.action-button span {
 	flex-basis: 290px;
 }
 
-#home .flex-row.houses .flex-columns.houses1 div.house2:hover {
+#home .flex-row.houses .flex-columns.houses1 div.house2.active {
 	background-image: url('mm/home/m2a.gif');
 }
 
@@ -394,7 +394,7 @@ button.action-button span {
 	flex-basis: 300px;
 }
 
-#home .flex-row.houses .flex-columns.houses1 div.house3:hover {
+#home .flex-row.houses .flex-columns.houses1 div.house3.active {
 	background-image: url('mm/home/m3a.gif');
 }
 
@@ -407,7 +407,7 @@ button.action-button span {
 	flex-basis: 300px;
 }
 
-#home .flex-row.houses .flex-columns.houses2 div.house1:hover {
+#home .flex-row.houses .flex-columns.houses2 div.house1.active {
 	background-image: url('mm/home/m4a.gif');
 }
 
@@ -416,7 +416,7 @@ button.action-button span {
 	flex-basis: 320px;
 }
 
-#home .flex-row.houses .flex-columns.houses2 div.house2:hover {
+#home .flex-row.houses .flex-columns.houses2 div.house2.active {
 	background-image: url('mm/home/m5a.gif');
 }
 
@@ -425,7 +425,7 @@ button.action-button span {
 	flex-basis: 380px;
 }
 
-#home .flex-row.houses .flex-columns.houses2 div.house3:hover {
+#home .flex-row.houses .flex-columns.houses2 div.house3.active {
 	background-image: url('mm/home/m6a.gif');
 }
 

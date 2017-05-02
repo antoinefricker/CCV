@@ -79,21 +79,21 @@
 					div.house1{
 						flex-basis: 410px;
 						background-image:url('mm/home/m1s.gif');
-						&:hover{
+						&.active{
 							background-image:url('mm/home/m1a.gif');
 						}
 					}
 					div.house2{
 						flex-basis:290px;
 						background-image:url('mm/home/m2s.gif');
-						&:hover{
+						&.active{
 							background-image:url('mm/home/m2a.gif');
 						}
 					}
 					div.house3{
 						flex-basis:300px;
 						background-image:url('mm/home/m3s.gif');
-						&:hover{
+						&.active{
 							background-image:url('mm/home/m3a.gif');
 						}
 					}
@@ -105,21 +105,21 @@
 					div.house1{
 						flex-basis:300px;
 						background-image:url('mm/home/m4s.gif');
-						&:hover{
+						&.active{
 							background-image:url('mm/home/m4a.gif');
 						}
 					}
 					div.house2{
 						flex-basis:320px;
 						background-image:url('mm/home/m5s.gif');
-						&:hover{
+						&.active{
 							background-image:url('mm/home/m5a.gif');
 						}
 					}
 					div.house3{
 						flex-basis:380px;
 						background-image:url('mm/home/m6s.gif');
-						&:hover{
+						&.active{
 							background-image:url('mm/home/m6a.gif');
 						}
 					}

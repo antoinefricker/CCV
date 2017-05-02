@@ -43,6 +43,11 @@ DGN.Application = function (lang) {
 	/** @var {Howl} */
 	this.soundInterface  = null;
 	
+	this.preloadStack = [];
+	this.preloadStackInit();
+	
+	setTimeout(this.preloadStackPop.bind(this), 1200);
+	
 	setTimeout(this.init.bind(this), 1000);
 };
 proto = DGN.Application.prototype;
@@ -89,6 +94,13 @@ proto.initInteractions = function(){
 			self.openHelp();
 		});
 	
+	for(var i = 1; i <= 6; i++){
+		$('#home .house' + i)
+			.on('mousedown', function() {
+				$(this).toggleClass('active');
+			});
+	}
+	
 	// ---   help
 	
 	// buttons interactions
@@ -133,6 +145,32 @@ proto.initInteractions = function(){
 		});
 	});
 };
+proto.preloadStackInit = function() {
+		// home gifs
+	for (var i = 1; i <= 6; i++)
+		this.preloadStack.push('theme/mm/home/m' + i + 'a.gif');
+	
+	// help
+	this.preloadStack.push('theme/mm/_help1-background.png');
+	this.preloadStack.push('theme/mm/_help1-hand.png');
+	this.preloadStack.push('theme/mm/_help2-background.png');
+	this.preloadStack.push('theme/mm/_help2-hand.png');
+};
+proto.preloadStackPop = function(){
+	var self = this;
+	
+	if(this.preloadStack.length == 0){
+		KPF.utils.log('Preload stack is empty', 'Application.preloadStackPop');
+		return;
+	}
+	
+	var img = new Image();
+	img.onload = function(){
+		console.log(this.src +  ' loaded');
+		self.preloadStackPop();
+	};
+	img.src = this.preloadStack.shift();
+};
 proto.soundPlay = function(props){
 	if(!props || !props.hasOwnProperty('src'))
 		return;
@@ -157,7 +195,9 @@ proto.soundPlay = function(props){
 	}, props));
 	this.soundInterfaceId = this.soundInterface.play();
 };
-
+proto.resetHome = function(){
+	$('#home').find('.house').removeClass('active');
+};
 proto.onenterstate = function(e, from, to){
 	if(KPF.PRODUCTION)
 		return;
@@ -219,6 +259,7 @@ proto.onopenInfo = function (e, from, to) {
 proto.oncloseInfo = function (e, from, to) {
 	$('#info').attr('data-pos', 'at-top');
 	$('#home').attr('data-pos', 'at-default');
+	this.resetHome();
 };
 proto.incInfoIndex = function (increment) {
 	this.setInfoIndex(this.infoIndex + increment, true);
@@ -383,6 +424,7 @@ proto.onclosePlay = function (e, from, to) {
 			.removeClass('sliding')
 			.attr('data-pos', 'at-bottom');
 	}, 300);
+	this.resetHome();
 };
 
 
