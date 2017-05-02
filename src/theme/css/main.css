@@ -799,54 +799,6 @@ button.action-button span {
 	height: 100%;
 }
 
-.footer-menu {
-	position: absolute;
-	right: 50px;
-	transition: all .8s;
-	transform: translate(288px, -50%);
-}
-
-.footer-menu div.action-button {
-	display: block;
-	float: right;
-	width: 46px;
-	height: 46px;
-	margin-left: 50px;
-	transition: all .8s;
-	transform-origin: 50% 50%;
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: contain;
-}
-
-.footer-menu div.action-button.red-home {
-	background-image: url('mm/_icon-red-home.png');
-}
-
-.footer-menu div.action-button.red-magnifier {
-	background-image: url('mm/_icon-red-magnifier.png');
-}
-
-.footer-menu div.action-button.red-help {
-	background-image: url('mm/_icon-red-help.png');
-}
-
-.footer-menu div.action-button.red-arrow {
-	background-image: url('mm/_icon-red-to-left.png');
-}
-
-.footer-menu.opened {
-	transform: translate(0, -50%);
-}
-
-.footer-menu.opened div.action-button {
-	margin-left: 12px;
-}
-
-.footer-menu.opened div.action-button.red-arrow {
-	transform: rotate(180deg);
-}
-
 #pixi-stage {
 	margin: 0;
 	padding: 0;

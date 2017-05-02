@@ -105,7 +105,7 @@
 		
 		window.setInterval(function(){
 			$('#fps').html(PIXI.ticker.shared.FPS.toFixed(1) + '/' + CCV.global.SYS_FPS + ' (' + app.animTicker.sequences.length + ' seq)');
-			$('#textures').html(app.textures + ' textures)');
+			$('#textures').html(app.texturesCounter + ' textures');
 			$('#sourceFolder').html(app.scaleFolder);
 			$('#scale').html(app.scale.toFixed(2));
 			$('#renderMode').html(app.getMode());

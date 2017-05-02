@@ -29,18 +29,6 @@ DGN.Application = function (lang) {
 		]
 	});
 	
-	this.cnv = document.getElementById('pixi-stage');
-	
-	/** @var {CCV.core.Player} */
-	if(CCV.player)
-		this.player = CCV.player;
-	else{
-		this.player = CCV.player = new CCV.app.Player(this.cnv, {
-				magnifierDisplayStatus: false,
-				scenesShowFillStatus: true
-			});
-	}
-	
 	/** @var {TimelineMax} */
 	this.helpAnimation = null;
 	
@@ -49,12 +37,13 @@ DGN.Application = function (lang) {
 	
 	/** @var {Boolean} */
 	this.helpResizedFlag = true;
-	
-	this.initInteractions();
+	 
 	this.langSet(lang);
 	
 	/** @var {Howl} */
 	this.soundInterface  = null;
+	
+	setTimeout(this.init.bind(this), 1000);
 };
 proto = DGN.Application.prototype;
 
@@ -63,6 +52,17 @@ proto = DGN.Application.prototype;
 //         INITIALIZATION & DATA
 // ------------------------------------------------------------------------------------------
 
+proto.init = function(){
+	if(CCV.player)
+		this.player = CCV.player;
+	else
+		this.player = CCV.player = new CCV.app.Player(document.getElementById('pixi-stage'), {
+			magnifierDisplayStatus: false,
+			scenesShowFillStatus: true
+		});
+	
+	this.initInteractions();
+};
 proto.initInteractions = function(){
 	var self = this, page, pagination;
 	
@@ -82,26 +82,12 @@ proto.initInteractions = function(){
 		.on('click', 'button.action-info', function () {
 			self.openInfo();
 		})
-		.on('click', 'button.action-play', function (e) {
-			self.openHelp(e);
-		})
-		.on('click', 'button.action-play', function (e) {
-			new Howl(Object.assign({
-				src: 'ccv/audio/interface128.aac',
-				volume: 0,
-				buffer: true,
-				loop: true,
-				autoplay: false,
-				onplay: function(){
-					this.fade(0, CCV.global.AUDIO_GLOBAL_VOLUME, 8000);
-				}
-			}, props));
-			this.soundInterfaceId = this.soundInterface.play();
+		.on('click', 'button.action-play', function () {
+			self.openHelp();
 		})
 		.on('click', '.app-title', function () {
 			self.openHelp();
 		});
-	
 	
 	// ---   help
 	
@@ -146,31 +132,12 @@ proto.initInteractions = function(){
 			threshold: 50
 		});
 	});
-	
-	
-	// ---   play
-	
-	// buttons actions
-	pointer = $('#play .footer-menu');
-	pointer
-		.on('click', '.red-home', function () {
-			self.closePlay();
-		})
-		.on('click', '.red-magnifier', function () {
-			self.player.magnifierDisplayToggle();
-		})
-		.on('click', '.red-help', function () {
-			self.openHelp();
-		})
-		.on('click', '.red-arrow', function () {
-			pointer.toggleClass('opened');
-		});
 };
 proto.soundPlay = function(props){
 	if(!props || !props.hasOwnProperty('src'))
 		return;
 	
-	console.warn('mobileAutoEnable: ' + Howler.mobileAutoEnable);
+	// console.warn('mobileAutoEnable: ' + Howler.mobileAutoEnable);
 	
 	if(this.soundInterface){
 		if(this.soundInterface._src.indexOf('interface') > 0 == props.src.indexOf('interface') > 0)
@@ -195,7 +162,6 @@ proto.onenterstate = function(e, from, to){
 	if(KPF.PRODUCTION)
 		return;
 	
-	/*
 	switch(to){
 		case DGN.states.HOME:
 		case DGN.states.INFO:
@@ -218,7 +184,6 @@ proto.onenterstate = function(e, from, to){
 		+ e + ': [' + from + ' >> ' + to + ']'
 		+ '\n' + separator
 		);
-		*/
 };
 proto.toString = function(){
 	return '[DGNApplication] lang: ' + this.lang + ', state: "' + this.current + '"';
@@ -402,6 +367,9 @@ proto.onopenPlay = function (e, from, to) {
 		$('#help')
 			.removeClass('sliding')
 			.attr('data-pos', 'at-top');
+		$('#play .footer-menu')
+			.toggleClass('opened', false)
+			.css('z-index', 3000);
 	}, 300);
 	$('#play').attr('data-pos', 'at-default');
 	this.player.activateSet(true);

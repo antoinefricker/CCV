@@ -29,18 +29,6 @@ DGN.Application = function (lang) {
 		]
 	});
 	
-	this.cnv = document.getElementById('pixi-stage');
-	
-	/** @var {CCV.core.Player} */
-	if(CCV.player)
-		this.player = CCV.player;
-	else{
-		this.player = CCV.player = new CCV.app.Player(this.cnv, {
-				magnifierDisplayStatus: false,
-				scenesShowFillStatus: true
-			});
-	}
-	
 	/** @var {TimelineMax} */
 	this.helpAnimation = null;
 	
@@ -49,12 +37,13 @@ DGN.Application = function (lang) {
 	
 	/** @var {Boolean} */
 	this.helpResizedFlag = true;
-	
-	this.initInteractions();
+	 
 	this.langSet(lang);
 	
 	/** @var {Howl} */
 	this.soundInterface  = null;
+	
+	setTimeout(this.init.bind(this), 1000);
 };
 proto = DGN.Application.prototype;
 
@@ -63,6 +52,17 @@ proto = DGN.Application.prototype;
 //         INITIALIZATION & DATA
 // ------------------------------------------------------------------------------------------
 
+proto.init = function(){
+	if(CCV.player)
+		this.player = CCV.player;
+	else
+		this.player = CCV.player = new CCV.app.Player(document.getElementById('pixi-stage'), {
+			magnifierDisplayStatus: false,
+			scenesShowFillStatus: true
+		});
+	
+	this.initInteractions();
+};
 proto.initInteractions = function(){
 	var self = this, page, pagination;
 	
@@ -82,26 +82,12 @@ proto.initInteractions = function(){
 		.on('click', 'button.action-info', function () {
 			self.openInfo();
 		})
-		.on('click', 'button.action-play', function (e) {
-			self.openHelp(e);
-		})
-		.on('click', 'button.action-play', function (e) {
-			new Howl(Object.assign({
-				src: 'ccv/audio/interface128.aac',
-				volume: 0,
-				buffer: true,
-				loop: true,
-				autoplay: false,
-				onplay: function(){
-					this.fade(0, CCV.global.AUDIO_GLOBAL_VOLUME, 8000);
-				}
-			}, props));
-			this.soundInterfaceId = this.soundInterface.play();
+		.on('click', 'button.action-play', function () {
+			self.openHelp();
 		})
 		.on('click', '.app-title', function () {
 			self.openHelp();
 		});
-	
 	
 	// ---   help
 	
@@ -146,31 +132,12 @@ proto.initInteractions = function(){
 			threshold: 50
 		});
 	});
-	
-	
-	// ---   play
-	
-	// buttons actions
-	pointer = $('#play .footer-menu');
-	pointer
-		.on('click', '.red-home', function () {
-			self.closePlay();
-		})
-		.on('click', '.red-magnifier', function () {
-			self.player.magnifierDisplayToggle();
-		})
-		.on('click', '.red-help', function () {
-			self.openHelp();
-		})
-		.on('click', '.red-arrow', function () {
-			pointer.toggleClass('opened');
-		});
 };
 proto.soundPlay = function(props){
 	if(!props || !props.hasOwnProperty('src'))
 		return;
 	
-	console.warn('mobileAutoEnable: ' + Howler.mobileAutoEnable);
+	// console.warn('mobileAutoEnable: ' + Howler.mobileAutoEnable);
 	
 	if(this.soundInterface){
 		if(this.soundInterface._src.indexOf('interface') > 0 == props.src.indexOf('interface') > 0)
@@ -195,7 +162,6 @@ proto.onenterstate = function(e, from, to){
 	if(KPF.PRODUCTION)
 		return;
 	
-	/*
 	switch(to){
 		case DGN.states.HOME:
 		case DGN.states.INFO:
@@ -218,7 +184,6 @@ proto.onenterstate = function(e, from, to){
 		+ e + ': [' + from + ' >> ' + to + ']'
 		+ '\n' + separator
 		);
-		*/
 };
 proto.toString = function(){
 	return '[DGNApplication] lang: ' + this.lang + ', state: "' + this.current + '"';
@@ -402,6 +367,9 @@ proto.onopenPlay = function (e, from, to) {
 		$('#help')
 			.removeClass('sliding')
 			.attr('data-pos', 'at-top');
+		$('#play .footer-menu')
+			.toggleClass('opened', false)
+			.css('z-index', 3000);
 	}, 300);
 	$('#play').attr('data-pos', 'at-default');
 	this.player.activateSet(true);
@@ -805,7 +773,7 @@ if (!CCV.global){
 		PRELOAD_AUDIO_DELTA: 3,
 		PRELOAD_LAYER_DELTA: 7,
 		PRELOAD_SEQUENCE_DELTA: 2,
-		SCENE_ACTIVATE_BORDING_SCENES: true,
+		SCENE_ACTIVATE_BORDING_SCENES: false,
 		
 		HEADER_HEIGHT: 0,
 		FOOTER_HEIGHT: 0,
@@ -825,7 +793,7 @@ if (!CCV.global){
 		AUDIO_FOLDER: 'ccv/audio/',
 		AUDIO_GLOBAL_VOLUME: 1,
 		
-		SCENE_START_INDEX: 10,
+		SCENE_START_INDEX: 1,
 		SCENE_START_RAND: false,
 		SCENE_ACTIVATION_DELAY: 500,
 		SCENE_DEACTIVATION_DELAY: 1400,
@@ -888,7 +856,7 @@ if(!CCV.app.Player){
 		CCV.player = this;
 		
 		this.mediaFolder = '';
-		this.texture = 0;
+		this.texturesCounter = 0;
 		
 		// ---   create application
 		this.application = new PIXI.Application(800, 600, {
@@ -913,6 +881,9 @@ if(!CCV.app.Player){
 		
 		this.magnifier = new CCV.app.Magnifier(CCV.global.MAGNIFIER_RADIUS);
 		this.application.stage.addChild(this.magnifier.view);
+		
+		this.menu = new CCV.app.FooterMenu();
+		this.application.stage.addChild(this.menu.view);
 		
 		// --- callbacks
 		
@@ -1023,6 +994,8 @@ if(!CCV.app.Player){
 			this.activateSet(true);
 		
 		$(this.target).trigger('ready', [this.landscape.scenes, this.landscape.scenesIndexed]);
+		
+		this.triggerIndex(this.landscape.index, this.landscape.scenes, this.landscape.scenes.length);
 	};
 	proto.registerAudioChannel = function(audio){
 		if(!this.audioChannels)
@@ -1353,13 +1326,14 @@ if(!CCV.app.Player){
 		this.background.width = this.size.x;
 		this.background.height = this.size.y;
 		
-		this.application.renderer.resize(this.size.x, this.size.y);
-		
 		this.scale = this.size.y / (this.landscapeHeight + this.groundHeight);
 		if(this.scale > 1){
 			scaleOverflow = true;
 			this.scale = 1;
 		}
+		
+		this.application.renderer.resize(this.size.x, this.size.y);
+		
 		KPF.utils.log('- application size: ' + this.size.toString()
 			+ '\n - application scale: ' + this.scale.toFixed(2)
 			+ '\n - scaleOverflow: ' + scaleOverflow,
@@ -1446,6 +1420,104 @@ if(!CCV.app.AnimationsTicker){
 
 
 // ----------------------------------------------------------------------
+// CCV.app.FooterMenu
+// ----------------------------------------------------------------------
+if(!CCV.app.FooterMenu){
+	
+	/**
+	 * @constructor
+	 */
+	CCV.app.FooterMenu = function(){
+		
+		this.buildView();
+		
+		var app = DGN.app;
+		
+		this.arrow.on('pointerdown', this.openStatusToggle.bind(this));
+		this.magnifier.on('pointerdown', CCV.player.magnifierDisplayToggle.bind(CCV.player));
+		if(app){
+			this.help.on('pointerdown', app.openHelp.bind(app));
+			this.home.on('pointerdown', app.closePlay.bind(app));
+		}
+		
+		this.opened = false;
+		this.openStatus(this.opened );
+	}
+	proto = CCV.app.FooterMenu.prototype;
+	
+	proto.buildView = function(){
+		this.iconSize = 46;
+		this.iconMargin = 30;
+		
+		this.view = new PIXI.Container();
+		
+		this.innerContainer = new PIXI.Container();
+		this.innerContainer.x = -400;
+		this.view.addChild(this.innerContainer);
+		
+		
+		this.home = new PIXI.Sprite.fromImage('theme/mm/_icon-red-home.png');
+		this.home.anchor.set(.5);
+		this.home.interactive = this.home.buttonMode = true;
+		this.home.x = - this.iconSize;
+		this.home.width = this.home.height = this.iconSize;
+		this.innerContainer.addChild(this.home);
+		
+		this.magnifier = new PIXI.Sprite.fromImage('theme/mm/_icon-red-magnifier.png');
+		this.magnifier.anchor.set(.5);
+		this.magnifier.interactive = this.magnifier.buttonMode = true;
+		this.magnifier.x = this.home.x - (this.iconSize + this.iconMargin);
+		this.magnifier.width = this.magnifier.height = this.iconSize;
+		this.innerContainer.addChild(this.magnifier);
+		
+		this.help = new PIXI.Sprite.fromImage('theme/mm/_icon-red-help.png');
+		this.help.anchor.set(.5);
+		this.help.interactive = this.help.buttonMode = true;
+		this.help.x = this.magnifier.x - (this.iconSize + this.iconMargin);
+		this.help.width = this.help.height = this.iconSize;
+		this.innerContainer.addChild(this.help);
+		
+		this.arrow = new PIXI.Sprite.fromImage('theme/mm/_icon-red-to-left.png');
+		this.arrow.anchor.set(.5);
+		this.arrow.interactive = this.arrow.buttonMode = true;
+		this.arrow.x = this.help.x - (this.iconSize + this.iconMargin);
+		this.arrow.width = this.arrow.height = this.iconSize;
+		this.innerContainer.addChild(this.arrow);
+		
+		this.mask = new PIXI.Graphics();
+		this.mask.beginFill(0x00ff00, .4);
+		this.mask.drawRect(this.arrow.x - .5 * this.iconSize, -.5 * this.iconSize, 4 * this.iconSize +  3 * this.iconMargin, this.iconSize);
+		this.view.addChild(this.mask);
+		this.innerContainer.mask = this.mask;
+		
+		/*
+		this.debug = new PIXI.Graphics();
+		CCV.utils.drawDebugPoint(this.debug, new PIXI.Point(0, 0), 0x00ff00, 1);
+		this.view.addChild(this.debug);
+		*/
+	};
+	proto.openStatusToggle = function(){
+		this.openStatus(!this.opened);
+	}
+	proto.openStatus = function(status){
+		var pos = 0;
+		
+		this.opened = status;
+		
+		console.log(this.opened);
+		
+		TweenMax.to(this.arrow, .2, {
+			rotation: status ? Math.PI : 0
+		});
+		TweenMax.to(this.innerContainer, .5, {
+			ease: Strong.easeOut,
+			x: status ? 0 : - this.iconSize - this.arrow.x
+		});
+	}
+}
+
+
+// ----------------------------------------------------------------------
 // CCV.app.Landscape
 // ----------------------------------------------------------------------
 if (!CCV.app.Landscape) {
@@ -1514,6 +1586,7 @@ if (!CCV.app.Landscape) {
 			this.view.y = Math.round((size.y - this.size.y) * .66);
 		}
 		else{
+			this.view.x = this.size.x - 50;
 			this.view.y = 0;
 		}
 		
@@ -1523,7 +1596,8 @@ if (!CCV.app.Landscape) {
 		var gy = this.view.y + (scale * CCV.player.landscapeHeight);
 		var dy = CCV.player.size.y - gy;
 		var ty = gy + (.5 * dy);
-		$('.footer-menu').css('top', ty);
+		CCV.player.menu.view.x = this.size.x;
+		CCV.player.menu.view.y = ty;
 		
 		// graphic debug
 		this.debugGfx.clear();
@@ -1734,8 +1808,10 @@ if (!CCV.app.Landscape) {
 		else if (index > ilen - 1)
 			index = 0;
 		index = parseInt(index);
-		if(this.index == index)
+		if(this.index == index){
 			return;
+		}
+			
 		this.index = index;
 		KPF.utils.log('index: ' + index, 'Landscape.setIndex');
 		
@@ -2127,7 +2203,7 @@ if (!CCV.app.Layer) {
 			
 			// console.log('\t - create ' + (this.scene ? this.scene.fullId : '"' + this.file + '"') + ' layer');
 			
-			CCV.player.textures++;
+			CCV.player.texturesCounter++;
 		}
 		else if(this.img){
 			this.view.removeChildren();
@@ -2136,7 +2212,7 @@ if (!CCV.app.Layer) {
 			
 			// console.log('\t - destroy ' + (this.scene ? this.scene.fullId : '"' + this.file + '"') + ' layer');
 			
-			CCV.player.textures--;
+			CCV.player.texturesCounter--;
 		}
 	};
 	/**
@@ -2323,7 +2399,7 @@ if (!CCV.app.Sequence) {
 				if(!this.preview){
 					this.preview = new PIXI.Sprite(new PIXI.Texture.fromImage(this.previewSrc));
 					this.view.addChild(this.preview);
-					CCV.player.textures++;
+					CCV.player.texturesCounter++;
 					console.log('\t\t create ' + this.scene.fullId + ' preview');
 				}
 			}
@@ -2331,7 +2407,7 @@ if (!CCV.app.Sequence) {
 				this.view.removeChild(this.preview);
 				this.preview.destroy(true);
 				this.preview = null;
-				CCV.player.textures--;
+				CCV.player.texturesCounter--;
 				console.log('\t\t destroy ' + this.scene.fullId + ' preview');
 			}
 		}
@@ -2345,7 +2421,7 @@ if (!CCV.app.Sequence) {
 					file = this.scene.folder + this.file.replace('[NUM]', index);
 					textures.push(new PIXI.Texture.fromImage(file));
 				}
-				CCV.player.textures += textures.length;
+				CCV.player.texturesCounter += textures.length;
 				
 				this.animation = new PIXI.extras.AnimatedSprite(textures, false);
 				this.animation.gotoAndStop(0);
@@ -2354,7 +2430,7 @@ if (!CCV.app.Sequence) {
 			}
 		}
 		else if(this.animation) {
-			CCV.player.textures -= this.animation.totalFrames;
+			CCV.player.texturesCounter -= this.animation.totalFrames;
 			
 			CCV.player.animTicker.removeSequence(this);
 			this.view.removeChild(this.animation);
@@ -2376,7 +2452,7 @@ if (!CCV.app.Sequence) {
 				}
 			}
 			catch(err){
-				console.warn('\t\t [failed] launch ' + this.scene.fullId + ' ticker: ' + err.message);
+				console.log('\t\t [failed] launch ' + this.scene.fullId + ' ticker: ' + err.message);
 			}
 		}
 		else if(this.animation != null && CCV.player.animTicker.removeSequence(this)){

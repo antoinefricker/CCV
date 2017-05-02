@@ -1,26 +1,31 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<widget xmlns   = "http://www.w3.org/ns/widgets"
-        xmlns:gap   = "http://phonegap.com/ns/1.0"
-        id          = "com.kopfstoss.ccv"
-        versionCode = "10"
-        version     = "1.0.0" >
-
-    <!-- versionCode is optional and Android only -->
-
-    <name>PhoneGap Example</name>
-
+<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:cocoon="http://cocoon.io/ns/1.0" xmlns:cdv="http://cordova.apache.org/ns/1.0" id="com.kopfstoss.ccv" version="1.0.0">
+    <name>Cache-cache Ville</name>
     <description>
-        An example for phonegap build docs.
+        A sample Cocoon application that responds to the deviceready event.
     </description>
-
-    <author href="http://agathedemois.com/">
-        Agathe Demois
+    <author email="antoine.fricker@gmail.com" href="https://cocoon.io">
+        Antoine Fricker
     </author>
-    <author href="http://vincentgodeau.fr/">
-        Vincent Godeau
-    </author>
-
-    <platform name="ios" />
-    <platform name="android" />
-
+    <content src="index.html"/>
+    <plugin name="cordova-plugin-whitelist" version="1"/>
+    <access origin="*"/>
+    <allow-intent href="http://*/*"/>
+    <allow-intent href="https://*/*"/>
+    <allow-intent href="tel:*"/>
+    <allow-intent href="sms:*"/>
+    <allow-intent href="mailto:*"/>
+    <allow-intent href="geo:*"/>
+    <platform name="android">
+        <allow-intent href="market:*"/>
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*"/>
+        <allow-intent href="itms-apps:*"/>
+        <preference name="enabled" value="true"/>
+    </platform>
+    <preference name="Orientation" value="landscape"/>
+    <preference name="Fullscreen" value="true"/>
+    <preference name="CocoonSplashBackgroundColor" value="#FFFFFF"/>
+    <preference name="cocoon-version" value="2.0.0"/>
 </widget>
