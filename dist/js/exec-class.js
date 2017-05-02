@@ -1452,9 +1452,7 @@ if(!CCV.app.FooterMenu){
 		this.view = new PIXI.Container();
 		
 		this.innerContainer = new PIXI.Container();
-		this.innerContainer.x = -400;
 		this.view.addChild(this.innerContainer);
-		
 		
 		this.home = new PIXI.Sprite.fromImage('theme/mm/_icon-red-home.png');
 		this.home.anchor.set(.5);
@@ -1596,7 +1594,7 @@ if (!CCV.app.Landscape) {
 		var gy = this.view.y + (scale * CCV.player.landscapeHeight);
 		var dy = CCV.player.size.y - gy;
 		var ty = gy + (.5 * dy);
-		CCV.player.menu.view.x = this.size.x;
+		CCV.player.menu.view.x = this.size.x - 25;
 		CCV.player.menu.view.y = ty;
 		
 		// graphic debug
