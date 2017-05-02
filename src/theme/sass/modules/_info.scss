@@ -232,8 +232,14 @@
 		}
 	}
 	@media (max-width: 1030px) {
-		.lang-en h3 {
-			font-size: $p-size - 2px;
+		.lang-en{
+			h3 {
+				font-size: $p-size - 2px;
+				margin-bottom:4px;
+			}
+			p {
+				font-size: $mini-size - 1px;
+			}
 		}
 	}
 }

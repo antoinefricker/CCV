@@ -687,6 +687,11 @@ button.action-button span {
 @media (max-width: 1030px) {
 	#info1 .lang-en h3 {
 		font-size: 18px;
+		margin-bottom: 4px;
+	}
+
+	#info1 .lang-en p {
+		font-size: 11px;
 	}
 }
 
@@ -810,7 +815,6 @@ button.action-button span {
 	font-weight: normal;
 	position: absolute;
 	z-index: 2000;
-	bottom: 10px;
 	padding: 5px;
 	color: white;
 	background: rgba(0, 0, 0, .55);
@@ -851,6 +855,7 @@ button.action-button span {
 }
 
 #player-console {
+	top: 10px;
 	left: 10px;
 }
 
@@ -860,4 +865,5 @@ button.action-button span {
 
 #player-controls {
 	right: 10px;
+	bottom: 10px;
 }

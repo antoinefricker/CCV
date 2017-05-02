@@ -1,6 +1,6 @@
 #player-console, #player-controls{
 	position:absolute;
-	bottom:10px;
+	//display:none;
 	
 	z-index:2000;
 	
@@ -35,10 +35,12 @@
 }
 #player-console{
 	left:10px;
+	top:10px;
 	div{
 		width: 250px;
 	}
 }
 #player-controls {
 	right: 10px;
+	bottom:10px;
 }
