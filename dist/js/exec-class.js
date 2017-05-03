@@ -15,7 +15,7 @@ DGN.Application = function (lang) {
 		target: DGN.Application.prototype,
 		initial: 'none',
 		error: function (eventName, from, to, args, errorCode, errorMessage, originalException) {
-			console.log('[StateMachine - DGN.sm] event "' + eventName + '" ; ' + errorMessage);
+			KPF.utils.log('[StateMachine - DGN.sm] event "' + eventName + '" ; ' + errorMessage);
 			if(originalException)
 			console.warn(originalException);
 		},
@@ -166,7 +166,6 @@ proto.preloadStackPop = function(){
 	
 	var img = new Image();
 	img.onload = function(){
-		console.log(this.src +  ' loaded');
 		self.preloadStackPop();
 	};
 	img.src = this.preloadStack.shift();
@@ -178,13 +177,13 @@ proto.soundPlay = function(props){
 	// console.warn('mobileAutoEnable: ' + Howler.mobileAutoEnable);
 	
 	if(this.soundInterface){
-		if(this.soundInterface._src.indexOf('interface') > 0 == props.src.indexOf('interface') > 0)
+		if(this.soundInterface._src == props.src)
 			return;
 		this.soundInterface.fade(this.soundInterface.volume(null, this.soundInterfaceId), 0, 2000);
 	}
 	
 	this.soundInterface = new Howl(Object.assign({
-		src: 'ccv/audio/interface128.aac',
+		src: 'ccv/audio/interface128.mp3',
 		volume: 0,
 		buffer: true,
 		loop: true,
@@ -206,7 +205,7 @@ proto.onenterstate = function(e, from, to){
 		case DGN.states.HOME:
 		case DGN.states.INFO:
 			this.soundPlay({
-				src: ['ccv/audio/interface128.aac', 'ccv/audio/interface128.mp3'],
+				src: 'ccv/audio/interface128.mp3',
 				loop: false
 			});
 			break;
@@ -214,13 +213,13 @@ proto.onenterstate = function(e, from, to){
 		case DGN.states.PLAY:
 		case DGN.states.HELP:
 			this.soundPlay({
-				src: ['ccv/audio/landscape128.aac', 'ccv/audio/landscape128.mp3'],
+				src: ['ccv/audio/landscape128.mp3'],
 				loop: true
 			});
 			break;
 	}
 	var separator = '-------------------------------------------------';
-	console.log(separator + '\n'
+	KPF.utils.log(separator + '\n'
 		+ e + ': [' + from + ' >> ' + to + ']'
 		+ '\n' + separator
 		);
@@ -511,7 +510,7 @@ if (!KPF)
 if (!KPF.global)
 	KPF.global = {};
 
-KPF.global.PRODUCTION = true;
+KPF.global.PRODUCTION = false;
 KPF.global.FORMAT_INDENT = '   ';
 var KPF;
 
@@ -927,49 +926,10 @@ if(!CCV.app.Player){
 		this.menu = new CCV.app.FooterMenu();
 		this.application.stage.addChild(this.menu.view);
 		
+		
 		// --- callbacks
 		
-		this.cbks = {};
-		
-		// render activation
-		this.cbks.activate = this.activateSet.bind(this, true);
-		this.cbks.deactivate = this.activateSet.bind(this, false);
-		// window resize
-		this.cbks.resize = this.resize.bind(this);
-		
-		// landscape swipe handlers
-		this.cbks.scrollCtx = {
-			name: 'scrollCtx',
-			active: false,
-			startX: Number.NaN,
-			startScrollPanelX: Number.NaN,
-			elasticity: Number.NaN,
-			scrollTargetX: Number.NaN
-		};
-		Object.seal(this.cbks.scrollCtx);
-	
-		this.cbks.scrollStart = this._scrollStart.bind(this);
-		this.cbks.scrollEnd = this._scrollEnd.bind(this);
-		this.cbks.scrollMove = this._scrollMove.bind(this);
-		this.cbks.scrollApply = this._scrollApply.bind(this);
-		
-		// magnifier handlers
-		this.cbks.mgCtx = {
-			name: 'mgCtx',
-			dragTouch: null,
-			pinchTouch: null,
-			pinchStartScale: Number.NaN,
-			pinchStartDelta: Number.NaN,
-			idleTimeoutId: null
-		};
-		Object.seal(this.cbks.mgCtx);
-	
-		this.cbks.magnifierDragScroll = this._mgDragScroll.bind(this);
-		this.cbks.magnifierDragStart = this._mgDragStart.bind(this);
-		this.cbks.magnifierDragMove = this._mgDragMove.bind(this);
-		this.cbks.magnifierDragEnd = this._mgDragEnd.bind(this);
-	
-		this.cbks.refreshIndex = this.refreshIndex.bind(this);
+		this.initCallbacks();
 		
 		
 		// --- window utilities
@@ -995,6 +955,50 @@ if(!CCV.app.Player){
 		this.configurationLoad();
 	};
 	proto = CCV.app.Player.prototype;
+	
+	proto.initCallbacks = function(){
+		this.cbks = {};
+		
+		// render activation
+		this.cbks.activate = this.activateSet.bind(this, true);
+		this.cbks.deactivate = this.activateSet.bind(this, false);
+		// window resize
+		this.cbks.resize = this.resize.bind(this);
+		
+		// landscape swipe handlers
+		this.cbks.scrollCtx = {
+			name: 'scrollCtx',
+			active: false,
+			startX: Number.NaN,
+			startScrollPanelX: Number.NaN,
+			elasticity: Number.NaN,
+			scrollTargetX: Number.NaN
+		};
+		Object.seal(this.cbks.scrollCtx);
+		
+		this.cbks.scrollStart = this._scrollStart.bind(this);
+		this.cbks.scrollEnd = this._scrollEnd.bind(this);
+		this.cbks.scrollMove = this._scrollMove.bind(this);
+		this.cbks.scrollApply = this._scrollApply.bind(this);
+		
+		// magnifier handlers
+		this.cbks.mgCtx = {
+			name: 'mgCtx',
+			dragTouch: null,
+			pinchTouch: null,
+			pinchStartScale: Number.NaN,
+			pinchStartDelta: Number.NaN,
+			idleTimeoutId: null
+		};
+		Object.seal(this.cbks.mgCtx);
+		
+		this.cbks.magnifierDragScroll = this._mgDragScroll.bind(this);
+		this.cbks.magnifierDragStart = this._mgDragStart.bind(this);
+		this.cbks.magnifierDragMove = this._mgDragMove.bind(this);
+		this.cbks.magnifierDragEnd = this._mgDragEnd.bind(this);
+		
+		this.cbks.refreshIndex = this.refreshIndex.bind(this);
+	};
 	
 	// --------------- MODEL UTILITIES
 	
@@ -1167,8 +1171,8 @@ if(!CCV.app.Player){
 			coef = 1 - (pos / CCV.global.MAGNIFIER_DRAG_SCROLL_LIMIT);
 			coef = Math.pow(coef, 2);
 		}
-		else if(screen.availWidth - pos < CCV.global.MAGNIFIER_DRAG_SCROLL_LIMIT){
-			coef = ((screen.availWidth - pos) / CCV.global.MAGNIFIER_DRAG_SCROLL_LIMIT) - 1;
+		else if(window.innerWidth - pos < CCV.global.MAGNIFIER_DRAG_SCROLL_LIMIT){
+			coef = ((window.innerWidth - pos) / CCV.global.MAGNIFIER_DRAG_SCROLL_LIMIT) - 1;
 			coef = Math.pow(coef, 2);
 			coef *= -1;
 		}
@@ -1309,7 +1313,7 @@ if(!CCV.app.Player){
 		var i, ilen;
 		
 		if(status){
-			KPF.utils.warn('Start application rendering', 'Player.activate');
+			KPF.utils.log('Start application rendering', 'Player.activate');
 			
 			PIXI.ticker.shared.start();
 			this.animTicker.start();
@@ -1543,8 +1547,6 @@ if(!CCV.app.FooterMenu){
 		var pos = 0;
 		
 		this.opened = status;
-		
-		console.log(this.opened);
 		
 		TweenMax.to(this.arrow, .2, {
 			rotation: status ? Math.PI : 0
@@ -2355,7 +2357,7 @@ if (!CCV.app.Sequence) {
 			if(this.startFrames > 0)
 				this.startSuspensionFrames = this.startFrames;
 			else if(this.audio){
-				console.log('launch audio from repeat pause');
+				KPF.utils.log('launch audio from repeat pause');
 				this.audio.start(true);
 			}
 			a.gotoAndStop(0);
@@ -2371,7 +2373,7 @@ if (!CCV.app.Sequence) {
 			this.startSuspensionFrames = -1;
 			a.gotoAndStop(1);
 			if(this.audio){
-				console.log('launch audio from restart pause');
+				KPF.utils.log('launch audio from restart pause');
 				this.audio.start(true);
 			}
 		}
@@ -2397,7 +2399,7 @@ if (!CCV.app.Sequence) {
 			else{
 				a.gotoAndStop(0);
 				if(this.audio){
-					console.log('launch audio from loop');
+					KPF.utils.log('launch audio from loop');
 					this.audio.start(true);
 				}
 			}
@@ -2440,7 +2442,7 @@ if (!CCV.app.Sequence) {
 					this.preview = new PIXI.Sprite(new PIXI.Texture.fromImage(this.previewSrc));
 					this.view.addChild(this.preview);
 					CCV.player.texturesCounter++;
-					console.log('\t\t create ' + this.scene.fullId + ' preview');
+					KPF.utils.log('\t\t create ' + this.scene.fullId + ' preview');
 				}
 			}
 			else if (this.preview) {
@@ -2448,7 +2450,7 @@ if (!CCV.app.Sequence) {
 				this.preview.destroy(true);
 				this.preview = null;
 				CCV.player.texturesCounter--;
-				console.log('\t\t destroy ' + this.scene.fullId + ' preview');
+				KPF.utils.log('\t\t destroy ' + this.scene.fullId + ' preview');
 			}
 		}
 		
@@ -2466,7 +2468,7 @@ if (!CCV.app.Sequence) {
 				this.animation = new PIXI.extras.AnimatedSprite(textures, false);
 				this.animation.gotoAndStop(0);
 				this.view.addChild(this.animation);
-				console.log('\t\t create ' + this.scene.fullId + ' sequence');
+				KPF.utils.log('\t\t create ' + this.scene.fullId + ' sequence');
 			}
 		}
 		else if(this.animation) {
@@ -2476,7 +2478,7 @@ if (!CCV.app.Sequence) {
 			this.view.removeChild(this.animation);
 			this.animation.destroy(true);
 			this.animation = null;
-			console.log('\t\t destroy ' + this.scene.fullId + ' sequence');
+			KPF.utils.log('\t\t destroy ' + this.scene.fullId + ' sequence');
 		}
 		
 		// --- change active status or die
@@ -2485,18 +2487,18 @@ if (!CCV.app.Sequence) {
 				if(CCV.player.animTicker.addSequence(this)){
 					this.startSuspensionFrames = -1;
 					this.endSuspensionFrames = -1;
-					console.log('\t\t launch ' + this.scene.fullId + ' ticker');
+					KPF.utils.log('\t\t launch ' + this.scene.fullId + ' ticker');
 					
 					if(this.audio && CCV.global.AUDIO_ENABLED)
 						this.audio.start(true);
 				}
 			}
 			catch(err){
-				console.log('\t\t [failed] launch ' + this.scene.fullId + ' ticker: ' + err.message);
+				KPF.utils.log('\t\t [failed] launch ' + this.scene.fullId + ' ticker: ' + err.message);
 			}
 		}
 		else if(this.animation != null && CCV.player.animTicker.removeSequence(this)){
-			console.log('\t\t remove ' + this.scene.fullId + ' ticker');
+			KPF.utils.log('\t\t remove ' + this.scene.fullId + ' ticker');
 			
 			if(this.audio && CCV.global.AUDIO_ENABLED)
 				this.audio.stop(true);

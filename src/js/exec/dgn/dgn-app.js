@@ -15,7 +15,7 @@ DGN.Application = function (lang) {
 		target: DGN.Application.prototype,
 		initial: 'none',
 		error: function (eventName, from, to, args, errorCode, errorMessage, originalException) {
-			console.log('[StateMachine - DGN.sm] event "' + eventName + '" ; ' + errorMessage);
+			KPF.utils.log('[StateMachine - DGN.sm] event "' + eventName + '" ; ' + errorMessage);
 			if(originalException)
 			console.warn(originalException);
 		},
@@ -166,7 +166,6 @@ proto.preloadStackPop = function(){
 	
 	var img = new Image();
 	img.onload = function(){
-		console.log(this.src +  ' loaded');
 		self.preloadStackPop();
 	};
 	img.src = this.preloadStack.shift();
@@ -178,13 +177,13 @@ proto.soundPlay = function(props){
 	// console.warn('mobileAutoEnable: ' + Howler.mobileAutoEnable);
 	
 	if(this.soundInterface){
-		if(this.soundInterface._src.indexOf('interface') > 0 == props.src.indexOf('interface') > 0)
+		if(this.soundInterface._src == props.src)
 			return;
 		this.soundInterface.fade(this.soundInterface.volume(null, this.soundInterfaceId), 0, 2000);
 	}
 	
 	this.soundInterface = new Howl(Object.assign({
-		src: 'ccv/audio/interface128.aac',
+		src: 'ccv/audio/interface128.mp3',
 		volume: 0,
 		buffer: true,
 		loop: true,
@@ -206,7 +205,7 @@ proto.onenterstate = function(e, from, to){
 		case DGN.states.HOME:
 		case DGN.states.INFO:
 			this.soundPlay({
-				src: ['ccv/audio/interface128.aac', 'ccv/audio/interface128.mp3'],
+				src: 'ccv/audio/interface128.mp3',
 				loop: false
 			});
 			break;
@@ -214,13 +213,13 @@ proto.onenterstate = function(e, from, to){
 		case DGN.states.PLAY:
 		case DGN.states.HELP:
 			this.soundPlay({
-				src: ['ccv/audio/landscape128.aac', 'ccv/audio/landscape128.mp3'],
+				src: ['ccv/audio/landscape128.mp3'],
 				loop: true
 			});
 			break;
 	}
 	var separator = '-------------------------------------------------';
-	console.log(separator + '\n'
+	KPF.utils.log(separator + '\n'
 		+ e + ': [' + from + ' >> ' + to + ']'
 		+ '\n' + separator
 		);
