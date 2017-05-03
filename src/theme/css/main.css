@@ -864,6 +864,6 @@ button.action-button span {
 }
 
 #player-controls {
+	top: 10px;
 	right: 10px;
-	bottom: 10px;
 }

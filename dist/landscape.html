@@ -70,6 +70,7 @@
 <script>
 	var cnv = document.getElementById('pixi-stage');
 	
+	CCV.global.SYS_AUTO_ACTIVATION = true;
 	var app = new CCV.app.Player(cnv, {
 		magnifierDisplayStatus: true,
 		scenesShowFillStatus: true
@@ -107,7 +108,7 @@
 			$('#fps').html(PIXI.ticker.shared.FPS.toFixed(1) + '/' + CCV.global.SYS_FPS + ' (' + app.animTicker.sequences.length + ' seq)');
 			$('#textures').html(app.texturesCounter + ' textures');
 			$('#sourceFolder').html(app.scaleFolder);
-			$('#scale').html(app.scale.toFixed(2));
+			$('#scale').html(app.scale.toFixed(2) + ' (' + this.app.size.x.toFixed(0) + 'x' + this.app.size.y.toFixed(0) + ')');
 			$('#renderMode').html(app.getMode());
 		}, 1400);
 		
