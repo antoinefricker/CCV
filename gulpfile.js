@@ -116,14 +116,14 @@ gulp.task('images_opt', function(){
 
 // ------------------ CCV
 gulp.task('ccv_images', function(){
-	return gulp.src("src/ccv/x1/**/all.png")
+	return gulp.src("src/ccv/x1/**/*.png")
 		.pipe(imagemin([
 			imagemin.optipng({
 				bitDepthReduction: true,
-				optimizationLevel: 5, // between 0 and 7
+				optimizationLevel: 6, // between 0 and 7
 				colorTypeReduction: true,
 				paletteReduction: true
 			})
 		]))
-		.pipe(gulp.dest('dist/ccv/x1/_statics/'));
+		.pipe(gulp.dest('dist/ccv/x1/'));
 });

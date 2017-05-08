@@ -54,7 +54,7 @@ if (!KPF.utils) {
 	 */
 	KPF.utils.log = function (message, context, data) {
 		
-		if(!KPF.global.PRODUCTION)
+		if(KPF.global.PRODUCTION)
 			return;
 			
 		var str = KPF.utils._logBuildStr(message, context);

@@ -111,12 +111,13 @@
 				"red": {
 					"fill":
 						{
-							"file": "decors/fontaine[NUM].png",
+							"file": "fontaine[NUM].png",
 							"endDelay": 0,
 							"startDelay": 0,
 							"seqNumLength": 2,
 							"seqStart": 1,
-							"seqEnd": 3
+							"seqEnd": 3,
+							"spritesheet": "decors/fontaine.json"
 						}
 				}
 			},
@@ -190,12 +191,13 @@
 				"red": {
 					"fill":
 					{
-						"file": "decors/chien[NUM].png",
+						"file": "chien[NUM].png",
 						"endDelay": 0,
 						"startDelay": 0,
 						"seqNumLength": 2,
 						"seqStart": 1,
-						"seqEnd": 50
+						"seqEnd": 50,
+						"spritesheet": "decors/chien.json"
 					}
 					
 				}
@@ -399,13 +401,13 @@
 				"red": {
 					"fill":
 					{
-						"preview": "decors/poubelle29.png",
-						"file": "decors/poubelle[NUM].png",
+						"file": "poubelle[NUM].png",
 						"endDelay": 1000,
 						"startDelay": 2000,
 						"seqNumLength": 2,
 						"seqStart": 29,
-						"seqEnd": 45
+						"seqEnd": 45,
+						"spritesheet": "decors/poubelle.json"
 					}
 				}
 			},
@@ -630,12 +632,13 @@
 				"red": {
 					"fill":
 					{
-						"file": "decors/fumee_[NUM].png",
+						"file": "fumee_[NUM].png",
 						"endDelay": 0,
 						"startDelay": 0,
 						"seqNumLength": 2,
 						"seqStart": 0,
-						"seqEnd": 15
+						"seqEnd": 15,
+						"spritesheet": "decors/fumee.json"
 					}
 				}
 			},
@@ -650,13 +653,13 @@
 				"red": {
 					"fill":
 					{
-						"preview": "decors/affiches00.png",
-						"file": "decors/affiches[NUM].png",
-						"endDelay": 2000,
-						"startDelay": 0,
+						"file": "affiches[NUM].png",
+						"endDelay": 0,
+						"startDelay": 2000,
 						"seqNumLength": 2,
 						"seqStart": 0,
-						"seqEnd": 81
+						"seqEnd": 80,
+						"spritesheet": "decors/affiches.json"
 					}
 				}
 			},
@@ -818,7 +821,6 @@
 					"y": 0
 				},
 				"red": {
-					
 					"outline": {
 						"file": "contour.png"
 					},
@@ -826,19 +828,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
+				"blue": [
+					{
+						"file": "completeBlue.png"
 					},
-					"preview": "seq/parkingBleu_00198.png",
-					"file": "seq/parkingBleu_[NUM].png",
-					"endDelay": -1,
-					"startDelay": -1,
-					"seqNumLength": 5,
-					"seqStart": 198,
-					"seqEnd": 260
-				}
+					{
+						"pos": {
+							"x": 481,
+							"y": 0
+						},
+						"preview": "seq2/parkingBleu_00198.png",
+						"file": "seq2/parkingBleu_[NUM].png",
+						"endDelay": -1,
+						"startDelay": -1,
+						"seqNumLength": 5,
+						"seqStart": 198,
+						"seqEnd": 260
+					}
+				]
 			},
 			{
 				"id": "_bird-cable",
@@ -856,12 +863,13 @@
 				"red": {
 					"fill":
 					{
-						"file": "decors/oiseau-fil[NUM].png",
+						"file": "oiseau-fil[NUM].png",
 						"endDelay": -1,
 						"startDelay": -1,
 						"seqNumLength": 2,
 						"seqStart": 0,
-						"seqEnd": 61
+						"seqEnd": 61,
+						"spritesheet": "decors/oiseau-fil.json"
 					}
 					
 				}
@@ -1021,12 +1029,13 @@
 				"red": {
 					"fill":
 					{
-						"file": "decors/oiseau-escalier[NUM].png",
+						"file": "oiseau-escalier[NUM].png",
 						"endDelay": 0,
 						"startDelay": 1500,
 						"seqNumLength": 2,
 						"seqStart": 12,
-						"seqEnd": 69
+						"seqEnd": 69,
+						"spritesheet": "decors/oiseau-escalier.json"
 					}
 				}
 			},
@@ -1328,13 +1337,13 @@
 				"red": {
 					"fill":
 					{
-						"preview": "decors/chat01.png",
-						"file": "decors/chat[NUM].png",
+						"file": "chat[NUM].png",
 						"endDelay": 0,
 						"startDelay": 250,
 						"seqNumLength": 2,
 						"seqStart": 1,
-						"seqEnd": 8
+						"seqEnd": 8,
+						"spritesheet": "decors/chat.json"
 					}
 					
 				}
@@ -1470,12 +1479,13 @@
 				"red": {
 					"fill":
 					{
-						"file": "decors/picvert[NUM].png",
+						"file": "picvert[NUM].png",
 						"seqNumLength": 2,
 						"endDelay": 0,
 						"startDelay": 0,
 						"seqStart": 0,
-						"seqEnd": 12
+						"seqEnd": 12,
+						"spritesheet": "decors/picvert.json"
 					}
 				}
 			},
@@ -1588,12 +1598,13 @@
 				"red": {
 					"fill":
 					{
-						"file": "decors/drapeau[NUM].png",
+						"file": "drapeau[NUM].png",
 						"endDelay": 0,
 						"startDelay": 0,
 						"seqNumLength": 2,
 						"seqStart": 1,
-						"seqEnd": 8
+						"seqEnd": 8,
+						"spritesheet": "decors/drapeau.json"
 					}
 				}
 			},

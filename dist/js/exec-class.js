@@ -514,7 +514,7 @@ if (!KPF)
 if (!KPF.global)
 	KPF.global = {};
 
-KPF.global.PRODUCTION = false;
+KPF.global.PRODUCTION = true;
 KPF.global.FORMAT_INDENT = '   ';
 var KPF;
 
@@ -572,7 +572,7 @@ if (!KPF.utils) {
 	 */
 	KPF.utils.log = function (message, context, data) {
 		
-		if(!KPF.global.PRODUCTION)
+		if(KPF.global.PRODUCTION)
 			return;
 			
 		var str = KPF.utils._logBuildStr(message, context);
@@ -832,7 +832,8 @@ if (!CCV.global){
 		SYS_WORKSHOP_MODE: false,
 		
 		DEBUG_LANDSCAPE_GFX: true,
-		DEBUG_SCENE_GFX: true,
+		DEBUG_SCENE_DELTA: true,
+		DEBUG_SCENE_GFX: false,
 		DEBUG_SCENE_MARGINS: false,
 		
 		AUDIO_ENABLED: true,
@@ -1146,6 +1147,8 @@ if(!CCV.app.Player){
 			this.magnifier.pinchScale = mgCtx.pinchStartScale + (delta / CCV.global.MAGNIFIER_PINCH_AMP * CCV.global.MAGNIFIER_PINCH_INCREMENT);
 		}
 		else if(mgCtx.dragTouch && e.data.identifier == mgCtx.dragTouch.id){
+			pos.x = KPF.utils.clamp(pos.x, 0, this.size.x);
+			pos.y = KPF.utils.clamp(pos.y, 0, this.size.y);
 			this.magnifier.pos = pos;
 		}
 	};
@@ -1360,8 +1363,10 @@ if(!CCV.app.Player){
 	};
 	
 	proto.resizeInit = function(){
+		var maxAvailHeight;
+		
 		/*
-		var maxAvailHeight = window.innerHeight - CCV.global.FOOTER_HEIGHT -CCV.global.HEADER_HEIGHT;
+		maxAvailHeight = window.innerHeight - CCV.global.FOOTER_HEIGHT -CCV.global.HEADER_HEIGHT;
 		if(CCV.global.SYS_ALLOW_LARGE && maxAvailHeight > .5 * (CCV.global.SCENE_MAX_HEIGHT + CCV.global.SCENE_GROUND_HEIGHT)){
 			this.scaleFolder = 'x2';
 			this.scaleSourceCoef = 2;
@@ -1371,6 +1376,7 @@ if(!CCV.app.Player){
 			this.scaleSourceCoef = 1;
 		}
 		*/
+		
 		this.scaleFolder = 'x1';
 		this.scaleSourceCoef = 1;
 		
@@ -1673,17 +1679,19 @@ if (!CCV.app.Landscape) {
 			this.debugGfx.moveTo(this.xCenter, temp - 20);
 			this.debugGfx.lineTo(this.xCenter, temp + 20);
 			
+			/*
 			// draw scene area
 			this.debugGfx.lineStyle();
-			this.debugGfx.beginFill(0xff0000, .2);
+			this.debugGfx.beginFill(0xff0000, .05);
 			this.debugGfx.drawRect(0, 0, this.size.x, pl.landscapeHeight);
 			this.debugGfx.endFill();
 			
 			// draw ground line
 			this.debugGfx.lineStyle();
-			this.debugGfx.beginFill(0x0, .2);
+			this.debugGfx.beginFill(0x0, .05);
 			this.debugGfx.drawRect(0, pl.landscapeHeight, this.size.x, pl.groundHeight);
 			this.debugGfx.endFill();
+			*/
 		}
 		
 		// reset landscape position
@@ -2107,14 +2115,6 @@ if (!CCV.app.Scene) {
 		// ---   red layers
 		this.red = new CCV.app.CompoLayer(data.red, this);
 		if(data.red){
-			/** EDIT 08/05/2017 Useless for adHoc version
-			this.redOutline = this.red.addLayer(data.red.outline, this);
-			if(this.redOutline && this.redOutline.view){
-				this.redOutline.view.position.copy(this.pos);
-				this.redOutline.view.blendMode = PIXI.BLEND_MODES.MULTIPLY;
-				this.view.addChild(this.redOutline.view);
-			}
-			*/
 			this.redFill = this.red.addLayer(data.red.fill, this);
 			if(this.redFill && this.redFill.view){
 				this.redFill.view.position.copy(this.pos);
@@ -2123,72 +2123,64 @@ if (!CCV.app.Scene) {
 			}
 		}
 		
+		this.debugGfx = new PIXI.Container();
+		
 		// ---   debug markers
 		if (CCV.global.DEBUG_SCENE_GFX) {
-			var gfx;
-			
-			this.debugGfx = new PIXI.Container();
-			this.view.addChild(this.debugGfx);
-			
-			gfx = new PIXI.Graphics();
+			var debugSceneGfx = new PIXI.Graphics();
+			this.debugGfx.addChild(debugSceneGfx);
 			
 			// draw size and position
-			CCV.utils.drawDebugPoint(gfx, this.pos, 0xff0000, 2);
-			CCV.utils.drawDebugRect(gfx, new PIXI.Rectangle(this.pos.x, this.pos.y, this.size.x, this.size.y), 0x0000ff, 1, 1, false);
-			this.debugGfx.addChild(gfx);
+			CCV.utils.drawDebugPoint(debugSceneGfx, this.pos, 0xff0000, 2);
+			CCV.utils.drawDebugRect(debugSceneGfx, new PIXI.Rectangle(this.pos.x, this.pos.y, this.size.x, this.size.y), 0x0000ff, 1, 1, false);
+			this.debugGfx.addChild(debugSceneGfx);
 			
-			// draw left margin
-			if(CCV.global.DEBUG_SCENE_MARGINS){
-				if(this.marginLeft != 0){
-					gfx.lineStyle(1, 0x0000ff, 1);
-					gfx.drawRect(this.pos.x - this.marginLeft, this.pos.y, this.marginLeft, this.size.y);
-					gfx.moveTo(this.pos.x, this.pos.y);
-					gfx.lineTo(this.pos.x - this.marginLeft, this.pos.y + (.5 * this.size.y));
-					gfx.lineTo(this.pos.x, this.pos.y + this.size.y);
-					this.debugGfx.addChild(gfx);
-				}
+			CCV.utils.drawDebugPoint(debugSceneGfx, new PIXI.Point(0, 0), 0xff0000, 2);
+			CCV.utils.drawDebugRect(debugSceneGfx, new PIXI.Rectangle(0, 0, Math.abs(this.size.x + this.pos.x), this.size.y + this.pos.y), 0xff0000, 1, .2, false);
+		}
+		
+		// draw left margin
+		if(CCV.global.DEBUG_SCENE_MARGINS){
+			var debugMarginsGfx = new PIXI.Graphics();
+			this.debugGfx.addChild(debugMarginsGfx);
+			
+			if(this.marginLeft != 0){
+				debugMarginsGfx.lineStyle(1, 0x0000ff, 1);
+				debugMarginsGfx.drawRect(this.pos.x - this.marginLeft, this.pos.y, this.marginLeft, this.size.y);
+				debugMarginsGfx.moveTo(this.pos.x, this.pos.y);
+				debugMarginsGfx.lineTo(this.pos.x - this.marginLeft, this.pos.y + (.5 * this.size.y));
+				debugMarginsGfx.lineTo(this.pos.x, this.pos.y + this.size.y);
 			}
-			
+		}
+		
+		if(CCV.global.DEBUG_SCENE_DELTA) {
 			// show root ID and position
 			this.text = new PIXI.Text('', {
 				fontFamily: 'Verdana',
-				fontSize: 12,
+				fontSize: 24,
 				fill: 0x0
 			});
-			this.text.position = new PIXI.Point(10, 10);
+			this.text.position = new PIXI.Point(10 + this.pos.x, 30 + this.pos.y);
 			this.debugGfx.addChild(this.text);
-			
-			CCV.utils.drawDebugPoint(gfx, new PIXI.Point(0, 0), 0xff0000, 2);
-			CCV.utils.drawDebugRect(gfx, new PIXI.Rectangle(0, 0, Math.abs(this.size.x + this.pos.x), this.size.y + this.pos.y), 0xff0000, 1, .2, false);
 		}
+			
+		if(this.debugGfx.children.length > 0)
+			this.view.addChild(this.debugGfx);
+		else
+			delete this.debugGfx;
 	};
 	proto.activateDisplay = function(delta, context) {
 		var self = this;
 		var deltaAbs = Math.abs(delta);
 		
-		if(CCV.global.DEBUG_SCENE_GFX)
-			this.text.text = '[#' + this.id + ', d: ' + deltaAbs + ']';
+		if(CCV.global.DEBUG_SCENE_DELTA)
+			this.text.text = '#' + this.id + '\nd: ' + deltaAbs;
 		
 		// audio management
 		if(this.audio){
 			(deltaAbs > CCV.global.PRELOAD_AUDIO_DELTA) ? this.audio.soundDispose() : this.audio.soundInit();
 			status && CCV.global.AUDIO_ENABLED ? this.audio.start(true) : this.audio.stop(true);
 		}
-		
-		/** #EDIT 08/05/2017 useless for adHoc version
-		if(this.redOutline)
-			this.redFill.activateDisplay(delta, context);
-		 */
-		
-		/*
-		if(this.activationTimeoutId)
-			window.clearTimeout(this.activationTimeoutId);
-		
-		this.activationTimeoutId = window.setTimeout(function(){
-			$(self).trigger('displayStateChange', [status, delta]);
-		}, status ? CCV.global.SCENE_ACTIVATION_DELAY : CCV.global.SCENE_DEACTIVATION_DELAY);
-		*/
-		
 		
 		$(self).trigger('displayStateChange', [delta, context]);
 	};
@@ -2350,6 +2342,10 @@ if (!CCV.app.Sequence) {
 	proto = CCV.app.Sequence.prototype;
 	
 	proto.parse = function(data){
+		this.spritesheet = data.spritesheet;
+		if(this.spritesheet)
+			this.spritesheet = this.scene.folder + this.spritesheet;
+		this.loader = null;
 		this.seqNumLength = data.hasOwnProperty('seqNumLength') ? data.seqNumLength : -1;
 		this.seqStart = data.hasOwnProperty('seqStart') ? data.seqStart : 1;
 		this.seqEnd = data.hasOwnProperty('seqEnd') ? data.seqEnd : 1;
@@ -2457,10 +2453,9 @@ if (!CCV.app.Sequence) {
 		return str;
 	};
 	proto.activateDisplay = function(e, delta, context){
-		var i, textures, file, index, status, deltaAbs;
+		var deltaAbs;
 		
 		deltaAbs = Math.abs(delta);
-		status = deltaAbs < (this.previewSrc == null ? CCV.global.PRELOAD_LAYER_DELTA : CCV.global.PRELOAD_SEQUENCE_DELTA);
 		 
 		// #################### handle audio preload
 		if(this.audio && CCV.global.AUDIO_ENABLED){
@@ -2487,53 +2482,96 @@ if (!CCV.app.Sequence) {
 		}
 		
 		// #################### handle sequence preload
-		if(status){
+		if(deltaAbs < (this.previewSrc == null ? CCV.global.PRELOAD_LAYER_DELTA : CCV.global.PRELOAD_SEQUENCE_DELTA)){
 			if(!this.animation){
-				textures = [];
-				for (i = this.seqStart; i <= this.seqEnd; ++i){
-					index = this.seqNumLength > 0 ? KPF.utils.fillTo(i, this.seqNumLength, '0') : i;
-					file = this.scene.folder + this.file.replace('[NUM]', index);
-					textures.push(new PIXI.Texture.fromImage(file));
+				if(this.spritesheet){
+					this.loader = new PIXI.loaders.Loader();
+					this.loader
+						.add(this.spritesheet)
+						.load(this.buildTextures.bind(this));
 				}
-				CCV.player.texturesCounter += textures.length;
-				
-				this.animation = new PIXI.extras.AnimatedSprite(textures, false);
-				this.animation.gotoAndStop(0);
-				this.view.addChild(this.animation);
-				KPF.utils.log('\t\t create ' + this.scene.fullId + ' sequence');
+				else{
+					this.buildTextures();
+				}
 			}
 		}
-		else if(this.animation) {
-			CCV.player.texturesCounter -= this.animation.totalFrames;
+		else{
+			if(this.animation == null)
+				return;
 			
-			CCV.player.animTicker.removeSequence(this);
+			// remove from animation ticker
+			if(CCV.player.animTicker.removeSequence(this)){
+				KPF.utils.log('\t\t remove ' + this.scene.fullId + ' ticker');
+				
+				if(this.audio && CCV.global.AUDIO_ENABLED)
+					this.audio.stop(true);
+			}
+			
+			// destroy loader
+			if(this.loader){
+				console.log('- ' + this.scene.fullId, this.loader);
+				this.loader.destroy();
+				delete this.loader;
+				console.log('\t done');
+			}
+			
+			// destroy animation
+			CCV.player.texturesCounter -= this.animation.totalFrames;
 			this.view.removeChild(this.animation);
 			this.animation.destroy(true);
 			this.animation = null;
+			
+			
+			
 			KPF.utils.log('\t\t destroy ' + this.scene.fullId + ' sequence');
 		}
+	};
+	proto.buildTextures = function(){
+		var i, ilen, textures, file, index;
 		
-		// --- change active status or die
-		if(status){
-			try{
-				if(CCV.player.animTicker.addSequence(this)){
-					this.startSuspensionFrames = -1;
-					this.endSuspensionFrames = -1;
-					KPF.utils.log('\t\t launch ' + this.scene.fullId + ' ticker');
-					
-					if(this.audio && CCV.global.AUDIO_ENABLED)
-						this.audio.start(true);
-				}
+		// retrieve files names
+		files = [];
+		for (i = this.seqStart; i <= this.seqEnd; ++i) {
+			index = this.seqNumLength > 0 ? KPF.utils.fillTo(i, this.seqNumLength, '0') : i;
+			file = this.file.replace('[NUM]', index);
+			files.push(this.file.replace('[NUM]', index));
+		}
+		
+		// store textures
+		textures = [];
+		ilen = files.length;
+		if(this.spritesheet) {
+			for(i = 0; i < ilen; i++)
+				textures.push(PIXI.Texture.fromFrame(files[i]));
+		}
+		else{
+			for(i = 0; i < ilen; i++)
+				textures.push(new PIXI.Texture.fromImage(this.scene.folder + files[i]));
+		}
+		CCV.player.texturesCounter += textures.length;
+		
+		// assign textures
+		this.animation = new PIXI.extras.AnimatedSprite(textures, false);
+		this.animation.gotoAndStop(0);
+		this.view.addChild(this.animation);
+		KPF.utils.log('\t\t ------------------------------------------ create ' + this.scene.fullId + ' sequence');
+		
+		
+		try{
+			if(CCV.player.animTicker.addSequence(this)){
+				this.startSuspensionFrames = -1;
+				this.endSuspensionFrames = -1;
+				KPF.utils.log('\t\t launch ' + this.scene.fullId + ' ticker');
+				
+				if(this.audio && CCV.global.AUDIO_ENABLED)
+					this.audio.start(true);
 			}
-			catch(err){
-				KPF.utils.log('\t\t [failed] launch ' + this.scene.fullId + ' ticker: ' + err.message);
+			else{
+				console.warn('unable to add sequence for ' + this.scene.fullId);
 			}
 		}
-		else if(this.animation != null && CCV.player.animTicker.removeSequence(this)){
-			KPF.utils.log('\t\t remove ' + this.scene.fullId + ' ticker');
-			
-			if(this.audio && CCV.global.AUDIO_ENABLED)
-				this.audio.stop(true);
+		catch(err){
+			KPF.utils.warn('\t\t [failed] launch ' + this.scene.fullId + ' ticker: ' + err.message);
 		}
 	};
 }
@@ -2735,7 +2773,7 @@ if(!CCV.app.AudioChannel){
 		this.sound = null;
 	};
 	proto.isPlaying = function(){
-		return this.soundId && this.sound.playing(this.soundId);
+		return this.soundId && this.sound && this.sound.playing(this.soundId);
 	};
 	proto.start = function(doTransition){
 		if(!this.sound){
