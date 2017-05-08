@@ -21,11 +21,7 @@
 					"y": 1900
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
-					"outline": {
+					"fill": {
 						"file": "decors/grid.png"
 					}
 				}
@@ -113,7 +109,7 @@
 					"y": 366
 				},
 				"red": {
-					"outline":
+					"fill":
 						{
 							"file": "decors/fontaine[NUM].png",
 							"endDelay": 0,
@@ -137,7 +133,7 @@
 					"y": -480
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/2-nuage1.png"
 					}
@@ -192,7 +188,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/chien[NUM].png",
 						"endDelay": 0,
@@ -213,7 +209,7 @@
 					"y": 367
 				},
 				"red": {
-					"outline": {
+					"fill": {
 						"file": "decors/4-pancartedirection-1.png"
 					}
 				}
@@ -261,7 +257,7 @@
 					"y": 219
 				},
 				"red": {
-					"outline": {
+					"fill": {
 						"file": "decors/5-buisson1.png"
 					}
 				}
@@ -309,7 +305,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
+					"fill": {
 						"file": "decors/6-poteauelec1.png"
 					}
 				}
@@ -401,7 +397,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"preview": "decors/poubelle29.png",
 						"file": "decors/poubelle[NUM].png",
@@ -453,7 +449,7 @@
 					"y": 126
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/8-bite1.png"
 					}
@@ -495,7 +491,7 @@
 					"y": 271
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/9panneausignalisation1.png"
 					}
@@ -540,7 +536,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/10feusignalisation.png"
 					}
@@ -585,7 +581,7 @@
 					"y": 168
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/11buisson.png"
 					}
@@ -632,7 +628,7 @@
 					"y": -579
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/fumee_[NUM].png",
 						"endDelay": 0,
@@ -641,7 +637,6 @@
 						"seqStart": 0,
 						"seqEnd": 15
 					}
-					
 				}
 			},
 			{
@@ -653,15 +648,15 @@
 					"y": 300
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"preview": "decors/affiches00.png",
 						"file": "decors/affiches[NUM].png",
-						"endDelay": 0,
+						"endDelay": 2000,
 						"startDelay": 0,
 						"seqNumLength": 2,
 						"seqStart": 0,
-						"seqEnd": 95
+						"seqEnd": 81
 					}
 				}
 			},
@@ -709,7 +704,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/15-abris-bus.png"
 					}
@@ -728,7 +723,7 @@
 					"y": -480
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/2-nuage1.png"
 					}
@@ -769,7 +764,7 @@
 					"y": 259
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/16panneau-signalisation2.png"
 					}
@@ -859,7 +854,7 @@
 					"y": -262
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/oiseau-fil[NUM].png",
 						"endDelay": -1,
@@ -884,7 +879,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/17-poteau-electrique1.png"
 					}
@@ -930,7 +925,7 @@
 					"y": 345
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/18-lampadaire1.png"
 					}
@@ -1005,7 +1000,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/19-buisson3.png"
 					}
@@ -1024,7 +1019,7 @@
 					"y": -395
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/oiseau-escalier[NUM].png",
 						"endDelay": 0,
@@ -1079,7 +1074,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/20-mur.png"
 					}
@@ -1128,7 +1123,7 @@
 					"y": 457
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/21-colonne-morris.png"
 					}
@@ -1143,7 +1138,7 @@
 					"y": 126
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/22-bite2.png"
 					}
@@ -1192,7 +1187,7 @@
 					"y": 452
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/23-bite-panneau.png"
 					}
@@ -1233,7 +1228,7 @@
 					"y": 277
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/24-panneau-signalisation3.png"
 					}
@@ -1286,7 +1281,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/25-buisson4.png"
 					}
@@ -1331,7 +1326,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"preview": "decors/chat01.png",
 						"file": "decors/chat[NUM].png",
@@ -1380,7 +1375,7 @@
 					"y": 109
 				},
 				"red": {
-					"outline": {
+					"fill": {
 						"file": "decors/27-poubelle2.png"
 					}
 				}
@@ -1420,7 +1415,7 @@
 					"y": 343
 				},
 				"red": {
-					"outline": {
+					"fill": {
 						"file": "decors/28-lampadaire2.png"
 					}
 				}
@@ -1473,7 +1468,7 @@
 					"y": -82
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/picvert[NUM].png",
 						"seqNumLength": 2,
@@ -1497,7 +1492,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
+					"fill": {
 						"file": "decors/29-herbe-banc.png"
 					}
 				}
@@ -1546,7 +1541,7 @@
 					"y": 1
 				},
 				"red": {
-					"outline": {
+					"fill": {
 						"file": "decors/31-pierre-herbe.png"
 					}
 				}
@@ -1591,7 +1586,7 @@
 					"y": -530
 				},
 				"red": {
-					"outline":
+					"fill":
 					{
 						"file": "decors/drapeau[NUM].png",
 						"endDelay": 0,
@@ -1615,7 +1610,7 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
+					"fill": {
 						"file": "decors/33-buisson5.png"
 					}
 				}
@@ -1686,7 +1681,7 @@
 					"y": 260
 				},
 				"red": {
-					"outline": {
+					"fill": {
 						"file": "decors/34-panneau-signalisation.png"
 					}
 				}
