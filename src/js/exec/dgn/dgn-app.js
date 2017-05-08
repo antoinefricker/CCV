@@ -171,6 +171,10 @@ proto.preloadStackPop = function(){
 	img.src = this.preloadStack.shift();
 };
 proto.soundPlay = function(props){
+	
+	if(!CCV.global.AUDIO_ENABLED)
+		return;
+	
 	if(!props || !props.hasOwnProperty('src'))
 		return;
 	

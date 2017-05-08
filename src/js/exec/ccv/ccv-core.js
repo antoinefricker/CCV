@@ -99,7 +99,7 @@ if (!CCV.global){
 		BLUE: 0xADD2EA,
 		
 		PRELOAD_AUDIO_DELTA: 3,
-		PRELOAD_LAYER_DELTA: 5,
+		PRELOAD_LAYER_DELTA: 6,
 		PRELOAD_SEQUENCE_DELTA: 2,
 		SCENE_ACTIVATE_BORDING_SCENES: false,
 		
@@ -112,16 +112,18 @@ if (!CCV.global){
 		SYS_ALLOW_LARGE: false,
 		SYS_AUTO_ACTIVATION: false,
 		SYS_WIN_FOCUS_ACTIVATION: false,
+		SYS_WORKSHOP_MODE: false,
 		
-		DEBUG_LANDSCAPE_GFX: false,
-		DEBUG_SCENE_GFX: false,
+		DEBUG_LANDSCAPE_GFX: true,
+		DEBUG_SCENE_GFX: true,
 		DEBUG_SCENE_MARGINS: false,
 		
 		AUDIO_ENABLED: true,
 		AUDIO_FOLDER: 'ccv/audio/',
 		AUDIO_GLOBAL_VOLUME: 1,
 		
-		SCENE_START_INDEX: 1,
+		
+		SCENE_START_INDEX: 25,
 		SCENE_START_RAND: false,
 		SCENE_ACTIVATION_DELAY: 500,
 		SCENE_DEACTIVATION_DELAY: 1400,
@@ -1344,8 +1346,10 @@ if (!CCV.app.Scene) {
 		str += '[Scene] #' + this.id;
 		if (this.redFill)
 			str += '\n' + indent + pattern + 'redFill: ' + this.redFill.info(depth + 1, false);
+		/** EDIT 08/05/2017 Useless for adHoc version
 		if (this.redOutline)
 			str += '\n' + indent + pattern + 'redOutline: ' + this.redOutline.info(depth + 1, false);
+		*/
 		if (this.blue)
 			str += '\n' + indent + pattern + 'blue: ' + this.blue.info(depth + 1, false);
 		return str;
@@ -1386,18 +1390,20 @@ if (!CCV.app.Scene) {
 		// ---   red layers
 		this.red = new CCV.app.CompoLayer(data.red, this);
 		if(data.red){
+			/** EDIT 08/05/2017 Useless for adHoc version
 			this.redOutline = this.red.addLayer(data.red.outline, this);
+			if(this.redOutline && this.redOutline.view){
+				this.redOutline.view.position.copy(this.pos);
+				this.redOutline.view.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+				this.view.addChild(this.redOutline.view);
+			}
+			*/
 			this.redFill = this.red.addLayer(data.red.fill, this);
-		}
-		if(this.redFill && this.redFill.view){
-			this.redFill.view.position.copy(this.pos);
-			this.redFill.view.blendMode = PIXI.BLEND_MODES.MULTIPLY;
-			this.view.addChild(this.redFill.view);
-		}
-		if(this.redOutline && this.redOutline.view){
-			this.redOutline.view.position.copy(this.pos);
-			this.redOutline.view.blendMode = PIXI.BLEND_MODES.MULTIPLY;
-			this.view.addChild(this.redOutline.view);
+			if(this.redFill && this.redFill.view){
+				this.redFill.view.position.copy(this.pos);
+				this.redFill.view.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+				this.view.addChild(this.redFill.view);
+			}
 		}
 		
 		// ---   debug markers
@@ -1452,6 +1458,11 @@ if (!CCV.app.Scene) {
 			status && CCV.global.AUDIO_ENABLED ? this.audio.start(true) : this.audio.stop(true);
 		}
 		
+		/** #EDIT 08/05/2017 useless for adHoc version
+		if(this.redOutline)
+			this.redFill.activateDisplay(delta, context);
+		 */
+		
 		/*
 		if(this.activationTimeoutId)
 			window.clearTimeout(this.activationTimeoutId);
@@ -1460,6 +1471,8 @@ if (!CCV.app.Scene) {
 			$(self).trigger('displayStateChange', [status, delta]);
 		}, status ? CCV.global.SCENE_ACTIVATION_DELAY : CCV.global.SCENE_DEACTIVATION_DELAY);
 		*/
+		
+		
 		$(self).trigger('displayStateChange', [delta, context]);
 	};
 }
