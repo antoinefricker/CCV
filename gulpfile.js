@@ -70,7 +70,7 @@ gulp.task('sass_plugins_compile', function(){
 
 gulp.task('json_compile', function(){
 	return gulp.src('src/js/json/*.json')
-		.pipe(jsonminify())
+		.pipe(gulpif(settings.production, jsonminify()))
 		.pipe(gulp.dest('dist/json/'))
 		.pipe(browserSync.stream());
 });

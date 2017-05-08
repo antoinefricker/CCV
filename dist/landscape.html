@@ -135,14 +135,15 @@
 			app.scenesShowFillToggle();
 		});
 		
+		
+		$('#random').on('click', function(){
+			app.landscape.setRandomIndex(false);
+		});
 		$('#scrollToLeft').on('click', function(){
 			app.landscape.move(-1, false);
 		});
 		$('#scrollFastToLeft').on('click', function(){
 			app.landscape.move(-1, true);
-		});
-		$('#random').on('click', function(){
-			app.landscape.setRandomIndex(false);
 		});
 		$('#scrollToRight').on('click', function(){
 			app.landscape.move(1, false);
