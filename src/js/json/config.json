@@ -1,7 +1,7 @@
 {
 	"landscape": {
 		"ground": {
-			"file": "_statics/ground.png",
+			"file": "decors/ground.png",
 			"size": {
 				"x": 2880,
 				"y": 12
@@ -26,7 +26,7 @@
 						"y": 0
 					},
 					"outline": {
-						"file": "_statics/grid.png"
+						"file": "decors/grid.png"
 					}
 				}
 			},
@@ -115,7 +115,7 @@
 				"red": {
 					"outline":
 						{
-							"file": "_statics/fontaine[NUM].png",
+							"file": "decors/fontaine[NUM].png",
 							"endDelay": 0,
 							"startDelay": 0,
 							"seqNumLength": 2,
@@ -139,7 +139,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/2-nuage1.png"
+						"file": "decors/2-nuage1.png"
 					}
 					
 				}
@@ -194,7 +194,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/chien[NUM].png",
+						"file": "decors/chien[NUM].png",
 						"endDelay": 0,
 						"startDelay": 0,
 						"seqNumLength": 2,
@@ -214,7 +214,7 @@
 				},
 				"red": {
 					"outline": {
-						"file": "_statics/4-pancartedirection-1.png"
+						"file": "decors/4-pancartedirection-1.png"
 					}
 				}
 			},
@@ -262,7 +262,7 @@
 				},
 				"red": {
 					"outline": {
-						"file": "_statics/5-buisson1.png"
+						"file": "decors/5-buisson1.png"
 					}
 				}
 			},
@@ -310,7 +310,7 @@
 				},
 				"red": {
 					"outline": {
-						"file": "_statics/6-poteauelec1.png"
+						"file": "decors/6-poteauelec1.png"
 					}
 				}
 			},
@@ -403,8 +403,8 @@
 				"red": {
 					"outline":
 					{
-						"preview": "_statics/poubelle29.png",
-						"file": "_statics/poubelle[NUM].png",
+						"preview": "decors/poubelle29.png",
+						"file": "decors/poubelle[NUM].png",
 						"endDelay": 1000,
 						"startDelay": 2000,
 						"seqNumLength": 2,
@@ -455,7 +455,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/8-bite1.png"
+						"file": "decors/8-bite1.png"
 					}
 					
 				}
@@ -497,7 +497,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/9panneausignalisation1.png"
+						"file": "decors/9panneausignalisation1.png"
 					}
 				}
 			},
@@ -542,7 +542,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/10feusignalisation.png"
+						"file": "decors/10feusignalisation.png"
 					}
 				}
 			},
@@ -587,7 +587,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/11buisson.png"
+						"file": "decors/11buisson.png"
 					}
 				}
 			},
@@ -634,7 +634,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/fumee_[NUM].png",
+						"file": "decors/fumee_[NUM].png",
 						"endDelay": 0,
 						"startDelay": 0,
 						"seqNumLength": 2,
@@ -655,8 +655,8 @@
 				"red": {
 					"outline":
 					{
-						"preview": "_statics/affiches00.png",
-						"file": "_statics/affiches[NUM].png",
+						"preview": "decors/affiches00.png",
+						"file": "decors/affiches[NUM].png",
 						"endDelay": 0,
 						"startDelay": 0,
 						"seqNumLength": 2,
@@ -711,7 +711,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/15-abris-bus.png"
+						"file": "decors/15-abris-bus.png"
 					}
 				}
 			},
@@ -730,7 +730,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/2-nuage1.png"
+						"file": "decors/2-nuage1.png"
 					}
 				}
 			},
@@ -771,7 +771,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/16panneau-signalisation2.png"
+						"file": "decors/16panneau-signalisation2.png"
 					}
 				}
 			},
@@ -861,7 +861,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/oiseau-fil[NUM].png",
+						"file": "decors/oiseau-fil[NUM].png",
 						"endDelay": -1,
 						"startDelay": -1,
 						"seqNumLength": 2,
@@ -886,7 +886,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/17-poteau-electrique1.png"
+						"file": "decors/17-poteau-electrique1.png"
 					}
 				}
 			},
@@ -932,7 +932,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/18-lampadaire1.png"
+						"file": "decors/18-lampadaire1.png"
 					}
 				}
 			},
@@ -1007,7 +1007,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/19-buisson3.png"
+						"file": "decors/19-buisson3.png"
 					}
 				}
 			},
@@ -1026,7 +1026,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/oiseau-escalier[NUM].png",
+						"file": "decors/oiseau-escalier[NUM].png",
 						"endDelay": 0,
 						"startDelay": 1500,
 						"seqNumLength": 2,
@@ -1081,7 +1081,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/20-mur.png"
+						"file": "decors/20-mur.png"
 					}
 				}
 			},
@@ -1130,7 +1130,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/21-colonne-morris.png"
+						"file": "decors/21-colonne-morris.png"
 					}
 				}
 			},
@@ -1145,7 +1145,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/22-bite2.png"
+						"file": "decors/22-bite2.png"
 					}
 				}
 			},
@@ -1194,7 +1194,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/23-bite-panneau.png"
+						"file": "decors/23-bite-panneau.png"
 					}
 				}
 			},
@@ -1235,7 +1235,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/24-panneau-signalisation3.png"
+						"file": "decors/24-panneau-signalisation3.png"
 					}
 				}
 			},
@@ -1288,7 +1288,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/25-buisson4.png"
+						"file": "decors/25-buisson4.png"
 					}
 				}
 			},
@@ -1333,8 +1333,8 @@
 				"red": {
 					"outline":
 					{
-						"preview": "_statics/chat01.png",
-						"file": "_statics/chat[NUM].png",
+						"preview": "decors/chat01.png",
+						"file": "decors/chat[NUM].png",
 						"endDelay": 0,
 						"startDelay": 250,
 						"seqNumLength": 2,
@@ -1381,7 +1381,7 @@
 				},
 				"red": {
 					"outline": {
-						"file": "_statics/27-poubelle2.png"
+						"file": "decors/27-poubelle2.png"
 					}
 				}
 			},
@@ -1421,7 +1421,7 @@
 				},
 				"red": {
 					"outline": {
-						"file": "_statics/28-lampadaire2.png"
+						"file": "decors/28-lampadaire2.png"
 					}
 				}
 			},
@@ -1475,7 +1475,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/picvert[NUM].png",
+						"file": "decors/picvert[NUM].png",
 						"seqNumLength": 2,
 						"endDelay": 0,
 						"startDelay": 0,
@@ -1498,7 +1498,7 @@
 				},
 				"red": {
 					"outline": {
-						"file": "_statics/29-herbe-banc.png"
+						"file": "decors/29-herbe-banc.png"
 					}
 				}
 			},
@@ -1547,7 +1547,7 @@
 				},
 				"red": {
 					"outline": {
-						"file": "_statics/31-pierre-herbe.png"
+						"file": "decors/31-pierre-herbe.png"
 					}
 				}
 			},
@@ -1593,7 +1593,7 @@
 				"red": {
 					"outline":
 					{
-						"file": "_statics/drapeau[NUM].png",
+						"file": "decors/drapeau[NUM].png",
 						"endDelay": 0,
 						"startDelay": 0,
 						"seqNumLength": 2,
@@ -1616,7 +1616,7 @@
 				},
 				"red": {
 					"outline": {
-						"file": "_statics/33-buisson5.png"
+						"file": "decors/33-buisson5.png"
 					}
 				}
 			},
@@ -1687,7 +1687,7 @@
 				},
 				"red": {
 					"outline": {
-						"file": "_statics/34-panneau-signalisation.png"
+						"file": "decors/34-panneau-signalisation.png"
 					}
 				}
 			},
