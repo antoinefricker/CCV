@@ -116,7 +116,7 @@ gulp.task('images_opt', function(){
 
 // ------------------ CCV
 gulp.task('ccv_images', function(){
-	return gulp.src("src/ccv/x1/_statics/**/*.png")
+	return gulp.src("src/ccv/x1/**/all.png")
 		.pipe(imagemin([
 			imagemin.optipng({
 				bitDepthReduction: true,
