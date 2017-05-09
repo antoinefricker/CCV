@@ -43,6 +43,7 @@
 				"src/js/libs/jquery/jquery.touchSwipe.js",
 				"src/js/libs/js-sm/js-sm.js",
 				"src/js/libs/pixijs/pixi.js",
+				"src/js/libs/pixijs/pixi-extends.js",
 				"src/js/libs/howler/howler-core.js",
 				"src/js/libs/gsap/TweenMax.js",
 				"src/js/libs/gsap/xtras/CustomEase.js"
@@ -50,10 +51,13 @@
 		},
 		"jsExecConcat": {
 			"js/exec-class.js": [
-				"src/js/exec/dgn/dgn-app.js",
 				"src/js/exec/kpf/kpf-global.js",
 				"src/js/exec/kpf/kpf-utilities.js",
-				"src/js/exec/ccv/ccv-core.js"
+				"src/js/exec/ccv/ccv-global.js",
+				"src/js/exec/ccv/ccv-utils.js",
+				"src/js/exec/ccv/ccv-audio.js",
+				"src/js/exec/ccv/ccv-app.js",
+				"src/js/exec/dgn/dgn-app.js"
 			],
 			"js/main.js": [
 				"src/js/exec/main.js"

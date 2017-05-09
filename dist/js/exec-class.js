@@ -1,505 +1,3 @@
-var DGN;
-var proto;
-
-DGN = {};
-
-DGN.states = {
-	HOME: 'home',
-	INFO: 'info',
-	HELP: 'help',
-	PLAY: 'play'
-};
-
-DGN.Application = function (lang) {
-	StateMachine.create({
-		target: DGN.Application.prototype,
-		initial: 'none',
-		error: function (eventName, from, to, args, errorCode, errorMessage, originalException) {
-			KPF.utils.log('[StateMachine - DGN.sm] event "' + eventName + '" ; ' + errorMessage);
-			if(originalException)
-			console.warn(originalException);
-		},
-		events: [
-			{name: 'initialize', from: 'none', to: DGN.states.HOME},
-			{name: 'openInfo', from: DGN.states.HOME, to: DGN.states.INFO},
-			{name: 'closeInfo', from: DGN.states.INFO, to: DGN.states.HOME},
-			{name: 'openHelp', from: [DGN.states.HOME, DGN.states.PLAY], to: DGN.states.HELP},
-			{name: 'openPlay', from: DGN.states.HELP, to: DGN.states.PLAY},
-			{name: 'closePlay', from: DGN.states.PLAY, to: DGN.states.HOME}
-		]
-	});
-	
-	/** @var {TimelineMax} */
-	this.helpAnimation = null;
-	
-	/** @var {Number} */
-	this.infoIndex = 0;
-	
-	/** @var {Boolean} */
-	this.helpResizedFlag = true;
-	 
-	this.langSet(lang);
-	
-	/** @var {Howl} */
-	this.soundInterface  = null;
-	
-	this.preloadStack = [];
-	this.preloadStackInit();
-	
-	setTimeout(this.preloadStackPop.bind(this), 1200);
-	
-	setTimeout(this.init.bind(this), 1000);
-};
-proto = DGN.Application.prototype;
-
-
-// ------------------------------------------------------------------------------------------
-//         INITIALIZATION & DATA
-// ------------------------------------------------------------------------------------------
-
-proto.init = function(){
-	if(CCV.player)
-		this.player = CCV.player;
-	else
-		this.player = CCV.player = new CCV.app.Player(document.getElementById('pixi-stage'), {
-			magnifierDisplayStatus: false,
-			scenesShowFillStatus: true
-		});
-	
-	this.initInteractions();
-};
-proto.initInteractions = function(){
-	var self = this, page, pagination;
-	
-	// ---   application
-	
-	// buttons interactions
-	$('[data-lang]')
-		.on('click', function () {
-			self.langSet($(this).data('lang'));
-		});
-	
-	
-	// ---   home page
-	
-	// buttons interactions
-	$('#home')
-		.on('click', 'button.action-info', function () {
-			self.openInfo();
-		})
-		.on('click', 'button.action-play', function () {
-			self.openHelp();
-		})
-		.on('click', '.app-title', function () {
-			self.openHelp();
-		});
-	
-	for(var i = 1; i <= 6; i++){
-		$('#home .house' + i)
-			.on('mousedown', function() {
-				$(this).toggleClass('active');
-			});
-	}
-	
-	// ---   help
-	
-	// buttons interactions
-	$('#help')
-		// .on('click', 'button.action-close', function () {
-		.on('click', function () {
-			self.openPlay();
-		});
-	
-	
-	// ---   info
-	
-	page = $('#info');
-	pagination = page.find('.pagination');
-	
-	// buttons interactions
-	page.on('click', 'button.action-home', function () {
-		self.closeInfo();
-	});
-	
-	// pagination
-	pointer = page.find('.inner-page');
-	pointer.each(function (index, el) {
-		
-		// create items
-		$('<div />')
-			.on('click', function () {
-				self.setInfoIndex(index, true);
-			})
-			.appendTo(pagination);
-		
-		// handle swipe
-		// @see doc
-		$(el).swipe({
-			swipe: function (e, direction) {
-				if (direction == 'right')
-					self.incInfoIndex(-1);
-				else if(direction == 'left')
-					self.incInfoIndex(1);
-			},
-			threshold: 50
-		});
-	});
-};
-proto.preloadStackInit = function() {
-		// home gifs
-	for (var i = 1; i <= 6; i++)
-		this.preloadStack.push('theme/mm/home/m' + i + 'a.gif');
-	
-	// help
-	this.preloadStack.push('theme/mm/_help1-background.png');
-	this.preloadStack.push('theme/mm/_help1-hand.png');
-	this.preloadStack.push('theme/mm/_help2-background.png');
-	this.preloadStack.push('theme/mm/_help2-hand.png');
-};
-proto.preloadStackPop = function(){
-	var self = this;
-	
-	if(this.preloadStack.length == 0){
-		KPF.utils.log('Preload stack is empty', 'Application.preloadStackPop');
-		return;
-	}
-	
-	var img = new Image();
-	img.onload = function(){
-		self.preloadStackPop();
-	};
-	img.src = this.preloadStack.shift();
-};
-proto.soundPlay = function(props){
-	
-	if(!CCV.global.AUDIO_ENABLED)
-		return;
-	
-	if(!props || !props.hasOwnProperty('src'))
-		return;
-	
-	// console.warn('mobileAutoEnable: ' + Howler.mobileAutoEnable);
-	
-	if(this.soundInterface){
-		if(this.soundInterface._src == props.src)
-			return;
-		this.soundInterface.fade(this.soundInterface.volume(null, this.soundInterfaceId), 0, 2000);
-	}
-	
-	this.soundInterface = new Howl(Object.assign({
-		src: 'ccv/audio/interface128.mp3',
-		volume: 0,
-		buffer: true,
-		loop: true,
-		autoplay: false,
-		onplay: function(){
-			this.fade(0, CCV.global.AUDIO_GLOBAL_VOLUME, 8000);
-		}
-	}, props));
-	this.soundInterfaceId = this.soundInterface.play();
-};
-proto.resetHome = function(){
-	$('#home').find('.house').removeClass('active');
-};
-proto.onenterstate = function(e, from, to){
-	if(KPF.PRODUCTION)
-		return;
-	
-	switch(to){
-		case DGN.states.HOME:
-		case DGN.states.INFO:
-			this.soundPlay({
-				src: 'ccv/audio/interface128.mp3',
-				loop: false
-			});
-			break;
-		
-		case DGN.states.PLAY:
-		case DGN.states.HELP:
-			this.soundPlay({
-				src: ['ccv/audio/landscape128.mp3'],
-				loop: true
-			});
-			break;
-	}
-	var separator = '-------------------------------------------------';
-	KPF.utils.log(separator + '\n'
-		+ e + ': [' + from + ' >> ' + to + ']'
-		+ '\n' + separator
-		);
-};
-proto.toString = function(){
-	return '[DGNApplication] lang: ' + this.lang + ', state: "' + this.current + '"';
-};
-
-
-
-// ------------------------------------------------------------------------------------------
-//         STATE MACHINE & PAGES
-// ------------------------------------------------------------------------------------------
-
-
-proto.oninitialize = function (e, from, to) {
-	$('#home').attr('data-pos', 'at-default');
-	$('#info').attr('data-pos', 'at-top');
-	$('#help').attr('data-pos', 'at-bottom');
-	$('#play').attr('data-pos', 'at-bottom');
-	
-	window.setTimeout(function(){
-		$('#home').addClass('sliding');
-		$('#info').addClass('sliding');
-		$('#help').addClass('sliding');
-		$('#play').addClass('sliding');
-	}, 250);
-	
-};
-	
-proto.onopenInfo = function (e, from, to) {
-	this.setInfoIndex(0, false);
-	$('#info').attr('data-pos', 'at-default');
-	$('#home').attr('data-pos', 'at-bottom');
-};
-proto.oncloseInfo = function (e, from, to) {
-	$('#info').attr('data-pos', 'at-top');
-	$('#home').attr('data-pos', 'at-default');
-	this.resetHome();
-};
-proto.incInfoIndex = function (increment) {
-	this.setInfoIndex(this.infoIndex + increment, true);
-};
-proto.setInfoIndex = function (index, doTransition) {
-	var page, pointer, val, self = this;
-	
-	doTransition === true;
-	
-	this.infoIndex = KPF.utils.clamp(index, 0, 2) || 0;
-	KPF.utils.log('infoIndex: ' + this.infoIndex, 'Application.setInfoIndex');
-	
-	page = $('#info');
-	page.find('.pagination').children().each(function (index, el) {
-		$(el).toggleClass('current', index == self.infoIndex);
-	});
-	
-	pointer = page.find('.inner-pages');
-	val = 'translateX(' + (-100 * this.infoIndex) + 'vw)';
-	
-	if(doTransition){
-		TweenMax.to(page.find('.inner-pages'), .4, {
-			startAt: {
-				transform: pointer.css('transform')
-			},
-			ease: Circ.easeInOut,
-			transform: val
-		});
-	}
-	else{
-		 pointer.css({
-			 transform: val
-		 });
-	}
-};
-
-proto.onopenHelp = function (e, from, to) {
-	if (this.helpResizedFlag)
-		return window.setTimeout(this.helpBuild.bind(this, e, from, to), 120);
-	this.helpLaunch(e, from, to);
-};
-proto.helpLaunch = function(e, from, to){
-	if(from == DGN.states.PLAY){
-		$('#help')
-			.addClass('sliding')
-			.attr('data-pos', 'at-default');
-		$('#play').attr('data-pos', 'at-bottom');
-	}
-	else if(from == DGN.states.HOME){
-		$('#help')
-			.addClass('sliding')
-			.attr('data-pos', 'at-default');
-		$('#home').attr('data-pos', 'at-top');
-	}
-	this.helpAnimation.restart();
-};
-proto.helpBuild = function(e, from, to){
-	var anim, hand, bg;
-	var animSize, handSize, bgSize;
-	var startX, endX;
-	
-	this.helpAnimation = new TimelineMax({
-		repeat: -1,
-		repeatDelay: .8
-	});
-	
-	// ---   animation #1
-	
-	anim = $('#help-animation1');
-	hand = anim.find('.hand');
-	bg = anim.find('.background');
-	
-	animSize = anim.width();
-	handSize = hand.width();
-	bgSize = bg.width();
-	
-	startX = (.5 * animSize) - (.2 * bgSize) - (.77 * handSize);
-	endX = startX - (.1 * bgSize);
-	
-	TweenMax.set(hand, {
-		x: endX
-	});
-	
-	// search magnifier
-	this.helpAnimation.add(new TweenMax(hand, 1, {
-		ease: Power1.easeInOut,
-		x: startX
-	}));
-	// move away
-	this.helpAnimation.add(new TweenMax(hand, 1, {
-		ease: Power1.easeInOut,
-		x: endX
-	}), "+=.5");
-
-/* animation #2 */
-
-	anim = $('#help-animation2');
-	hand = anim.find('.hand');
-	bg = anim.find('.background');
-	
-	animSize = anim.width();
-	handSize = hand.width();
-	bgSize = bg.width();
-	
-	startX = (.5 * animSize) - ((.5 - .64) * bgSize) - (.05 * handSize);
-	startXPrime = startX - (.01 * handSize);
-	endX = startX + (.1 * bgSize);
-	
-	
-	TweenMax.set(hand, {
-		x: endX
-	});
-	
-	// move to button
-	this.helpAnimation.add(TweenMax.to(hand, 1, {
-		ease: Power1.easeInOut,
-		x: startX
-	}), "+=.8");
-	// click
-	this.helpAnimation.add(TweenMax.to(hand, .2, {
-		ease: Power1.easeInOut,
-		y: 7,
-		x: startXPrime
-	}));
-	// release
-	this.helpAnimation.add(TweenMax.to(hand, .12, {
-		ease: Power1.easeInOut,
-		y: 0,
-		x: startX
-	}), "+=.1");
-	// move away
-	this.helpAnimation.add(TweenMax.to(hand, 1, {
-		ease: Power1.easeInOut,
-		x: endX
-	}), "+=.5");
-	
-	
-	this.helpResizedFlag = false;
-	this.helpLaunch(e, from, to);
-};
-
-proto.onopenPlay = function (e, from, to) {
-	this.helpAnimation.stop();
-	$('#help').attr('data-pos', 'at-top');
-	window.setTimeout(function () {
-		$('#help')
-			.removeClass('sliding')
-			.attr('data-pos', 'at-top');
-		$('#play .footer-menu')
-			.toggleClass('opened', false)
-			.css('z-index', 3000);
-	}, 300);
-	$('#play').attr('data-pos', 'at-default');
-	this.player.activateSet(true);
-};
-proto.onclosePlay = function (e, from, to) {
-	this.player.activateSet(false);
-	$('#home').attr('data-pos', 'at-default');
-	$('#play').attr('data-pos', 'at-bottom');
-	window.setTimeout(function () {
-		$('#help')
-			.removeClass('sliding')
-			.attr('data-pos', 'at-bottom');
-	}, 300);
-	this.resetHome();
-};
-
-
-
-// ------------------------------------------------------------------------------------------
-//          LANGUAGE
-// ------------------------------------------------------------------------------------------
-
-/**
- * Defines application language
- * @param lang {String}
- */
-proto.langSet = function (lang) {
-	if (!lang)
-		lang = this.langGetFull();
-	else if (lang != 'fr' && lang != 'en')
-		lang = 'en';
-	this.lang = lang;
-	KPF.utils.log('Set application language: ' + this.lang, 'Application.langSet');
-	
-	$('[data-lang-toggler]').each(function (index, el) {
-		$(el).attr('data-lang-toggler', lang);
-	});
-	
-	var isfr = (this.lang == 'fr');
-	$('.lang-fr').toggle(isfr);
-	$('.lang-en').toggle(!isfr);
-};
-/**
- * Returns preferred language w/ fallback to browser language
- * @return {String}
- * @private
- */
-proto.langGetFull = function () {
-	var lang;
-	lang = window.navigator.languages ? window.navigator.languages[0] : null;
-	lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
-	return this.langCleanResults(lang);
-};
-/**
- * Returns browser native language
- * @return {String}
- * @private
- */
-proto.langGetNative = function () {
-	return this.langCleanResults(window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage);
-};
-/**
- * Cleans language results and return language nick (fr, en, etc.)
- * @return {String}
- * @private
- */
-proto.langCleanResults = function (v) {
-	if (v.indexOf('-') !== -1)
-		v = v.split('-')[0];
-	if (v.indexOf('_') !== -1)
-		v = v.split('_')[0];
-	return v;
-};
-
-
-// ------------------------------------------------------------------------------------------
-//          GARBAGE CODE
-// ------------------------------------------------------------------------------------------
-
-// state machine computed methods - autofill halpers
-proto.initialize = function(){};
-proto.openInfo = function(){};
-proto.closeInfo = function(){};
-proto.openHelp = function(){};
-proto.openPlay = function(){};
-proto.closePlay = function(){};
 var KPF;
 
 if (!KPF)
@@ -718,162 +216,272 @@ if (!KPF.utils) {
 var CCV;
 var proto;
 
+if (!CCV)
+	CCV = {};
 
-// ----------------------------------------------------------------------
-// PIXI add-ons
-// @see http://www.pixijs.com/
-// ----------------------------------------------------------------------
-proto = PIXI.Point.prototype;
-proto.scale = function(a){
-	this.x *= a;
-	this.y *= a;
-};
-proto.floor = function(){
-	this.x = Math.floor(this.x);
-	this.y = Math.floor(this.y);
-};
-proto.ceil = function(){
-	this.x = Math.ceil(this.x);
-	this.y = Math.ceil(this.y);
-};
-proto.round = function(){
-	this.x = Math.round(this.x);
-	this.y = Math.round(this.y);
-};
-proto.minus = function(p){
-	this.x -= p.x;
-	this.y -= p.y;
-};
-proto.plus = function(p){
-	this.x += p.x;
-	this.y += p.y;
-};
-proto.getLength = function(){
-	return Math.sqrt(this.x * this.x + this.y * this.y);
-};
-proto.to = function(target){
-	target.x = this.x;
-	target.y = this.y;
-};
-proto.toString = function(){
-	return '[PIXI.Point] x: ' + this.x.toFixed(1) + ', y: ' + this.y.toFixed(1);
-};
+if (!CCV.global)
+	CCV.global = {};
 
-proto = PIXI.Rectangle.prototype;
-proto.scale = function(a, b){
-	if(b == undefined)
-		b = a;
+
+
+CCV.global.RED = 0xFF3E29;
+CCV.global.BLUE = 0xADD2EA;
+
+CCV.global.PRELOAD_AUDIO_DELTA = 3;
+CCV.global.PRELOAD_LAYER_DELTA = 6;
+CCV.global.PRELOAD_SEQUENCE_DELTA = 2;
+CCV.global.SCENE_ACTIVATE_BORDING_SCENES = false;
+
+CCV.global.HEADER_HEIGHT = 0;
+CCV.global.FOOTER_HEIGHT = 0;
+
+CCV.global.SYS_FORCE_CANVAS = true;
+CCV.global.SYS_USE_SHARED_TICKER = true;
+CCV.global.SYS_FPS = 8;
+CCV.global.SYS_ALLOW_LARGE = false;
+CCV.global.SYS_AUTO_ACTIVATION = false;
+CCV.global.SYS_WIN_FOCUS_ACTIVATION = false;
+CCV.global.SYS_WORKSHOP_MODE = false;
+
+CCV.global.DEBUG_LANDSCAPE_GFX = true;
+CCV.global.DEBUG_SCENE_DELTA = true;
+CCV.global.DEBUG_SCENE_GFX = false;
+CCV.global.DEBUG_SCENE_MARGINS = false;
+
+CCV.global.AUDIO_ENABLED = true;
+CCV.global.AUDIO_FOLDER = 'ccv/audio/';
+CCV.global.AUDIO_GLOBAL_VOLUME = 1;
+
+CCV.global.SCENE_START_INDEX = 32;
+CCV.global.SCENE_START_RAND = false;
+CCV.global.SCENE_ACTIVATION_DELAY = 500;
+CCV.global.SCENE_DEACTIVATION_DELAY = 1400;
+CCV.global.SCENE_REPEAT_DELAY = 4000;
+CCV.global.SCENE_RESTART_DELAY = 2000;
+CCV.global.SCENE_SLIDE_DURATION = 1.6;
+CCV.global.SCENE_MAX_HEIGHT = 650;
+CCV.global.SCENE_EXTRAVIEW_COEF = .25;
+CCV.global.SCENE_GROUND_HEIGHT = 100;
+
+CCV.global.SCENE_ITEM_BEFORE = 15;
+
+CCV.global.MEDIA_FOLDER = 'ccv/';
+
+CCV.global.MAGNIFIER_RED = 0xFF1515;
+CCV.global.MAGNIFIER_PINCH_AMP = 200;
+CCV.global.MAGNIFIER_PINCH_INCREMENT = .5;
+CCV.global.MAGNIFIER_APPEAR_TIME = .7;
+CCV.global.MAGNIFIER_VANISH_TIME = .5;
+CCV.global.MAGNIFIER_RADIUS = 150;
+CCV.global.MAGNIFIER_DRAG_IDLE_TEMPO = -1;
+CCV.global.MAGNIFIER_DRAG_REFRESH_INDEX = 500;
+CCV.global.MAGNIFIER_DRAG_SCROLL_LIMIT = 160;
+CCV.global.MAGNIFIER_DRAG_SCROLL_INC = 5;
+
+CCV.global.SCROLL_ELASTICITY = .08;
+var CCV;
+var proto;
+
+if (!CCV)
+	CCV = {};
+
+if (!CCV.utils)
+	CCV.utils = {};
+
+
+
+CCV.utils.drawDebugRect = function(g, r, color, thickness, alpha, useFill){
+	if(isNaN(alpha))
+		alpha = 1;
+	if(isNaN(thickness))
+		thickness = 1;
+	if(useFill == undefined)
+		useFill = false;
 	
-	this.x *= a;
-	this.y *= a;
-	this.width *= b;
-	this.height *= b;
+	if(useFill)
+		g.beginFill(color, alpha);
+	g.lineStyle(thickness, color, useFill ? 1 : alpha);
+	g.drawRect(r.x, r.y, r.width, r.height);
+	g.moveTo(r.x, r.y);
+	g.lineTo(r.x + r.width, r.y + r.height);
+	g.moveTo(r.x + r.width, r.y);
+	g.lineTo(r.x, r.y + r.height);
+	if(useFill)
+		g.endFill();
 };
-
+CCV.utils.drawDebugPoint = function(g, pos, color, thickness){
+	if(isNaN(thickness))
+		thickness = 1;
+	
+	g.lineStyle(thickness, color, 1);
+	g.drawCircle(pos.x, pos.y, 10);
+	g.moveTo(pos.x, pos.y);
+	g.lineTo(pos.x + 20, pos.y);
+	g.moveTo(pos.x, pos.y);
+	g.lineTo(pos.x, pos.y + 20);
+};
+var CCV;
+var proto;
 
 if (!CCV){
 	CCV = {};
 }
 
-if (!CCV.utils){
-	CCV.utils = {};
-	CCV.utils.drawDebugRect = function(g, r, color, thickness, alpha, useFill){
-		if(isNaN(alpha))
-			alpha = 1;
-		if(isNaN(thickness))
-			thickness = 1;
-		if(useFill == undefined)
-			useFill = false;
-		
-		if(useFill)
-			g.beginFill(color, alpha);
-		g.lineStyle(thickness, color, useFill ? 1 : alpha);
-		g.drawRect(r.x, r.y, r.width, r.height);
-		g.moveTo(r.x, r.y);
-		g.lineTo(r.x + r.width, r.y + r.height);
-		g.moveTo(r.x + r.width, r.y);
-		g.lineTo(r.x, r.y + r.height);
-		if(useFill)
-			g.endFill();
-	};
-	CCV.utils.drawDebugPoint = function(g, pos, color, thickness){
-		if(isNaN(thickness))
-			thickness = 1;
-		
-		g.lineStyle(thickness, color, 1);
-		g.drawCircle(pos.x, pos.y, 10);
-		g.moveTo(pos.x, pos.y);
-		g.lineTo(pos.x + 20, pos.y);
-		g.moveTo(pos.x, pos.y);
-		g.lineTo(pos.x, pos.y + 20);
-	};
+if (!CCV.audio){
+	CCV.audio = {};
 }
 
-if (!CCV.global){
-	CCV.global = {
-		
-		RED: 0xFF3E29,
-		BLUE: 0xADD2EA,
-		
-		PRELOAD_AUDIO_DELTA: 3,
-		PRELOAD_LAYER_DELTA: 6,
-		PRELOAD_SEQUENCE_DELTA: 2,
-		SCENE_ACTIVATE_BORDING_SCENES: false,
-		
-		HEADER_HEIGHT: 0,
-		FOOTER_HEIGHT: 0,
-		
-		SYS_FORCE_CANVAS: true,
-		SYS_USE_SHARED_TICKER: true,
-		SYS_FPS: 8,
-		SYS_ALLOW_LARGE: false,
-		SYS_AUTO_ACTIVATION: false,
-		SYS_WIN_FOCUS_ACTIVATION: false,
-		SYS_WORKSHOP_MODE: false,
-		
-		DEBUG_LANDSCAPE_GFX: true,
-		DEBUG_SCENE_DELTA: true,
-		DEBUG_SCENE_GFX: false,
-		DEBUG_SCENE_MARGINS: false,
-		
-		AUDIO_ENABLED: true,
-		AUDIO_FOLDER: 'ccv/audio/',
-		AUDIO_GLOBAL_VOLUME: 1,
-		
-		
-		SCENE_START_INDEX: 32,
-		SCENE_START_RAND: false,
-		SCENE_ACTIVATION_DELAY: 500,
-		SCENE_DEACTIVATION_DELAY: 1400,
-		SCENE_REPEAT_DELAY: 4000,
-		SCENE_RESTART_DELAY: 2000,
-		SCENE_SLIDE_DURATION: 1.6,
-		SCENE_MAX_HEIGHT: 650,
-		SCENE_EXTRAVIEW_COEF: .25,
-		SCENE_GROUND_HEIGHT: 100,
-		
-		SCENE_ITEM_BEFORE: 15,
-		
-		MEDIA_FOLDER: 'ccv/',
-		
-		MAGNIFIER_RED: 0xFF1515,
-		MAGNIFIER_PINCH_AMP: 200,
-		MAGNIFIER_PINCH_INCREMENT: .5,
-		MAGNIFIER_APPEAR_TIME: .7,
-		MAGNIFIER_VANISH_TIME: .5,
-		MAGNIFIER_RADIUS: 150,
-		MAGNIFIER_DRAG_IDLE_TEMPO: -1,
-		MAGNIFIER_DRAG_REFRESH_INDEX: 500,
-		MAGNIFIER_DRAG_SCROLL_LIMIT: 160,
-		MAGNIFIER_DRAG_SCROLL_INC: 5,
-		
-		SCROLL_ELASTICITY: .08
-	};
-}
 
-if (!CCV.app){
+
+
+// ----------------------------------------------------------------------
+// CCV.app.AudioChannel
+// ----------------------------------------------------------------------
+if(!CCV.audio.AudioChannel){
+	
+	/**
+	 * @param data
+	 * @param autoRender
+	 * @constructor
+	 */
+	CCV.audio.AudioChannel = function(data, autoRender){
+		var self = this;
+		
+		this.file = CCV.global.AUDIO_FOLDER + data.file;
+		this.isLoop = data.isLoop !== false;
+		this.volumeCoef = KPF.utils.isan(data.volume) ? data.volume : 1;
+		
+		/** @var {Howl} */
+		this.sound  = null;
+		
+		// --- define volume getter/setter
+		this._volume = 0;
+		Object.defineProperty(this, 'volume', {
+			get: function(){
+				return self._volume;
+			},
+			set: function(volume){
+				self._volume = volume;
+				self.render();
+			}
+		});
+		
+		// register instance in CCV.core.Player
+		CCV.player.registerAudioChannel(this);
+	};
+	proto = CCV.audio.AudioChannel.prototype;
+	
+	proto.render = function(){
+		if(this.sound)
+			this.sound.volume(this._volume, this.soundId);
+	};
+	proto.soundInit = function(){
+		if(this.sound)
+			return;
+		
+		this.sound =  new Howl({
+			preload: true,
+			autoplay: false,
+			src: this.file,
+			volume: 0
+		});
+		this._volume = 0;
+	};
+	proto.soundDispose = function(){
+		if(!this.sound)
+			return;
+		
+		this.stop(false);
+		this.sound.unload();
+		this.sound = null;
+	};
+	proto.isPlaying = function(){
+		return this.soundId && this.sound && this.sound.playing(this.soundId);
+	};
+	proto.start = function(doTransition){
+		if(!this.sound){
+			//console.log('sound has not been initialized');
+			return;
+		}
+		if(this.isPlaying()){
+			//console.log('cancel start method sound is already playing');
+			return;
+		}
+		
+		this.soundId = this.sound.play();
+		this.sound.loop(this.isLoop, this.soundId);
+		
+		if(doTransition === true){
+			TweenMax.killTweensOf(this);
+			TweenMax.to(this, 2, {
+				volume: this.volumeCoef * CCV.global.AUDIO_GLOBAL_VOLUME
+			});
+		}
+		else{
+			this.volume = this.volumeCoef * CCV.global.AUDIO_GLOBAL_VOLUME;
+		}
+	};
+	proto.pause = function(doTransition){
+		if(!this.soundId || !this.isPlaying())
+			return false;
+		
+		this.sound.pause(this.soundId);
+		return true;
+	};
+	proto.stop = function(doTransition){
+		var self = this;
+		
+		if(!this.soundId || !this.isPlaying())
+			return;
+		
+		if(doTransition === true){
+			TweenMax.killTweensOf(this);
+			TweenMax.to(this, 2, {
+				volume: 0,
+				onComplete: function(){
+					self.stop(false);
+				}
+			});
+		}
+		else{
+			this.sound.stop(this.soundId);
+			this.soundId = null;
+		}
+	};
+	
+	/**
+	 * Returns a string repreaentation of the instance.
+	 * @return {string}
+	 */
+	proto.toString = function(){
+		return '[AudioChannel] loop:' + this.loop + ', stereo: ' + this.stereo + ', volumeCoef: ' + this.volumeCoef;
+	};
+	/**
+	 * Returns a formatted string representation of the instance
+	 * @param depth   {number} formatting depth
+	 * @param indentStart   {boolean}   whether or not indentation should be added on string start
+	 * @return {string}
+	 */
+	proto.info = function (depth, indentStart) {
+		var pattern = KPF.global.FORMAT_INDENT;
+		var indent = KPF.utils.repeat(depth || 0, pattern);
+		var str;
+		
+		str = (indentStart === true) ? indent : '';
+		str += '[AudioChannel] ';
+		str += '\n' + indent + pattern + 'file: "' + this.file + '"';
+		str += '\n' + indent + pattern + 'loop:' + this.loop + ', stereo: ' + this.stereo + ', volumeCoef: ' + this.volumeCoef;
+		return str;
+	}
+}
+var CCV;
+var proto;
+
+if (!CCV)
+	CCV = {};
+
+if (!CCV.app)
 	CCV.app = {};
-}
 
 
 // ----------------------------------------------------------------------
@@ -2039,7 +1647,7 @@ if (!CCV.app.Scene) {
 		
 		// ---   build audio
 		if(data.hasOwnProperty('audio')){
-			this.audio = new CCV.app.AudioChannel(data.audio);
+			this.audio = new CCV.audio.AudioChannel(data.audio);
 		}
 		// ---   build view
 		this.viewBuild(data);
@@ -2360,7 +1968,7 @@ if (!CCV.app.Sequence) {
 		this.startSuspensionFrames = -1;
 		
 		if(data.hasOwnProperty('audio')){
-			this.audio = new CCV.app.AudioChannel(data.audio, true);
+			this.audio = new CCV.audio.AudioChannel(data.audio, true);
 		}
 		
 		this.file = data.file;
@@ -2538,7 +2146,6 @@ if (!CCV.app.Sequence) {
 		this.animation = new PIXI.extras.AnimatedSprite(textures, false);
 		this.animation.gotoAndStop(0);
 		this.view.addChild(this.animation);
-		KPF.utils.log('\t\t ------------------------------------------ create ' + this.scene.fullId + ' sequence');
 		
 		
 		try{
@@ -2694,144 +2301,505 @@ if(!CCV.app.Magnifier){
 	}
 }
 
+var DGN;
+var proto;
 
-// ----------------------------------------------------------------------
-// CCV.app.AudioChannel
-// ----------------------------------------------------------------------
-if(!CCV.app.AudioChannel){
+DGN = {};
+
+DGN.states = {
+	HOME: 'home',
+	INFO: 'info',
+	HELP: 'help',
+	PLAY: 'play'
+};
+
+DGN.Application = function (lang) {
+	StateMachine.create({
+		target: DGN.Application.prototype,
+		initial: 'none',
+		error: function (eventName, from, to, args, errorCode, errorMessage, originalException) {
+			KPF.utils.log('[StateMachine - DGN.sm] event "' + eventName + '" ; ' + errorMessage);
+			if(originalException)
+			console.warn(originalException);
+		},
+		events: [
+			{name: 'initialize', from: 'none', to: DGN.states.HOME},
+			{name: 'openInfo', from: DGN.states.HOME, to: DGN.states.INFO},
+			{name: 'closeInfo', from: DGN.states.INFO, to: DGN.states.HOME},
+			{name: 'openHelp', from: [DGN.states.HOME, DGN.states.PLAY], to: DGN.states.HELP},
+			{name: 'openPlay', from: DGN.states.HELP, to: DGN.states.PLAY},
+			{name: 'closePlay', from: DGN.states.PLAY, to: DGN.states.HOME}
+		]
+	});
 	
-	/**
-	 * @param data
-	 * @param autoRender
-	 * @constructor
-	 */
-	CCV.app.AudioChannel = function(data, autoRender){
-		var self = this;
-		
-		this.file = CCV.global.AUDIO_FOLDER + data.file;
-		this.isLoop = data.isLoop !== false;
-		this.volumeCoef = KPF.utils.isan(data.volume) ? data.volume : 1;
-		
-		/** @var {Howl} */
-		this.sound  = null;
-		
-		// --- define volume getter/setter
-		this._volume = 0;
-		Object.defineProperty(this, 'volume', {
-			get: function(){
-				return self._volume;
-			},
-			set: function(volume){
-				self._volume = volume;
-				self.render();
-			}
+	/** @var {TimelineMax} */
+	this.helpAnimation = null;
+	
+	/** @var {Number} */
+	this.infoIndex = 0;
+	
+	/** @var {Boolean} */
+	this.helpResizedFlag = true;
+	 
+	this.langSet(lang);
+	
+	/** @var {Howl} */
+	this.soundInterface  = null;
+	
+	this.preloadStack = [];
+	this.preloadStackInit();
+	
+	setTimeout(this.preloadStackPop.bind(this), 1200);
+	
+	setTimeout(this.init.bind(this), 1000);
+};
+proto = DGN.Application.prototype;
+
+
+// ------------------------------------------------------------------------------------------
+//         INITIALIZATION & DATA
+// ------------------------------------------------------------------------------------------
+
+proto.init = function(){
+	if(CCV.player)
+		this.player = CCV.player;
+	else
+		this.player = CCV.player = new CCV.app.Player(document.getElementById('pixi-stage'), {
+			magnifierDisplayStatus: false,
+			scenesShowFillStatus: true
 		});
-		
-		// register instance in CCV.core.Player
-		CCV.player.registerAudioChannel(this);
-	};
-	proto = CCV.app.AudioChannel.prototype;
 	
-	proto.render = function(){
-		if(this.sound)
-			this.sound.volume(this._volume, this.soundId);
-	};
-	proto.soundInit = function(){
-		if(this.sound)
-			return;
-		
-		this.sound =  new Howl({
-			preload: true,
-			autoplay: false,
-			src: this.file,
-			volume: 0
+	this.initInteractions();
+};
+proto.initInteractions = function(){
+	var self = this, page, pagination;
+	
+	// ---   application
+	
+	// buttons interactions
+	$('[data-lang]')
+		.on('click', function () {
+			self.langSet($(this).data('lang'));
 		});
-		this._volume = 0;
-	};
-	proto.soundDispose = function(){
-		if(!this.sound)
-			return;
-		
-		this.stop(false);
-		this.sound.unload();
-		this.sound = null;
-	};
-	proto.isPlaying = function(){
-		return this.soundId && this.sound && this.sound.playing(this.soundId);
-	};
-	proto.start = function(doTransition){
-		if(!this.sound){
-			//console.log('sound has not been initialized');
-			return;
-		}
-		if(this.isPlaying()){
-			//console.log('cancel start method sound is already playing');
-			return;
-		}
-		
-		this.soundId = this.sound.play();
-		this.sound.loop(this.isLoop, this.soundId);
-		
-		if(doTransition === true){
-			TweenMax.killTweensOf(this);
-			TweenMax.to(this, 2, {
-				volume: this.volumeCoef * CCV.global.AUDIO_GLOBAL_VOLUME
-			});
-		}
-		else{
-			this.volume = this.volumeCoef * CCV.global.AUDIO_GLOBAL_VOLUME;
-		}
-	};
-	proto.pause = function(doTransition){
-		if(!this.soundId || !this.isPlaying())
-			return false;
-		
-		this.sound.pause(this.soundId);
-		return true;
-	};
-	proto.stop = function(doTransition){
-		var self = this;
-		
-		if(!this.soundId || !this.isPlaying())
-			return;
-		
-		if(doTransition === true){
-			TweenMax.killTweensOf(this);
-			TweenMax.to(this, 2, {
-				volume: 0,
-				onComplete: function(){
-					self.stop(false);
-				}
-			});
-		}
-		else{
-			this.sound.stop(this.soundId);
-			this.soundId = null;
-		}
-	};
 	
-	/**
-	 * Returns a string repreaentation of the instance.
-	 * @return {string}
-	 */
-	proto.toString = function(){
-		return '[AudioChannel] loop:' + this.loop + ', stereo: ' + this.stereo + ', volumeCoef: ' + this.volumeCoef;
-	};
-	/**
-	 * Returns a formatted string representation of the instance
-	 * @param depth   {number} formatting depth
-	 * @param indentStart   {boolean}   whether or not indentation should be added on string start
-	 * @return {string}
-	 */
-	proto.info = function (depth, indentStart) {
-		var pattern = KPF.global.FORMAT_INDENT;
-		var indent = KPF.utils.repeat(depth || 0, pattern);
-		var str;
-		
-		str = (indentStart === true) ? indent : '';
-		str += '[AudioChannel] ';
-		str += '\n' + indent + pattern + 'file: "' + this.file + '"';
-		str += '\n' + indent + pattern + 'loop:' + this.loop + ', stereo: ' + this.stereo + ', volumeCoef: ' + this.volumeCoef;
-		return str;
+	
+	// ---   home page
+	
+	// buttons interactions
+	$('#home')
+		.on('click', 'button.action-info', function () {
+			self.openInfo();
+		})
+		.on('click', 'button.action-play', function () {
+			self.openHelp();
+		})
+		.on('click', '.app-title', function () {
+			self.openHelp();
+		});
+	
+	for(var i = 1; i <= 6; i++){
+		$('#home .house' + i)
+			.on('mousedown', function() {
+				$(this).toggleClass('active');
+			});
 	}
-}
+	
+	// ---   help
+	
+	// buttons interactions
+	$('#help')
+		// .on('click', 'button.action-close', function () {
+		.on('click', function () {
+			self.openPlay();
+		});
+	
+	
+	// ---   info
+	
+	page = $('#info');
+	pagination = page.find('.pagination');
+	
+	// buttons interactions
+	page.on('click', 'button.action-home', function () {
+		self.closeInfo();
+	});
+	
+	// pagination
+	pointer = page.find('.inner-page');
+	pointer.each(function (index, el) {
+		
+		// create items
+		$('<div />')
+			.on('click', function () {
+				self.setInfoIndex(index, true);
+			})
+			.appendTo(pagination);
+		
+		// handle swipe
+		// @see doc
+		$(el).swipe({
+			swipe: function (e, direction) {
+				if (direction == 'right')
+					self.incInfoIndex(-1);
+				else if(direction == 'left')
+					self.incInfoIndex(1);
+			},
+			threshold: 50
+		});
+	});
+};
+proto.preloadStackInit = function() {
+		// home gifs
+	for (var i = 1; i <= 6; i++)
+		this.preloadStack.push('theme/mm/home/m' + i + 'a.gif');
+	
+	// help
+	this.preloadStack.push('theme/mm/_help1-background.png');
+	this.preloadStack.push('theme/mm/_help1-hand.png');
+	this.preloadStack.push('theme/mm/_help2-background.png');
+	this.preloadStack.push('theme/mm/_help2-hand.png');
+};
+proto.preloadStackPop = function(){
+	var self = this;
+	
+	if(this.preloadStack.length == 0){
+		KPF.utils.log('Preload stack is empty', 'Application.preloadStackPop');
+		return;
+	}
+	
+	var img = new Image();
+	img.onload = function(){
+		self.preloadStackPop();
+	};
+	img.src = this.preloadStack.shift();
+};
+proto.soundPlay = function(props){
+	
+	if(!CCV.global.AUDIO_ENABLED)
+		return;
+	
+	if(!props || !props.hasOwnProperty('src'))
+		return;
+	
+	// console.warn('mobileAutoEnable: ' + Howler.mobileAutoEnable);
+	
+	if(this.soundInterface){
+		if(this.soundInterface._src == props.src)
+			return;
+		this.soundInterface.fade(this.soundInterface.volume(null, this.soundInterfaceId), 0, 2000);
+	}
+	
+	this.soundInterface = new Howl(Object.assign({
+		src: 'ccv/audio/interface128.mp3',
+		volume: 0,
+		buffer: true,
+		loop: true,
+		autoplay: false,
+		onplay: function(){
+			this.fade(0, CCV.global.AUDIO_GLOBAL_VOLUME, 8000);
+		}
+	}, props));
+	this.soundInterfaceId = this.soundInterface.play();
+};
+proto.resetHome = function(){
+	$('#home').find('.house').removeClass('active');
+};
+proto.onenterstate = function(e, from, to){
+	if(KPF.PRODUCTION)
+		return;
+	
+	switch(to){
+		case DGN.states.HOME:
+		case DGN.states.INFO:
+			this.soundPlay({
+				src: 'ccv/audio/interface128.mp3',
+				loop: false
+			});
+			break;
+		
+		case DGN.states.PLAY:
+		case DGN.states.HELP:
+			this.soundPlay({
+				src: ['ccv/audio/landscape128.mp3'],
+				loop: true
+			});
+			break;
+	}
+	var separator = '-------------------------------------------------';
+	KPF.utils.log(separator + '\n'
+		+ e + ': [' + from + ' >> ' + to + ']'
+		+ '\n' + separator
+		);
+};
+proto.toString = function(){
+	return '[DGNApplication] lang: ' + this.lang + ', state: "' + this.current + '"';
+};
+
+
+
+// ------------------------------------------------------------------------------------------
+//         STATE MACHINE & PAGES
+// ------------------------------------------------------------------------------------------
+
+
+proto.oninitialize = function (e, from, to) {
+	$('#home').attr('data-pos', 'at-default');
+	$('#info').attr('data-pos', 'at-top');
+	$('#help').attr('data-pos', 'at-bottom');
+	$('#play').attr('data-pos', 'at-bottom');
+	
+	window.setTimeout(function(){
+		$('#home').addClass('sliding');
+		$('#info').addClass('sliding');
+		$('#help').addClass('sliding');
+		$('#play').addClass('sliding');
+	}, 250);
+	
+};
+	
+proto.onopenInfo = function (e, from, to) {
+	this.setInfoIndex(0, false);
+	$('#info').attr('data-pos', 'at-default');
+	$('#home').attr('data-pos', 'at-bottom');
+};
+proto.oncloseInfo = function (e, from, to) {
+	$('#info').attr('data-pos', 'at-top');
+	$('#home').attr('data-pos', 'at-default');
+	this.resetHome();
+};
+proto.incInfoIndex = function (increment) {
+	this.setInfoIndex(this.infoIndex + increment, true);
+};
+proto.setInfoIndex = function (index, doTransition) {
+	var page, pointer, val, self = this;
+	
+	doTransition === true;
+	
+	this.infoIndex = KPF.utils.clamp(index, 0, 2) || 0;
+	KPF.utils.log('infoIndex: ' + this.infoIndex, 'Application.setInfoIndex');
+	
+	page = $('#info');
+	page.find('.pagination').children().each(function (index, el) {
+		$(el).toggleClass('current', index == self.infoIndex);
+	});
+	
+	pointer = page.find('.inner-pages');
+	val = 'translateX(' + (-100 * this.infoIndex) + 'vw)';
+	
+	if(doTransition){
+		TweenMax.to(page.find('.inner-pages'), .4, {
+			startAt: {
+				transform: pointer.css('transform')
+			},
+			ease: Circ.easeInOut,
+			transform: val
+		});
+	}
+	else{
+		 pointer.css({
+			 transform: val
+		 });
+	}
+};
+
+proto.onopenHelp = function (e, from, to) {
+	if (this.helpResizedFlag)
+		return window.setTimeout(this.helpBuild.bind(this, e, from, to), 120);
+	this.helpLaunch(e, from, to);
+};
+proto.helpLaunch = function(e, from, to){
+	if(from == DGN.states.PLAY){
+		$('#help')
+			.addClass('sliding')
+			.attr('data-pos', 'at-default');
+		$('#play').attr('data-pos', 'at-bottom');
+	}
+	else if(from == DGN.states.HOME){
+		$('#help')
+			.addClass('sliding')
+			.attr('data-pos', 'at-default');
+		$('#home').attr('data-pos', 'at-top');
+	}
+	this.helpAnimation.restart();
+};
+proto.helpBuild = function(e, from, to){
+	var anim, hand, bg;
+	var animSize, handSize, bgSize;
+	var startX, endX;
+	
+	this.helpAnimation = new TimelineMax({
+		repeat: -1,
+		repeatDelay: .8
+	});
+	
+	// ---   animation #1
+	
+	anim = $('#help-animation1');
+	hand = anim.find('.hand');
+	bg = anim.find('.background');
+	
+	animSize = anim.width();
+	handSize = hand.width();
+	bgSize = bg.width();
+	
+	startX = (.5 * animSize) - (.2 * bgSize) - (.77 * handSize);
+	endX = startX - (.1 * bgSize);
+	
+	TweenMax.set(hand, {
+		x: endX
+	});
+	
+	// search magnifier
+	this.helpAnimation.add(new TweenMax(hand, 1, {
+		ease: Power1.easeInOut,
+		x: startX
+	}));
+	// move away
+	this.helpAnimation.add(new TweenMax(hand, 1, {
+		ease: Power1.easeInOut,
+		x: endX
+	}), "+=.5");
+
+/* animation #2 */
+
+	anim = $('#help-animation2');
+	hand = anim.find('.hand');
+	bg = anim.find('.background');
+	
+	animSize = anim.width();
+	handSize = hand.width();
+	bgSize = bg.width();
+	
+	startX = (.5 * animSize) - ((.5 - .64) * bgSize) - (.05 * handSize);
+	startXPrime = startX - (.01 * handSize);
+	endX = startX + (.1 * bgSize);
+	
+	
+	TweenMax.set(hand, {
+		x: endX
+	});
+	
+	// move to button
+	this.helpAnimation.add(TweenMax.to(hand, 1, {
+		ease: Power1.easeInOut,
+		x: startX
+	}), "+=.8");
+	// click
+	this.helpAnimation.add(TweenMax.to(hand, .2, {
+		ease: Power1.easeInOut,
+		y: 7,
+		x: startXPrime
+	}));
+	// release
+	this.helpAnimation.add(TweenMax.to(hand, .12, {
+		ease: Power1.easeInOut,
+		y: 0,
+		x: startX
+	}), "+=.1");
+	// move away
+	this.helpAnimation.add(TweenMax.to(hand, 1, {
+		ease: Power1.easeInOut,
+		x: endX
+	}), "+=.5");
+	
+	
+	this.helpResizedFlag = false;
+	this.helpLaunch(e, from, to);
+};
+
+proto.onopenPlay = function (e, from, to) {
+	this.helpAnimation.stop();
+	$('#help').attr('data-pos', 'at-top');
+	window.setTimeout(function () {
+		$('#help')
+			.removeClass('sliding')
+			.attr('data-pos', 'at-top');
+		$('#play .footer-menu')
+			.toggleClass('opened', false)
+			.css('z-index', 3000);
+	}, 300);
+	$('#play').attr('data-pos', 'at-default');
+	this.player.activateSet(true);
+};
+proto.onclosePlay = function (e, from, to) {
+	this.player.activateSet(false);
+	$('#home').attr('data-pos', 'at-default');
+	$('#play').attr('data-pos', 'at-bottom');
+	window.setTimeout(function () {
+		$('#help')
+			.removeClass('sliding')
+			.attr('data-pos', 'at-bottom');
+	}, 300);
+	this.resetHome();
+};
+
+
+
+// ------------------------------------------------------------------------------------------
+//          LANGUAGE
+// ------------------------------------------------------------------------------------------
+
+/**
+ * Defines application language
+ * @param lang {String}
+ */
+proto.langSet = function (lang) {
+	if (!lang)
+		lang = this.langGetFull();
+	else if (lang != 'fr' && lang != 'en')
+		lang = 'en';
+	this.lang = lang;
+	KPF.utils.log('Set application language: ' + this.lang, 'Application.langSet');
+	
+	$('[data-lang-toggler]').each(function (index, el) {
+		$(el).attr('data-lang-toggler', lang);
+	});
+	
+	var isfr = (this.lang == 'fr');
+	$('.lang-fr').toggle(isfr);
+	$('.lang-en').toggle(!isfr);
+};
+/**
+ * Returns preferred language w/ fallback to browser language
+ * @return {String}
+ * @private
+ */
+proto.langGetFull = function () {
+	var lang;
+	lang = window.navigator.languages ? window.navigator.languages[0] : null;
+	lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
+	return this.langCleanResults(lang);
+};
+/**
+ * Returns browser native language
+ * @return {String}
+ * @private
+ */
+proto.langGetNative = function () {
+	return this.langCleanResults(window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage);
+};
+/**
+ * Cleans language results and return language nick (fr, en, etc.)
+ * @return {String}
+ * @private
+ */
+proto.langCleanResults = function (v) {
+	if (v.indexOf('-') !== -1)
+		v = v.split('-')[0];
+	if (v.indexOf('_') !== -1)
+		v = v.split('_')[0];
+	return v;
+};
+
+
+// ------------------------------------------------------------------------------------------
+//          GARBAGE CODE
+// ------------------------------------------------------------------------------------------
+
+// state machine computed methods - autofill halpers
+proto.initialize = function(){};
+proto.openInfo = function(){};
+proto.closeInfo = function(){};
+proto.openHelp = function(){};
+proto.openPlay = function(){};
+proto.closePlay = function(){};
