@@ -1491,11 +1491,11 @@
 					},
 					"preview": "seq/003.png",
 					"file": "seq/[NUM].png",
-					"endDelay": 2000,
-					"startDelay": 1000,
+					"endDelay": 0,
+					"startDelay": 3000,
 					"seqNumLength": 3,
 					"seqStart": 3,
-					"seqEnd": 77
+					"seqEnd": 66
 				}
 			},
 			{
