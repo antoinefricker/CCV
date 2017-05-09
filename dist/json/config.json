@@ -176,7 +176,7 @@
 						"seqEnd": 52
 					},
 					{
-						"file": "seq/completeBlue.png"
+						"file": "completeBlue.png"
 					}
 				]
 			},
@@ -1689,7 +1689,7 @@
 						"seqEnd": 14
 					},
 					{
-						"file": "seq/completeBlue.png"
+						"file": "completeBlue.png"
 					}
 				]
 			},
@@ -1721,7 +1721,7 @@
 						"seqEnd": 7
 					},
 					{
-						"file": "seq/completeBlue.png"
+						"file": "completeBlue.png"
 					}
 				]
 			},
