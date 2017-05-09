@@ -1305,7 +1305,7 @@ if (!CCV.app.Scene) {
 		
 		// audio management
 		if(this.audio){
-			(deltaAbs > CCV.global.PRELOAD_AUDIO_DELTA) ? this.audio.soundDispose() : this.audio.soundInit();
+			(deltaAbs > CCV.global.PRELOAD_AUDIO_DELTA) ? this.audio.destroy() : this.audio.init();
 			status && CCV.global.AUDIO_ENABLED ? this.audio.start(true) : this.audio.stop(true);
 		}
 		
@@ -1592,7 +1592,7 @@ if (!CCV.app.Sequence) {
 		 
 		// #################### handle audio preload
 		if(this.audio && CCV.global.AUDIO_ENABLED){
-			deltaAbs < CCV.global.PRELOAD_AUDIO_DELTA ? this.audio.soundInit() : this.audio.soundDispose();
+			deltaAbs < CCV.global.PRELOAD_AUDIO_DELTA ? this.audio.init() : this.audio.destroy();
 		}
 		
 		// #################### handle preview preload

@@ -26,14 +26,18 @@ CCV.global.SYS_AUTO_ACTIVATION = false;
 CCV.global.SYS_WIN_FOCUS_ACTIVATION = false;
 CCV.global.SYS_WORKSHOP_MODE = false;
 
-CCV.global.DEBUG_LANDSCAPE_GFX = true;
-CCV.global.DEBUG_SCENE_DELTA = true;
+CCV.global.DEBUG_LANDSCAPE_GFX = false;
+CCV.global.DEBUG_SCENE_DELTA = false;
 CCV.global.DEBUG_SCENE_GFX = false;
 CCV.global.DEBUG_SCENE_MARGINS = false;
 
 CCV.global.AUDIO_ENABLED = true;
 CCV.global.AUDIO_FOLDER = 'ccv/audio/';
-CCV.global.AUDIO_GLOBAL_VOLUME = 1;
+CCV.global.AUDIO_GLOBAL_VOLUME = .01;
+/* fade in duration in seconds */
+CCV.global.AUDIO_FADEIN_LENGTH = 2;
+/* fade out duration in seconds */
+CCV.global.AUDIO_FADEOUT_LENGTH = 2;
 
 CCV.global.SCENE_START_INDEX = 32;
 CCV.global.SCENE_START_RAND = false;
