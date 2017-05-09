@@ -1,8 +1,8 @@
 # personal modifications
 node_modules/
 src/ccv/
-dist/_ccv/
 dist/ccv/
+dist/_ccv/
 
 
 # Windows image file caches
