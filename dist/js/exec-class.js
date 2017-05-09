@@ -894,7 +894,8 @@ if(!CCV.app.Player){
 		this.options = Object.assign({
 			magnifierDisplayStatus: true,
 			scenesShowFillStatus: true,
-			configurationFile: 'json/config.json'
+			configurationFile: 'json/config.json',
+			spritesheetFile: 'ccv/x1/decors/ssComplete.json'
 		}, options);
 		
 		this.animTicker = new CCV.app.AnimationsTicker();
@@ -905,6 +906,7 @@ if(!CCV.app.Player){
 		
 		this.mediaFolder = '';
 		this.texturesCounter = 0;
+		this.ssLoader = new PIXI.loaders.Loader();
 		
 		// ---   create application
 		this.application = new PIXI.Application(800, 600, {
@@ -959,7 +961,15 @@ if(!CCV.app.Player){
 		this.landscapeHeight = CCV.global.SCENE_MAX_HEIGHT;
 		this.groundHeight = CCV.global.SCENE_GROUND_HEIGHT;
 		this.resizeInit();
-		this.configurationLoad();
+		
+		this.loader = new PIXI.loaders.Loader();
+		this.loader
+			.add('config', this.options.configurationFile)
+			.add(this.options.spritesheetFile)
+			.load(this.configurationParse.bind(this))
+			.onError.add(function(err){
+				console.warn('main loader error', arguments);
+			});
 	};
 	proto = CCV.app.Player.prototype;
 	
@@ -1013,29 +1023,11 @@ if(!CCV.app.Player){
 	proto.getMode = function(){
 		return this.application.renderer instanceof PIXI.WebGLRenderer ? 'WebGL' : 'canvas';
 	};
-	proto.configurationLoad = function(){
-		var self = this;
-		
-		$.ajax({
-			url: this.options.configurationFile,
-			dataType: "json",
-			method: "GET",
-			data: {
-				context: KPF.global.PRODUCTION
-			},
-			error: function(jqXHR, textStatus){
-				KPF.utils.error('Unable to load configuration, url: "' + self.options.configurationFile + '", textStatus: "' + textStatus + '"', 'Application.loadConfiguration');
-			},
-			success: function(data, textStatus){
-				KPF.utils.log('Configuration loaded, textStatus: "' + textStatus + '"', 'Application.loadConfiguration');
-				self.configurationParse(data);
-			}
-		});
-	};
 	proto.configurationParse = function(data){
 		this.initInteractions();
 		 
-		this.landscape.parse(data.landscape);
+		console.log(this.loader.resources.config.data);
+		this.landscape.parse(this.loader.resources.config.data.landscape);
 		
 		this.resize();
 		
@@ -1055,6 +1047,7 @@ if(!CCV.app.Player){
 			this.audioChannels = [];
 		this.audioChannels.push(audio);
 	};
+	
 	
 	// --------------- USER INTERACTIONS
 	
@@ -2083,7 +2076,6 @@ if (!CCV.app.Scene) {
 	proto.factoryModel = function (data) {
 		if (data) {
 			if (KPF.utils.isarray(data)){
-				console.log('--------------------------------- CompoLayer: ' + this.fullId);
 				return new CCV.app.CompoLayer(data, this);
 			}
 			else if (data.hasOwnProperty('video'))
@@ -2162,6 +2154,7 @@ if (!CCV.app.Scene) {
 				fontSize: 24,
 				fill: 0x0
 			});
+			this.text.alpha = .5;
 			this.text.position = new PIXI.Point(10 + this.pos.x, 30 + this.pos.y);
 			this.debugGfx.addChild(this.text);
 		}
@@ -2176,7 +2169,7 @@ if (!CCV.app.Scene) {
 		var deltaAbs = Math.abs(delta);
 		
 		if(CCV.global.DEBUG_SCENE_DELTA)
-			this.text.text = '#' + this.id + '\nd: ' + deltaAbs;
+			this.text.text = '#' + this.id + '\n[' + deltaAbs + ']';
 		
 		// audio management
 		if(this.audio){
@@ -2352,9 +2345,7 @@ if (!CCV.app.Sequence) {
 	proto = CCV.app.Sequence.prototype;
 	
 	proto.parse = function(data){
-		this.spritesheet = data.spritesheet;
-		if(this.spritesheet)
-			this.spritesheet = this.scene.folder + this.spritesheet;
+		this.spritesheet = data.spritesheet === true;
 		this.loader = null;
 		this.seqNumLength = data.hasOwnProperty('seqNumLength') ? data.seqNumLength : -1;
 		this.seqStart = data.hasOwnProperty('seqStart') ? data.seqStart : 1;
@@ -2494,15 +2485,7 @@ if (!CCV.app.Sequence) {
 		// #################### handle sequence preload
 		if(deltaAbs < (this.previewSrc == null ? CCV.global.PRELOAD_LAYER_DELTA : CCV.global.PRELOAD_SEQUENCE_DELTA)){
 			if(!this.animation){
-				if(this.spritesheet){
-					this.loader = new PIXI.loaders.Loader();
-					this.loader
-						.add(this.spritesheet)
-						.load(this.buildTextures.bind(this));
-				}
-				else{
-					this.buildTextures();
-				}
+				this.buildTextures();
 			}
 		}
 		else{
@@ -2517,21 +2500,12 @@ if (!CCV.app.Sequence) {
 					this.audio.stop(true);
 			}
 			
-			// destroy loader
-			if(this.loader){
-				console.log('- ' + this.scene.fullId, this.loader);
-				this.loader.destroy();
-				delete this.loader;
-				console.log('\t done');
-			}
-			
 			// destroy animation
 			CCV.player.texturesCounter -= this.animation.totalFrames;
 			this.view.removeChild(this.animation);
-			this.animation.destroy(true);
+				if(!this.spritesheet)
+					this.animation.destroy(true);
 			this.animation = null;
-			
-			
 			
 			KPF.utils.log('\t\t destroy ' + this.scene.fullId + ' sequence');
 		}
@@ -2577,7 +2551,7 @@ if (!CCV.app.Sequence) {
 					this.audio.start(true);
 			}
 			else{
-				console.warn('unable to add sequence for ' + this.scene.fullId);
+				console.log('unable to add sequence for ' + this.scene.fullId);
 			}
 		}
 		catch(err){

@@ -43,19 +43,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
+				"blue": [
+					{
+						"pos": {
+							"x": 56,
+							"y": 188
+						},
+						"preview": "seq/voisinsBleu_00010.png",
+						"file": "seq/voisinsBleu_[NUM].png",
+						"endDelay": -1,
+						"startDelay": -1,
+						"seqNumLength": 5,
+						"seqStart": 10,
+						"seqEnd": 193
 					},
-					"preview": "seq/voisinsBleu_00010.png",
-					"file": "seq/voisinsBleu_[NUM].png",
-					"endDelay": -1,
-					"startDelay": -1,
-					"seqNumLength": 5,
-					"seqStart": 10,
-					"seqEnd": 193
-				}
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "chapeau",
@@ -116,7 +121,7 @@
 							"seqNumLength": 2,
 							"seqStart": 1,
 							"seqEnd": 3,
-							"spritesheet": "decors/fontaine.json"
+							"spritesheet": true
 						}
 				}
 			},
@@ -137,7 +142,6 @@
 					{
 						"file": "decors/2-nuage1.png"
 					}
-					
 				}
 			},
 			{
@@ -157,19 +161,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
+				"blue": [
+					{
+						"pos": {
+							"x": 122,
+							"y": 69
+						},
+						"preview": "seq/arbre-basculeBleu_00010.png",
+						"file": "seq/arbre-basculeBleu_[NUM].png",
+						"endDelay": -1,
+						"startDelay": -1,
+						"seqNumLength": 5,
+						"seqStart": 10,
+						"seqEnd": 52
 					},
-					"preview": "seq/arbre-basculeBleu_00010.png",
-					"file": "seq/arbre-basculeBleu_[NUM].png",
-					"endDelay": -1,
-					"startDelay": -1,
-					"seqNumLength": 5,
-					"seqStart": 10,
-					"seqEnd": 52
-				}
+					{
+						"file": "seq/completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_dog",
@@ -193,7 +202,7 @@
 						"seqNumLength": 2,
 						"seqStart": 1,
 						"seqEnd": 50,
-						"spritesheet": "decors/chien.json"
+						"spritesheet": true
 					}
 					
 				}
@@ -356,19 +365,23 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
+				"blue": [
+					{
+						"pos": {
+							"x": 0,
+							"y": 0
+						},
+						"file": "seq/arbre-oiseau marche_[NUM].png",
+						"endDelay": 0,
+						"startDelay": 0,
+						"seqNumLength": 5,
+						"seqStart": 0,
+						"seqEnd": 159
 					},
-					"preview": "seq/arbre-oiseau marche_00000.png",
-					"file": "seq/arbre-oiseau marche_[NUM].png",
-					"endDelay": 0,
-					"startDelay": 0,
-					"seqNumLength": 5,
-					"seqStart": 0,
-					"seqEnd": 159
-				}
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_trash",
@@ -391,7 +404,7 @@
 						"seqNumLength": 2,
 						"seqStart": 29,
 						"seqEnd": 45,
-						"spritesheet": "decors/poubelle.json"
+						"spritesheet": true
 					}
 				}
 			},
@@ -549,19 +562,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
+				"blue": [
+					{
+						"pos": {
+							"x": 32,
+							"y": 134
+						},
+						"preview": "seq/dessin-anim-autruche1_00008.png",
+						"file": "seq/dessin-anim-autruche1_[NUM].png",
+						"endDelay": -1,
+						"startDelay": -1,
+						"seqNumLength": 5,
+						"seqStart": 8,
+						"seqEnd": 155
 					},
-					"preview": "seq/dessin-anim-autruche1_00008.png",
-					"file": "seq/dessin-anim-autruche1_[NUM].png",
-					"endDelay": -1,
-					"startDelay": -1,
-					"seqNumLength": 5,
-					"seqStart": 8,
-					"seqEnd": 155
-				}
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_bush2",
@@ -633,7 +651,7 @@
 						"seqNumLength": 2,
 						"seqStart": 0,
 						"seqEnd": 15,
-						"spritesheet": "decors/fumee.json"
+						"spritesheet": true
 					}
 				}
 			},
@@ -654,7 +672,7 @@
 						"seqNumLength": 2,
 						"seqStart": 0,
 						"seqEnd": 80,
-						"spritesheet": "decors/affiches.json"
+						"spritesheet": true
 					}
 				}
 			},
@@ -857,7 +875,7 @@
 						"seqNumLength": 2,
 						"seqStart": 0,
 						"seqEnd": 61,
-						"spritesheet": "decors/oiseau-fil.json"
+						"spritesheet": true
 					}
 					
 				}
@@ -1023,7 +1041,7 @@
 						"seqNumLength": 2,
 						"seqStart": 12,
 						"seqEnd": 69,
-						"spritesheet": "decors/oiseau-escalier.json"
+						"spritesheet": true
 					}
 				}
 			},
@@ -1199,15 +1217,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"preview": "seq/voiture-poule000.png",
-					"file": "seq/voiture-poule[NUM].png",
-					"endDelay": 0,
-					"startDelay": 0,
-					"seqNumLength": 3,
-					"seqStart": 0,
-					"seqEnd": 23
-				}
+				"blue": [
+					{
+						"pos": {
+							"x": 210,
+							"y": 28
+						},
+						"preview": "seq/voiture-poule000.png",
+						"file": "seq/voiture-poule[NUM].png",
+						"endDelay": 0,
+						"startDelay": 0,
+						"seqNumLength": 3,
+						"seqStart": 0,
+						"seqEnd": 23
+					},
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_road-sign2",
@@ -1288,15 +1315,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"preview": "seq/aspirateurBleu_00015.png",
-					"file": "seq/aspirateurBleu_[NUM].png",
-					"endDelay": 0,
-					"startDelay": 0,
-					"seqNumLength": 5,
-					"seqStart": 15,
-					"seqEnd": 301
-				}
+				"blue": [
+					{
+						"pos": {
+							"x": 4,
+							"y": 102
+						},
+						"preview": "seq/aspirateurBleu_00015.png",
+						"file": "seq/aspirateurBleu_[NUM].png",
+						"endDelay": 0,
+						"startDelay": 0,
+						"seqNumLength": 5,
+						"seqStart": 15,
+						"seqEnd": 301
+					},
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_cat",
@@ -1315,7 +1351,7 @@
 						"seqNumLength": 2,
 						"seqStart": 1,
 						"seqEnd": 8,
-						"spritesheet": "decors/chat.json"
+						"spritesheet": true
 					}
 					
 				}
@@ -1376,7 +1412,7 @@
 					"y": 537
 				},
 				"red": {
-					"fill": { 
+					"fill": {
 						"file": "all.png"
 					}
 				},
@@ -1422,27 +1458,28 @@
 					"y": 600
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					}
 					"fill": {
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
+				"blue": [
+					{
+						"pos": {
+							"x": 35,
+							"y": 52
+						},
+						"preview": "seq/003.png",
+						"file": "seq/[NUM].png",
+						"endDelay": 0,
+						"startDelay": 3000,
+						"seqNumLength": 3,
+						"seqStart": 3,
+						"seqEnd": 66
 					},
-					"preview": "seq/003.png",
-					"file": "seq/[NUM].png",
-					"endDelay": 0,
-					"startDelay": 3000,
-					"seqNumLength": 3,
-					"seqStart": 3,
-					"seqEnd": 66
-				}
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_woodpecker",
@@ -1466,7 +1503,7 @@
 						"startDelay": 0,
 						"seqStart": 0,
 						"seqEnd": 12,
-						"spritesheet": "decors/picvert.json"
+						"spritesheet": true
 					}
 				}
 			},
@@ -1597,7 +1634,7 @@
 						"seqNumLength": 2,
 						"seqStart": 1,
 						"seqEnd": 8,
-						"spritesheet": "decors/drapeau.json"
+						"spritesheet": true
 					}
 				}
 			},
@@ -1637,15 +1674,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"preview": "seq/arbre_traction4_FINAL001.png",
-					"file": "seq/arbre_traction4_FINAL[NUM].png",
-					"endDelay": 0,
-					"startDelay": 0,
-					"seqNumLength": 3,
-					"seqStart": 1,
-					"seqEnd": 14
-				}
+				"blue": [
+					{
+						"pos": {
+							"x": 152,
+							"y": 71
+						},
+						"preview": "seq/arbre_traction4_FINAL001.png",
+						"file": "seq/arbre_traction4_FINAL[NUM].png",
+						"endDelay": 0,
+						"startDelay": 0,
+						"seqNumLength": 3,
+						"seqStart": 1,
+						"seqEnd": 14
+					},
+					{
+						"file": "seq/completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "voiture-tapis-roulant",
@@ -1660,15 +1706,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"preview": "seq/voiture-tapisroulant000.png",
-					"file": "seq/voiture-tapisroulant[NUM].png",
-					"endDelay": 0,
-					"startDelay": 0,
-					"seqNumLength": 3,
-					"seqStart": 0,
-					"seqEnd": 7
-				}
+				"blue": [
+					{
+						"pos": {
+							"x": 152,
+							"y": 69
+						},
+						"preview": "seq/voiture-tapisroulant000.png",
+						"file": "seq/voiture-tapisroulant[NUM].png",
+						"endDelay": 0,
+						"startDelay": 0,
+						"seqNumLength": 3,
+						"seqStart": 0,
+						"seqEnd": 7
+					},
+					{
+						"file": "seq/completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_road-sign4",

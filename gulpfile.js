@@ -116,7 +116,11 @@ gulp.task('images_opt', function(){
 
 // ------------------ CCV
 gulp.task('ccv_images', function(){
-	return gulp.src("src/ccv/x1/**/*.png")
+	var folder;
+	
+	folder = '';
+	folder = 'arbre-telescopique/';
+	return gulp.src('src/ccv/x1/' + folder + '**/*.png')
 		.pipe(imagemin([
 			imagemin.optipng({
 				bitDepthReduction: true,
@@ -125,5 +129,5 @@ gulp.task('ccv_images', function(){
 				paletteReduction: true
 			})
 		]))
-		.pipe(gulp.dest('dist/ccv/x1/'));
+		.pipe(gulp.dest('dist/ccv/x1/' + folder));
 });

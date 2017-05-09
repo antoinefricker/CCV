@@ -3,6 +3,7 @@
 node_modules/
 src/ccv/
 dist/_ccv/
+dist/ccv/
 
 
 # Windows image file caches
