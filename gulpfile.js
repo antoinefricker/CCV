@@ -119,7 +119,7 @@ gulp.task('ccv_images', function(){
 	var folder;
 	
 	folder = '';
-	folder = 'arbre-telescopique/';
+	folder = 'decors/';
 	return gulp.src('src/ccv/x1/' + folder + '**/*.png')
 		.pipe(imagemin([
 			imagemin.optipng({
