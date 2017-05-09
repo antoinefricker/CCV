@@ -514,7 +514,7 @@ if (!KPF)
 if (!KPF.global)
 	KPF.global = {};
 
-KPF.global.PRODUCTION = true;
+KPF.global.PRODUCTION = false;
 KPF.global.FORMAT_INDENT = '   ';
 var KPF;
 
@@ -841,7 +841,7 @@ if (!CCV.global){
 		AUDIO_GLOBAL_VOLUME: 1,
 		
 		
-		SCENE_START_INDEX: 25,
+		SCENE_START_INDEX: 32,
 		SCENE_START_RAND: false,
 		SCENE_ACTIVATION_DELAY: 500,
 		SCENE_DEACTIVATION_DELAY: 1400,
@@ -2082,8 +2082,10 @@ if (!CCV.app.Scene) {
 
 	proto.factoryModel = function (data) {
 		if (data) {
-			if (KPF.utils.isarray(data))
+			if (KPF.utils.isarray(data)){
+				console.log('--------------------------------- CompoLayer: ' + this.fullId);
 				return new CCV.app.CompoLayer(data, this);
+			}
 			else if (data.hasOwnProperty('video'))
 				return new CCV.app.VideoLayer(data, this);
 			else if (data.hasOwnProperty('seqEnd'))
@@ -2204,15 +2206,17 @@ if (!CCV.app.CompoLayer) {
 		if(!data)
 			return;
 		
+		this.view = new PIXI.Container();
+		
 		for (var i = 0, ilen = data.length; i < ilen; ++i)
 			this.addLayer(data[i], scene);
 	};
 	proto = CCV.app.CompoLayer.prototype;
 	
 	proto.addLayer = function(data, scene){
-		var view = scene.factoryModel(data);
-		this.layers.push(view);
-		return view;
+		var layer = scene.factoryModel(data);
+		this.view.addChild(layer.view);
+		return layer;
 	};
 	proto.toString = function () {
 		return this.info(0);
@@ -2320,7 +2324,13 @@ if (!CCV.app.Sequence) {
 		
 		this.parse(data);
 		
+		this.pos = new PIXI.Point(0, 0);
+		if(data.pos)
+			this.pos.copy(data.pos);
+		
 		this.view = new PIXI.Container();
+		this.view.x = this.pos.x;
+		this.view.y = this.pos.y;
 		
 		if(data.hasOwnProperty('preview')) {
 			this.previewSrc = this.scene.folder + data.preview;

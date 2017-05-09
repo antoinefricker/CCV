@@ -73,31 +73,33 @@
 						"x": 0,
 						"y": 0
 					},
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
+				"blue": [
+					{
+						"pos": {
+							"x": 26,
+							"y": 30
+						},
+						"audio": {
+							"file": "chapeau.mp3",
+							"loop": false,
+							"volume": 0.85
+						},
+						"preview": "seq/chapeau-bleu_00010.png",
+						"file": "seq/chapeau-bleu_[NUM].png",
+						"endDelay": -1,
+						"startDelay": -1,
+						"seqNumLength": 5,
+						"seqStart": 10,
+						"seqEnd": 219
 					},
-					"audio": {
-						"file": "chapeau.mp3",
-						"loop": false,
-						"volume": 0.85
-					},
-					"preview": "seq/chapeau-bleu_00010.png",
-					"file": "seq/chapeau-bleu_[NUM].png",
-					"endDelay": -1,
-					"startDelay": -1,
-					"seqNumLength": 5,
-					"seqStart": 10,
-					"seqEnd": 219
-				}
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_fontain",
@@ -154,9 +156,6 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -229,9 +228,6 @@
 						"x": 0,
 						"y": 0
 					},
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -273,9 +269,6 @@
 					"y": 579
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -326,9 +319,6 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -364,9 +354,6 @@
 					"pos": {
 						"x": 0,
 						"y": 0
-					},
-					"outline": {
-						"file": "contour.png"
 					},
 					"fill": {
 						"file": "all.png"
@@ -420,27 +407,33 @@
 					"y": 596
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"audio": {
-						"file": "serre.mp3",
-						"loop": false,
-						"volume": 0.85
+				"blue": [
+					{
+						"pos": {
+							"x": 62,
+							"y": 49
+						},
+						"audio": {
+							"file": "serre.mp3",
+							"loop": false,
+							"volume": 0.85
+						},
+						"preview": "seq/serreBleu_00019.png",
+						"file": "seq/serreBleu_[NUM].png",
+						"endDelay": 0,
+						"startDelay": 0,
+						"seqNumLength": 5,
+						"seqStart": 19,
+						"seqEnd": 341
 					},
-					"preview": "seq/serreBleu_00019.png",
-					"file": "seq/serreBleu_[NUM].png",
-					"endDelay": 0,
-					"startDelay": 0,
-					"seqNumLength": 5,
-					"seqStart": 19,
-					"seqEnd": 341
-				}
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_double-pole",
@@ -455,7 +448,6 @@
 					{
 						"file": "decors/8-bite1.png"
 					}
-					
 				}
 			},
 			{
@@ -467,9 +459,6 @@
 					"y": 225
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -508,22 +497,28 @@
 					"y": 415
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"preview": "seq/voiture-peintre000.png",
-					"file": "seq/voiture-peintre[NUM].png",
-					"endDelay": 0,
-					"startDelay": 0,
-					"seqNumLength": 3,
-					"seqStart": 0,
-					"seqEnd": 23
-				}
+				"blue": [
+					{
+						"pos": {
+							"x": 80,
+							"y": 60
+						},
+						"preview": "seq/voiture-peintre000.png",
+						"file": "seq/voiture-peintre[NUM].png",
+						"endDelay": 0,
+						"startDelay": 0,
+						"seqNumLength": 3,
+						"seqStart": 0,
+						"seqEnd": 23
+					},
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_traffic-light",
@@ -553,9 +548,6 @@
 					"y": 631
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -605,15 +597,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"preview": "seq/posteBleu_00047.png",
-					"file": "seq/posteBleu_[NUM].png",
-					"endDelay": 0,
-					"startDelay": 0,
-					"seqNumLength": 5,
-					"seqStart": 47,
-					"seqEnd": 208
-				}
+				"blue": [
+					{
+						"pos": {
+							"x": 53,
+							"y": 202
+						},
+						"preview": "seq/posteBleu_00047.png",
+						"file": "seq/posteBleu_[NUM].png",
+						"endDelay": 0,
+						"startDelay": 0,
+						"seqNumLength": 5,
+						"seqStart": 47,
+						"seqEnd": 208
+					},
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_chimney",
@@ -793,19 +794,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
+				"blue": [
+					{
+						"pos": {
+							"x": 164,
+							"y": 138
+						},
+						"preview": "seq/parkingBleu_00015.png",
+						"file": "seq/parkingBleu_[NUM].png",
+						"endDelay": -1,
+						"startDelay": -1,
+						"seqNumLength": 5,
+						"seqStart": 15,
+						"seqEnd": 173
 					},
-					"preview": "seq/parkingBleu_00015.png",
-					"file": "seq/parkingBleu_[NUM].png",
-					"endDelay": -1,
-					"startDelay": -1,
-					"seqNumLength": 5,
-					"seqStart": 15,
-					"seqEnd": 173
-				}
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "parking2",
@@ -837,8 +843,8 @@
 							"x": 481,
 							"y": 0
 						},
-						"preview": "seq2/parkingBleu_00198.png",
-						"file": "seq2/parkingBleu_[NUM].png",
+						"preview": "seq/parkingBleu_00198.png",
+						"file": "seq/parkingBleu_[NUM].png",
 						"endDelay": -1,
 						"startDelay": -1,
 						"seqNumLength": 5,
@@ -914,15 +920,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"preview": "seq/chemineeBleu_00019.png",
-					"file": "seq/chemineeBleu_[NUM].png",
-					"endDelay": 0,
-					"startDelay": 0,
-					"seqNumLength": 5,
-					"seqStart": 19,
-					"seqEnd": 194
-				}
+				"blue": [
+					{
+						"file": "completeBlue.png"
+					},
+					{
+						"pos": {
+							"x": 55,
+							"y": 303
+						},
+						"preview": "seq/chemineeBleu_00019.png",
+						"file": "seq/chemineeBleu_[NUM].png",
+						"endDelay": 0,
+						"startDelay": 0,
+						"seqNumLength": 5,
+						"seqStart": 19,
+						"seqEnd": 194
+					}
+				]
 			},
 			{
 				"id": "_street-lamp1",
@@ -1109,19 +1124,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
+				"blue": [
+					{
+						"pos": {
+							"x": 91,
+							"y": 152
+						},
+						"preview": "seq/serpentBleu_00000.png",
+						"file": "seq/serpentBleu_[NUM].png",
+						"endDelay": -1,
+						"startDelay": -1,
+						"seqNumLength": 5,
+						"seqStart": 0,
+						"seqEnd": 267
 					},
-					"preview": "seq/serpentBleu_00000.png",
-					"file": "seq/serpentBleu_[NUM].png",
-					"endDelay": -1,
-					"startDelay": -1,
-					"seqNumLength": 5,
-					"seqStart": 0,
-					"seqEnd": 267
-				}
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_morris-column",
@@ -1252,10 +1272,6 @@
 					"y": 582
 				},
 				"red": {
-					"pos": {
-						"x": 0,
-						"y": 0
-					},
 					"outline": {
 						"file": "contour.png"
 					},
@@ -1263,19 +1279,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"pos": {
-						"x": 0,
-						"y": 0
+				"blue": [
+					{
+						"pos": {
+							"x": 74,
+							"y": 158
+						},
+						"preview": "seq/hotelBleu_00023.png",
+						"file": "seq/hotelBleu_[NUM].png",
+						"endDelay": -1,
+						"startDelay": -1,
+						"seqNumLength": 5,
+						"seqStart": 23,
+						"seqEnd": 277
 					},
-					"preview": "seq/hotelBleu_00023.png",
-					"file": "seq/hotelBleu_[NUM].png",
-					"endDelay": -1,
-					"startDelay": -1,
-					"seqNumLength": 5,
-					"seqStart": 23,
-					"seqEnd": 277
-				}
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_bush4",
@@ -1330,10 +1351,6 @@
 					"x": 136,
 					"y": 92
 				},
-				"pos": {
-					"x": 0,
-					"y": 0
-				},
 				"red": {
 					"fill":
 					{
@@ -1364,15 +1381,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"preview": "seq/coiffeurBleu_00005.png",
-					"file": "seq/coiffeurBleu_[NUM].png",
-					"endDelay": 2000,
-					"startDelay": 1000,
-					"seqNumLength": 5,
-					"seqStart": 5,
-					"seqEnd": 158
-				}
+				"blue": [
+					{
+						"pos": {
+							"x": 206,
+							"y": 268
+						},
+						"preview": "seq/coiffeurBleu_00005.png",
+						"file": "seq/coiffeurBleu_[NUM].png",
+						"endDelay": 2000,
+						"startDelay": 1000,
+						"seqNumLength": 5,
+						"seqStart": 5,
+						"seqEnd": 158
+					},
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_trash2",
@@ -1405,15 +1431,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"preview": "seq/museeBleu_00003.png",
-					"file": "seq/museeBleu_[NUM].png",
-					"endDelay": 0,
-					"startDelay": 0,
-					"seqNumLength": 5,
-					"seqStart": 3,
-					"seqEnd": 200
-				}
+				"blue": [
+					{
+						"pos": {
+							"x": 206,
+							"y": 138
+						},
+						"preview": "seq/museeBleu_00003.png",
+						"file": "seq/museeBleu_[NUM].png",
+						"endDelay": 0,
+						"startDelay": 0,
+						"seqNumLength": 5,
+						"seqStart": 3,
+						"seqEnd": 200
+					},
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_street-lamp2: 130x343",
@@ -1528,15 +1563,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"preview": "seq/arbre-oiseau-tete000.png",
-					"file": "seq/arbre-oiseau-tete[NUM].png",
-					"endDelay": -1,
-					"startDelay": -1,
-					"seqNumLength": 3,
-					"seqStart": 0,
-					"seqEnd": 16
-				}
+				"blue": [
+					{
+						"file": "completeBlue.png"
+					},
+					{
+						"pos": {
+							"x": 101,
+							"y": 21
+						},
+						"preview": "seq/arbre-oiseau-tete000.png",
+						"file": "seq/arbre-oiseau-tete[NUM].png",
+						"endDelay": 0,
+						"startDelay": 6000,
+						"seqNumLength": 3,
+						"seqStart": 0,
+						"seqEnd": 15
+					}
+				]
 			},
 			{
 				"id": "_stone",
@@ -1572,15 +1616,24 @@
 						"file": "all.png"
 					}
 				},
-				"blue": {
-					"preview": "seq/tableaux_bleu_00038.png",
-					"file": "seq/tableaux_bleu_[NUM].png",
-					"endDelay": 0,
-					"startDelay": 2000,
-					"seqNumLength": 5,
-					"seqStart": 38,
-					"seqEnd": 261
-				}
+				"blue": [
+					{
+						"pos": {
+							"x": 7,
+							"y": 124
+						},
+						"preview": "seq/tableaux_bleu_00038.png",
+						"file": "seq/tableaux_bleu_[NUM].png",
+						"endDelay": 0,
+						"startDelay": 2000,
+						"seqNumLength": 5,
+						"seqStart": 38,
+						"seqEnd": 261
+					},
+					{
+						"file": "completeBlue.png"
+					}
+				]
 			},
 			{
 				"id": "_flag",

@@ -12,5 +12,5 @@ if (!KPF)
 if (!KPF.global)
 	KPF.global = {};
 
-KPF.global.PRODUCTION = true;
+KPF.global.PRODUCTION = false;
 KPF.global.FORMAT_INDENT = '   ';
