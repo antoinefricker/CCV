@@ -39,9 +39,6 @@
 						"x": 0,
 						"y": 0
 					},
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -590,9 +587,6 @@
 					"y": 579
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -678,9 +672,6 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -742,9 +733,6 @@
 					"y": 340
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -787,9 +775,6 @@
 						"x": 0,
 						"y": 0
 					},
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -827,9 +812,6 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -913,9 +895,6 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -967,9 +946,6 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -993,9 +969,6 @@
 					"y": 587
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -1068,9 +1041,6 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -1116,9 +1086,6 @@
 					"pos": {
 						"x": 0,
 						"y": 0
-					},
-					"outline": {
-						"file": "contour.png"
 					},
 					"fill": {
 						"file": "all.png"
@@ -1186,9 +1153,6 @@
 						"x": 0,
 						"y": 0
 					},
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -1231,9 +1195,6 @@
 					"y": 400
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -1272,9 +1233,6 @@
 					"y": 582
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -1326,9 +1284,6 @@
 					"y": 554
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -1374,9 +1329,6 @@
 					"y": 586
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -1424,10 +1376,7 @@
 					"y": 537
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
-					"fill": {
+					"fill": { 
 						"file": "all.png"
 					}
 				},
@@ -1476,10 +1425,7 @@
 					"pos": {
 						"x": 0,
 						"y": 0
-					},
-					"outline": {
-						"file": "contour.png"
-					},
+					}
 					"fill": {
 						"file": "all.png"
 					}
@@ -1556,9 +1502,6 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -1609,9 +1552,6 @@
 					"y": 535
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -1693,9 +1633,6 @@
 					"y": 0
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
@@ -1719,9 +1656,6 @@
 					"y": 390
 				},
 				"red": {
-					"outline": {
-						"file": "contour.png"
-					},
 					"fill": {
 						"file": "all.png"
 					}
